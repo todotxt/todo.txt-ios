@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'todo.txt-touch-ios' target in the 'todo.txt-touch-ios' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
