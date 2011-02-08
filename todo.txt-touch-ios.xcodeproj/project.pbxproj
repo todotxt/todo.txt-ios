@@ -71,7 +71,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* todo.txt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.txt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo.txt Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = todo_txt_touch_iosViewController.xib; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* todo.txt.app */,
+				1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -385,9 +385,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* todo.txt-touch-ios */ = {
+		1D6058900D05DD3D006BFB54 /* Todo.txt Touch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "todo.txt-touch-ios" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt Touch" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -397,9 +397,9 @@
 			);
 			dependencies = (
 			);
-			name = "todo.txt-touch-ios";
+			name = "Todo.txt Touch";
 			productName = "todo.txt-touch-ios";
-			productReference = 1D6058910D05DD3D006BFB54 /* todo.txt.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -421,7 +421,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* todo.txt-touch-ios */,
+				1D6058900D05DD3D006BFB54 /* Todo.txt Touch */,
 			);
 		};
 /* End PBXProject section */
@@ -512,7 +512,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
-				PRODUCT_NAME = todo.txt;
+				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -527,7 +527,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
-				PRODUCT_NAME = "todo.txt-touch-ios";
+				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -543,6 +543,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -557,6 +558,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
+				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -564,7 +566,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "todo.txt-touch-ios" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt Touch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
