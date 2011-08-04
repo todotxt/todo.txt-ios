@@ -53,6 +53,7 @@
 
 @synthesize window;
 @synthesize viewController;
+@synthesize navigationController;
 
 
 #pragma mark -
@@ -63,7 +64,7 @@
     // Override point for customization after application launch.
 
     // Add the view controller's view to the window and display.
-    [self.window addSubview:viewController.view];
+    [self.window addSubview:navigationController.view];
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -120,6 +121,7 @@
 
 - (void)dealloc {
     [viewController release];
+	[navigationController release];
     [window release];
     [super dealloc];
 }

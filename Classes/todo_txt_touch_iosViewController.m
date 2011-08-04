@@ -47,9 +47,14 @@
  */
 
 #import "todo_txt_touch_iosViewController.h"
+#import "TaskEditViewController.h"
 
 @implementation todo_txt_touch_iosViewController
 
+#pragma mark -
+#pragma mark Synthesizers
+
+@synthesize table;
 
 
 /*
@@ -86,7 +91,104 @@
 }
 */
 
+#pragma mark -
+#pragma mark Table view datasource methods
+
+// Return the number of sections in table view
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+// Return the number of rows in the section of table view
+-(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
+{
+	return 0;//[sitesList count];
+}
+
+// Return cell for the rows in table view
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// Create the cell identifier
+	static NSString *CellIdentifier = @"CellIdentifier";
+	
+	// Create the cell if cells are available with same cell identifier
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	// If there are no cells available, allocate a new one with Default style
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+//	// Set the title for the cell
+//	cell.textLabel.text = [sitesList objectAtIndex:indexPath.row];
+//	
+//	// Set the tableview image for the cell
+//	cell.imageView.image = [imagesList objectAtIndex:indexPath.row];
+//	
+//	// Set the accessory view for the cell
+//	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	// Return the cell
+	return cell;
+}
+
+
+#pragma mark -
+#pragma mark Table view delegate methods
+
+// Return the height for tableview cells
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 50; // Default height for the cell is 44 px;
+}
+
+// Return string for footer of the tableview
+-(NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	return @"Todo.txt";
+}
+
+// Load the detail view controller when user taps the row
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//	// Create the variable that represents the app delegate
+//	EnvatoAppDelegate *delegate = (EnvatoAppDelegate *)[[UIApplication sharedApplication] delegate];
+//	
+//	// Create the dummy view controller and init with DetailViewController.xib
+//	DetailViewController *detailVC = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+//	
+//	// Set the UIImage from the bannerImages array for the banner in the detail view controller
+//	detailVC.banner = [bannerImages objectAtIndex:indexPath.row];
+//	
+//	// Set the NSString for description from the descArray
+//	detailVC.description = [descArray objectAtIndex:indexPath.row];
+//	
+//	// Set the title of the detail view controller
+//	detailVC.title = [sitesList objectAtIndex:indexPath.row];
+//	
+//	// Set the childController equal to the dummy controller
+//	self.childController = detailVC;
+//	
+//	// Call the pushViewController:animated method from the navigationController variable inside the delegate
+//	[delegate.navigationController pushViewController:childController animated:YES];
+//	
+//	// Release the dummy view controller
+//	[detailVC release];
+//	
+//	// Deselect the row which was tapped
+//	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (IBAction)addButtonPressed:(id)sender {
+	NSLog(@"addButtonPressed called");
+    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
+    [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentModalViewController:taskEditView animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
+	NSLog(@"Memory warning!");
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
@@ -96,10 +198,12 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.table = nil;
 }
 
 
 - (void)dealloc {
+	[table release];
     [super dealloc];
 }
 

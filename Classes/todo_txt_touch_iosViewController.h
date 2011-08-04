@@ -48,9 +48,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface todo_txt_touch_iosViewController : UIViewController {
-
+@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+	// The instance of the table view
+	UITableView *table; 
 }
+
+@property (nonatomic, retain) IBOutlet UITableView *table;
+
+- (IBAction)addButtonPressed:(id)sender;
 
 @end
 
