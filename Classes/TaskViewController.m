@@ -184,7 +184,8 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 	Task* task = [[[taskBag tasks] objectAtIndex:taskIndex] retain];
 	[taskBag remove:task];
-	
+	[task release];
+	 
 	//TODO: toast?
 	//TODO: sync remote
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];

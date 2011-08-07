@@ -16,12 +16,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* todo_txt_touch_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */; };
 		59216BFF13E7804700FF07EE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216BFD13E7804700FF07EE /* TaskEditViewController.m */; };
-		59216C0013E7804700FF07EE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59216BFE13E7804700FF07EE /* TaskEditViewController.xib */; };
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
-		59216CA113EA05C300FF07EE /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216CA013EA05C300FF07EE /* TextSplitter.m */; };
-		59216CD413EA1BA500FF07EE /* PriorityTextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216CD313EA1BA500FF07EE /* PriorityTextSplitter.m */; };
-		59216D1A13EA2B9C00FF07EE /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D1913EA2B9C00FF07EE /* ContextParser.m */; };
-		59216D2B13EA304400FF07EE /* ProjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D2A13EA304400FF07EE /* ProjectParser.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
@@ -75,6 +70,11 @@
 		7DBE2A3B12F7939200FD6A92 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */; };
 		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
 		882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5F13EE3E350085C888 /* TaskViewController.m */; };
+		882B3E8513EF46750085C888 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
+		882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8713EF46E80085C888 /* TextSplitter.m */; };
+		882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */; };
+		882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8D13EF47B70085C888 /* ProjectParser.m */; };
+		882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */; };
 		8831984313EBB55800EC5BC3 /* TaskIo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984213EBB55800EC5BC3 /* TaskIo.m */; };
 		8831984713EBBD1200EC5BC3 /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984613EBBD1200EC5BC3 /* DDFileReader.m */; };
 		8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */; };
@@ -99,17 +99,8 @@
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
 		59216BFC13E7804700FF07EE /* TaskEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskEditViewController.h; sourceTree = "<group>"; };
 		59216BFD13E7804700FF07EE /* TaskEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskEditViewController.m; sourceTree = "<group>"; };
-		59216BFE13E7804700FF07EE /* TaskEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TaskEditViewController.xib; path = Classes/TaskEditViewController.xib; sourceTree = "<group>"; };
 		59216C7313E8C89200FF07EE /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		59216C7413E8C89200FF07EE /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
-		59216C9F13EA05C300FF07EE /* TextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextSplitter.h; sourceTree = "<group>"; };
-		59216CA013EA05C300FF07EE /* TextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextSplitter.m; sourceTree = "<group>"; };
-		59216CD213EA1BA500FF07EE /* PriorityTextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityTextSplitter.h; sourceTree = "<group>"; };
-		59216CD313EA1BA500FF07EE /* PriorityTextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityTextSplitter.m; sourceTree = "<group>"; };
-		59216D1813EA2B9C00FF07EE /* ContextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextParser.h; sourceTree = "<group>"; };
-		59216D1913EA2B9C00FF07EE /* ContextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextParser.m; sourceTree = "<group>"; };
-		59216D2913EA304400FF07EE /* ProjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectParser.h; sourceTree = "<group>"; };
-		59216D2A13EA304400FF07EE /* ProjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectParser.m; sourceTree = "<group>"; };
 		59216D3C13EA318100FF07EE /* RelativeDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDate.h; sourceTree = "<group>"; };
 		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -204,6 +195,15 @@
 		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
 		882B3E5E13EE3E340085C888 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
 		882B3E5F13EE3E350085C888 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
+		882B3E8313EF46740085C888 /* ContextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextParser.h; path = Classes/ContextParser.h; sourceTree = "<group>"; };
+		882B3E8413EF46740085C888 /* ContextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextParser.m; path = Classes/ContextParser.m; sourceTree = "<group>"; };
+		882B3E8613EF46E80085C888 /* TextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextSplitter.h; path = Classes/TextSplitter.h; sourceTree = "<group>"; };
+		882B3E8713EF46E80085C888 /* TextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextSplitter.m; path = Classes/TextSplitter.m; sourceTree = "<group>"; };
+		882B3E8913EF47610085C888 /* PriorityTextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTextSplitter.h; path = Classes/PriorityTextSplitter.h; sourceTree = "<group>"; };
+		882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTextSplitter.m; path = Classes/PriorityTextSplitter.m; sourceTree = "<group>"; };
+		882B3E8C13EF47B70085C888 /* ProjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectParser.h; path = Classes/ProjectParser.h; sourceTree = "<group>"; };
+		882B3E8D13EF47B70085C888 /* ProjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectParser.m; path = Classes/ProjectParser.m; sourceTree = "<group>"; };
+		882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditViewController.xib; sourceTree = "<group>"; };
 		8831984113EBB55800EC5BC3 /* TaskIo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskIo.h; sourceTree = "<group>"; };
 		8831984213EBB55800EC5BC3 /* TaskIo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskIo.m; sourceTree = "<group>"; };
 		8831984513EBBD1200EC5BC3 /* DDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileReader.h; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 				7D57054412F89F1900BB5E8D /* Icon-Small-50.png */,
 				7D57054512F89F1900BB5E8D /* Icon-Small.png */,
 				7D57054612F89F1900BB5E8D /* Icon.png */,
-				59216BFE13E7804700FF07EE /* TaskEditViewController.xib */,
+				882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */,
 				2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */,
@@ -315,17 +315,17 @@
 		59216B7613E64EA800FF07EE /* Task */ = {
 			isa = PBXGroup;
 			children = (
-				59216D1813EA2B9C00FF07EE /* ContextParser.h */,
-				59216D1913EA2B9C00FF07EE /* ContextParser.m */,
+				882B3E8313EF46740085C888 /* ContextParser.h */,
+				882B3E8413EF46740085C888 /* ContextParser.m */,
 				883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */,
 				883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */,
 				883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */,
 				8858D0B613EA89C50083FA44 /* Priority.h */,
 				8858D0B713EA89C50083FA44 /* Priority.m */,
-				59216CD213EA1BA500FF07EE /* PriorityTextSplitter.h */,
-				59216CD313EA1BA500FF07EE /* PriorityTextSplitter.m */,
-				59216D2913EA304400FF07EE /* ProjectParser.h */,
-				59216D2A13EA304400FF07EE /* ProjectParser.m */,
+				882B3E8913EF47610085C888 /* PriorityTextSplitter.h */,
+				882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */,
+				882B3E8C13EF47B70085C888 /* ProjectParser.h */,
+				882B3E8D13EF47B70085C888 /* ProjectParser.m */,
 				8858D0B813EA89C50083FA44 /* Task.h */,
 				8858D0B913EA89C50083FA44 /* Task.m */,
 				883E42FC13EB7BDC002FEBCC /* TaskBag.h */,
@@ -333,8 +333,8 @@
 				8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */,
 				8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */,
 				8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */,
-				59216C9F13EA05C300FF07EE /* TextSplitter.h */,
-				59216CA013EA05C300FF07EE /* TextSplitter.m */,
+				882B3E8613EF46E80085C888 /* TextSplitter.h */,
+				882B3E8713EF46E80085C888 /* TextSplitter.m */,
 			);
 			name = Task;
 			path = ..;
@@ -343,6 +343,8 @@
 		59216D3B13EA316100FF07EE /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				882B3E5313ECCB240085C888 /* AsyncTask.h */,
+				882B3E5413ECCB240085C888 /* AsyncTask.m */,
 				8831984513EBBD1200EC5BC3 /* DDFileReader.h */,
 				8831984613EBBD1200EC5BC3 /* DDFileReader.m */,
 				59216D3C13EA318100FF07EE /* RelativeDate.h */,
@@ -351,8 +353,6 @@
 				8831984213EBB55800EC5BC3 /* TaskIo.m */,
 				59216C7313E8C89200FF07EE /* Util.h */,
 				59216C7413E8C89200FF07EE /* Util.m */,
-				882B3E5313ECCB240085C888 /* AsyncTask.h */,
-				882B3E5413ECCB240085C888 /* AsyncTask.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -553,7 +553,7 @@
 				7D5705CD12F8A06600BB5E8D /* db_link_header@2x.png in Resources */,
 				7D5705CE12F8A06600BB5E8D /* db_logo.png in Resources */,
 				7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */,
-				59216C0013E7804700FF07EE /* TaskEditViewController.xib in Resources */,
+				882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,10 +602,6 @@
 				7D5705C412F8A06600BB5E8D /* NSString+Dropbox.m in Sources */,
 				59216BFF13E7804700FF07EE /* TaskEditViewController.m in Sources */,
 				59216C7513E8C89200FF07EE /* Util.m in Sources */,
-				59216CA113EA05C300FF07EE /* TextSplitter.m in Sources */,
-				59216CD413EA1BA500FF07EE /* PriorityTextSplitter.m in Sources */,
-				59216D1A13EA2B9C00FF07EE /* ContextParser.m in Sources */,
-				59216D2B13EA304400FF07EE /* ProjectParser.m in Sources */,
 				59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */,
 				8858D0BA13EA89C50083FA44 /* Priority.m in Sources */,
 				8858D0BB13EA89C50083FA44 /* Task.m in Sources */,
@@ -616,6 +612,10 @@
 				8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */,
 				882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */,
 				882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */,
+				882B3E8513EF46750085C888 /* ContextParser.m in Sources */,
+				882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */,
+				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
+				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
