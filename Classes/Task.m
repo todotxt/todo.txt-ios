@@ -114,7 +114,7 @@
 - (void)markComplete:(NSDate*)date {
 	if (!completed) {
 		priority = [Priority NONE];
-		completionDate = [Util stringFromDate:date withFormat:TASK_DATE_FORMAT];
+		completionDate = [[Util stringFromDate:date withFormat:TASK_DATE_FORMAT] retain];
 		deleted = NO;
 		completed = YES;		
 	}
@@ -122,7 +122,8 @@
 
 - (void)markIncomplete {
 	if (completed) {
-		completionDate = nil; //FIXME: release?
+		[completionDate release];
+		completionDate = nil;
 		completed = NO;
 	}
 }
@@ -146,7 +147,7 @@
 	
 	[ret appendString:text];
 	
-	return [ret copy];//FIXME: release?
+	return [[ret copy] autorelease];
 }
 
 - (NSString*)inFileFormat{
@@ -170,7 +171,7 @@
 
 	[ret appendString:text];
 	
-	return [ret copy];//FIXME: release?
+	return [[ret copy] autorelease];
 }
 
 - (void)copyInto:(Task*)destination {

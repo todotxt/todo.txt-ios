@@ -129,6 +129,8 @@ static NSString* computeRelativeDate(NSDate* date, int years,
 	int minutes = [dateComponents minute] - [nowComponents minute];
 	int seconds = [dateComponents second] - [nowComponents second];
 	
+	[gregorian release];
+	
 	return computeRelativeDate(date, years, months, days, hours, 
 							   minutes, seconds, format);
 }

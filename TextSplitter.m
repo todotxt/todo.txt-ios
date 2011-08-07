@@ -92,7 +92,7 @@ static NSRegularExpression* singleDatePattern = nil;
 	 withCompletionDate:(NSString*)theCompletionDate {
 	self = [super init];
 	if (self) {
-		priority = priority;
+		priority = thePriority;
 		text = [theText retain];
 		prependedDate = [thePrependedDate retain];
 		completed = isCompleted;
@@ -168,7 +168,6 @@ static NSRegularExpression* singleDatePattern = nil;
 }
 
 - (void)dealloc {
-	[priority release];
 	[text release];
 	[prependedDate release];
 	[completedDate release];

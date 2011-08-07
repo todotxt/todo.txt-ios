@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,18 +47,47 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
+#import "LocalFileTaskRepository.h"
+#import "TaskIo.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	id<TaskBag> taskBag;
+
+@implementation LocalFileTaskRepository
+
+
++ (NSString*) filename {
+    static NSString *TODO_TXT_FILE = nil;
+    if(!TODO_TXT_FILE) {
+        TODO_TXT_FILE = [[[NSSearchPathForDirectoriesInDomains(
+                NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] 
+                stringByAppendingPathComponent:@"todo.txt"] retain];
+    }
+    return TODO_TXT_FILE;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
+- (void) create {
+    NSString *filename = [LocalFileTaskRepository filename];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:filename]) {
+        [fileManager createFileAtPath:filename contents:nil attributes:nil];
+    }
+}
 
-- (IBAction)addButtonPressed:(id)sender;
+- (void) purge {
+    NSString *filename = [LocalFileTaskRepository filename];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:filename]) {
+        [fileManager removeItemAtPath:filename error:nil];
+    }
+}
+
+- (NSMutableArray*) load {
+    [self create];    
+    return [TaskIo loadTasksFromFile:[LocalFileTaskRepository filename]];
+}
+
+- (void) store:(NSArray*)tasks {
+    // TODO: check Windows line break preference
+    [TaskIo writeTasks:tasks toFile:[LocalFileTaskRepository filename]];
+}
 
 @end
-

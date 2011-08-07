@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,18 +47,18 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	id<TaskBag> taskBag;
+#import <UIKit/UIKit.h>
+#import "Task.h"
+
+@interface TaskViewController : UITableViewController <UIActionSheetDelegate> {
+    NSInteger taskIndex;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
+@property (nonatomic, assign) NSInteger taskIndex;
 
-- (IBAction)addButtonPressed:(id)sender;
+- (void) didTapUpdateButton;
+- (void) didTapDeleteButton;
+- (void) deleteTask;
 
 @end
-

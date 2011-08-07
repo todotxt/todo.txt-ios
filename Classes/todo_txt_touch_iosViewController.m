@@ -47,7 +47,9 @@
  */
 
 #import "todo_txt_touch_iosViewController.h"
+#import "todo_txt_touch_iosAppDelegate.h"
 #import "TaskEditViewController.h"
+#import "TaskViewController.h"
 
 @implementation todo_txt_touch_iosViewController
 
@@ -75,12 +77,19 @@
 */
 
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 }
-*/
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	NSLog(@"viewDidAppear - tableview");
+	[taskBag reload];	
+	[table reloadData];
+}
 
 
 /*
@@ -103,7 +112,7 @@
 // Return the number of rows in the section of table view
 -(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-	return 0;//[sitesList count];
+	return [taskBag size];
 }
 
 // Return cell for the rows in table view
@@ -120,14 +129,15 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-//	// Set the title for the cell
-//	cell.textLabel.text = [sitesList objectAtIndex:indexPath.row];
-//	
+	// Set the title for the cell
+	Task *task = [[taskBag tasks] objectAtIndex:indexPath.row];
+	cell.textLabel.text = [task inScreenFormat];
+	
 //	// Set the tableview image for the cell
 //	cell.imageView.image = [imagesList objectAtIndex:indexPath.row];
-//	
-//	// Set the accessory view for the cell
-//	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	// Set the accessory view for the cell
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Return the cell
 	return cell;
@@ -143,41 +153,21 @@
 	return 50; // Default height for the cell is 44 px;
 }
 
-// Return string for footer of the tableview
--(NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-	return @"Todo.txt";
-}
-
 // Load the detail view controller when user taps the row
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//	// Create the variable that represents the app delegate
-//	EnvatoAppDelegate *delegate = (EnvatoAppDelegate *)[[UIApplication sharedApplication] delegate];
-//	
-//	// Create the dummy view controller and init with DetailViewController.xib
-//	DetailViewController *detailVC = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-//	
-//	// Set the UIImage from the bannerImages array for the banner in the detail view controller
-//	detailVC.banner = [bannerImages objectAtIndex:indexPath.row];
-//	
-//	// Set the NSString for description from the descArray
-//	detailVC.description = [descArray objectAtIndex:indexPath.row];
-//	
-//	// Set the title of the detail view controller
-//	detailVC.title = [sitesList objectAtIndex:indexPath.row];
-//	
-//	// Set the childController equal to the dummy controller
-//	self.childController = detailVC;
-//	
-//	// Call the pushViewController:animated method from the navigationController variable inside the delegate
-//	[delegate.navigationController pushViewController:childController animated:YES];
-//	
-//	// Release the dummy view controller
-//	[detailVC release];
-//	
-//	// Deselect the row which was tapped
-//	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
+    
+	/*
+     When a row is selected, create the detail view controller and set its detail item to the item associated with the selected row.
+     */
+    TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    detailViewController.taskIndex = indexPath.row;
+    
+    // Push the detail view controller.
+    [[self navigationController] pushViewController:detailViewController animated:YES];
+    [detailViewController release];
 }
 
 - (IBAction)addButtonPressed:(id)sender {

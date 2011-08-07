@@ -48,21 +48,33 @@
 
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "todo_txt_touch_iosViewController.h"
+#import "TaskBag.h"
+#import "TaskBagFactory.h"
 
 @implementation todo_txt_touch_iosAppDelegate
 
 @synthesize window;
 @synthesize viewController;
 @synthesize navigationController;
+@synthesize taskBag;
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 
++ (todo_txt_touch_iosAppDelegate*) sharedDelegate {
+	return (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
++ (id<TaskBag>) sharedTaskBag {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] taskBag];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-
+    taskBag = [[TaskBagFactory getTaskBag] retain];
+    
     // Add the view controller's view to the window and display.
     [self.window addSubview:navigationController.view];
     [self.window makeKeyAndVisible];
@@ -123,6 +135,7 @@
     [viewController release];
 	[navigationController release];
     [window release];
+    [taskBag release];
     [super dealloc];
 }
 

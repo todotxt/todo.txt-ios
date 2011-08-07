@@ -91,6 +91,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *detailFormat;
 @property (nonatomic, readonly) NSString *fileFormat;
 
+- (BOOL) isEqual:(id)object;
 - (NSUInteger)hash;
 
 + (Priority*)NONE;
