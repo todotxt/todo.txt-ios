@@ -72,7 +72,7 @@ static NSRegularExpression* contextPattern = nil;
 	
 	NSMutableArray* contexts = [NSMutableArray arrayWithCapacity:[contextMatches count]];
 	for (NSTextCheckingResult *match in contextMatches) {
-		[contexts addObject:[inputText substringWithRange:[match rangeAtIndex:2]]];
+		[contexts addObject:[inputText substringWithRange:[match rangeAtIndex:1]]];
 	}	
 	
 	return contexts;
