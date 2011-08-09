@@ -91,7 +91,7 @@ static NSRegularExpression* priorityPattern = nil;
 	Priority *priority = [Priority NONE];
 	NSString* text = inputText;
 	if (priorityMatch) {
-		priority = [Priority priorityWithCode:[inputText substringWithRange:[priorityMatch rangeAtIndex:1]]];
+		priority = [Priority byCode:[inputText substringWithRange:[priorityMatch rangeAtIndex:1]]];
 		text = [inputText substringWithRange:[priorityMatch rangeAtIndex:2]];
 	}	
 	

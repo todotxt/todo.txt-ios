@@ -53,11 +53,12 @@ static NSArray* priorityArray = nil;
 
 @implementation Priority
 
-@synthesize code, listFormat, detailFormat, fileFormat;
+@synthesize name, code, listFormat, detailFormat, fileFormat;
 
-- (id)initWithCode:(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
+- (id)initWithName:(PriorityName)theName :(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
 	self = [super init];
 	if (self) {
+		name = theName;
         code = [theCode retain];
         listFormat = [theListFormat retain];
         detailFormat = [theDetailFormat retain];
@@ -79,52 +80,56 @@ static NSArray* priorityArray = nil;
 	return [code hash];
 }
 
++(Priority *)priorityWithName:(PriorityName)theName :(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
+	return [[[Priority alloc] initWithName:theName :theCode :theListFormat :theDetailFormat :theFileFormat] autorelease];
+}
+
 + (void)initialize {
 	@synchronized(self) {
 		if (!priorityArray) {
 			priorityArray = [[NSArray arrayWithObjects:
-							 [[[Priority alloc] initWithCode:@"-" :@" " :@"" :@""] autorelease],
-							 [[[Priority alloc] initWithCode:@"A" :@"A" :@"A" :@"(A)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"B" :@"B" :@"B" :@"(B)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"C" :@"C" :@"C" :@"(C)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"D" :@"D" :@"D" :@"(D)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"E" :@"E" :@"E" :@"(E)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"F" :@"F" :@"F" :@"(F)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"G" :@"G" :@"G" :@"(G)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"H" :@"H" :@"H" :@"(H)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"I" :@"I" :@"I" :@"(I)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"J" :@"J" :@"J" :@"(J)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"K" :@"K" :@"K" :@"(K)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"L" :@"L" :@"L" :@"(L)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"M" :@"M" :@"M" :@"(M)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"N" :@"N" :@"N" :@"(N)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"O" :@"O" :@"O" :@"(O)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"P" :@"P" :@"P" :@"(P)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"Q" :@"Q" :@"Q" :@"(Q)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"R" :@"R" :@"R" :@"(R)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"S" :@"S" :@"S" :@"(S)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"T" :@"T" :@"T" :@"(T)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"U" :@"U" :@"U" :@"(U)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"V" :@"V" :@"V" :@"(V)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"W" :@"W" :@"W" :@"(W)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"X" :@"X" :@"X" :@"(X)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"Y" :@"Y" :@"Y" :@"(Y)"] autorelease],
-							 [[[Priority alloc] initWithCode:@"Z" :@"Z" :@"Z" :@"(Z)"] autorelease],
-							 nil
+							  [Priority priorityWithName:PriorityNone :@"-" :@" " :@"" :@""],
+							  [Priority priorityWithName:PriorityA :@"A" :@"A" :@"A" :@"(A)"],
+							  [Priority priorityWithName:PriorityB :@"B" :@"B" :@"B" :@"(B)"],
+							  [Priority priorityWithName:PriorityC :@"C" :@"C" :@"C" :@"(C)"],
+							  [Priority priorityWithName:PriorityD :@"D" :@"D" :@"D" :@"(D)"],
+							  [Priority priorityWithName:PriorityE :@"E" :@"E" :@"E" :@"(E)"],
+							  [Priority priorityWithName:PriorityF :@"F" :@"F" :@"F" :@"(F)"],
+							  [Priority priorityWithName:PriorityG :@"G" :@"G" :@"G" :@"(G)"],
+							  [Priority priorityWithName:PriorityH :@"H" :@"H" :@"H" :@"(H)"],
+							  [Priority priorityWithName:PriorityI :@"I" :@"I" :@"I" :@"(I)"],
+							  [Priority priorityWithName:PriorityJ :@"J" :@"J" :@"J" :@"(J)"],
+							  [Priority priorityWithName:PriorityK :@"K" :@"K" :@"K" :@"(K)"],
+							  [Priority priorityWithName:PriorityL :@"L" :@"L" :@"L" :@"(L)"],
+							  [Priority priorityWithName:PriorityM :@"M" :@"M" :@"M" :@"(M)"],
+							  [Priority priorityWithName:PriorityN :@"N" :@"N" :@"N" :@"(N)"],
+							  [Priority priorityWithName:PriorityO :@"O" :@"O" :@"O" :@"(O)"],
+							  [Priority priorityWithName:PriorityP :@"P" :@"P" :@"P" :@"(P)"],
+							  [Priority priorityWithName:PriorityQ :@"Q" :@"Q" :@"Q" :@"(Q)"],
+							  [Priority priorityWithName:PriorityR :@"R" :@"R" :@"R" :@"(R)"],
+							  [Priority priorityWithName:PriorityS :@"S" :@"S" :@"S" :@"(S)"],
+							  [Priority priorityWithName:PriorityT :@"T" :@"T" :@"T" :@"(T)"],
+							  [Priority priorityWithName:PriorityU :@"U" :@"U" :@"U" :@"(U)"],
+							  [Priority priorityWithName:PriorityV :@"V" :@"V" :@"V" :@"(V)"],
+							  [Priority priorityWithName:PriorityW :@"W" :@"W" :@"W" :@"(W)"],
+							  [Priority priorityWithName:PriorityX :@"X" :@"X" :@"X" :@"(X)"],
+							  [Priority priorityWithName:PriorityY :@"Y" :@"Y" :@"Y" :@"(Y)"],
+							  [Priority priorityWithName:PriorityZ :@"Z" :@"Z" :@"Z" :@"(Z)"],
+							  nil
 							 ] retain];
 		}
 	}
 }
 
-+ (Priority*)priorityWithName:(PriorityName)name {
++ (Priority*)byName:(PriorityName)name {
 	return [priorityArray objectAtIndex:name];
 }
 
 + (Priority*)NONE {
-	return [Priority priorityWithName:PriorityNone];
+	return [Priority byName:PriorityNone];
 }
 
-+ (Priority*)priorityWithCode:(NSString*)code {
++ (Priority*)byCode:(NSString*)code {
 	for (int i = 0; i < [priorityArray count]; i++) {
 		Priority *priority = [priorityArray objectAtIndex:i];
 		if ([[priority code] caseInsensitiveCompare:code] == NSOrderedSame) {

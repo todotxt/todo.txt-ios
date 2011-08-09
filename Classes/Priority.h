@@ -50,7 +50,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-	PriorityNone,
+	PriorityNone = 0,
 	PriorityA,
 	PriorityB,
 	PriorityC,
@@ -80,23 +80,26 @@ typedef enum {
 } PriorityName;
 
 @interface Priority : NSObject {
+	PriorityName name;
 	NSString *code;
 	NSString *listFormat;
 	NSString *detailFormat;
 	NSString *fileFormat;	
 }
 
+@property (nonatomic, readonly) PriorityName name;
 @property (nonatomic, readonly) NSString *code;
 @property (nonatomic, readonly) NSString *listFormat;
 @property (nonatomic, readonly) NSString *detailFormat;
 @property (nonatomic, readonly) NSString *fileFormat;
 
+- (PriorityName) name;
 - (BOOL) isEqual:(id)object;
 - (NSUInteger)hash;
 
 + (Priority*)NONE;
 
-+ (Priority*)priorityWithName:(PriorityName)name;
-+ (Priority*)priorityWithCode:(NSString*)code;
++ (Priority*)byName:(PriorityName)name;
++ (Priority*)byCode:(NSString*)code;
 
 @end

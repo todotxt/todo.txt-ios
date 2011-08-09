@@ -68,6 +68,8 @@
 		7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5705A312F8A06600BB5E8D /* db_logo@2x.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
 		7DBE2A3B12F7939200FD6A92 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */; };
+		8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */; };
+		8817330C13F10A9800B6B9F9 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 8817330B13F10A9800B6B9F9 /* Color.m */; };
 		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
 		882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5F13EE3E350085C888 /* TaskViewController.m */; };
 		882B3E8513EF46750085C888 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
@@ -191,6 +193,9 @@
 		7D5705A312F8A06600BB5E8D /* db_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "db_logo@2x.png"; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableCell.xib; sourceTree = SOURCE_ROOT; };
+		8817330A13F10A9800B6B9F9 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		8817330B13F10A9800B6B9F9 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
 		882B3E5313ECCB240085C888 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
 		882B3E5E13EE3E340085C888 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
@@ -246,6 +251,7 @@
 				1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */,
 				1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* todo_txt_touch_iosViewController.h */,
+				8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */,
 				28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */,
 				59216BFC13E7804700FF07EE /* TaskEditViewController.h */,
 				59216BFD13E7804700FF07EE /* TaskEditViewController.m */,
@@ -353,6 +359,8 @@
 				8831984213EBB55800EC5BC3 /* TaskIo.m */,
 				59216C7313E8C89200FF07EE /* Util.h */,
 				59216C7413E8C89200FF07EE /* Util.m */,
+				8817330A13F10A9800B6B9F9 /* Color.h */,
+				8817330B13F10A9800B6B9F9 /* Color.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -554,6 +562,7 @@
 				7D5705CE12F8A06600BB5E8D /* db_logo.png in Resources */,
 				7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */,
 				882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */,
+				8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +625,7 @@
 				882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */,
 				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
 				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
+				8817330C13F10A9800B6B9F9 /* Color.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

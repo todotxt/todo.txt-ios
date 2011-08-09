@@ -50,13 +50,14 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
+#import "Color.h"
 
 @implementation todo_txt_touch_iosViewController
 
 #pragma mark -
 #pragma mark Synthesizers
 
-@synthesize table;
+@synthesize table, tableCell;
 
 
 /*
@@ -119,27 +120,71 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Create the cell identifier
-	static NSString *CellIdentifier = @"CellIdentifier";
+	static NSString *CellIdentifier = @"TaskTableCell";
 	
 	// Create the cell if cells are available with same cell identifier
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
+		cell = tableCell;
+		self.tableCell = nil;
 	}
 	
 	// Set the title for the cell
 	Task *task = [[taskBag tasks] objectAtIndex:indexPath.row];
-	cell.textLabel.text = [task inScreenFormat];
 	
-//	// Set the tableview image for the cell
-//	cell.imageView.image = [imagesList objectAtIndex:indexPath.row];
+	//cell.textLabel.text = [task inScreenFormat];
+
+	UILabel *label;
+    label = (UILabel *)[cell viewWithTag:1];
+    label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
 	
-	// Set the accessory view for the cell
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    label = (UILabel *)[cell viewWithTag:2];
+    label.text = [[task priority] listFormat];
+	//TODO: set the priority color
+	PriorityName n = [[task priority] name];
+	switch (n) {
+		case PriorityA:
+			//Set color to green #587058
+			label.textColor = [Color green];
+			break;
+		case PriorityB:
+			//Set color to blue #587498
+			label.textColor = [Color blue];
+			break;
+		case PriorityC:
+			//Set color to orange #E86850
+			label.textColor = [Color orange];
+			break;
+		case PriorityD:
+			//Set color to gold #587058
+			label.textColor = [Color gold];
+			break;			
+		default:
+			//Set color to black #000000
+			label.textColor = [Color black];
+			break;
+	}
 	
-	// Return the cell
+    label = (UILabel *)[cell viewWithTag:3];
+    label.text = [task inScreenFormat];
+	if ([task completed]) {
+		// TODO: There doesn't seem to be a strikethrough option for UILabel.
+		// For now, let's just disable the label.
+		label.enabled = NO;
+	} else {
+		label.enabled = YES;
+	}
+	
+	label = (UILabel *)[cell viewWithTag:4];
+    if (![task completed]) {
+		label.text = [task relativeAge];
+	} else {
+		label.text = @"";
+	}
+	
 	return cell;
 }
 
