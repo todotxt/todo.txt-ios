@@ -55,6 +55,7 @@
 #import "Color.h"
 
 char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" }; 
+char *completed_buttons[] = { "Undo Complete", "Delete" }; 
 
 @implementation TaskViewController
 
@@ -65,6 +66,15 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 	return [[taskBag tasks] objectAtIndex:taskIndex];
 }
 
+- (void) reloadViewData {
+	// Scroll the table view to the top before it appears
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];
+	
+    [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero animated:NO];
+
+}
+
 #pragma mark -
 #pragma mark View lifecycle
 
@@ -72,11 +82,8 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
     
-    // Scroll the table view to the top before it appears
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];
+	[self reloadViewData];
 	
-    [self.tableView reloadData];
-    [self.tableView setContentOffset:CGPointZero animated:NO];
     self.title = @"Task Details";
 }
 
@@ -92,6 +99,8 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+	Task* task = [self task];
+	
 	/*
 	 The number of rows varies by section.
 	 */
@@ -102,8 +111,13 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
             rows = 1;
             break;
         case 1:
-            // There are 5 buttons: Update, Prioritize, Complete, Delete, and Share. 
-            rows = 5;
+            if([task completed]) {
+				// For completed tasks there are 2 buttons: Undo Complete and Delete. 
+				rows = 2;
+			} else {
+				// Otherwise, there are 5 buttons: Update, Prioritize, Complete, Delete, and Share. 
+				rows = 5;
+			}
             break;
         default:
             break;
@@ -134,9 +148,9 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 	}
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 60;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//	return 60;
+//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
@@ -232,8 +246,13 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
-		cell.textLabel.text = [NSString stringWithUTF8String:buttons[indexPath.row]];
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+
+		if([[self task] completed]) {
+			cell.textLabel.text = [NSString stringWithUTF8String:completed_buttons[indexPath.row]];
+		} else {
+			cell.textLabel.text = [NSString stringWithUTF8String:buttons[indexPath.row]];			
+		}
     }
 
     return cell;
@@ -244,16 +263,30 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 {
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
 	
-	switch (indexPath.row) {
-		case 0: //Update
-			[self didTapUpdateButton];
-			break;
-		case 3: //Delete
-			[self didTapDeleteButton];
-			break;
-			
-		default:
-			break;
+	if ([[self task] completed]) {
+		switch (indexPath.row) {
+			case 0: //Undo Complete
+				[self didTapUndoCompleteButton];
+				break;
+			case 1: //Delete
+				[self didTapDeleteButton];
+				break;
+				
+			default:
+				break;
+		}
+	} else {
+		switch (indexPath.row) {
+			case 0: //Update
+				[self didTapUpdateButton];
+				break;
+			case 3: //Delete
+				[self didTapDeleteButton];
+				break;
+				
+			default:
+				break;
+		}
 	}
 }
 
@@ -271,13 +304,25 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 
 - (void) deleteTask {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [self task];
+	Task* task = [[self task] retain];
 	[taskBag remove:task];
 	[task release];
 	 
 	//TODO: toast?
 	//TODO: sync remote
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
+}
+
+- (void) undoCompleteTask {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	Task* task = [[self task] retain];
+	[task markIncomplete];
+	[taskBag update:task];
+	[task release];
+	
+	//TODO: toast?
+	//TODO: sync remote
+	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
 - (void) didTapDeleteButton {
@@ -289,15 +334,32 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 					  cancelButtonTitle:@"Cancel" 
 					  destructiveButtonTitle:@"Delete Task" 
 					  otherButtonTitles:nil];
-	
+	dlg.tag = 10;
+	[dlg showInView:self.view];
+	[dlg release];		
+}
+
+- (void) didTapUndoCompleteButton {
+	NSLog(@"didTapUndoCompleteButton called");
+	// confirmation pane
+	UIActionSheet* dlg = [[UIActionSheet alloc] 
+						  initWithTitle:@"Are you sure?"
+						  delegate:self 
+						  cancelButtonTitle:@"Cancel" 
+						  destructiveButtonTitle:nil 
+						  otherButtonTitles:@"Mark Incomplete", nil ];
+	dlg.tag = 20;
 	[dlg showInView:self.view];
 	[dlg release];		
 }
 
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == [actionSheet destructiveButtonIndex]) {
+	if (actionSheet.tag == 10 && buttonIndex == [actionSheet destructiveButtonIndex]) {
 		//TODO: progress dialog
 		[AsyncTask runTask:@selector(deleteTask) onTarget:self];
+	} else if (actionSheet.tag == 20 && buttonIndex == [actionSheet firstOtherButtonIndex]) {
+		//TODO: progress dialog
+		[AsyncTask runTask:@selector(undoCompleteTask) onTarget:self];		
 	}
 }
 
