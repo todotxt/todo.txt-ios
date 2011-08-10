@@ -52,12 +52,18 @@
 #import "TaskEditViewController.h"
 #import "TaskBag.h"
 #import "AsyncTask.h"
+#import "Color.h"
 
 char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" }; 
 
 @implementation TaskViewController
 
-@synthesize taskIndex;
+@synthesize taskIndex, tableCell;
+
+- (Task*) task {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];	
+	return [[taskBag tasks] objectAtIndex:taskIndex];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -105,9 +111,24 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
     return rows;
 }
 
+- (CGFloat)calcTextHeight {
+	Task* task = [self task];
+	CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 50;
+    CGFloat maxHeight = 9999;
+    CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
+	
+    CGSize expectedLabelSize = [[task inScreenFormat] 
+			sizeWithFont:[UIFont systemFontOfSize:14.0]
+			constrainedToSize:maximumLabelSize 
+		    lineBreakMode:UILineBreakModeWordWrap]; 
+	
+    return expectedLabelSize.height;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		return 75;
+		CGFloat min = MAX([self calcTextHeight], 30);
+		return min + 20;
 	} else {
 		return 50;
 	}
@@ -120,28 +141,97 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
 	if(section == 0) {
-		return @"";
+		Task* task = [self task];
+		return [NSString stringWithFormat:@"Task %02d", [task taskId] + 1];;
 	} else {
 		return @"Actions";
 	}
 }
 
+// Return cell for the rows in table view
+-(UITableViewCell *) renderTaskCell:(UITableView *)tableView
+{
+	// Create the cell identifier
+	static NSString *CellIdentifier = @"TaskDetailCell";
+	
+	// Create the cell if cells are available with same cell identifier
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	// If there are no cells available, allocate a new one with our nib
+	if (cell == nil) {
+		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
+		cell = tableCell;
+		self.tableCell = nil;
+	}
+	
+	// Populate the cell data and format
+	Task *task = [self task];	
+	UILabel *label;
+    //label = (UILabel *)[cell viewWithTag:1];
+    //label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
+	
+    label = (UILabel *)[cell viewWithTag:2];
+    label.text = [[task priority] listFormat];
+	// Set the priority color
+	PriorityName n = [[task priority] name];
+	switch (n) {
+		case PriorityA:
+			//Set color to green #587058
+			label.textColor = [Color green];
+			break;
+		case PriorityB:
+			//Set color to blue #587498
+			label.textColor = [Color blue];
+			break;
+		case PriorityC:
+			//Set color to orange #E86850
+			label.textColor = [Color orange];
+			break;
+		case PriorityD:
+			//Set color to gold #587058
+			label.textColor = [Color gold];
+			break;			
+		default:
+			//Set color to black #000000
+			label.textColor = [Color black];
+			break;
+	}
+	
+    label = (UILabel *)[cell viewWithTag:3];
+    label.text = [task inScreenFormat];
+	if ([task completed]) {
+		// TODO: There doesn't seem to be a strikethrough option for UILabel.
+		// For now, let's just disable the label.
+		label.enabled = NO;
+	} else {
+		label.enabled = YES;
+	}
+	
+	label = (UILabel *)[cell viewWithTag:4];
+    if (![task completed]) {
+		label.text = [task relativeAge];
+	} else {
+		label.text = @"";
+	}
+	
+	return cell;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	static NSString *CellIdentifier = @"CellIdentifier";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
+	UITableViewCell *cell = nil;
+	
     // Set the text in the cell for the section/row.
 	if (indexPath.section == 0) {
-		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];	
-		Task *task = [[taskBag tasks] objectAtIndex:taskIndex];
-		cell.textLabel.text = [task inScreenFormat];
-		cell.textLabel.textAlignment = UITextAlignmentLeft;
+		cell = [self renderTaskCell:tableView];
 	} else {
+		static NSString *CellIdentifier = @"CellIdentifier";
+		
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		
 		cell.textLabel.text = [NSString stringWithUTF8String:buttons[indexPath.row]];
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
@@ -170,8 +260,7 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 - (void) didTapUpdateButton {
 	NSLog(@"didTapUpdateButton called");
     TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];	
-	taskEditView.task = [[taskBag tasks] objectAtIndex:taskIndex];
+	taskEditView.task = [self task];
 	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentModalViewController:taskEditView animated:YES];	
 }
@@ -182,7 +271,7 @@ char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" };
 
 - (void) deleteTask {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [[[taskBag tasks] objectAtIndex:taskIndex] retain];
+	Task* task = [self task];
 	[taskBag remove:task];
 	[task release];
 	 

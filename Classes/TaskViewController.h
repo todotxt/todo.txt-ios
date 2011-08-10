@@ -53,9 +53,11 @@
 
 @interface TaskViewController : UITableViewController <UIActionSheetDelegate> {
     NSInteger taskIndex;
+	UITableViewCell *tableCell; 
 }
 
 @property (nonatomic, assign) NSInteger taskIndex;
+@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
 
 - (void) didTapUpdateButton;
 - (void) didTapDeleteButton;

@@ -134,16 +134,14 @@
 	
 	// Set the title for the cell
 	Task *task = [[taskBag tasks] objectAtIndex:indexPath.row];
-	
-	//cell.textLabel.text = [task inScreenFormat];
-
+		
 	UILabel *label;
     label = (UILabel *)[cell viewWithTag:1];
     label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
 	
     label = (UILabel *)[cell viewWithTag:2];
     label.text = [[task priority] listFormat];
-	//TODO: set the priority color
+	// Set the priority color
 	PriorityName n = [[task priority] name];
 	switch (n) {
 		case PriorityA:
