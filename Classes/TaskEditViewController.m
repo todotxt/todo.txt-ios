@@ -72,17 +72,20 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	curInput = [[NSString alloc] init];
+	curInput = [[NSString alloc] init];	
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	if (task) {
 		self.title = @"Edit Task";	
 		text.text = [task inFileFormat];
 	} else {
 		self.title = @"Add Task";
 	}
+	[text becomeFirstResponder];
 	
-	[text setSelectedRange:NSMakeRange(0, [text.text length])];
 }
-
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
