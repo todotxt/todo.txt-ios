@@ -54,7 +54,12 @@
 #import "AsyncTask.h"
 #import "Color.h"
 
-char *buttons[] = { "Update", "Prioritize", "Complete", "Delete", "Share" }; 
+#define DATE_LABEL_HEIGHT 13
+#define MIN_ROW_HEIGHT 50
+#define ACTION_ROW_HEIGHT 50
+#define DETAIL_CELL_PADDING 24
+
+char *buttons[] = { "Complete", "Prioritize", "Update", "Delete", "Share" }; 
 char *completed_buttons[] = { "Undo Complete", "Delete" }; 
 
 @implementation TaskViewController
@@ -125,32 +130,36 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     return rows;
 }
 
-- (CGFloat)calcTextHeight {
-	Task* task = [self task];
+- (CGFloat)calcTextHeightWithTask:(Task*)task {
 	CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 50;
     CGFloat maxHeight = 9999;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
     CGSize expectedLabelSize = [[task inScreenFormat] 
-			sizeWithFont:[UIFont systemFontOfSize:14.0]
+			sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0f]
 			constrainedToSize:maximumLabelSize 
 		    lineBreakMode:UILineBreakModeWordWrap]; 
 	
-    return expectedLabelSize.height;
+	return expectedLabelSize.height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		CGFloat min = MAX([self calcTextHeight], 30);
-		return min + 20;
+		Task* task = [self task];
+		CGFloat ret = [self calcTextHeightWithTask:task];
+
+		if (![task completed]) {
+			ret += DATE_LABEL_HEIGHT; // height of the date line
+		}
+		
+		// padding
+		ret += DETAIL_CELL_PADDING;
+		
+		return MAX(ret, MIN_ROW_HEIGHT);
 	} else {
-		return 50;
+		return ACTION_ROW_HEIGHT;
 	}
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//	return 60;
-//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
@@ -181,8 +190,6 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	// Populate the cell data and format
 	Task *task = [self task];	
 	UILabel *label;
-    //label = (UILabel *)[cell viewWithTag:1];
-    //label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
 	
     label = (UILabel *)[cell viewWithTag:2];
     label.text = [[task priority] listFormat];
@@ -220,12 +227,25 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	} else {
 		label.enabled = YES;
 	}
-	
-	label = (UILabel *)[cell viewWithTag:4];
+
+	CGRect labelFrame = label.frame;
+	UILabel *dateLabel = (UILabel *)[cell viewWithTag:4];
     if (![task completed]) {
-		label.text = [task relativeAge];
+		dateLabel.text = [task relativeAge];
+		dateLabel.hidden = NO;
+		labelFrame.origin.y = (cell.frame.size.height - DATE_LABEL_HEIGHT - labelFrame.size.height) / 2;
+		label.frame = labelFrame;	
 	} else {
-		label.text = @"";
+		dateLabel.text = @"";
+		dateLabel.hidden = YES;
+		labelFrame.origin.y = (cell.frame.size.height - labelFrame.size.height) / 2;
+		label.frame = labelFrame;	
+	}
+
+	if ([task completed]) {
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	} else {
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	}
 	
 	return cell;
@@ -262,8 +282,18 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
+	Task * task = [self task];
 	
-	if ([[self task] completed]) {
+	// Tapping the detail view triggers the update option
+	if (indexPath.section == 0) {
+		if (![task completed]) {
+			[self didTapUpdateButton];
+		}
+		return;
+	}
+	
+	// Handle other button taps
+	if ([task completed]) {
 		switch (indexPath.row) {
 			case 0: //Undo Complete
 				[self didTapUndoCompleteButton];
@@ -277,10 +307,13 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 		}
 	} else {
 		switch (indexPath.row) {
-			case 0: //Update
+			case 0: // Complete
+				[self didTapCompleteButton];
+				break;
+			case 2: // Update
 				[self didTapUpdateButton];
 				break;
-			case 3: //Delete
+			case 3: // Delete
 				[self didTapDeleteButton];
 				break;
 				
@@ -288,14 +321,6 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 				break;
 		}
 	}
-}
-
-- (void) didTapUpdateButton {
-	NSLog(@"didTapUpdateButton called");
-    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
-	taskEditView.task = [self task];
-	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self presentModalViewController:taskEditView animated:YES];	
 }
 
 -(void)exitController {
@@ -323,6 +348,39 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	//TODO: toast?
 	//TODO: sync remote
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
+}
+
+- (void) completeTask {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	Task* task = [[self task] retain];
+	[task markComplete:[NSDate date]];
+	[taskBag update:task];
+	[task release];
+	
+	//TODO: toast?
+	//TODO: sync remote
+	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
+}
+
+- (void) didTapCompleteButton {
+	NSLog(@"didTapCompleteButton called");
+	Task* task = [self task];
+	if ([task completed]) {
+		//TODO: make toast "Task alread complete"
+		// Really, this should never happen since
+		// the complete option is not available for completed tasks.
+		return;
+	}
+    //TODO: progress dialog
+	[AsyncTask runTask:@selector(completeTask) onTarget:self];	
+}
+
+- (void) didTapUpdateButton {
+	NSLog(@"didTapUpdateButton called");
+    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
+	taskEditView.task = [self task];
+	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentModalViewController:taskEditView animated:YES];	
 }
 
 - (void) didTapDeleteButton {

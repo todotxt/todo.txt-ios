@@ -59,6 +59,7 @@
 @property (nonatomic, assign) NSInteger taskIndex;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
 
+- (void) didTapCompleteButton;
 - (void) didTapUndoCompleteButton;
 - (void) didTapUpdateButton;
 - (void) didTapDeleteButton;
