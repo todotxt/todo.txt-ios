@@ -101,5 +101,6 @@ typedef enum {
 
 + (Priority*)byName:(PriorityName)name;
 + (Priority*)byCode:(NSString*)code;
++ (NSArray*)allCodes;
 
 @end

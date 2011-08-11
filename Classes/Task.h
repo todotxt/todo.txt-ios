@@ -79,7 +79,7 @@
 @property (nonatomic, readonly) NSArray *contexts;
 @property (nonatomic, readonly) NSArray *projects;
 
-@property (nonatomic, retain) Priority *priority;
+@property (nonatomic, assign) Priority *priority;
 
 - (id)initWithId:(NSUInteger)newID withRawText:(NSString*)rawText withDefaultPrependedDate:(NSDate*)date;
 - (id)initWithId:(NSUInteger)taskID withRawText:(NSString*)rawText;

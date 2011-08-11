@@ -60,6 +60,7 @@
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
 
 - (void) didTapCompleteButton;
+- (void) didTapPrioritizeButton;
 - (void) didTapUndoCompleteButton;
 - (void) didTapUpdateButton;
 - (void) didTapDeleteButton;

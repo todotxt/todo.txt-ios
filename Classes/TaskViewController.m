@@ -53,6 +53,7 @@
 #import "TaskBag.h"
 #import "AsyncTask.h"
 #import "Color.h"
+#import "ActionSheetPicker.h"
 
 #define DATE_LABEL_HEIGHT 13
 #define MIN_ROW_HEIGHT 50
@@ -310,6 +311,9 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 			case 0: // Complete
 				[self didTapCompleteButton];
 				break;
+			case 1: // Prioritize
+				[self didTapPrioritizeButton];
+				break;
 			case 2: // Update
 				[self didTapUpdateButton];
 				break;
@@ -362,17 +366,46 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
+- (void) prioritizeTask:(Priority*)selectedPriority {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	Task* task = [[self task] retain];
+	task.priority = selectedPriority;
+	[taskBag update:task];
+	[task release];
+	
+	//TODO: toast?
+	//TODO: sync remote
+	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
+}
+
+- (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+	//TODO: progress dialog
+	Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
+	[AsyncTask runTask:@selector(prioritizeTask:) onTarget:self withArgument:selectedPriority];		
+}
+
 - (void) didTapCompleteButton {
 	NSLog(@"didTapCompleteButton called");
 	Task* task = [self task];
 	if ([task completed]) {
-		//TODO: make toast "Task alread complete"
+		//TODO: make toast "Task already complete"
 		// Really, this should never happen since
 		// the complete option is not available for completed tasks.
 		return;
 	}
     //TODO: progress dialog
 	[AsyncTask runTask:@selector(completeTask) onTarget:self];	
+}
+
+- (void) didTapPrioritizeButton {
+	NSLog(@"didTapPrioritizeButton called");
+	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
+	[ActionSheetPicker displayActionPickerWithView:self.view 
+						data:[Priority allCodes]
+						selectedIndex:curPriority 
+						target:self 
+						action:@selector(priorityWasSelected::) 
+						title:@"Select Priority"];
 }
 
 - (void) didTapUpdateButton {

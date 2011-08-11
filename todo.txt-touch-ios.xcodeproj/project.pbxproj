@@ -85,6 +85,7 @@
 		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
 		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
+		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -227,6 +228,8 @@
 		8858D0B713EA89C50083FA44 /* Priority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Priority.m; path = Classes/Priority.m; sourceTree = "<group>"; };
 		8858D0B813EA89C50083FA44 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Classes/Task.h; sourceTree = "<group>"; };
 		8858D0B913EA89C50083FA44 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Classes/Task.m; sourceTree = "<group>"; };
+		8887496B13F3715400871E49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
+		8887496C13F3715400871E49 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetPicker.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -352,6 +355,8 @@
 		59216D3B13EA316100FF07EE /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				8887496B13F3715400871E49 /* ActionSheetPicker.h */,
+				8887496C13F3715400871E49 /* ActionSheetPicker.m */,
 				882B3E5313ECCB240085C888 /* AsyncTask.h */,
 				882B3E5413ECCB240085C888 /* AsyncTask.m */,
 				8831984513EBBD1200EC5BC3 /* DDFileReader.h */,
@@ -630,6 +635,7 @@
 				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
 				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
 				8817330C13F10A9800B6B9F9 /* Color.m in Sources */,
+				8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
