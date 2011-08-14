@@ -55,10 +55,11 @@
 #import "Color.h"
 #import "ActionSheetPicker.h"
 
-#define DATE_LABEL_HEIGHT 13
+#define TEXT_LABEL_WIDTH 227
+#define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
-#define DETAIL_CELL_PADDING 24
+#define DETAIL_CELL_PADDING 10
 
 char *buttons[] = { "Complete", "Prioritize", "Update", "Delete", "Share" }; 
 char *completed_buttons[] = { "Undo Complete", "Delete" }; 
@@ -132,7 +133,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 }
 
 - (CGFloat)calcTextHeightWithTask:(Task*)task {
-	CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 50;
+	CGFloat maxWidth = TEXT_LABEL_WIDTH;
     CGFloat maxHeight = 9999;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
@@ -148,7 +149,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	if (indexPath.section == 0) {
 		Task* task = [self task];
 		CGFloat ret = [self calcTextHeightWithTask:task];
-
+		
 		if (![task completed]) {
 			ret += DATE_LABEL_HEIGHT; // height of the date line
 		}
@@ -230,19 +231,17 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	}
 
 	CGRect labelFrame = label.frame;
+	labelFrame.size.height = [self calcTextHeightWithTask:task];
+	label.frame = labelFrame;
 	UILabel *dateLabel = (UILabel *)[cell viewWithTag:4];
     if (![task completed]) {
 		dateLabel.text = [task relativeAge];
 		dateLabel.hidden = NO;
-		labelFrame.origin.y = (cell.frame.size.height - DATE_LABEL_HEIGHT - labelFrame.size.height) / 2;
-		label.frame = labelFrame;	
 	} else {
 		dateLabel.text = @"";
 		dateLabel.hidden = YES;
-		labelFrame.origin.y = (cell.frame.size.height - labelFrame.size.height) / 2;
-		label.frame = labelFrame;	
 	}
-
+	
 	if ([task completed]) {
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	} else {

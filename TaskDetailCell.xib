@@ -50,7 +50,7 @@
 							<object class="IBUILabel" id="360082290">
 								<reference key="NSNextResponder" ref="188484180"/>
 								<int key="NSvFlags">276</int>
-								<string key="NSFrame">{{10, 15}, {17, 29}}</string>
+								<string key="NSFrame">{{10, 15}, {17, 28}}</string>
 								<reference key="NSSuperview" ref="188484180"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="439927677"/>
@@ -79,7 +79,7 @@
 							</object>
 							<object class="IBUILabel" id="439927677">
 								<reference key="NSNextResponder" ref="188484180"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{39, 5}, {275, 34}}</string>
 								<reference key="NSSuperview" ref="188484180"/>
 								<reference key="NSWindow"/>
@@ -108,8 +108,8 @@
 							</object>
 							<object class="IBUILabel" id="466768666">
 								<reference key="NSNextResponder" ref="188484180"/>
-								<int key="NSvFlags">282</int>
-								<string key="NSFrame">{{39, 40}, {227, 13}}</string>
+								<int key="NSvFlags">266</int>
+								<string key="NSFrame">{{39, 39}, {227, 13}}</string>
 								<reference key="NSSuperview" ref="188484180"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -134,7 +134,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 59}</string>
+						<string key="NSFrameSize">{320, 58}</string>
 						<reference key="NSSuperview" ref="956902973"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="360082290"/>
@@ -149,11 +149,12 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 59}</string>
+				<string key="NSFrameSize">{320, 58}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="188484180"/>
 				<reference key="IBUIBackgroundColor" ref="798337330"/>
+				<bool key="IBUIClipsSubviews">YES</bool>
 				<string key="IBUIContentStretch">{{0, 1}, {1, 1}}</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISeparatorStyle">1</int>
