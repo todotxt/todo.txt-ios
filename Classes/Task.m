@@ -236,5 +236,66 @@
 	return result;
 }
 
+- (NSComparisonResult) compareByIdAscending:(Task*)other {
+	if (taskId < other.taskId) {
+		return NSOrderedAscending;
+	} else if (taskId > other.taskId) {
+		return NSOrderedDescending;
+	} else {
+		return NSOrderedSame;
+	}
+}
+
+- (NSComparisonResult) compareByIdDescending:(Task*)other {
+	if (other.taskId < taskId) {
+		return NSOrderedAscending;
+	} else if (other.taskId > taskId) {
+		return NSOrderedDescending;
+	} else {
+		return NSOrderedSame;
+	}
+}
+
+- (NSComparisonResult) compareByTextAscending:(Task*)other {
+	NSComparisonResult ret = [text caseInsensitiveCompare:other.text];
+	if (ret == NSOrderedSame) {
+		ret = [self compareByIdAscending:other];
+	}
+	return ret;
+}
+
+- (NSComparisonResult) compareByPriority:(Task*)other {
+	if (completed && [other completed]) {
+		return [self compareByIdAscending:other];
+	}
+	
+	if (completed || [other completed]) {
+		if (completed) {
+			return NSOrderedDescending;
+		} else {
+			return NSOrderedAscending;
+		}
+	}
+	
+	if (priority == PriorityNone && [other priority] == PriorityNone) {
+		return [self compareByIdAscending:other];
+	}
+	
+	if (priority == [Priority NONE] || [other priority] == [Priority NONE]) {
+		if (priority == [Priority NONE]) {
+			return NSOrderedDescending;
+		} else {
+			return NSOrderedAscending;
+		}
+	}
+	
+	if (priority.name < other.priority.name) {
+		return NSOrderedAscending;
+	} else if (priority.name > other.priority.name) {
+		return NSOrderedDescending;
+	} else {
+		return [self compareByIdAscending:other];
+	}
+}
 
 @end

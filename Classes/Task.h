@@ -92,5 +92,9 @@
 - (void)copyInto:(Task*)destination;
 - (BOOL)isEqual:(id)anObject;
 - (NSUInteger)hash;
+- (NSComparisonResult) compareByIdAscending:(Task*)other;
+- (NSComparisonResult) compareByIdDescending:(Task*)other;
+- (NSComparisonResult) compareByPriority:(Task*)other;
+- (NSComparisonResult) compareByTextAscending:(Task*)other;
 
 @end

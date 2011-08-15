@@ -51,6 +51,8 @@
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "Color.h"
+#import "ActionSheetPicker.h"
+#import "AsyncTask.h"
 
 @implementation todo_txt_touch_iosViewController
 
@@ -59,6 +61,20 @@
 
 @synthesize table, tableCell;
 
+- (Sort*) sortOrderPref {
+	SortName name = SortPriority;
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) name = [def integerForKey:@"sortOrder"];
+	return [Sort byName:name];
+}
+
+- (void) setSortOrderPref {
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) {
+		[def setInteger:[sort name] forKey:@"sortOrder"];
+		[AsyncTask runTask:@selector(synchronize) onTarget:def];
+	}
+}
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -82,14 +98,18 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	sort = [self sortOrderPref];
+	tasks = nil;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	NSLog(@"viewDidAppear - tableview");
-	[taskBag reload];	
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	NSLog(@"viewWillAppear - tableview");
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
+	[tasks release];
+	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
 	[table reloadData];
+	[table setContentOffset:CGPointZero animated:NO];
 }
 
 
@@ -113,7 +133,7 @@
 // Return the number of rows in the section of table view
 -(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-	return [taskBag size];
+	return [tasks count];
 }
 
 // Return cell for the rows in table view
@@ -133,7 +153,7 @@
 	}
 	
 	// Set the title for the cell
-	Task *task = [[taskBag tasks] objectAtIndex:indexPath.row];
+	Task *task = [tasks objectAtIndex:indexPath.row];
 		
 	UILabel *label;
     label = (UILabel *)[cell viewWithTag:1];
@@ -206,7 +226,9 @@
      */
     TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
-    detailViewController.taskIndex = indexPath.row;
+    detailViewController.taskIndex = 
+		[[todo_txt_touch_iosAppDelegate sharedTaskBag] indexOfTask:
+			[tasks objectAtIndex:indexPath.row]];
     
     // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
@@ -218,6 +240,31 @@
     TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
     [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentModalViewController:taskEditView animated:YES];
+}
+
+- (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
+	sort = [Sort byName:selectedIndex.intValue];
+	[self setSortOrderPref];
+	[tasks release];
+	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
+	[table reloadData];
+    [table setContentOffset:CGPointZero animated:NO];	
+}
+
+- (IBAction)segmentControlPressed:(id)sender {
+	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	switch (segmentedControl.selectedSegmentIndex) {
+		case 0: // Filter
+			break;
+		case 1: // Sort
+			[ActionSheetPicker displayActionPickerWithView:self.view 
+					data:[Sort descriptions]
+					selectedIndex:[sort name]
+					target:self 
+					action:@selector(sortOrderWasSelected::) 
+					 title:@"Select Sort Order"];			
+			break;
+	}
 }
 
 - (void)didReceiveMemoryWarning {

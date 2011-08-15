@@ -47,30 +47,29 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "TaskBag.h"
-#import "LocalTaskRepository.h"
 
-@interface TaskBagImpl : NSObject <TaskBag> {
-    id <LocalTaskRepository> localTaskRepository;
-    NSMutableArray *tasks;
+#import <Foundation/Foundation.h>
+
+typedef enum {
+	SortPriority = 0,
+	SortIdAscending,
+	SortIdDescending,
+	SortTextAscending,
+} SortName;
+
+@interface Sort : NSObject {
+	SortName name;
+	NSString *description;
+    SEL comparator;
 }
 
-- (id) initWithRepository:(id <LocalTaskRepository>)repo;
-- (void) reload;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
-- (void) pushToRemote;
-- (void) pushToRemote:(BOOL)overridePreference;
-- (void) pullFromRemote;
-- (void) pullFromRemote:(BOOL)overridePreference;
+@property (nonatomic, readonly) SortName name;
+@property (nonatomic, readonly) NSString *description;
+@property (nonatomic, readonly) SEL comparator;
+
+- (id) initWithName:(SortName)name withDescription:(NSString*)desc withSelector:(SEL)cmp;
+
++ (NSArray*) descriptions;
++ (Sort*) byName:(SortName)name;
 
 @end

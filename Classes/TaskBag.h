@@ -49,6 +49,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Task.h"
+#import "Sort.h"
 
 @protocol TaskBag <NSObject>
 
@@ -56,9 +57,10 @@
 - (void) addAsTask:(NSString*)input;
 - (Task*) update:(Task*)task;
 - (void) remove:(Task*)task;
+- (Task*) taskAtIndex:(NSUInteger)index;
+- (NSUInteger) indexOfTask:(Task*)task;
 - (NSArray*) tasks;
-// TODO: implement filtering
-//- (NSArray*) tasksWithFilter:
+- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder;
 - (int) size;
 - (NSArray*) projects;
 - (NSArray*) contexts;

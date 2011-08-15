@@ -69,8 +69,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 @synthesize taskIndex, tableCell;
 
 - (Task*) task {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];	
-	return [[taskBag tasks] objectAtIndex:taskIndex];
+	return [[todo_txt_touch_iosAppDelegate sharedTaskBag] taskAtIndex:taskIndex];
 }
 
 - (void) reloadViewData {

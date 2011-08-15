@@ -47,30 +47,51 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "TaskBag.h"
-#import "LocalTaskRepository.h"
 
-@interface TaskBagImpl : NSObject <TaskBag> {
-    id <LocalTaskRepository> localTaskRepository;
-    NSMutableArray *tasks;
+#import "Sort.h"
+#import "Task.h"
+
+static NSArray* sortList = nil;
+
+@implementation Sort
+
+@synthesize name, description, comparator;
+
+
+- (id) initWithName:(SortName)theName withDescription:(NSString *)desc withSelector:(SEL)cmp {
+	self = [super init];
+	if (self) {
+		name = theName;
+		description = [desc retain];
+		comparator = cmp;
+	}
+	return self;
 }
 
-- (id) initWithRepository:(id <LocalTaskRepository>)repo;
-- (void) reload;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
-- (void) pushToRemote;
-- (void) pushToRemote:(BOOL)overridePreference;
-- (void) pullFromRemote;
-- (void) pullFromRemote:(BOOL)overridePreference;
+- (void) dealloc {
+	[super dealloc];
+	[description release];
+}
+
++ (void) initialize {
+	sortList = [[NSArray arrayWithObjects:
+				 [[[Sort alloc] initWithName:SortPriority withDescription:@"Priority" withSelector:@selector(compareByPriority:)] autorelease],
+				 [[[Sort alloc] initWithName:SortIdAscending withDescription:@"ID Ascending" withSelector:@selector(compareByIdAscending:)] autorelease],
+				 [[[Sort alloc] initWithName:SortIdDescending withDescription:@"ID Descending" withSelector:@selector(compareByIdDescending:)] autorelease],
+				 [[[Sort alloc] initWithName:SortTextAscending withDescription:@"Text (A-Z)" withSelector:@selector(compareByTextAscending:)] autorelease],
+				nil] retain];
+}
+
++ (NSArray*) descriptions {
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[sortList count]];
+	for(Sort *sort in sortList) {
+		[ret addObject:[sort description]];
+	}
+	return ret;
+}
+
++ (Sort*) byName:(SortName)name {
+	return [sortList objectAtIndex:name];
+}
 
 @end

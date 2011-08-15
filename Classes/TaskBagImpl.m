@@ -111,14 +111,35 @@ Task* find(NSArray *tasks, Task *task) {
     }    
 }
 
-
-- (NSArray*) tasks {
-    return tasks;
+- (Task*) taskAtIndex:(NSUInteger)index {
+	if (index >= [tasks count]) {
+		return nil;
+	}
+	return [tasks objectAtIndex:index];
 }
 
+- (NSUInteger) indexOfTask:(Task*)task {
+	for (int i = 0; i < [tasks count]; i++) {
+		if ([tasks objectAtIndex:i] == task) {
+			return i;
+		}
+	}
+	return 0;
+}
 
-// TODO: implement filtering
-//- (NSArray*) tasksWithFilter:
+- (NSArray*) tasks {
+    return [self tasksWithFilter:nil withSortOrder:nil];
+}
+
+- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder {
+	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[tasks count]];
+	// TODO: implement filtering
+	[localTasks setArray:tasks];
+	if (sortOrder) {
+		[localTasks sortUsingSelector:[sortOrder comparator]];
+	}
+    return localTasks;
+}
 
 - (int) size {
     return [tasks count];
