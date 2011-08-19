@@ -147,20 +147,25 @@ Task* find(NSArray *tasks, Task *task) {
 
 
 - (NSArray*) projects {
-    //TODO: projects
-    return [NSArray array];
+	NSMutableSet *set = [NSMutableSet setWithCapacity:32];
+	for (Task* task in tasks) {
+		[set addObjectsFromArray:[task projects]];
+	}
+    return [[set allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 
 - (NSArray*) contexts {
-    //TODO: contexts
-    return [NSArray array];
+	NSMutableSet *set = [NSMutableSet setWithCapacity:32];
+	for (Task* task in tasks) {
+		[set addObjectsFromArray:[task contexts]];
+	}
+    return [[set allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 
 - (NSArray*) priorities {
-    //TODO: priorities
-    return [NSArray array];
+    return [Priority all];
 }
 
 

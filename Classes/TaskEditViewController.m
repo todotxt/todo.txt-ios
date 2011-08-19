@@ -55,6 +55,8 @@
 #import "ActionSheetPicker.h"
 #import "PriorityTextSplitter.h"
 
+#define SINGLE_SPACE ' '
+
 NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* newText) {
 	NSUInteger length = oldRange.length;
 	
@@ -71,6 +73,34 @@ NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* ne
 	pos = pos > newText.length ? newText.length : pos;
 
 	return NSMakeRange(pos, length);
+}
+
+NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) {
+	NSMutableString *newText = [NSMutableString stringWithCapacity:(s.length + stringToInsert.length + 2)];
+	
+	if (insertAt.location > 0) {
+		[newText appendString:[s substringToIndex:(insertAt.location)]];
+		if ([newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
+			[newText appendFormat:@"%c", SINGLE_SPACE];
+		}
+		[newText appendString:stringToInsert];
+		NSUInteger pos = NSMaxRange(insertAt);
+		NSString *postItem = [s substringFromIndex:pos];
+		if (postItem.length > 0) {
+			if ([postItem characterAtIndex:0] != SINGLE_SPACE) {
+				[newText appendFormat:@"%c", SINGLE_SPACE];
+			}
+			[newText appendString:postItem];
+		}
+	} else {
+		[newText appendString:stringToInsert];
+		if ([s characterAtIndex:(s.length - 1)] != SINGLE_SPACE) {
+			[newText appendFormat:@"%c", SINGLE_SPACE];
+		}	
+		[newText appendString:s];
+	}
+	
+	return newText;
 }
 
 @implementation TaskEditViewController
@@ -205,9 +235,34 @@ NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* ne
 	[textView becomeFirstResponder];
 }
 
+- (void) projectWasSelected:(NSNumber *)selectedIndex:(id)element {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
+	item = [NSString stringWithFormat:@"+%@", item];
+	NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+	textView.text = newText;
+	
+	[textView becomeFirstResponder];
+}
+
+- (void) contextWasSelected:(NSNumber *)selectedIndex:(id)element {
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
+	item = [NSString stringWithFormat:@"@%@", item];
+	NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+	textView.text = newText;
+	
+	[textView becomeFirstResponder];
+}
+
 - (IBAction)segmentControlPressed:(id)sender {
 	[textView resignFirstResponder];
+
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	
 	switch (segmentedControl.selectedSegmentIndex) {
 		case 0: // Priority
 			[ActionSheetPicker displayActionPickerWithView:self.view 
@@ -218,20 +273,20 @@ NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* ne
 													 title:@"Select Priority"];
 			break;
 		case 1: // Project
-//			[ActionSheetPicker displayActionPickerWithView:self.view 
-//													  data:[Sort descriptions]
-//											 selectedIndex:[sort name]
-//													target:self 
-//													action:@selector(sortOrderWasSelected::) 
-//													 title:@"Select Sort Order"];			
+			[ActionSheetPicker displayActionPickerWithView:self.view 
+													  data:[taskBag projects]
+											 selectedIndex:0
+													target:self 
+													action:@selector(projectWasSelected::) 
+													 title:@"Select Project"];			
 			break;
-		case 2: // Project
-//			[ActionSheetPicker displayActionPickerWithView:self.view 
-//													  data:[Sort descriptions]
-//											 selectedIndex:[sort name]
-//													target:self 
-//													action:@selector(sortOrderWasSelected::) 
-//													 title:@"Select Sort Order"];			
+		case 2: // Context
+			[ActionSheetPicker displayActionPickerWithView:self.view 
+													  data:[taskBag contexts]
+											 selectedIndex:0
+													target:self 
+													action:@selector(contextWasSelected::) 
+													 title:@"Select Context"];			
 			break;			
 	}
 }

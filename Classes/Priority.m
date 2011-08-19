@@ -139,6 +139,10 @@ static NSArray* priorityArray = nil;
 	return [Priority NONE];
 }
 
++ (NSArray*)all {
+	return priorityArray;
+}
+
 + (NSArray*)allCodes {
 	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:priorityArray.count];
 	for(Priority *p in priorityArray) {
