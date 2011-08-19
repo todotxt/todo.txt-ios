@@ -70,6 +70,7 @@
 		7DBE2A3B12F7939200FD6A92 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */; };
 		8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */; };
 		8817330C13F10A9800B6B9F9 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 8817330B13F10A9800B6B9F9 /* Color.m */; };
+		881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */; };
 		8826123813F24A7800B21E91 /* TaskDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8826123713F24A7800B21E91 /* TaskDetailCell.xib */; };
 		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
 		882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5F13EE3E350085C888 /* TaskViewController.m */; };
@@ -199,6 +200,7 @@
 		8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableCell.xib; sourceTree = SOURCE_ROOT; };
 		8817330A13F10A9800B6B9F9 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		8817330B13F10A9800B6B9F9 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
+		881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
 		8826123713F24A7800B21E91 /* TaskDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskDetailCell.xib; sourceTree = "<group>"; };
 		882B3E5313ECCB240085C888 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */,
+				881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */,
 				8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */,
 				8826123813F24A7800B21E91 /* TaskDetailCell.xib in Resources */,
+				881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -52,10 +52,30 @@
 #import "Task.h"
 #import "AsyncTask.h"
 #import "todo_txt_touch_iosAppDelegate.h"
+#import "ActionSheetPicker.h"
+#import "PriorityTextSplitter.h"
+
+NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* newText) {
+	NSUInteger length = oldRange.length;
+	
+	if (newText == nil) {
+		return NSMakeRange(0, length);
+	}
+	
+	if (oldText == nil) {
+		return NSMakeRange(newText.length, 0);
+	}
+	
+	NSInteger pos = oldRange.location + (newText.length - oldText.length);
+	pos = pos < 0 ? 0 : pos;
+	pos = pos > newText.length ? newText.length : pos;
+
+	return NSMakeRange(pos, length);
+}
 
 @implementation TaskEditViewController
 
-@synthesize delegate, text, task;
+@synthesize delegate, textView, accessoryView, task;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -79,11 +99,12 @@
 	[super viewWillAppear:animated];
 	if (task) {
 		self.title = @"Edit Task";	
-		text.text = [task inFileFormat];
+		textView.text = [task inFileFormat];
 	} else {
 		self.title = @"Add Task";
 	}
-	[text becomeFirstResponder];
+	curSelectedRange = textView.selectedRange;
+	[textView becomeFirstResponder];
 	
 }
 /*
@@ -93,6 +114,36 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
+#pragma mark -
+#pragma mark Text view delegate methods
+
+- (void)textViewDidBeginEditing:(UITextView *)aTextView {
+	textView.selectedRange = curSelectedRange;
+}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)aTextView {
+    
+    /*
+     You can create the accessory view programmatically (in code), in the same nib file as the view controller's main view, or from a separate nib file. This example illustrates the latter; it means the accessory view is loaded lazily -- only if it is required.
+     */
+    
+    if (textView.inputAccessoryView == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"TaskEditAccessoryView" owner:self options:nil];
+        // Loading the AccessoryView nib file sets the accessoryView outlet.
+        textView.inputAccessoryView = accessoryView;    
+        // After setting the accessory view for the text view, we no longer need a reference to the accessory view.
+        self.accessoryView = nil;
+    }
+	
+    return YES;
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)aTextView {
+	curSelectedRange = textView.selectedRange;
+    [aTextView resignFirstResponder];
+    return YES;
+}
 
 - (IBAction)cancelButtonPressed:(id)sender {
 	[self dismissModalViewControllerAnimated:YES];	
@@ -124,7 +175,7 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-	curInput = [[[[text text] 
+	curInput = [[[[textView text] 
 		componentsSeparatedByCharactersInSet:
 			[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 			   componentsJoinedByString:@" "] retain];
@@ -137,6 +188,52 @@
 	//TODO: progress dialog
 	[AsyncTask runTask:@selector(addEditTask) onTarget:self];
     
+}
+
+- (IBAction)helpButtonPressed:(id)sender {
+	// Display help text
+}
+
+- (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+	Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
+	NSString *newText = [NSString stringWithFormat:@"%@ %@",
+						 [selectedPriority fileFormat],
+						 [[PriorityTextSplitter split:textView.text] text]];
+	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+	textView.text = newText;
+
+	[textView becomeFirstResponder];
+}
+
+- (IBAction)segmentControlPressed:(id)sender {
+	[textView resignFirstResponder];
+	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	switch (segmentedControl.selectedSegmentIndex) {
+		case 0: // Priority
+			[ActionSheetPicker displayActionPickerWithView:self.view 
+													  data:[Priority allCodes]
+											 selectedIndex:0
+													target:self 
+													action:@selector(priorityWasSelected::) 
+													 title:@"Select Priority"];
+			break;
+		case 1: // Project
+//			[ActionSheetPicker displayActionPickerWithView:self.view 
+//													  data:[Sort descriptions]
+//											 selectedIndex:[sort name]
+//													target:self 
+//													action:@selector(sortOrderWasSelected::) 
+//													 title:@"Select Sort Order"];			
+			break;
+		case 2: // Project
+//			[ActionSheetPicker displayActionPickerWithView:self.view 
+//													  data:[Sort descriptions]
+//											 selectedIndex:[sort name]
+//													target:self 
+//													action:@selector(sortOrderWasSelected::) 
+//													 title:@"Select Sort Order"];			
+			break;			
+	}
 }
 
 
@@ -157,7 +254,8 @@
 }
 
 
-- (void)dealloc {	
+- (void)dealloc {		
+	[textView release];
     [super dealloc];
 }
 
