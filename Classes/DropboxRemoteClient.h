@@ -48,17 +48,22 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
+#import "RemoteClient.h"
+#import "DropboxSDK.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
+@interface DropboxRemoteClient : NSObject<RemoteClient> {
+    DBRestClient *restClient;
+	id<RemoteClientDelegate> delegate;
 }
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+@property (nonatomic, assign) id<RemoteClientDelegate> delegate;
 
-+ (NSString*) filename;
+- (BOOL) authenticate;
+- (void) deauthenticate;
+- (BOOL) isAuthenticated;
+- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
+- (void) pullTodo;
+- (void) pushTodo:(NSString*)path;
+- (BOOL) isAvailable;
 
 @end

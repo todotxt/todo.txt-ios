@@ -54,6 +54,7 @@
 @protocol TaskBag <NSObject>
 
 - (void) reload;
+- (void) reloadWithFile:(NSString*)file;
 - (void) addAsTask:(NSString*)input;
 - (Task*) update:(Task*)task;
 - (void) remove:(Task*)task;
@@ -65,9 +66,5 @@
 - (NSArray*) projects;
 - (NSArray*) contexts;
 - (NSArray*) priorities;
-- (void) pushToRemote;
-- (void) pushToRemote:(BOOL)overridePreference;
-- (void) pullFromRemote;
-- (void) pullFromRemote:(BOOL)overridePreference;
 
 @end

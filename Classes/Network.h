@@ -48,17 +48,18 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
+@class Reachability;
+
+@interface Network : NSObject {
+	Reachability* internetReachable;
+	Reachability* hostReachable;
+	BOOL isReachable;
 }
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+- (void) checkNetworkStatus:(NSNotification*)notice;
 
-+ (NSString*) filename;
++ (void) startNotifier;
++ (BOOL) isAvailable;
 
 @end

@@ -62,6 +62,8 @@
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
 
 - (IBAction)addButtonPressed:(id)sender;
+- (IBAction)syncButtonPressed:(id)sender;
 - (IBAction)segmentControlPressed:(id)sender;
+- (IBAction)logoutButtonPressed:(id)sender;
 
 @end

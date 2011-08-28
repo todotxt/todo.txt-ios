@@ -200,7 +200,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	}
 	
 	//TODO: toast?
-	//TODO: sync remote
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
 }
 

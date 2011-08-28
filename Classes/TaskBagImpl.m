@@ -48,6 +48,11 @@
  */
 
 #import "TaskBagImpl.h"
+#import "todo_txt_touch_iosAppDelegate.h"
+#import "RemoteClientManager.h"
+#import "RemoteClient.h"
+#import "LocalFileTaskRepository.h"
+#import "TaskIo.h"
 
 Task* find(NSArray *tasks, Task *task) {
 	for(int i = 0; i < [tasks count]; i++) {
@@ -78,6 +83,14 @@ Task* find(NSArray *tasks, Task *task) {
     [localTaskRepository create];
     [tasks release];
     tasks = [[localTaskRepository load] retain];
+}
+
+- (void) reloadWithFile:(NSString*)file {
+	if (file) {
+		NSMutableArray *remoteTasks = [TaskIo loadTasksFromFile:file];
+		[localTaskRepository store:remoteTasks];
+		[self reload];
+	}
 }
 
 - (void) addAsTask:(NSString*)input {
@@ -166,26 +179,6 @@ Task* find(NSArray *tasks, Task *task) {
 
 - (NSArray*) priorities {
     return [Priority all];
-}
-
-
-- (void) pushToRemote {
-    //TODO: pushToRemote
-}
-
-
-- (void) pushToRemote:(BOOL)overridePreference {
-    //TODO: pushToRemote
-}
-
-
-- (void) pullFromRemote {
-    //TODO: pullToRemote
-}
-
-
-- (void) pullFromRemote:(BOOL)overridePreference {
-    //TODO: pullToRemote
 }
 
 - (void) dealloc {

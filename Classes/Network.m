@@ -47,18 +47,63 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
+#import "Network.h"
+#import "Reachability.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
+static Network* sharedInstance = nil;
+
+@implementation Network
+
+- (void) checkNetworkStatus:(NSNotification*)notice {
+	// called after network status changes	
+	NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
+	isReachable = (internetStatus == NotReachable) ? NO : YES;
+	if (notice && isReachable) {
+		NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
+		isReachable = (hostStatus == NotReachable) ? NO : YES;
+	}
 }
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+- (id) init {
+	self = [super init];
+	if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+						selector:@selector(checkNetworkStatus:) 
+						name:kReachabilityChangedNotification object:nil];
+		
+		internetReachable = [[Reachability reachabilityForInternetConnection] retain];
+        [internetReachable startNotifier];
+		
+        hostReachable = [[Reachability reachabilityWithHostName: @"api-content.dropbox.com"] retain];
+        [hostReachable startNotifier];
+	}
+	 return self;
+}
 
-+ (NSString*) filename;
+- (BOOL) isAvailable {
+	return isReachable;
+}
+
+- (void) dealloc {
+	[super dealloc];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[internetReachable release];
+	[hostReachable release];
+}
+	 
++ (void) initialize {
+	sharedInstance = [[Network alloc] init];
+	[sharedInstance checkNetworkStatus:nil];
+}
+	
++ (void) startNotifier {
+	// Do nothing. initialize will be called automatically
+	// to start the notifier.
+}
+
++ (BOOL) isAvailable {
+	return [sharedInstance isAvailable];
+	return NO;
+}
 
 @end

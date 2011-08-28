@@ -48,17 +48,34 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
-}
+typedef enum {
+	ClientDropBox = 0
+} Client;
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+@protocol RemoteClientDelegate;
 
-+ (NSString*) filename;
+@protocol RemoteClient <NSObject> 
+
+- (Client) client;
+- (BOOL) authenticate;
+- (void) deauthenticate;
+- (BOOL) isAuthenticated;
+- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
+- (void) pullTodo;
+- (void) pushTodo:(NSString*)path;
+- (BOOL) isAvailable;
+
+@required
+@property (nonatomic, assign) id<RemoteClientDelegate> delegate;
+
+@end
+
+@protocol RemoteClientDelegate <NSObject>
+
+- (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath;
+- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
+- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
+
 
 @end

@@ -48,17 +48,15 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
+#import "RemoteClient.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
+@interface RemoteClientManager : NSObject {
+    Client currentClientToken;
+	id<RemoteClient> currentClient;
 }
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+@property (nonatomic, readonly) id<RemoteClient> currentClient;
 
-+ (NSString*) filename;
+- (id) initWithDelegate:(id<RemoteClientDelegate>)delegate;
 
 @end

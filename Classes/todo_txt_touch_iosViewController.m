@@ -76,6 +76,14 @@
 	}
 }
 
+- (void) reloadData:(NSNotification *) notification {
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
+	[tasks release];
+	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
+	[table reloadData];
+}
+
+
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -100,18 +108,28 @@
     [super viewDidLoad];
 	sort = [self sortOrderPref];
 	tasks = nil;
+	
+	// FIXME: This logout button is temporary until we implement the settings screen.
+	UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed:)];          
+	self.navigationItem.rightBarButtonItem = logoutButton;
+	[logoutButton release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	NSLog(@"viewWillAppear - tableview");
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
-	[tasks release];
-	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
-	[table reloadData];
 	[table setContentOffset:CGPointZero animated:NO];
+	[self reloadData:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reloadData:) 
+												 name:kTodoChangedNotification 
+											   object:nil];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -240,6 +258,29 @@
     TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
     [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentModalViewController:taskEditView animated:YES];
+}
+
+- (IBAction)syncButtonPressed:(id)sender {
+	NSLog(@"syncButtonPressed called");
+	[todo_txt_touch_iosAppDelegate syncClient];
+}
+
+- (IBAction)logoutButtonPressed:(id)sender {
+	NSLog(@"syncButtonPressed called");
+	
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+													 message:@"Are you sure you wish to log out of Dropbox?" 
+													delegate:self 
+										   cancelButtonTitle:@"Cancel"
+										   otherButtonTitles:nil] autorelease];
+    [alert addButtonWithTitle:@"Log out"];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [todo_txt_touch_iosAppDelegate logout];
+    }
 }
 
 - (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {

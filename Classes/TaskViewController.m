@@ -336,7 +336,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task release];
 	 
 	//TODO: toast?
-	//TODO: sync remote
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
 }
 
@@ -348,7 +348,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task release];
 	
 	//TODO: toast?
-	//TODO: sync remote
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
@@ -360,7 +360,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task release];
 	
 	//TODO: toast?
-	//TODO: sync remote
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
@@ -372,7 +372,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task release];
 	
 	//TODO: toast?
-	//TODO: sync remote
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 

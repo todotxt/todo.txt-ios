@@ -11,3 +11,4 @@ build/*
 *.perspectivev3
 
 xcuserdata
+dropbox.plist

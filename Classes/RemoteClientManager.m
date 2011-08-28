@@ -47,18 +47,35 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "LocalTaskRepository.h"
+#import "RemoteClientManager.h"
+#import "DropboxRemoteClient.h"
 
-@interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
-    
+@implementation RemoteClientManager
+
+@synthesize currentClient;
+
+- (id<RemoteClient>) getRemoteClient:(Client)clientToken {
+	return [[DropboxRemoteClient alloc] init];
 }
 
-- (void) create;
-- (void) purge;
-- (NSMutableArray*) load;
-- (void) store:(NSArray*)tasks;
+- (void) calculateRemoteClient {
+	currentClientToken = ClientDropBox;
+	currentClient = [self getRemoteClient:currentClientToken];
+}
 
-+ (NSString*) filename;
+- (id) initWithDelegate:(id<RemoteClientDelegate>)delegate {
+	self = [super init];
+	if (self) {
+		[self calculateRemoteClient];
+		currentClient.delegate = delegate;
+		[currentClient authenticate];
+	}
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+	[currentClient release];
+}
 
 @end

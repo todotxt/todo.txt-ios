@@ -49,23 +49,41 @@
 
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
+#import "RemoteClientManager.h"
+
+#define kTodoChangedNotification @"kTodoChangedNotification"
 
 @class todo_txt_touch_iosViewController;
 
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate> {
+@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate> {
     UIWindow *window;
     todo_txt_touch_iosViewController *viewController;
 	UINavigationController *navigationController;
     id <TaskBag> taskBag;
+	RemoteClientManager *remoteClientManager;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet todo_txt_touch_iosViewController *viewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, readonly) id <TaskBag> taskBag;
+@property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
+
+- (void) syncClient;
+- (void) syncClientForceChoice:(BOOL)forceChoice;
+- (void) pushToRemote;
+- (void) pullFromRemote;
+- (BOOL) isOfflineMode;
+- (void) logout;
 
 + (todo_txt_touch_iosAppDelegate*) sharedDelegate;
 + (id<TaskBag>) sharedTaskBag;
++ (RemoteClientManager*) sharedRemoteClientManager;
++ (void) syncClient;
++ (void) pushToRemote;
++ (void) pullFromRemote;
++ (BOOL) isOfflineMode;
++ (void) logout;
 
 @end
 
