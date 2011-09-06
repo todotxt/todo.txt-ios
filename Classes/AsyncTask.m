@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,32 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import "AsyncTask.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+static NSOperationQueue *operationQueue = nil;
+
+@implementation AsyncTask
+
++ (void) initialize {
+	if (!operationQueue) {
+		operationQueue = [[NSOperationQueue alloc] init];
+		[operationQueue setMaxConcurrentOperationCount:1];
+	}
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
++ (void)cancelAllTasks {
+	[operationQueue cancelAllOperations];
+}
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
++ (void) runTask:(SEL)selector onTarget:(id)target {
+	[self runTask:selector onTarget:target withArgument:nil];
+}
+
++ (void) runTask:(SEL)selector onTarget:(id)target withArgument:(id)argument {
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] 
+					initWithTarget:target selector:selector object:argument];
+    [operationQueue addOperation:operation];
+	[operation release];
+}
 
 @end

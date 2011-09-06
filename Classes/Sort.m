@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,51 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+#import "Sort.h"
+#import "Task.h"
+
+static NSArray* sortList = nil;
+
+@implementation Sort
+
+@synthesize name, description, comparator;
+
+
+- (id) initWithName:(SortName)theName withDescription:(NSString *)desc withSelector:(SEL)cmp {
+	self = [super init];
+	if (self) {
+		name = theName;
+		description = [desc retain];
+		comparator = cmp;
+	}
+	return self;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+- (void) dealloc {
+	[super dealloc];
+	[description release];
+}
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
++ (void) initialize {
+	sortList = [[NSArray arrayWithObjects:
+				 [[[Sort alloc] initWithName:SortPriority withDescription:@"Priority" withSelector:@selector(compareByPriority:)] autorelease],
+				 [[[Sort alloc] initWithName:SortIdAscending withDescription:@"ID Ascending" withSelector:@selector(compareByIdAscending:)] autorelease],
+				 [[[Sort alloc] initWithName:SortIdDescending withDescription:@"ID Descending" withSelector:@selector(compareByIdDescending:)] autorelease],
+				 [[[Sort alloc] initWithName:SortTextAscending withDescription:@"Text (A-Z)" withSelector:@selector(compareByTextAscending:)] autorelease],
+				nil] retain];
+}
+
++ (NSArray*) descriptions {
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[sortList count]];
+	for(Sort *sort in sortList) {
+		[ret addObject:[sort description]];
+	}
+	return ret;
+}
+
++ (Sort*) byName:(SortName)name {
+	return [sortList objectAtIndex:name];
+}
 
 @end

@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,63 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import "Network.h"
+#import "Reachability.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+static Network* sharedInstance = nil;
+
+@implementation Network
+
+- (void) checkNetworkStatus:(NSNotification*)notice {
+	// called after network status changes	
+	NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
+	isReachable = (internetStatus == NotReachable) ? NO : YES;
+	if (notice && isReachable) {
+		NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
+		isReachable = (hostStatus == NotReachable) ? NO : YES;
+	}
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+- (id) init {
+	self = [super init];
+	if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+						selector:@selector(checkNetworkStatus:) 
+						name:kReachabilityChangedNotification object:nil];
+		
+		internetReachable = [[Reachability reachabilityForInternetConnection] retain];
+        [internetReachable startNotifier];
+		
+        hostReachable = [[Reachability reachabilityWithHostName: @"api-content.dropbox.com"] retain];
+        [hostReachable startNotifier];
+	}
+	 return self;
+}
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+- (BOOL) isAvailable {
+	return isReachable;
+}
+
+- (void) dealloc {
+	[super dealloc];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[internetReachable release];
+	[hostReachable release];
+}
+	 
++ (void) initialize {
+	sharedInstance = [[Network alloc] init];
+	[sharedInstance checkNetworkStatus:nil];
+}
+	
++ (void) startNotifier {
+	// Do nothing. initialize will be called automatically
+	// to start the notifier.
+}
+
++ (BOOL) isAvailable {
+	return [sharedInstance isAvailable];
+	return NO;
+}
 
 @end

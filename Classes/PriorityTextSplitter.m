@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,60 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import "PriorityTextSplitter.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+static NSRegularExpression* priorityPattern = nil;
+
+@implementation PriorityTextSplitter
+
+@synthesize priority, text;
+
++ (void)initialize {
+	priorityPattern = [[NSRegularExpression alloc] 
+						initWithPattern:@"^\\(([A-Z])\\) (.*)"
+						options:0 
+						error:nil];
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+- (id) init {
+	self = [super init];
+	if (self) {
+		priority = [Priority NONE];
+		text = [[NSString alloc] init];
+	}
+	return self;
+}
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+- (id) initWithPriority:(Priority*)thePriority withText:(NSString*)theText {
+	self = [super init];
+	if (self) {
+		priority = thePriority;
+		text = [theText retain];
+	}
+	return self;
+}
+
++ (PriorityTextSplitter*) split:(NSString*)inputText {
+	if (!inputText) {
+		return [[[PriorityTextSplitter alloc] init] autorelease];
+	}
+	
+	NSTextCheckingResult *priorityMatch = [priorityPattern firstMatchInString:inputText
+									options:0
+									range:NSMakeRange(0, [inputText length])];
+	Priority *priority = [Priority NONE];
+	NSString* text = inputText;
+	if (priorityMatch) {
+		priority = [Priority byCode:[inputText substringWithRange:[priorityMatch rangeAtIndex:1]]];
+		text = [inputText substringWithRange:[priorityMatch rangeAtIndex:2]];
+	}	
+	
+	return [[[PriorityTextSplitter alloc] initWithPriority:priority withText:text] autorelease];
+}
+
+- (void)dealloc {
+	[text release];
+    [super dealloc];
+}
 
 @end

@@ -15,6 +15,9 @@
 		2899E5220DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* todo_txt_touch_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */; };
+		59216BFF13E7804700FF07EE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216BFD13E7804700FF07EE /* TaskEditViewController.m */; };
+		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
+		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
@@ -65,6 +68,33 @@
 		7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5705A312F8A06600BB5E8D /* db_logo@2x.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
 		7DBE2A3B12F7939200FD6A92 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */; };
+		8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */; };
+		8817330C13F10A9800B6B9F9 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 8817330B13F10A9800B6B9F9 /* Color.m */; };
+		881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */; };
+		8826123813F24A7800B21E91 /* TaskDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8826123713F24A7800B21E91 /* TaskDetailCell.xib */; };
+		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
+		882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5F13EE3E350085C888 /* TaskViewController.m */; };
+		882B3E8513EF46750085C888 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
+		882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8713EF46E80085C888 /* TextSplitter.m */; };
+		882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */; };
+		882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8D13EF47B70085C888 /* ProjectParser.m */; };
+		882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */; };
+		8831984313EBB55800EC5BC3 /* TaskIo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984213EBB55800EC5BC3 /* TaskIo.m */; };
+		8831984713EBBD1200EC5BC3 /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984613EBBD1200EC5BC3 /* DDFileReader.m */; };
+		8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */; };
+		8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */; };
+		8836D117140AE6CC0032DA4F /* dropbox.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8836D116140AE6CC0032DA4F /* dropbox.plist */; };
+		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
+		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
+		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
+		888065951401898E0036DE2A /* RemoteClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065941401898E0036DE2A /* RemoteClientManager.m */; };
+		88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 88806598140191A30036DE2A /* DropboxRemoteClient.m */; };
+		888065AE14019D3C0036DE2A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888065AD14019D3C0036DE2A /* CFNetwork.framework */; };
+		888065B11401A3D10036DE2A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065B01401A3D10036DE2A /* Reachability.m */; };
+		888065B71401A51C0036DE2A /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065B61401A51C0036DE2A /* Network.m */; };
+		888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888065B81401AF7D0036DE2A /* SystemConfiguration.framework */; };
+		88866D3113F794320073944B /* Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 88866D3013F794320073944B /* Sort.m */; };
+		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +110,12 @@
 		28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
+		59216BFC13E7804700FF07EE /* TaskEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskEditViewController.h; sourceTree = "<group>"; };
+		59216BFD13E7804700FF07EE /* TaskEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskEditViewController.m; sourceTree = "<group>"; };
+		59216C7313E8C89200FF07EE /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		59216C7413E8C89200FF07EE /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		59216D3C13EA318100FF07EE /* RelativeDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDate.h; sourceTree = "<group>"; };
+		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -168,6 +204,56 @@
 		7D5705A312F8A06600BB5E8D /* db_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "db_logo@2x.png"; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableCell.xib; sourceTree = SOURCE_ROOT; };
+		8817330A13F10A9800B6B9F9 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		8817330B13F10A9800B6B9F9 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
+		881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
+		881CA8401400834700AEAD20 /* RemoteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteClient.h; sourceTree = "<group>"; };
+		8826123713F24A7800B21E91 /* TaskDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskDetailCell.xib; sourceTree = "<group>"; };
+		882B3E5313ECCB240085C888 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
+		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
+		882B3E5E13EE3E340085C888 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
+		882B3E5F13EE3E350085C888 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
+		882B3E8313EF46740085C888 /* ContextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextParser.h; path = Classes/ContextParser.h; sourceTree = "<group>"; };
+		882B3E8413EF46740085C888 /* ContextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextParser.m; path = Classes/ContextParser.m; sourceTree = "<group>"; };
+		882B3E8613EF46E80085C888 /* TextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextSplitter.h; path = Classes/TextSplitter.h; sourceTree = "<group>"; };
+		882B3E8713EF46E80085C888 /* TextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextSplitter.m; path = Classes/TextSplitter.m; sourceTree = "<group>"; };
+		882B3E8913EF47610085C888 /* PriorityTextSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTextSplitter.h; path = Classes/PriorityTextSplitter.h; sourceTree = "<group>"; };
+		882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTextSplitter.m; path = Classes/PriorityTextSplitter.m; sourceTree = "<group>"; };
+		882B3E8C13EF47B70085C888 /* ProjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectParser.h; path = Classes/ProjectParser.h; sourceTree = "<group>"; };
+		882B3E8D13EF47B70085C888 /* ProjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectParser.m; path = Classes/ProjectParser.m; sourceTree = "<group>"; };
+		882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditViewController.xib; sourceTree = "<group>"; };
+		8831984113EBB55800EC5BC3 /* TaskIo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskIo.h; sourceTree = "<group>"; };
+		8831984213EBB55800EC5BC3 /* TaskIo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskIo.m; sourceTree = "<group>"; };
+		8831984513EBBD1200EC5BC3 /* DDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileReader.h; sourceTree = "<group>"; };
+		8831984613EBBD1200EC5BC3 /* DDFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileReader.m; sourceTree = "<group>"; };
+		8831984813EBC59E00EC5BC3 /* TaskBagFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBagFactory.h; path = Classes/TaskBagFactory.h; sourceTree = "<group>"; };
+		8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagFactory.m; path = Classes/TaskBagFactory.m; sourceTree = "<group>"; };
+		8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBagImpl.h; path = Classes/TaskBagImpl.h; sourceTree = "<group>"; };
+		8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagImpl.m; path = Classes/TaskBagImpl.m; sourceTree = "<group>"; };
+		8836D116140AE6CC0032DA4F /* dropbox.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dropbox.plist; sourceTree = "<group>"; };
+		883E42FC13EB7BDC002FEBCC /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBag.h; path = Classes/TaskBag.h; sourceTree = "<group>"; };
+		883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalTaskRepository.h; path = Classes/LocalTaskRepository.h; sourceTree = "<group>"; };
+		883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalFileTaskRepository.h; path = Classes/LocalFileTaskRepository.h; sourceTree = "<group>"; };
+		883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalFileTaskRepository.m; path = Classes/LocalFileTaskRepository.m; sourceTree = "<group>"; };
+		8858D0B613EA89C50083FA44 /* Priority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Priority.h; path = Classes/Priority.h; sourceTree = "<group>"; };
+		8858D0B713EA89C50083FA44 /* Priority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Priority.m; path = Classes/Priority.m; sourceTree = "<group>"; };
+		8858D0B813EA89C50083FA44 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Classes/Task.h; sourceTree = "<group>"; };
+		8858D0B913EA89C50083FA44 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Classes/Task.m; sourceTree = "<group>"; };
+		888065931401898E0036DE2A /* RemoteClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteClientManager.h; sourceTree = "<group>"; };
+		888065941401898E0036DE2A /* RemoteClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteClientManager.m; sourceTree = "<group>"; };
+		88806597140191A30036DE2A /* DropboxRemoteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxRemoteClient.h; sourceTree = "<group>"; };
+		88806598140191A30036DE2A /* DropboxRemoteClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxRemoteClient.m; sourceTree = "<group>"; };
+		888065AD14019D3C0036DE2A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		888065AF1401A3D10036DE2A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		888065B01401A3D10036DE2A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		888065B51401A51C0036DE2A /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		888065B61401A51C0036DE2A /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
+		888065B81401AF7D0036DE2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		88866D2F13F794320073944B /* Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sort.h; path = Classes/Sort.h; sourceTree = "<group>"; };
+		88866D3013F794320073944B /* Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sort.m; path = Classes/Sort.m; sourceTree = "<group>"; };
+		8887496B13F3715400871E49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
+		8887496C13F3715400871E49 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetPicker.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +262,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */,
+				888065AE14019D3C0036DE2A /* CFNetwork.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -189,10 +277,17 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				881CA83F1400825200AEAD20 /* Remote */,
+				59216D3B13EA316100FF07EE /* Util */,
+				59216B7613E64EA800FF07EE /* Task */,
 				1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */,
 				1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* todo_txt_touch_iosViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */,
+				59216BFC13E7804700FF07EE /* TaskEditViewController.h */,
+				59216BFD13E7804700FF07EE /* TaskEditViewController.m */,
+				882B3E5E13EE3E340085C888 /* TaskViewController.h */,
+				882B3E5F13EE3E350085C888 /* TaskViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -235,9 +330,14 @@
 				7D57054412F89F1900BB5E8D /* Icon-Small-50.png */,
 				7D57054512F89F1900BB5E8D /* Icon-Small.png */,
 				7D57054612F89F1900BB5E8D /* Icon.png */,
+				8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */,
+				8826123713F24A7800B21E91 /* TaskDetailCell.xib */,
+				882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */,
 				2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */,
+				881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */,
+				8836D116140AE6CC0032DA4F /* dropbox.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -245,12 +345,69 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				888065B81401AF7D0036DE2A /* SystemConfiguration.framework */,
+				888065AD14019D3C0036DE2A /* CFNetwork.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				7D5705D112F8A07E00BB5E8D /* Security.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		59216B7613E64EA800FF07EE /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				882B3E8313EF46740085C888 /* ContextParser.h */,
+				882B3E8413EF46740085C888 /* ContextParser.m */,
+				883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */,
+				883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */,
+				883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */,
+				8858D0B613EA89C50083FA44 /* Priority.h */,
+				8858D0B713EA89C50083FA44 /* Priority.m */,
+				882B3E8913EF47610085C888 /* PriorityTextSplitter.h */,
+				882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */,
+				882B3E8C13EF47B70085C888 /* ProjectParser.h */,
+				882B3E8D13EF47B70085C888 /* ProjectParser.m */,
+				8858D0B813EA89C50083FA44 /* Task.h */,
+				8858D0B913EA89C50083FA44 /* Task.m */,
+				883E42FC13EB7BDC002FEBCC /* TaskBag.h */,
+				8831984813EBC59E00EC5BC3 /* TaskBagFactory.h */,
+				8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */,
+				8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */,
+				8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */,
+				882B3E8613EF46E80085C888 /* TextSplitter.h */,
+				882B3E8713EF46E80085C888 /* TextSplitter.m */,
+				88866D2F13F794320073944B /* Sort.h */,
+				88866D3013F794320073944B /* Sort.m */,
+			);
+			name = Task;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		59216D3B13EA316100FF07EE /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				888065AF1401A3D10036DE2A /* Reachability.h */,
+				888065B01401A3D10036DE2A /* Reachability.m */,
+				8887496B13F3715400871E49 /* ActionSheetPicker.h */,
+				8887496C13F3715400871E49 /* ActionSheetPicker.m */,
+				882B3E5313ECCB240085C888 /* AsyncTask.h */,
+				882B3E5413ECCB240085C888 /* AsyncTask.m */,
+				8831984513EBBD1200EC5BC3 /* DDFileReader.h */,
+				8831984613EBBD1200EC5BC3 /* DDFileReader.m */,
+				59216D3C13EA318100FF07EE /* RelativeDate.h */,
+				59216D3D13EA318100FF07EE /* RelativeDate.m */,
+				8831984113EBB55800EC5BC3 /* TaskIo.h */,
+				8831984213EBB55800EC5BC3 /* TaskIo.m */,
+				59216C7313E8C89200FF07EE /* Util.h */,
+				59216C7413E8C89200FF07EE /* Util.m */,
+				8817330A13F10A9800B6B9F9 /* Color.h */,
+				8817330B13F10A9800B6B9F9 /* Color.m */,
+				888065B51401A51C0036DE2A /* Network.h */,
+				888065B61401A51C0036DE2A /* Network.m */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 		7D57054D12F8A06500BB5E8D /* DropboxSDK */ = {
@@ -382,6 +539,18 @@
 			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
+		881CA83F1400825200AEAD20 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				881CA8401400834700AEAD20 /* RemoteClient.h */,
+				88806597140191A30036DE2A /* DropboxRemoteClient.h */,
+				88806598140191A30036DE2A /* DropboxRemoteClient.m */,
+				888065931401898E0036DE2A /* RemoteClientManager.h */,
+				888065941401898E0036DE2A /* RemoteClientManager.m */,
+			);
+			name = Remote;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -449,6 +618,11 @@
 				7D5705CD12F8A06600BB5E8D /* db_link_header@2x.png in Resources */,
 				7D5705CE12F8A06600BB5E8D /* db_logo.png in Resources */,
 				7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */,
+				882B3E9013EF47F40085C888 /* TaskEditViewController.xib in Resources */,
+				8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */,
+				8826123813F24A7800B21E91 /* TaskDetailCell.xib in Resources */,
+				881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */,
+				8836D117140AE6CC0032DA4F /* dropbox.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +669,29 @@
 				7D5705C212F8A06600BB5E8D /* NSURL+MPURLParameterAdditions.m in Sources */,
 				7D5705C312F8A06600BB5E8D /* NSURLResponse+Encoding.m in Sources */,
 				7D5705C412F8A06600BB5E8D /* NSString+Dropbox.m in Sources */,
+				59216BFF13E7804700FF07EE /* TaskEditViewController.m in Sources */,
+				59216C7513E8C89200FF07EE /* Util.m in Sources */,
+				59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */,
+				8858D0BA13EA89C50083FA44 /* Priority.m in Sources */,
+				8858D0BB13EA89C50083FA44 /* Task.m in Sources */,
+				883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */,
+				8831984313EBB55800EC5BC3 /* TaskIo.m in Sources */,
+				8831984713EBBD1200EC5BC3 /* DDFileReader.m in Sources */,
+				8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */,
+				8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */,
+				882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */,
+				882B3E6113EE3E360085C888 /* TaskViewController.m in Sources */,
+				882B3E8513EF46750085C888 /* ContextParser.m in Sources */,
+				882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */,
+				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
+				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
+				8817330C13F10A9800B6B9F9 /* Color.m in Sources */,
+				8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */,
+				88866D3113F794320073944B /* Sort.m in Sources */,
+				888065951401898E0036DE2A /* RemoteClientManager.m in Sources */,
+				88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */,
+				888065B11401A3D10036DE2A /* Reachability.m in Sources */,
+				888065B71401A51C0036DE2A /* Network.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
