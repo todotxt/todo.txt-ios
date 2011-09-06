@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,54 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import <Foundation/Foundation.h>
+#import "Priority.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+
+@interface Task : NSObject {
+	NSString *originalText;
+	Priority *originalPriority;
+	
+	NSUInteger taskId;
+	Priority *priority;
+	BOOL deleted;
+	BOOL completed;
+	NSString *text;
+	NSString *completionDate;
+	NSString *prependedDate;
+	NSString *relativeAge;
+	NSArray *contexts;
+	NSArray *projects;	
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, readonly) NSString *originalText;
+@property (nonatomic, readonly) Priority *originalPriority;
+@property (nonatomic, readonly) NSUInteger taskId;
+@property (nonatomic, readonly) BOOL deleted;
+@property (nonatomic, readonly) BOOL completed;
+@property (nonatomic, readonly) NSString *text;
+@property (nonatomic, readonly) NSString *completionDate;
+@property (nonatomic, readonly) NSString *prependedDate;
+@property (nonatomic, readonly) NSString *relativeAge;
+@property (nonatomic, readonly) NSArray *contexts;
+@property (nonatomic, readonly) NSArray *projects;
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+@property (nonatomic, assign) Priority *priority;
+
+- (id)initWithId:(NSUInteger)newID withRawText:(NSString*)rawText withDefaultPrependedDate:(NSDate*)date;
+- (id)initWithId:(NSUInteger)taskID withRawText:(NSString*)rawText;
+- (void)update:(NSString*)rawText;
+- (void)markComplete:(NSDate*)date;
+- (void)markIncomplete;
+- (void)deleteTask;
+- (NSString*)inScreenFormat;
+- (NSString*)inFileFormat;
+- (void)copyInto:(Task*)destination;
+- (BOOL)isEqual:(id)anObject;
+- (NSUInteger)hash;
+- (NSComparisonResult) compareByIdAscending:(Task*)other;
+- (NSComparisonResult) compareByIdDescending:(Task*)other;
+- (NSComparisonResult) compareByPriority:(Task*)other;
+- (NSComparisonResult) compareByTextAscending:(Task*)other;
 
 @end

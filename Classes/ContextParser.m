@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,36 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import "ContextParser.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+static NSRegularExpression* contextPattern = nil;
+
+@implementation ContextParser
+
++ (void)initialize {
+	contextPattern = [[NSRegularExpression alloc] 
+					   initWithPattern:@"(?:^|\\s)@(\\S*\\w)"
+					   options:0 
+					   error:nil];
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
++ (NSArray*) parse:(NSString*)inputText {
+	if (!inputText) {
+		return [NSArray array];
+	}
+	
+	NSArray *contextMatches = 
+				 [contextPattern matchesInString:inputText
+					options:0
+					range:NSMakeRange(0, [inputText length])];
+	
+	NSMutableArray* contexts = [NSMutableArray arrayWithCapacity:[contextMatches count]];
+	for (NSTextCheckingResult *match in contextMatches) {
+		[contexts addObject:[inputText substringWithRange:[match rangeAtIndex:1]]];
+	}	
+	
+	return contexts;
+}
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
 
 @end

@@ -47,9 +47,41 @@
  */
 
 #import "todo_txt_touch_iosViewController.h"
+#import "todo_txt_touch_iosAppDelegate.h"
+#import "TaskEditViewController.h"
+#import "TaskViewController.h"
+#import "Color.h"
+#import "ActionSheetPicker.h"
+#import "AsyncTask.h"
 
 @implementation todo_txt_touch_iosViewController
 
+#pragma mark -
+#pragma mark Synthesizers
+
+@synthesize table, tableCell;
+
+- (Sort*) sortOrderPref {
+	SortName name = SortPriority;
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) name = [def integerForKey:@"sortOrder"];
+	return [Sort byName:name];
+}
+
+- (void) setSortOrderPref {
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) {
+		[def setInteger:[sort name] forKey:@"sortOrder"];
+		[AsyncTask runTask:@selector(synchronize) onTarget:def];
+	}
+}
+
+- (void) reloadData:(NSNotification *) notification {
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
+	[tasks release];
+	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
+	[table reloadData];
+}
 
 
 /*
@@ -70,13 +102,34 @@
 */
 
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	sort = [self sortOrderPref];
+	tasks = nil;
+	
+	// FIXME: This logout button is temporary until we implement the settings screen.
+	UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed:)];          
+	self.navigationItem.rightBarButtonItem = logoutButton;
+	[logoutButton release];
 }
-*/
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	NSLog(@"viewWillAppear - tableview");
+	[table setContentOffset:CGPointZero animated:NO];
+	[self reloadData:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reloadData:) 
+												 name:kTodoChangedNotification 
+											   object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -86,7 +139,177 @@
 }
 */
 
+#pragma mark -
+#pragma mark Table view datasource methods
+
+// Return the number of sections in table view
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+// Return the number of rows in the section of table view
+-(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
+{
+	return [tasks count];
+}
+
+// Return cell for the rows in table view
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// Create the cell identifier
+	static NSString *CellIdentifier = @"TaskTableCell";
+	
+	// Create the cell if cells are available with same cell identifier
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	// If there are no cells available, allocate a new one with Default style
+	if (cell == nil) {
+		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
+		cell = tableCell;
+		self.tableCell = nil;
+	}
+	
+	// Set the title for the cell
+	Task *task = [tasks objectAtIndex:indexPath.row];
+		
+	UILabel *label;
+    label = (UILabel *)[cell viewWithTag:1];
+    label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
+	
+    label = (UILabel *)[cell viewWithTag:2];
+    label.text = [[task priority] listFormat];
+	// Set the priority color
+	PriorityName n = [[task priority] name];
+	switch (n) {
+		case PriorityA:
+			//Set color to green #587058
+			label.textColor = [Color green];
+			break;
+		case PriorityB:
+			//Set color to blue #587498
+			label.textColor = [Color blue];
+			break;
+		case PriorityC:
+			//Set color to orange #E86850
+			label.textColor = [Color orange];
+			break;
+		case PriorityD:
+			//Set color to gold #587058
+			label.textColor = [Color gold];
+			break;			
+		default:
+			//Set color to black #000000
+			label.textColor = [Color black];
+			break;
+	}
+	
+    label = (UILabel *)[cell viewWithTag:3];
+    label.text = [task inScreenFormat];
+	if ([task completed]) {
+		// TODO: There doesn't seem to be a strikethrough option for UILabel.
+		// For now, let's just disable the label.
+		label.enabled = NO;
+	} else {
+		label.enabled = YES;
+	}
+	
+	label = (UILabel *)[cell viewWithTag:4];
+    if (![task completed]) {
+		label.text = [task relativeAge];
+	} else {
+		label.text = @"";
+	}
+	
+	return cell;
+}
+
+
+#pragma mark -
+#pragma mark Table view delegate methods
+
+// Return the height for tableview cells
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 50; // Default height for the cell is 44 px;
+}
+
+// Load the detail view controller when user taps the row
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
+    
+	/*
+     When a row is selected, create the detail view controller and set its detail item to the item associated with the selected row.
+     */
+    TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    detailViewController.taskIndex = 
+		[[todo_txt_touch_iosAppDelegate sharedTaskBag] indexOfTask:
+			[tasks objectAtIndex:indexPath.row]];
+    
+    // Push the detail view controller.
+    [[self navigationController] pushViewController:detailViewController animated:YES];
+    [detailViewController release];
+}
+
+- (IBAction)addButtonPressed:(id)sender {
+	NSLog(@"addButtonPressed called");
+    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
+    [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentModalViewController:taskEditView animated:YES];
+}
+
+- (IBAction)syncButtonPressed:(id)sender {
+	NSLog(@"syncButtonPressed called");
+	[todo_txt_touch_iosAppDelegate syncClient];
+}
+
+- (IBAction)logoutButtonPressed:(id)sender {
+	NSLog(@"syncButtonPressed called");
+	
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+													 message:@"Are you sure you wish to log out of Dropbox?" 
+													delegate:self 
+										   cancelButtonTitle:@"Cancel"
+										   otherButtonTitles:nil] autorelease];
+    [alert addButtonWithTitle:@"Log out"];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [todo_txt_touch_iosAppDelegate logout];
+    }
+}
+
+- (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
+	sort = [Sort byName:selectedIndex.intValue];
+	[self setSortOrderPref];
+	[tasks release];
+	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
+	[table reloadData];
+    [table setContentOffset:CGPointZero animated:NO];	
+}
+
+- (IBAction)segmentControlPressed:(id)sender {
+	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	switch (segmentedControl.selectedSegmentIndex) {
+		case 0: // Filter
+			break;
+		case 1: // Sort
+			[ActionSheetPicker displayActionPickerWithView:self.view 
+					data:[Sort descriptions]
+					selectedIndex:[sort name]
+					target:self 
+					action:@selector(sortOrderWasSelected::) 
+					 title:@"Select Sort Order"];			
+			break;
+	}
+}
+
 - (void)didReceiveMemoryWarning {
+	NSLog(@"Memory warning!");
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
@@ -96,10 +319,12 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.table = nil;
 }
 
 
 - (void)dealloc {
+	[table release];
     [super dealloc];
 }
 

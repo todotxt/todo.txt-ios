@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -23,6 +23,7 @@
  * @author Shawn McGuire <mcguiresm[at]gmail[dot]com> 
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
+ *
  *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
@@ -47,23 +48,36 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
+#import "Task.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+@class TaskEditViewController;
+
+@protocol TaskEditViewControllerDelegate <NSObject>
+
+@optional
+
+- (void)taskEditViewController:(TaskEditViewController *)controller didUpdateTask:(Task *)task;
+
+@end
+
+@interface TaskEditViewController : UIViewController <UITextViewDelegate>{
+	 id <TaskEditViewControllerDelegate> delegate;
+	UITextView *textView; 
+	UIView *accessoryView;
+	NSString *curInput;
+	Task *task;
+	NSRange curSelectedRange;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UITextView *textView;
+@property (nonatomic, assign) IBOutlet UIView *accessoryView;
+@property (nonatomic, retain) Task *task;
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
+- (IBAction)cancelButtonPressed:(id)sender;
+- (IBAction)doneButtonPressed:(id)sender;
+- (IBAction)helpButtonPressed:(id)sender;
 - (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+- (void) addEditTask;
 
 @end

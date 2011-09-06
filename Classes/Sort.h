@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosViewController.h
+ * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
+ *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,24 +47,29 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
+#import <Foundation/Foundation.h>
+
+typedef enum {
+	SortPriority = 0,
+	SortIdAscending,
+	SortIdDescending,
+	SortTextAscending,
+} SortName;
+
+@interface Sort : NSObject {
+	SortName name;
+	NSString *description;
+    SEL comparator;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, readonly) SortName name;
+@property (nonatomic, readonly) NSString *description;
+@property (nonatomic, readonly) SEL comparator;
 
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+- (id) initWithName:(SortName)name withDescription:(NSString*)desc withSelector:(SEL)cmp;
+
++ (NSArray*) descriptions;
++ (Sort*) byName:(SortName)name;
 
 @end

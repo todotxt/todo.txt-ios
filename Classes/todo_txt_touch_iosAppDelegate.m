@@ -48,23 +48,73 @@
 
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "todo_txt_touch_iosViewController.h"
+#import "TaskBag.h"
+#import "TaskBagFactory.h"
+#import "AsyncTask.h"
+#import "Network.h"
+#import "LocalFileTaskRepository.h"
 
 @implementation todo_txt_touch_iosAppDelegate
 
 @synthesize window;
 @synthesize viewController;
+@synthesize navigationController;
+@synthesize taskBag;
+@synthesize remoteClientManager;
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 
++ (todo_txt_touch_iosAppDelegate*) sharedDelegate {
+	return (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
++ (id<TaskBag>) sharedTaskBag {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] taskBag];
+}
+
++ (RemoteClientManager*) sharedRemoteClientManager {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] remoteClientManager];
+}
+
++ (void) syncClient {	
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
+}
+
++ (void) pushToRemote {	
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
+}
+
++ (void) pullFromRemote {
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] pullFromRemote];
+}
+
++ (BOOL) isOfflineMode {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] isOfflineMode];
+}
+
++ (void) logout {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] logout];
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-    // Override point for customization after application launch.
-
+    remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
+    taskBag = [[TaskBagFactory getTaskBag] retain];
+		
+	// Start listening for network status updates.
+	[Network startNotifier];
+	
     // Add the view controller's view to the window and display.
-    [self.window addSubview:viewController.view];
-    [self.window makeKeyAndVisible];
+    [self.window addSubview:navigationController.view];
+
+	if (![remoteClientManager.currentClient isAuthenticated]) {
+		[remoteClientManager.currentClient presentLoginControllerFromController:navigationController];
+	}
+	
+	[self.window makeKeyAndVisible];
 
     return YES;
 }
@@ -97,6 +147,7 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+	[self syncClient];
 }
 
 
@@ -105,6 +156,89 @@
      Called when the application is about to terminate.
      See also applicationDidEnterBackground:.
      */
+}
+
+#pragma mark -
+#pragma mark Remote functions
+
+- (void) syncClient {
+	[self syncClientForceChoice:NO];
+}
+
+- (void) syncClientForceChoice:(BOOL)forceChoice {
+	if ([self isOfflineMode] || forceChoice) {
+		if (![remoteClientManager.currentClient isAvailable]) {
+			// TODO: go offline
+		} else {
+			// TODO: sync choice dialog
+		}
+	} else {
+		if (![remoteClientManager.currentClient isAvailable]) {
+			// TODO: go offline
+		} else {
+			[self pullFromRemote];
+		}
+	}
+}
+
+- (void) pushToRemote {
+	if ([self isOfflineMode]) {
+		return;
+	}
+	
+	if (![remoteClientManager.currentClient isAvailable]) {
+		// TODO: go offline
+	} else {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		// We probably shouldn't be assuming LocalFileTaskRepository here, 
+		// but that is what the Android app does, so why not?
+		[remoteClientManager.currentClient pushTodo:[LocalFileTaskRepository filename]];
+		// pushTodo is asynchronous. When it returns, it will call
+		// the delegate method 'uploadedFile'
+	}	
+}
+
+- (void) pullFromRemote {
+	if ([self isOfflineMode]) {
+		return;
+	}
+	
+	if (![remoteClientManager.currentClient isAvailable]) {
+		// TODO: go offline
+	} else {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		[remoteClientManager.currentClient pullTodo];
+		// pullTodo is asynchronous. When it returns, it will call
+		// the delegate method 'loadedFile'
+	}	
+}
+
+- (BOOL) isOfflineMode {
+	//TODO implement isOfflineMode
+	return NO;
+}
+
+- (void) logout {
+	[remoteClientManager.currentClient deauthenticate];
+	// TODO: delete user preferences
+
+	[remoteClientManager.currentClient presentLoginControllerFromController:navigationController];
+}
+
+#pragma mark -
+#pragma mark RemoteClientDelegate methods
+
+- (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath {
+	if (destPath) {
+		[taskBag reloadWithFile:destPath];
+		// Send notification so that whichever screen is active can refresh itself
+		[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
+	}
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+}
+
+- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 
@@ -117,10 +251,18 @@
      */
 }
 
+- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
+	if (success) {
+		[self syncClient];
+	}
+}
 
 - (void)dealloc {
     [viewController release];
+	[navigationController release];
     [window release];
+    [taskBag release];
+	[remoteClientManager release];
     [super dealloc];
 }
 
