@@ -106,6 +106,13 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	self.title = @"Todo.txt Touch";
+	self.navigationItem.backBarButtonItem =
+		[[[UIBarButtonItem alloc] initWithTitle:@"Task List"
+										  style:UIBarButtonItemStyleBordered
+										 target:nil
+										 action:nil] autorelease];
+	
 	sort = [self sortOrderPref];
 	tasks = nil;
 	

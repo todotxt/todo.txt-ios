@@ -48,6 +48,7 @@
 
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "todo_txt_touch_iosViewController.h"
+#import "LoginScreenViewController.h"
 #import "TaskBag.h"
 #import "TaskBagFactory.h"
 #import "AsyncTask.h"
@@ -98,6 +99,15 @@
 	return [[todo_txt_touch_iosAppDelegate sharedDelegate] logout];
 }
 
+- (void) presentLoginController {
+	navigationController.viewControllers = [NSArray arrayWithObject:[[[LoginScreenViewController alloc] init] autorelease]];
+	navigationController.navigationBar.hidden = YES;
+}
+
+- (void) presentMainViewController {
+	navigationController.viewControllers = [NSArray arrayWithObject:viewController];
+	navigationController.navigationBar.hidden = NO;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
@@ -111,7 +121,7 @@
     [self.window addSubview:navigationController.view];
 
 	if (![remoteClientManager.currentClient isAuthenticated]) {
-		[remoteClientManager.currentClient presentLoginControllerFromController:navigationController];
+		[self presentLoginController];
 	}
 	
 	[self.window makeKeyAndVisible];
@@ -147,7 +157,9 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-	[self syncClient];
+	if ([remoteClientManager.currentClient isAuthenticated]) {
+		[self syncClient];
+	}
 }
 
 
@@ -220,9 +232,9 @@
 
 - (void) logout {
 	[remoteClientManager.currentClient deauthenticate];
+	[self presentLoginController];
 	// TODO: delete user preferences
 
-	[remoteClientManager.currentClient presentLoginControllerFromController:navigationController];
 }
 
 #pragma mark -
@@ -241,6 +253,12 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
+- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
+	if (success) {
+		[self syncClient];
+		[self presentMainViewController];
+	}
+}
 
 #pragma mark -
 #pragma mark Memory management
@@ -249,12 +267,6 @@
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
-}
-
-- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
-	if (success) {
-		[self syncClient];
-	}
 }
 
 - (void)dealloc {
