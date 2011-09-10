@@ -95,6 +95,12 @@
 		888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888065B81401AF7D0036DE2A /* SystemConfiguration.framework */; };
 		88866D3113F794320073944B /* Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 88866D3013F794320073944B /* Sort.m */; };
 		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
+		88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AAFC621419CB960062BBF6 /* Icon@2x.png */; };
+		88F1AB2A1412D5F100AB3D18 /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */; };
+		88F1AB2B1412D5F100AB3D18 /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */; };
+		88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */; };
+		88F1AB391412EA1700AB3D18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB371412EA1700AB3D18 /* Default.png */; };
+		88F1AB3A1412EA1700AB3D18 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB381412EA1700AB3D18 /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -254,6 +260,13 @@
 		88866D3013F794320073944B /* Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sort.m; path = Classes/Sort.m; sourceTree = "<group>"; };
 		8887496B13F3715400871E49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
 		8887496C13F3715400871E49 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetPicker.m; sourceTree = "<group>"; };
+		88AAFC621419CB960062BBF6 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		88F1AB271412D5F000AB3D18 /* LoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScreenViewController.h; sourceTree = "<group>"; };
+		88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginScreenViewController.m; sourceTree = "<group>"; };
+		88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoginScreenViewController.xib; path = Classes/LoginScreenViewController.xib; sourceTree = "<group>"; };
+		88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todotxt_touch_256.png; sourceTree = "<group>"; };
+		88F1AB371412EA1700AB3D18 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		88F1AB381412EA1700AB3D18 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -288,6 +301,8 @@
 				59216BFD13E7804700FF07EE /* TaskEditViewController.m */,
 				882B3E5E13EE3E340085C888 /* TaskViewController.h */,
 				882B3E5F13EE3E350085C888 /* TaskViewController.m */,
+				88F1AB271412D5F000AB3D18 /* LoginScreenViewController.h */,
+				88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -326,6 +341,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				88AAFC621419CB960062BBF6 /* Icon@2x.png */,
+				88F1AB371412EA1700AB3D18 /* Default.png */,
+				88F1AB381412EA1700AB3D18 /* Default@2x.png */,
+				88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */,
 				7D57054312F89F1900BB5E8D /* Icon-72.png */,
 				7D57054412F89F1900BB5E8D /* Icon-Small-50.png */,
 				7D57054512F89F1900BB5E8D /* Icon-Small.png */,
@@ -333,6 +352,7 @@
 				8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */,
 				8826123713F24A7800B21E91 /* TaskDetailCell.xib */,
 				882B3E8F13EF47F40085C888 /* TaskEditViewController.xib */,
+				88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */,
 				2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */,
@@ -623,6 +643,11 @@
 				8826123813F24A7800B21E91 /* TaskDetailCell.xib in Resources */,
 				881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */,
 				8836D117140AE6CC0032DA4F /* dropbox.plist in Resources */,
+				88F1AB2B1412D5F100AB3D18 /* LoginScreenViewController.xib in Resources */,
+				88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */,
+				88F1AB391412EA1700AB3D18 /* Default.png in Resources */,
+				88F1AB3A1412EA1700AB3D18 /* Default@2x.png in Resources */,
+				88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,6 +717,7 @@
 				88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */,
 				888065B11401A3D10036DE2A /* Reachability.m in Sources */,
 				888065B71401A51C0036DE2A /* Network.m in Sources */,
+				88F1AB2A1412D5F100AB3D18 /* LoginScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,7 +737,7 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -726,7 +752,7 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -740,7 +766,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -755,7 +781,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
