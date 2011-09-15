@@ -104,7 +104,7 @@
 							<object class="IBUILabel" id="582789884">
 								<reference key="NSNextResponder" ref="186440033"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{46, 5}, {235, 18}}</string>
+								<string key="NSFrame">{{46, 5}, {235, 19}}</string>
 								<reference key="NSSuperview" ref="186440033"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="64906"/>
@@ -136,6 +136,7 @@
 								<string key="NSFrame">{{46, 27}, {235, 13}}</string>
 								<reference key="NSSuperview" ref="186440033"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="677823335"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -289,14 +290,49 @@
 					<string key="className">todo_txt_touch_iosViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">addButtonPressed:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addButtonPressed:</string>
+							<string>segmentControlPressed:</string>
+							<string>settingsButtonPressed:</string>
+							<string>syncButtonPressed:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">addButtonPressed:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">addButtonPressed:</string>
-							<string key="candidateClassName">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addButtonPressed:</string>
+							<string>segmentControlPressed:</string>
+							<string>settingsButtonPressed:</string>
+							<string>syncButtonPressed:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">addButtonPressed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">segmentControlPressed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">settingsButtonPressed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">syncButtonPressed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">

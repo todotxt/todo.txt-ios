@@ -55,7 +55,7 @@
 
 @class todo_txt_touch_iosViewController;
 
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate> {
+@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate> {
     UIWindow *window;
     todo_txt_touch_iosViewController *viewController;
 	UINavigationController *navigationController;
@@ -74,6 +74,7 @@
 - (void) pushToRemote;
 - (void) pullFromRemote;
 - (BOOL) isOfflineMode;
+- (BOOL) setOfflineMode:(BOOL)goOffline;
 - (void) logout;
 
 + (todo_txt_touch_iosAppDelegate*) sharedDelegate;
@@ -83,6 +84,7 @@
 + (void) pushToRemote;
 + (void) pullFromRemote;
 + (BOOL) isOfflineMode;
++ (BOOL) setOfflineMode:(BOOL)goOffline;
 + (void) logout;
 
 @end

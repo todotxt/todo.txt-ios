@@ -71,7 +71,7 @@
     return items;
 }
 
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename {
++ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename withWindowsBreaks:(BOOL)useWindowsBreaks {
     [[NSFileManager defaultManager] createFileAtPath:filename
                                             contents:nil attributes:nil];
     NSFileHandle *fileHandle = 
@@ -80,8 +80,11 @@
     for (Task *task in tasks) {
         [fileHandle writeData:
             [[task inFileFormat] dataUsingEncoding:NSUTF8StringEncoding]];
-        [fileHandle writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-		
+		if (useWindowsBreaks) {
+			[fileHandle writeData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+		} else {
+			[fileHandle writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+		}
     }
     
     [fileHandle closeFile];

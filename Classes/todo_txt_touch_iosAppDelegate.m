@@ -95,6 +95,10 @@
 	return [[todo_txt_touch_iosAppDelegate sharedDelegate] isOfflineMode];
 }
 
++ (BOOL) setOfflineMode:(BOOL)goOffline {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] setOfflineMode:goOffline];
+}
+
 + (void) logout {
 	return [[todo_txt_touch_iosAppDelegate sharedDelegate] logout];
 }
@@ -110,7 +114,17 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    
+   
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+								 @"NO", @"show_line_numbers_preference", 
+								 @"NO", @"date_new_tasks_preference", 
+								 @"NO", @"show_task_age_preference", 
+								 @"NO", @"windows_line_breaks_preference", 
+								 @"NO", @"work_offline_preference", 
+								 @"/todo", @"file_location_preference", nil];	
+    [defaults registerDefaults:appDefaults];
+	
     remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
     taskBag = [[TaskBagFactory getTaskBag] retain];
 		
@@ -150,6 +164,10 @@
     /*
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults synchronize];
+	[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
+	
 }
 
 
@@ -157,7 +175,8 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-	if ([remoteClientManager.currentClient isAuthenticated]) {
+	
+	if (![self isOfflineMode] && [remoteClientManager.currentClient isAuthenticated]) {
 		[self syncClient];
 	}
 }
@@ -180,17 +199,37 @@
 - (void) syncClientForceChoice:(BOOL)forceChoice {
 	if ([self isOfflineMode] || forceChoice) {
 		if (![remoteClientManager.currentClient isAvailable]) {
-			// TODO: go offline
+			// TODO: toast?
+			[self setOfflineMode:YES];
 		} else {
-			// TODO: sync choice dialog
+			UIActionSheet* dlg = [[UIActionSheet alloc] 
+                                  initWithTitle:@"Manual Sync: Do you want to upload or download your todo.txt file?"
+                                  delegate:self 
+                                  cancelButtonTitle:@"Cancel" 
+                                  destructiveButtonTitle:nil 
+                                  otherButtonTitles:@"Upload Changes", @"Download to device", nil ];
+            dlg.tag = 10;
+            [dlg showInView:self.navigationController.visibleViewController.view];
+            [dlg release];		
 		}
 	} else {
 		if (![remoteClientManager.currentClient isAvailable]) {
-			// TODO: go offline
+			// TODO: toast?
+			[self setOfflineMode:YES];
 		} else {
 			[self pullFromRemote];
 		}
 	}
+}
+
+-(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (actionSheet.tag == 10) {
+        if (buttonIndex == [actionSheet firstOtherButtonIndex]) {
+            [self pushToRemote];
+        } else if (buttonIndex == [actionSheet firstOtherButtonIndex] + 1){
+            [self pullFromRemote];
+        }
+	} 
 }
 
 - (void) pushToRemote {
@@ -199,7 +238,8 @@
 	}
 	
 	if (![remoteClientManager.currentClient isAvailable]) {
-		// TODO: go offline
+		// TODO: toast?
+		[self setOfflineMode:YES];
 	} else {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		// We probably shouldn't be assuming LocalFileTaskRepository here, 
@@ -216,7 +256,8 @@
 	}
 	
 	if (![remoteClientManager.currentClient isAvailable]) {
-		// TODO: go offline
+		// TODO: toast?
+		[self setOfflineMode:YES];
 	} else {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		[remoteClientManager.currentClient pullTodo];
@@ -226,8 +267,15 @@
 }
 
 - (BOOL) isOfflineMode {
-	//TODO implement isOfflineMode
-	return NO;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	return [defaults boolForKey:@"work_offline_preference"];
+}
+
+- (BOOL) setOfflineMode:(BOOL)goOffline {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL oldValue = [defaults boolForKey:@"work_offline_preference"];
+	[defaults setBool:goOffline forKey:@"work_offline_preference"];
+	return oldValue;
 }
 
 - (void) logout {

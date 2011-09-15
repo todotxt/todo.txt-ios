@@ -49,21 +49,24 @@
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
 #import "Sort.h"
+#import "IASKAppSettingsViewController.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, UITableViewDelegate, UITableViewDataSource> {
 	// The instance of the table view
 	UITableView *table; 
 	UITableViewCell *tableCell; 
 	NSArray *tasks;
 	Sort *sort;
+    IASKAppSettingsViewController *appSettingsViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;
 - (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)logoutButtonPressed:(id)sender;
+- (IBAction)settingsButtonPressed:(id)sender;
 
 @end
