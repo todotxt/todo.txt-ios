@@ -95,8 +95,16 @@ Task* find(NSArray *tasks, Task *task) {
 
 - (void) addAsTask:(NSString*)input {
     [self reload];
-    // TODO: utilize prependedDate preference
-    Task *task = [[Task alloc] initWithId:[tasks count] withRawText:input];
+    
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSDate *date = nil;
+	if ([defaults boolForKey:@"date_new_tasks_preference"]) {
+		date = [NSDate date];
+	}
+	
+    Task *task = [[Task alloc] initWithId:[tasks count] 
+							  withRawText:input 
+				 withDefaultPrependedDate:date];
     [tasks addObject:task];
 	[task release];
     [localTaskRepository store:tasks];

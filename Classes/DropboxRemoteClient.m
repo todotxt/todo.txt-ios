@@ -127,11 +127,11 @@
 	}
 
 	if (![self isAvailable]) {
-		// TODO: signal go offline
 		return;
 	}
 	
-	NSString *remotePath = @"/todo/todo.txt"; //FIXME: get remote path from preferences
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *remotePath = [[defaults stringForKey:@"file_location_preference"] stringByAppendingString:@"/todo.txt"];
 	NSString *localPath = [self todoTxtTmpFile];
 	
 	[self.restClient loadFile:remotePath intoPath:localPath];
@@ -142,7 +142,9 @@
 		[self performSelectorOnMainThread:@selector(pushTodo) withObject:path waitUntilDone:NO];
 		return;
 	}
-	NSString *remotePath = @"/todo"; //FIXME: get remote path from preferences
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
 	[self.restClient uploadFile:@"todo.txt" toPath:remotePath fromPath:path];
 }
 
