@@ -54,12 +54,21 @@
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
 
+#define PRI_XPOS_SHORT 28
+#define PRI_XPOS_LONG 10
+#define TEXT_XPOS_SHORT 46
+#define TEXT_WIDTH_SHORT 235
+#define TEXT_XPOS_LONG PRI_XPOS_SHORT
+#define TEXT_WIDTH_LONG 253
+#define TEXT_HEIGHT_SHORT 19
+#define TEXT_HEIGHT_LONG 35
+
 @implementation todo_txt_touch_iosViewController
 
 #pragma mark -
 #pragma mark Synthesizers
 
-@synthesize table, tableCell;
+@synthesize table, tableCell, appSettingsViewController;
 
 - (Sort*) sortOrderPref {
 	SortName name = SortPriority;
@@ -117,9 +126,9 @@
 	tasks = nil;
 	
 	// FIXME: This logout button is temporary until we implement the settings screen.
-	UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed:)];          
-	self.navigationItem.rightBarButtonItem = logoutButton;
-	[logoutButton release];
+	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];          
+	self.navigationItem.rightBarButtonItem = addButton;
+	[addButton release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -177,14 +186,27 @@
 		self.tableCell = nil;
 	}
 	
-	// Set the title for the cell
-	Task *task = [tasks objectAtIndex:indexPath.row];
-		
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	Task *task = [tasks objectAtIndex:indexPath.row];		
 	UILabel *label;
-    label = (UILabel *)[cell viewWithTag:1];
-    label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
+	
+	
+	label = (UILabel *)[cell viewWithTag:1];
+	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
+		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
+		label.hidden = NO;
+	} else {
+		label.hidden = YES;
+	}
 	
     label = (UILabel *)[cell viewWithTag:2];
+    CGRect labelFrame = label.frame;
+    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
+        labelFrame.origin.x = PRI_XPOS_SHORT;//28
+    } else {
+        labelFrame.origin.x = PRI_XPOS_LONG;//10
+    }
+    label.frame = labelFrame;
     label.text = [[task priority] listFormat];
 	// Set the priority color
 	PriorityName n = [[task priority] name];
@@ -212,6 +234,20 @@
 	}
 	
     label = (UILabel *)[cell viewWithTag:3];
+    labelFrame = label.frame;
+    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
+        labelFrame.origin.x = TEXT_XPOS_SHORT;//46;
+        labelFrame.size.width = TEXT_WIDTH_SHORT;//235;
+    } else {
+        labelFrame.origin.x = TEXT_XPOS_LONG;//28;
+        labelFrame.size.width = TEXT_WIDTH_LONG;//253;
+    }
+    if ([defaults boolForKey:@"show_task_age_preference"] && ![task completed]) {
+        labelFrame.size.height = TEXT_HEIGHT_SHORT;//19;
+    } else {
+        labelFrame.size.height = TEXT_HEIGHT_LONG;//35;
+    }
+    label.frame = labelFrame;
     label.text = [task inScreenFormat];
 	if ([task completed]) {
 		// TODO: There doesn't seem to be a strikethrough option for UILabel.
@@ -222,10 +258,21 @@
 	}
 	
 	label = (UILabel *)[cell viewWithTag:4];
-    if (![task completed]) {
+	if ([defaults boolForKey:@"show_task_age_preference"] && ![task completed]) {
+        labelFrame = label.frame;
+        if ([defaults boolForKey:@"show_line_numbers_preference"]) {
+            labelFrame.origin.x = TEXT_XPOS_SHORT;
+            labelFrame.size.width = TEXT_WIDTH_SHORT;
+        } else {
+            labelFrame.origin.x = TEXT_XPOS_LONG;
+            labelFrame.size.width = TEXT_WIDTH_LONG;
+        }
+        label.frame = labelFrame;
 		label.text = [task relativeAge];
+		label.hidden = NO;
 	} else {
 		label.text = @"";
+		label.hidden = YES;
 	}
 	
 	return cell;
@@ -272,20 +319,47 @@
 	[todo_txt_touch_iosAppDelegate syncClient];
 }
 
-- (IBAction)logoutButtonPressed:(id)sender {
-	NSLog(@"syncButtonPressed called");
+- (IBAction)settingsButtonPressed:(id)sender {
+    UINavigationController *aNavController = [[UINavigationController alloc] initWithRootViewController:self.appSettingsViewController];
+    //[viewController setShowCreditsFooter:NO];   // Uncomment to not display InAppSettingsKit credits for creators.
+    // But we encourage you not to uncomment. Thank you!
+    self.appSettingsViewController.showDoneButton = YES;
+    [self presentModalViewController:aNavController animated:YES];
+    [aNavController release];
+}
+
+- (IASKAppSettingsViewController*)appSettingsViewController {
+	if (!appSettingsViewController) {
+		appSettingsViewController = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
+		appSettingsViewController.delegate = self;
+	}
+	return appSettingsViewController;
+}
+
+#pragma mark -
+#pragma mark IASKAppSettingsViewControllerDelegate protocol
+- (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
+    [self dismissModalViewControllerAnimated:YES];
 	
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
-													 message:@"Are you sure you wish to log out of Dropbox?" 
-													delegate:self 
-										   cancelButtonTitle:@"Cancel"
-										   otherButtonTitles:nil] autorelease];
-    [alert addButtonWithTitle:@"Log out"];
-    [alert show];
+	// your code here to reconfigure the app for changed settings
+}
+
+#pragma mark -
+- (void)settingsViewController:(IASKAppSettingsViewController*)sender buttonTappedForKey:(NSString*)key {
+	if ([key isEqualToString:@"logout_button"]) {
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+														 message:@"Are you sure you wish to log out of Dropbox?" 
+														delegate:self 
+											   cancelButtonTitle:@"Cancel"
+											   otherButtonTitles:nil] autorelease];
+		[alert addButtonWithTitle:@"Log out"];
+		[alert show];
+	}
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
+		[self dismissModalViewControllerAnimated:YES];
         [todo_txt_touch_iosAppDelegate logout];
     }
 }

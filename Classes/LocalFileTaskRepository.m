@@ -86,8 +86,10 @@
 }
 
 - (void) store:(NSArray*)tasks {
-    // TODO: check Windows line break preference
-    [TaskIo writeTasks:tasks toFile:[LocalFileTaskRepository filename]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [TaskIo writeTasks:tasks 
+				toFile:[LocalFileTaskRepository filename]
+	 withWindowsBreaks:[defaults boolForKey:@"windows_line_breaks_preference"]];
 }
 
 @end

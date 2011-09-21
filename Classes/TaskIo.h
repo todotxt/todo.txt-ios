@@ -56,6 +56,6 @@
 }
 
 + (NSMutableArray*) loadTasksFromFile:(NSString*)file;
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename;
++ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename withWindowsBreaks:(BOOL)useWindowsBreaks;
 
 @end

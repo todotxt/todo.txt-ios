@@ -103,7 +103,6 @@ static Network* sharedInstance = nil;
 
 + (BOOL) isAvailable {
 	return [sharedInstance isAvailable];
-	return NO;
 }
 
 @end
