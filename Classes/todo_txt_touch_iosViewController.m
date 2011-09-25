@@ -409,4 +409,14 @@
     [super dealloc];
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    
+    [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
+    
+    return UITableViewCellAccessoryDetailDisclosureButton;
+}
+
 @end
