@@ -130,6 +130,9 @@
 		
 	// Start listening for network status updates.
 	[Network startNotifier];
+    
+    // Launch TestFlight
+    [TestFlight takeOff:@"Insert your Team Token here"];
 	
     // Add the view controller's view to the window and display.
     [self.window addSubview:navigationController.view];
