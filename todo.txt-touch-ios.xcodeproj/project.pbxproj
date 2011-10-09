@@ -93,6 +93,7 @@
 		7D5705CF12F8A06600BB5E8D /* db_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5705A312F8A06600BB5E8D /* db_logo@2x.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
 		7DBE2A3B12F7939200FD6A92 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */; };
+		7DC696171441442D00C2CB70 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC696151441442D00C2CB70 /* libTestFlight.a */; };
 		8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */; };
 		8817330C13F10A9800B6B9F9 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 8817330B13F10A9800B6B9F9 /* Color.m */; };
 		881CA83513FCCC9800AEAD20 /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881CA83413FCCC9800AEAD20 /* TaskEditAccessoryView.xib */; };
@@ -275,6 +276,8 @@
 		7D5705A312F8A06600BB5E8D /* db_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "db_logo@2x.png"; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DBE2A3A12F7939200FD6A92 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		7DC696151441442D00C2CB70 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		7DC696161441442D00C2CB70 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableCell.xib; sourceTree = SOURCE_ROOT; };
 		8817330A13F10A9800B6B9F9 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		8817330B13F10A9800B6B9F9 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
@@ -347,6 +350,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */,
+				7DC696171441442D00C2CB70 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +388,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				7DC696151441442D00C2CB70 /* libTestFlight.a */,
+				7DC696161441442D00C2CB70 /* TestFlight.h */,
 				5910DBD61424014800BB2D68 /* InAppSettings.bundle */,
 				5910DB9214215A4600BB2D68 /* InAppSettingsKit */,
 				7D57054D12F8A06500BB5E8D /* DropboxSDK */,
@@ -905,6 +911,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -920,6 +930,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "Todo.txt Touch";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -935,6 +949,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PREBINDING = NO;
 				PRODUCT_NAME = Todo.txt;
 				SDKROOT = iphoneos;
@@ -949,6 +964,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				PRODUCT_NAME = Todo.txt;

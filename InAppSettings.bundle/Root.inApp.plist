@@ -92,6 +92,20 @@
 			<key>Type</key>
 			<string>IASKButtonSpecifier</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Feedback</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>leave_feedback</string>
+			<key>Title</key>
+			<string>Leave Feedback</string>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

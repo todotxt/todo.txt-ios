@@ -355,7 +355,11 @@
 		[alert addButtonWithTitle:@"Log out"];
 		[alert show];
 	}
+    else if([key isEqualToString:@"leave_feedback"]) {
+        [TestFlight openFeedbackView];    
+    }
 }
+
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
