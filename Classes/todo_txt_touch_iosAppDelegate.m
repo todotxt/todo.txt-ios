@@ -54,6 +54,7 @@
 #import "AsyncTask.h"
 #import "Network.h"
 #import "LocalFileTaskRepository.h"
+#import "TestFlight.h"
 
 @implementation todo_txt_touch_iosAppDelegate
 
