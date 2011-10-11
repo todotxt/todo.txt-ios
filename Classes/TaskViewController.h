@@ -50,6 +50,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "TestFlight.h"
 
 @interface TaskViewController : UITableViewController <UIActionSheetDelegate> {
     NSInteger taskIndex;

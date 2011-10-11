@@ -53,6 +53,7 @@
 #import "RemoteClient.h"
 #import "LocalFileTaskRepository.h"
 #import "TaskIo.h"
+#import "TestFlight.h"
 
 Task* find(NSArray *tasks, Task *task) {
 	for(int i = 0; i < [tasks count]; i++) {

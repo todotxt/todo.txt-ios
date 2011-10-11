@@ -50,6 +50,7 @@
 #import <Foundation/Foundation.h>
 #import "Task.h"
 #import "Sort.h"
+#import "TestFlight.h"
 
 @protocol TaskBag <NSObject>
 

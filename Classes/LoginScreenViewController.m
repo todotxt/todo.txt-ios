@@ -50,6 +50,7 @@
 #import "LoginScreenViewController.h"
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "RemoteClientManager.h"
+#import "TestFlight.h"
 
 @implementation LoginScreenViewController
 

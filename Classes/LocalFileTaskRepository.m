@@ -49,6 +49,7 @@
 
 #import "LocalFileTaskRepository.h"
 #import "TaskIo.h"
+#import "TestFlight.h"
 
 
 @implementation LocalFileTaskRepository
