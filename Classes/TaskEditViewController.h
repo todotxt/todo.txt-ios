@@ -49,6 +49,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "TestFlight.h"
 
 @class TaskEditViewController;
 

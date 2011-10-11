@@ -49,6 +49,7 @@
 
 #import "TextSplitter.h"
 #import "PriorityTextSplitter.h"
+#import "TestFlight.h"
 
 static NSRegularExpression* completedPattern = nil;
 static NSRegularExpression* completedPrependedDatesPattern = nil;

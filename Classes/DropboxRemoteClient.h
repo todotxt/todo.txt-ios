@@ -50,6 +50,7 @@
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
 #import "DropboxSDK.h"
+#import "TestFlight.h"
 
 @interface DropboxRemoteClient : NSObject<RemoteClient> {
     DBRestClient *restClient;

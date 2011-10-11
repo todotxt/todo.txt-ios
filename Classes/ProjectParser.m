@@ -48,6 +48,7 @@
  */
 
 #import "ProjectParser.h"
+#import "TestFlight.h"
 
 static NSRegularExpression* projectPattern = nil;
 
