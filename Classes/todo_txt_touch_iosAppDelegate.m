@@ -49,6 +49,7 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "todo_txt_touch_iosViewController.h"
 #import "LoginScreenViewController.h"
+#import "iPadLoginScreenViewController.h"
 #import "TaskBag.h"
 #import "TaskBagFactory.h"
 #import "AsyncTask.h"
@@ -105,8 +106,15 @@
 }
 
 - (void) presentLoginController {
-	navigationController.viewControllers = [NSArray arrayWithObject:[[[LoginScreenViewController alloc] init] autorelease]];
-	navigationController.navigationBar.hidden = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        navigationController.viewControllers = [NSArray arrayWithObject:[[[iPadLoginScreenViewController alloc] init] autorelease]];
+        navigationController.navigationBar.hidden = YES;
+    }
+    else
+    {
+        navigationController.viewControllers = [NSArray arrayWithObject:[[[LoginScreenViewController alloc] init] autorelease]];
+        navigationController.navigationBar.hidden = YES;
+    }
 }
 
 - (void) presentMainViewController {
