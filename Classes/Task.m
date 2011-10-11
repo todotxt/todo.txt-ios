@@ -53,6 +53,7 @@
 #import "ProjectParser.h"
 #import "RelativeDate.h"
 #import "Util.h"
+#import "TestFlight.h"
 
 #define COMPLETED_TXT @"x "
 #define TASK_DATE_FORMAT @"yyyy-MM-dd"

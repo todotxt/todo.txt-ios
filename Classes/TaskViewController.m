@@ -54,6 +54,7 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "ActionSheetPicker.h"
+#import "TestFlight.h"
 
 #define TEXT_LABEL_WIDTH 227
 #define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding

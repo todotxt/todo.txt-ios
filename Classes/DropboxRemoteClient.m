@@ -50,6 +50,7 @@
 #import "DropboxRemoteClient.h"
 #import "Network.h"
 #import "TaskIo.h"
+#import "TestFlight.h"
 
 @interface DropboxRemoteClient () <DBSessionDelegate, DBRestClientDelegate, DBLoginControllerDelegate>
 @end

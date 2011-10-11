@@ -49,6 +49,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LocalTaskRepository.h"
+#import "TestFlight.h"
 
 @interface LocalFileTaskRepository : NSObject <LocalTaskRepository> {
     

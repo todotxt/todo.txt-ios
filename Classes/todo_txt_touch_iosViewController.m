@@ -53,6 +53,7 @@
 #import "Color.h"
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
+#import "TestFlight.h"
 
 #define PRI_XPOS_SHORT 28
 #define PRI_XPOS_LONG 10

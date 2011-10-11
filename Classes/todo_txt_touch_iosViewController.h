@@ -50,6 +50,7 @@
 #import "TaskBag.h"
 #import "Sort.h"
 #import "IASKAppSettingsViewController.h"
+#import "TestFlight.h"
 
 @interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, UITableViewDelegate, UITableViewDataSource> {
 	// The instance of the table view
