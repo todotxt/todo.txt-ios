@@ -48,6 +48,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "TestFlight.h"
 
 @interface ContextParser : NSObject {
 }

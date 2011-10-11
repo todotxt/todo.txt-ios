@@ -48,6 +48,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "TestFlight.h"
 
 typedef enum {
 	ClientDropBox = 0
