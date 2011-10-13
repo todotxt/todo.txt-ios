@@ -95,7 +95,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		}
 	} else {
 		[newText appendString:stringToInsert];
-		if ([s characterAtIndex:(s.length - 1)] != SINGLE_SPACE) {
+		if (s.length > 0 && [s characterAtIndex:(s.length - 1)] != SINGLE_SPACE) {
 			[newText appendFormat:@"%c", SINGLE_SPACE];
 		}	
 		[newText appendString:s];
