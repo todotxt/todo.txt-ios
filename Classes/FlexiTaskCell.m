@@ -62,6 +62,7 @@
         self.todoIdLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.todoIdLabel.font = [UIFont systemFontOfSize:10.0];
         self.todoIdLabel.textColor = [UIColor lightGrayColor];
+        self.todoIdLabel.textAlignment = UITextAlignmentRight;
 
         self.textLabel.font = [FlexiTaskCell todoFont];
 
