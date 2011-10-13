@@ -1,5 +1,5 @@
 //
-//  FlexiTODOCell.m
+//  FlexiTaskCell.m
 //  todo.txt-touch-ios
 //
 //  Created by Ricky Hussmann on 10/13/11.
@@ -7,7 +7,7 @@
 //
 
 #import "Color.h"
-#import "FlexiTODOCell.h"
+#import "FlexiTaskCell.h"
 
 #define VERTICAL_PADDING    5
 #define PRI_XPOS_SHORT      28
@@ -19,13 +19,13 @@
 #define TEXT_HEIGHT_SHORT   19
 #define TEXT_HEIGHT_LONG    35
 
-@interface FlexiTODOCell ()
+@interface FlexiTaskCell ()
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;
 @property (retain, readwrite) UILabel *ageLabel;
 @end
 
-@implementation FlexiTODOCell
+@implementation FlexiTaskCell
 
 @synthesize priorityLabel, todoIdLabel, ageLabel, task;
 
@@ -49,7 +49,7 @@
 }
 - (id)init {
     self = [super initWithStyle:UITableViewCellStyleDefault
-                reuseIdentifier:[FlexiTODOCell cellId]];
+                reuseIdentifier:[FlexiTaskCell cellId]];
 
     if (self) {
         self.priorityLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
@@ -63,7 +63,7 @@
         self.todoIdLabel.font = [UIFont systemFontOfSize:10.0];
         self.todoIdLabel.textColor = [UIColor lightGrayColor];
 
-        self.textLabel.font = [FlexiTODOCell todoFont];
+        self.textLabel.font = [FlexiTaskCell todoFont];
 
         [self addSubview:priorityLabel];
         [self addSubview:todoIdLabel];

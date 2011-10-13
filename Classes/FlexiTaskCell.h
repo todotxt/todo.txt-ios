@@ -1,5 +1,5 @@
 //
-//  FlexiTODOCell.h
+//  FlexiTaskCell.h
 //  todo.txt-touch-ios
 //
 //  Created by Ricky Hussmann on 10/13/11.
@@ -9,7 +9,7 @@
 #import "Task.h"
 #import <UIKit/UIKit.h>
 
-@interface FlexiTODOCell : UITableViewCell
+@interface FlexiTaskCell : UITableViewCell
 
 // -(id)init is now the designated initializer
 
