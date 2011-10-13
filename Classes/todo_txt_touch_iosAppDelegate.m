@@ -141,7 +141,7 @@
 	[Network startNotifier];
     
     // Launch TestFlight
-    [TestFlight takeOff:@"Insert your Team Token here"];
+    [TestFlight takeOff:@"172c609ad0e466b20dab10c9e414a076_MzM1MjAyMDExLTEwLTA5IDE0OjA2OjE4LjY5NTM0Mg"];
 	
     // Add the view controller's view to the window and display.
     [self.window addSubview:navigationController.view];
