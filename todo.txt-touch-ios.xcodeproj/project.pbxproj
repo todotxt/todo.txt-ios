@@ -131,6 +131,7 @@
 		88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */; };
 		88F1AB391412EA1700AB3D18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB371412EA1700AB3D18 /* Default.png */; };
 		88F1AB3A1412EA1700AB3D18 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB381412EA1700AB3D18 /* Default@2x.png */; };
+		F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F5795614478D8400309ECA /* FlexiTaskCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -345,6 +346,8 @@
 		88F1AB371412EA1700AB3D18 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		88F1AB381412EA1700AB3D18 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		F4F5795514478D8400309ECA /* FlexiTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiTaskCell.h; sourceTree = "<group>"; };
+		F4F5795614478D8400309ECA /* FlexiTaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiTaskCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,6 +375,8 @@
 				881CA83F1400825200AEAD20 /* Remote */,
 				59216D3B13EA316100FF07EE /* Util */,
 				59216B7613E64EA800FF07EE /* Task */,
+				F4F5795514478D8400309ECA /* FlexiTaskCell.h */,
+				F4F5795614478D8400309ECA /* FlexiTaskCell.m */,
 				1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */,
 				1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* todo_txt_touch_iosViewController.h */,
@@ -915,6 +920,7 @@
 				5910DBC814215A4700BB2D68 /* IASKSwitch.m in Sources */,
 				5910DBC914215A4700BB2D68 /* IASKTextField.m in Sources */,
 				7DD54F421443CD5400C130DC /* iPadLoginScreenViewController.m in Sources */,
+				F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
