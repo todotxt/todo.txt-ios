@@ -45,7 +45,7 @@
                                           constrainedToSize:maxSize
                                               lineBreakMode:UILineBreakModeWordWrap];
     
-	return fmax(2*VERTICAL_PADDING+labelSize.height, 50);
+    return fmax(2*VERTICAL_PADDING+labelSize.height, 50);
 }
 - (id)init {
     self = [super initWithStyle:UITableViewCellStyleDefault
@@ -58,6 +58,7 @@
         self.ageLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.ageLabel.font = [UIFont systemFontOfSize:10.0];
         self.ageLabel.textColor = [UIColor lightGrayColor];
+        self.ageLabel.backgroundColor = [UIColor redColor];
 
         self.todoIdLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.todoIdLabel.font = [UIFont systemFontOfSize:10.0];
@@ -148,7 +149,10 @@
     todoFrame.size = labelSize;
     self.textLabel.frame = todoFrame;
     self.textLabel.numberOfLines = 0;
-    
+
+    todoIdFrame.origin.y = [FlexiTaskCell heightForCellWithTask:self.task]/2.0 - CGRectGetHeight(todoIdFrame)/2.0;
+    self.todoIdLabel.frame = todoIdFrame;
+
 	if ([self.task completed]) {
 		// TODO: There doesn't seem to be a strikethrough option for UILabel.
 		// For now, let's just disable the label.
