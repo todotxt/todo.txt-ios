@@ -52,18 +52,26 @@
 #import "IASKAppSettingsViewController.h"
 #import "TestFlight.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, 
+	UITableViewDelegate, UITableViewDataSource, 
+	UISearchDisplayDelegate, UISearchBarDelegate> {
+	
 	// The instance of the table view
 	UITableView *table; 
 	UITableViewCell *tableCell; 
 	NSArray *tasks;
 	Sort *sort;
-    IASKAppSettingsViewController *appSettingsViewController;
+	IASKAppSettingsViewController *appSettingsViewController;
+	NSString *savedSearchTerm;
+	NSArray *searchResults;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, retain) NSArray *tasks;
 @property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
+@property (nonatomic, copy) NSString *savedSearchTerm;
+@property (nonatomic, retain) NSArray *searchResults;
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;
@@ -71,5 +79,6 @@
 - (IBAction)settingsButtonPressed:(id)sender;
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath;
+- (void)handleSearchForTerm:(NSString *)searchTerm;
 
 @end
