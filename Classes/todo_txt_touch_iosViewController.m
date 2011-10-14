@@ -143,7 +143,7 @@
 	
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-        cell = [[FlexiTaskCell alloc] init];
+        cell = [[[FlexiTaskCell alloc] init] autorelease];
 	}
 
     cell.task = [tasks objectAtIndex:indexPath.row];

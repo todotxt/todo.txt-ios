@@ -74,6 +74,13 @@
     return self;
 }
 
+- (void)dealloc {
+    self.priorityLabel = nil;
+    self.ageLabel = nil;
+    self.todoIdLabel = nil;
+    [super dealloc];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
 
