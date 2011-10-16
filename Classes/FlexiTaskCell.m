@@ -18,8 +18,12 @@
 #define TEXT_WIDTH_LONG     253
 #define TEXT_HEIGHT_SHORT   19
 #define TEXT_HEIGHT_LONG    35
+#define AGE_HEIGHT          13
 
 @interface FlexiTaskCell ()
+
++ (CGFloat)taskTextWidth;
+
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;
 @property (retain, readwrite) UILabel *ageLabel;
@@ -30,26 +34,38 @@
 @synthesize priorityLabel, todoIdLabel, ageLabel, task;
 
 + (NSString*)cellId { return NSStringFromClass(self); }
++ (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
 
-+ (UIFont*)todoFont {
-    return [UIFont systemFontOfSize:14.0];
++ (BOOL)shouldShowTaskId {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	return[defaults boolForKey:@"show_line_numbers_preference"];
+}
+
++ (BOOL)shouldShowTaskAge {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:@"show_task_age_preference"];
+}
+
++ (CGFloat)taskTextWidth {
+    return [self shouldShowTaskId] ? TEXT_WIDTH_SHORT : TEXT_WIDTH_LONG;
+}
+
++ (CGFloat)taskTextOriginX {
+    return [self shouldShowTaskId] ? TEXT_XPOS_SHORT : TEXT_XPOS_LONG;
 }
 
 + (CGFloat)heightForCellWithTask:(Task*)aTask {
-    // Need desired width here...
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    CGFloat labelWidth = [defaults boolForKey:@"show_line_numbers_preference"] ?
-    TEXT_WIDTH_SHORT : TEXT_WIDTH_LONG;
-    CGSize maxSize = CGSizeMake(labelWidth, CGFLOAT_MAX);
-    CGSize labelSize = [[aTask inScreenFormat] sizeWithFont:[UIFont systemFontOfSize:14.0]
+    CGSize maxSize = CGSizeMake(self.taskTextWidth, CGFLOAT_MAX);
+    CGSize labelSize = [[aTask inScreenFormat] sizeWithFont:[self taskFont]
                                           constrainedToSize:maxSize
                                               lineBreakMode:UILineBreakModeWordWrap];
-    
-    return fmax(2*VERTICAL_PADDING+labelSize.height, 50);
+
+    CGFloat ageLabelHeight = [self shouldShowTaskAge] ? AGE_HEIGHT : 0;
+    return fmax(2*VERTICAL_PADDING+labelSize.height+ageLabelHeight, 50);
 }
 - (id)init {
     self = [super initWithStyle:UITableViewCellStyleDefault
-                reuseIdentifier:[FlexiTaskCell cellId]];
+                reuseIdentifier:[[self class] cellId]];
 
     if (self) {
         self.priorityLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
@@ -58,14 +74,13 @@
         self.ageLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.ageLabel.font = [UIFont systemFontOfSize:10.0];
         self.ageLabel.textColor = [UIColor lightGrayColor];
-        self.ageLabel.backgroundColor = [UIColor redColor];
 
         self.todoIdLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.todoIdLabel.font = [UIFont systemFontOfSize:10.0];
         self.todoIdLabel.textColor = [UIColor lightGrayColor];
         self.todoIdLabel.textAlignment = UITextAlignmentRight;
 
-        self.textLabel.font = [FlexiTaskCell todoFont];
+        self.textLabel.font = [[self class] taskFont];
 
         [self addSubview:priorityLabel];
         [self addSubview:todoIdLabel];
@@ -85,16 +100,16 @@
     [super layoutSubviews];
 
     CGRect todoIdFrame = CGRectMake(0, 16, 23, 13);
-    CGRect priorityFrame = CGRectMake(28, 5, 12, 21);
-    CGRect ageFrame = CGRectMake(46, 27, 235, 13);
-    CGRect todoFrame = CGRectMake(46, 5, 235, 19);
+    CGRect priorityFrame = CGRectMake(28, VERTICAL_PADDING, 12, 21);
+    CGRect ageFrame = CGRectMake(46, 27, 235, AGE_HEIGHT);
+    CGRect todoFrame = CGRectMake(46, VERTICAL_PADDING,
+                                  [[self class] taskTextWidth], 19);
 
     self.todoIdLabel.frame = todoIdFrame;
     self.priorityLabel.frame = priorityFrame;
     self.ageLabel.frame = ageFrame;
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-// Here
 // TODO ID label setup
 	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
 		self.todoIdLabel.text = [NSString stringWithFormat:@"%02d", [self.task taskId] + 1];
@@ -136,28 +151,19 @@
 			break;
 	}
 	
-    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-        todoFrame.origin.x = TEXT_XPOS_SHORT;//46;
-        todoFrame.size.width = TEXT_WIDTH_SHORT;//235;
-    } else {
-        todoFrame.origin.x = TEXT_XPOS_LONG;//28;
-        todoFrame.size.width = TEXT_WIDTH_LONG;//253;
-    }
-    if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
-        todoFrame.size.height = TEXT_HEIGHT_SHORT;//19;
-    } else {
-        todoFrame.size.height = TEXT_HEIGHT_LONG;//35;
-    }
     self.textLabel.text = [self.task inScreenFormat];
     CGSize maxSize = CGSizeMake(CGRectGetWidth(todoFrame), CGFLOAT_MAX);
-    CGSize labelSize = [self.textLabel.text sizeWithFont:[UIFont systemFontOfSize:14.0]
+    CGSize labelSize = [self.textLabel.text sizeWithFont:[[self class] taskFont]
                                        constrainedToSize:maxSize
                                            lineBreakMode:UILineBreakModeWordWrap];
+    todoFrame.origin.x = [[self class] taskTextOriginX];
     todoFrame.size = labelSize;
     self.textLabel.frame = todoFrame;
     self.textLabel.numberOfLines = 0;
+    self.textLabel.backgroundColor = [UIColor redColor];
 
-    todoIdFrame.origin.y = [FlexiTaskCell heightForCellWithTask:self.task]/2.0 - CGRectGetHeight(todoIdFrame)/2.0;
+    todoIdFrame.origin.y = [[self class] heightForCellWithTask:self.task]/2.0 -
+        CGRectGetHeight(todoIdFrame)/2.0;
     self.todoIdLabel.frame = todoIdFrame;
 
 	if ([self.task completed]) {
@@ -167,15 +173,11 @@
 	} else {
 		self.textLabel.enabled = YES;
 	}
-	
+
 	if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
-        if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-            ageFrame.origin.x = TEXT_XPOS_SHORT;
-            ageFrame.size.width = TEXT_WIDTH_SHORT;
-        } else {
-            ageFrame.origin.x = TEXT_XPOS_LONG;
-            ageFrame.size.width = TEXT_WIDTH_LONG;
-        }
+        ageFrame.origin.x = [[self class] taskTextOriginX];
+        ageFrame.origin.y = self.textLabel.frame.origin.y + self.textLabel.frame.size.height;
+        ageFrame.size.width = [[self class] taskTextWidth];
         self.ageLabel.frame = ageFrame;
 		self.ageLabel.text = [self.task relativeAge];
 		self.ageLabel.hidden = NO;
