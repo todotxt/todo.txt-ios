@@ -371,6 +371,28 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	[self reloadData:nil];
 }
 
+-(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;    
+}
+
+-(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+    Task *task = [tasks objectAtIndex:indexPath.row];
+    [task markComplete:[NSDate date]];
+    [taskBag update:task];
+//    [task release];
+    [self reloadData:nil];
+    [todo_txt_touch_iosAppDelegate pushToRemote];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Complete";
+}
+
+
 - (IBAction)addButtonPressed:(id)sender {
 	NSLog(@"addButtonPressed called");
     TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
