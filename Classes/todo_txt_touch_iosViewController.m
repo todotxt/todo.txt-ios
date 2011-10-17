@@ -46,23 +46,15 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "todo_txt_touch_iosViewController.h"
-#import "todo_txt_touch_iosAppDelegate.h"
-#import "TaskEditViewController.h"
-#import "TaskViewController.h"
-#import "Color.h"
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
+#import "Color.h"
+#import "FlexiTaskCell.h"
+#import "TaskEditViewController.h"
+#import "TaskViewController.h"
+#import "todo_txt_touch_iosViewController.h"
+#import "todo_txt_touch_iosAppDelegate.h"
 #import "TestFlight.h"
-
-#define PRI_XPOS_SHORT 28
-#define PRI_XPOS_LONG 10
-#define TEXT_XPOS_SHORT 46
-#define TEXT_WIDTH_SHORT 235
-#define TEXT_XPOS_LONG PRI_XPOS_SHORT
-#define TEXT_WIDTH_LONG 253
-#define TEXT_HEIGHT_SHORT 19
-#define TEXT_HEIGHT_LONG 35
 
 @implementation todo_txt_touch_iosViewController
 
@@ -92,26 +84,6 @@
 	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
 	[table reloadData];
 }
-
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
-
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -148,14 +120,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 #pragma mark -
 #pragma mark Table view datasource methods
 
@@ -174,108 +138,15 @@
 // Return cell for the rows in table view
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Create the cell identifier
-	static NSString *CellIdentifier = @"TaskTableCell";
-	
 	// Create the cell if cells are available with same cell identifier
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCell cellId]];
 	
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
-		cell = tableCell;
-		self.tableCell = nil;
+        cell = [[[FlexiTaskCell alloc] init] autorelease];
 	}
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	Task *task = [tasks objectAtIndex:indexPath.row];		
-	UILabel *label;
-	
-	
-	label = (UILabel *)[cell viewWithTag:1];
-	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
-		label.hidden = NO;
-	} else {
-		label.hidden = YES;
-	}
-	
-    label = (UILabel *)[cell viewWithTag:2];
-    CGRect labelFrame = label.frame;
-    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-        labelFrame.origin.x = PRI_XPOS_SHORT;//28
-    } else {
-        labelFrame.origin.x = PRI_XPOS_LONG;//10
-    }
-    label.frame = labelFrame;
-    label.text = [[task priority] listFormat];
-	// Set the priority color
-	PriorityName n = [[task priority] name];
-	switch (n) {
-		case PriorityA:
-			//Set color to green #587058
-			label.textColor = [Color green];
-			break;
-		case PriorityB:
-			//Set color to blue #587498
-			label.textColor = [Color blue];
-			break;
-		case PriorityC:
-			//Set color to orange #E86850
-			label.textColor = [Color orange];
-			break;
-		case PriorityD:
-			//Set color to gold #587058
-			label.textColor = [Color gold];
-			break;			
-		default:
-			//Set color to black #000000
-			label.textColor = [Color black];
-			break;
-	}
-	
-    label = (UILabel *)[cell viewWithTag:3];
-    labelFrame = label.frame;
-    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-        labelFrame.origin.x = TEXT_XPOS_SHORT;//46;
-        labelFrame.size.width = TEXT_WIDTH_SHORT;//235;
-    } else {
-        labelFrame.origin.x = TEXT_XPOS_LONG;//28;
-        labelFrame.size.width = TEXT_WIDTH_LONG;//253;
-    }
-    if ([defaults boolForKey:@"show_task_age_preference"] && ![task completed]) {
-        labelFrame.size.height = TEXT_HEIGHT_SHORT;//19;
-    } else {
-        labelFrame.size.height = TEXT_HEIGHT_LONG;//35;
-    }
-    label.frame = labelFrame;
-    label.text = [task inScreenFormat];
-	if ([task completed]) {
-		// TODO: There doesn't seem to be a strikethrough option for UILabel.
-		// For now, let's just disable the label.
-		label.enabled = NO;
-	} else {
-		label.enabled = YES;
-	}
-	
-	label = (UILabel *)[cell viewWithTag:4];
-	if ([defaults boolForKey:@"show_task_age_preference"] && ![task completed]) {
-        labelFrame = label.frame;
-        if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-            labelFrame.origin.x = TEXT_XPOS_SHORT;
-            labelFrame.size.width = TEXT_WIDTH_SHORT;
-        } else {
-            labelFrame.origin.x = TEXT_XPOS_LONG;
-            labelFrame.size.width = TEXT_WIDTH_LONG;
-        }
-        label.frame = labelFrame;
-		label.text = [task relativeAge];
-		label.hidden = NO;
-	} else {
-		label.text = @"";
-		label.hidden = YES;
-	}
-	
+
+    cell.task = [tasks objectAtIndex:indexPath.row];
 	return cell;
 }
 
@@ -284,9 +155,8 @@
 #pragma mark Table view delegate methods
 
 // Return the height for tableview cells
--(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return 50; // Default height for the cell is 44 px;
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [FlexiTaskCell heightForCellWithTask:[tasks objectAtIndex:indexPath.row]];
 }
 
 // Load the detail view controller when user taps the row
