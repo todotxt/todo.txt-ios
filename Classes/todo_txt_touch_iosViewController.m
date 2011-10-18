@@ -204,28 +204,13 @@
 {
 	// Create the cell if cells are available with same cell identifier
 	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCell cellId]];
-	
+
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
-		cell = tableCell;
-		self.tableCell = nil;
-	}
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	Task *task = [self taskForTable:tableView atIndex:indexPath.row];
-	UILabel *label;
-		
-	label = (UILabel *)[cell viewWithTag:1];
-	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
-		label.hidden = NO;
-	} else {
-		label.hidden = YES;
         cell = [[[FlexiTaskCell alloc] init] autorelease];
 	}
 
-    cell.task = [tasks objectAtIndex:indexPath.row];
+    cell.task = [self taskForTable:tableView atIndex:indexPath.row];
 	return cell;
 }
 
