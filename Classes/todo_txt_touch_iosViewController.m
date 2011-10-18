@@ -69,7 +69,7 @@
 #pragma mark -
 #pragma mark Synthesizers
 
-@synthesize table, tableCell, appSettingsViewController;
+@synthesize table, tableCell, tasks, appSettingsViewController, savedSearchTerm, searchResults;
 
 - (Sort*) sortOrderPref {
 	SortName name = SortPriority;
@@ -87,12 +87,51 @@
 }
 
 - (void) reloadData:(NSNotification *) notification {
+	// reload global tasklist from disk
 	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
-	[tasks release];
-	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
+
+	// reload main tableview data
+	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort];
 	[table reloadData];
+	
+	// reload searchbar tableview data if necessary
+	if (self.savedSearchTerm)
+	{
+		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:savedSearchTerm withSortOrder:sort];
+		[self.searchDisplayController.searchResultsTableView reloadData];
+	}
 }
 
+- (NSArray*) taskListForTable:(UITableView*)tableView {
+	if(tableView == self.searchDisplayController.searchResultsTableView) {
+		return self.searchResults;
+	} else {
+		return self.tasks;
+	}
+}
+
+- (Task*) taskForTable:(UITableView*)tableView atIndex:(NSUInteger)index {
+	if(tableView == self.searchDisplayController.searchResultsTableView) {
+		return [self.searchResults objectAtIndex:index];
+	} else {
+		return [self.tasks objectAtIndex:index];
+	}
+}
+
+
+- (void)hideSearchBar:(BOOL)animated {
+	if (animated) {
+		[UIView beginAnimations:@"hidesearchbar" context:nil];
+		[UIView setAnimationDuration:0.4];
+		[UIView setAnimationBeginsFromCurrentState:YES];
+	}
+	
+	self.table.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
+	
+	if (animated) {
+		[UIView commitAnimations];
+	}
+}
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -126,7 +165,12 @@
 	sort = [self sortOrderPref];
 	tasks = nil;
 	
-	// FIXME: This logout button is temporary until we implement the settings screen.
+	// Restore search term
+	if (self.savedSearchTerm)
+	{
+		self.searchDisplayController.searchBar.text = self.savedSearchTerm;
+	}
+	
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];          
 	self.navigationItem.rightBarButtonItem = addButton;
 	[addButton release];
@@ -135,7 +179,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	NSLog(@"viewWillAppear - tableview");
-	[table setContentOffset:CGPointZero animated:NO];
+	[self hideSearchBar:NO];
 	[self reloadData:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(reloadData:) 
@@ -166,9 +210,9 @@
 }
 
 // Return the number of rows in the section of table view
--(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [tasks count];
+	return [[self taskListForTable:tableView] count];
 }
 
 // Return cell for the rows in table view
@@ -188,10 +232,9 @@
 	}
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	Task *task = [tasks objectAtIndex:indexPath.row];		
+	Task *task = [self taskForTable:tableView atIndex:indexPath.row];
 	UILabel *label;
-	
-	
+		
 	label = (UILabel *)[cell viewWithTag:1];
 	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
 		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
@@ -292,20 +335,40 @@
 // Load the detail view controller when user taps the row
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
-    
+	Task *task = [self taskForTable:tableView atIndex:indexPath.row];
+	
 	/*
      When a row is selected, create the detail view controller and set its detail item to the item associated with the selected row.
      */
     TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
-    detailViewController.taskIndex = 
-		[[todo_txt_touch_iosAppDelegate sharedTaskBag] indexOfTask:
-			[tasks objectAtIndex:indexPath.row]];
+    detailViewController.taskIndex = [[todo_txt_touch_iosAppDelegate sharedTaskBag] indexOfTask:task];	
     
     // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
     [detailViewController release];
+}
+
+#pragma mark -
+#pragma mark Search bar delegate methods
+
+- (void)handleSearchForTerm:(NSString *)searchTerm {
+	self.savedSearchTerm = searchTerm;
+	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:savedSearchTerm withSortOrder:sort];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller 
+shouldReloadTableForSearchString:(NSString *)searchString
+{
+	[self handleSearchForTerm:searchString];
+    
+	return YES;
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+	self.savedSearchTerm = nil;
+	[self reloadData:nil];
 }
 
 - (IBAction)addButtonPressed:(id)sender {
@@ -372,10 +435,8 @@
 - (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
 	sort = [Sort byName:selectedIndex.intValue];
 	[self setSortOrderPref];
-	[tasks release];
-	tasks = [[[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort] retain];
-	[table reloadData];
-    [table setContentOffset:CGPointZero animated:NO];	
+	[self reloadData:nil];
+	[self hideSearchBar:NO];
 }
 
 - (IBAction)segmentControlPressed:(id)sender {
@@ -403,15 +464,26 @@
 }
 
 - (void)viewDidUnload {
+	[super viewDidUnload];
+	
+	// Save the state of the search UI so that it can be restored if the view is re-created.
+	self.savedSearchTerm = self.searchDisplayController.searchBar.text;
+	self.searchResults = nil;
+	
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 	self.table = nil;
+	self.tableCell = nil;
 }
 
 
 - (void)dealloc {
-	[table release];
-    [super dealloc];
+	self.table = nil;
+	self.tableCell = nil;
+	self.tasks = nil;
+	self.savedSearchTerm = nil;
+	self.searchResults = nil;
+	[super dealloc];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {

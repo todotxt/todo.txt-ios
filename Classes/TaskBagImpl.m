@@ -156,7 +156,20 @@ Task* find(NSArray *tasks, Task *task) {
 - (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder {
 	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[tasks count]];
 	// TODO: implement filtering
-	[localTasks setArray:tasks];
+	// FIXME: right now we just assume that filterSpec is a string
+	// and we will return only those tasks that contain that string.
+	// Proper filtering still to come
+	if (filterSpec != nil) {
+		NSString *searchTerm = (NSString*)filterSpec; 
+		for (Task* task in tasks) {
+			if ([task.text rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location != NSNotFound) {
+				[localTasks addObject:task];
+			}
+		}
+	} else {	
+		[localTasks setArray:tasks];
+	}
+	
 	if (sortOrder) {
 		[localTasks sortUsingSelector:[sortOrder comparator]];
 	}
