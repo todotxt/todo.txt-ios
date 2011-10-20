@@ -220,7 +220,8 @@
 
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [FlexiTaskCell heightForCellWithTask:[tasks objectAtIndex:indexPath.row]];
+    Task* task = [self taskForTable:tableView atIndex:indexPath.row];
+    return [FlexiTaskCell heightForCellWithTask:task];
 }
 
 // Load the detail view controller when user taps the row
