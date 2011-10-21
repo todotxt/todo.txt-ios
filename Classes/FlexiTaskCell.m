@@ -48,20 +48,25 @@
 #import "Color.h"
 #import "FlexiTaskCell.h"
 
-#define VERTICAL_PADDING    5
-#define PRI_XPOS_SHORT      28
-#define PRI_XPOS_LONG       10
-#define TEXT_XPOS_SHORT     46
-#define TEXT_WIDTH_SHORT    235
-#define TEXT_XPOS_LONG      PRI_XPOS_SHORT
-#define TEXT_WIDTH_LONG     253
-#define TEXT_HEIGHT_SHORT   19
-#define TEXT_HEIGHT_LONG    35
-#define AGE_HEIGHT          13
+#define VERTICAL_PADDING        5
+#define PRI_XPOS_SHORT          28
+#define PRI_XPOS_LONG           10
+#define TEXT_XPOS_SHORT         46
+#define TEXT_WIDTH_SHORT_IPHONE 235
+#define TEXT_WIDTH_LONG_IPHONE  253
+#define TEXT_WIDTH_SHORT_IPAD   675
+#define TEXT_WIDTH_LONG_IPAD    700
+#define TEXT_XPOS_LONG          PRI_XPOS_SHORT
+#define TEXT_HEIGHT_SHORT       19
+#define TEXT_HEIGHT_LONG        35
+#define AGE_HEIGHT              13
 
 @interface FlexiTaskCell ()
 
 + (CGFloat)taskTextWidth;
++ (CGFloat)shortTaskWidth;
++ (CGFloat)longTaskWidth;
++ (BOOL)isiPad;
 
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;
@@ -75,6 +80,11 @@
 + (NSString*)cellId { return NSStringFromClass(self); }
 + (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
 
++ (BOOL)isiPad {
+    return
+    [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+}
+
 + (BOOL)shouldShowTaskId {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	return[defaults boolForKey:@"show_line_numbers_preference"];
@@ -85,8 +95,16 @@
     return [defaults boolForKey:@"show_task_age_preference"];
 }
 
++ (CGFloat)shortTaskWidth {
+    return [self isiPad] ? TEXT_WIDTH_SHORT_IPAD : TEXT_WIDTH_SHORT_IPHONE;
+}
+
++ (CGFloat)longTaskWidth {
+    return [self isiPad] ? TEXT_WIDTH_LONG_IPAD : TEXT_WIDTH_LONG_IPHONE;
+}
+
 + (CGFloat)taskTextWidth {
-    return [self shouldShowTaskId] ? TEXT_WIDTH_SHORT : TEXT_WIDTH_LONG;
+    return [self shouldShowTaskId] ? [self shortTaskWidth] : [self longTaskWidth];
 }
 
 + (CGFloat)taskTextOriginX {
