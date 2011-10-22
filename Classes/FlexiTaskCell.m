@@ -70,6 +70,8 @@
 + (NSDictionary*)taskStringAttributes;
 + (NSDictionary*)auxStringAttributes;
 + (NSDictionary*)completedTaskAttributes;
++ (CGFloat)taskTextOriginX;
++ (UIFont*)taskFont;
 
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;
@@ -79,78 +81,6 @@
 
 @implementation FlexiTaskCell
 @synthesize priorityLabel, todoIdLabel, ageLabel, taskLabel, task;
-
-+ (NSString*)cellId { return NSStringFromClass(self); }
-+ (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
-
-+ (BOOL)shouldShowTaskId {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	return[defaults boolForKey:@"show_line_numbers_preference"];
-}
-
-+ (BOOL)shouldShowTaskAge {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:@"show_task_age_preference"];
-}
-
-+ (CGFloat)taskTextWidth {
-    return [self shouldShowTaskId] ? TEXT_WIDTH_SHORT : TEXT_WIDTH_LONG;
-}
-
-+ (CGFloat)taskTextOriginX {
-    return [self shouldShowTaskId] ? TEXT_XPOS_SHORT : TEXT_XPOS_LONG;
-}
-
-+ (CGFloat)heightForCellWithTask:(Task*)aTask {
-    CGSize maxSize = CGSizeMake(self.taskTextWidth, CGFLOAT_MAX);
-    CGSize labelSize = [[aTask inScreenFormat] sizeWithFont:[self taskFont]
-                                          constrainedToSize:maxSize
-                                              lineBreakMode:UILineBreakModeWordWrap];
-
-    CGFloat ageLabelHeight = [self shouldShowTaskAge] ? AGE_HEIGHT : 0;
-    return fmax(2*VERTICAL_PADDING+labelSize.height+ageLabelHeight, 50);
-}
-
-+ (NSDictionary*)taskStringAttributes {
-    UIFont *taskFont = [[self class] taskFont];
-    CGColorRef black = [UIColor blackColor].CGColor;
-    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
-                                          taskFont.pointSize,
-                                          NULL);
-
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            (id)font, (id)kCTFontAttributeName,
-            (id)black, (id)kCTForegroundColorAttributeName,
-            nil];
-}
-
-+ (NSDictionary*)auxStringAttributes {
-    UIFont *taskFont = [[self class] taskFont];
-    CGColorRef gray = [UIColor grayColor].CGColor;
-    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
-                                          taskFont.pointSize,
-                                          NULL);
-
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            (id)font, (id)kCTFontAttributeName,
-            (id)gray, (id)kCTForegroundColorAttributeName,
-            nil];
-
-}
-
-+ (NSDictionary*)completedTaskAttributes {
-    UIFont *taskFont = [[self class] taskFont];
-    CGColorRef black = [UIColor blackColor].CGColor;
-    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
-                                          taskFont.pointSize,
-                                          NULL);
-
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            (id)font, (id)kCTFontAttributeName,
-            (id)black, (id)kCTForegroundColorAttributeName,
-            [NSNumber numberWithBool:YES], (id)kTTStrikethroughAttributeName,
-            nil];
-}
 
 - (id)init {
     self = [super initWithStyle:UITableViewCellStyleDefault
@@ -278,6 +208,77 @@
 		self.ageLabel.text = @"";
 		self.ageLabel.hidden = YES;
 	}
+}
+
++ (NSString*)cellId { return NSStringFromClass(self); }
++ (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
+
++ (BOOL)shouldShowTaskId {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	return[defaults boolForKey:@"show_line_numbers_preference"];
+}
+
++ (BOOL)shouldShowTaskAge {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:@"show_task_age_preference"];
+}
+
++ (CGFloat)taskTextWidth {
+    return [self shouldShowTaskId] ? TEXT_WIDTH_SHORT : TEXT_WIDTH_LONG;
+}
+
++ (CGFloat)taskTextOriginX {
+    return [self shouldShowTaskId] ? TEXT_XPOS_SHORT : TEXT_XPOS_LONG;
+}
+
++ (CGFloat)heightForCellWithTask:(Task*)aTask {
+    CGSize maxSize = CGSizeMake(self.taskTextWidth, CGFLOAT_MAX);
+    CGSize labelSize = [[aTask inScreenFormat] sizeWithFont:[self taskFont]
+                                          constrainedToSize:maxSize
+                                              lineBreakMode:UILineBreakModeWordWrap];
+
+    CGFloat ageLabelHeight = [self shouldShowTaskAge] ? AGE_HEIGHT : 0;
+    return fmax(2*VERTICAL_PADDING+labelSize.height+ageLabelHeight, 50);
+}
+
++ (NSDictionary*)taskStringAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef black = [UIColor blackColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)black, (id)kCTForegroundColorAttributeName,
+            nil];
+}
+
++ (NSDictionary*)auxStringAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef gray = [UIColor grayColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)gray, (id)kCTForegroundColorAttributeName,
+            nil];
+}
+
++ (NSDictionary*)completedTaskAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef black = [UIColor blackColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)black, (id)kCTForegroundColorAttributeName,
+            [NSNumber numberWithBool:YES], (id)kTTStrikethroughAttributeName,
+            nil];
 }
 
 @end
