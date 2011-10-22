@@ -50,7 +50,7 @@
 #import "AttributedLabel.h"
 
 @implementation AttributedLabel
-@synthesize text;
+@synthesize text=_text;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -59,6 +59,15 @@
         // Initialization code
     }
     return self;
+}
+
+- (void)setText:(NSAttributedString *)someText {
+    if (_text != someText) {
+        [someText retain];
+        [_text release];
+        _text = someText;
+        [self setNeedsDisplay];
+    }
 }
 
 //
