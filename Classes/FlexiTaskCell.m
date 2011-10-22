@@ -45,8 +45,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import "AttributedLabel.h"
 #import "Color.h"
 #import "FlexiTaskCell.h"
+
+#import <CoreText/CoreText.h>
 
 #define VERTICAL_PADDING    5
 #define PRI_XPOS_SHORT      28
@@ -61,16 +64,21 @@
 
 @interface FlexiTaskCell ()
 
+- (NSAttributedString*)attributedTaskText;
+
 + (CGFloat)taskTextWidth;
++ (NSDictionary*)taskStringAttributes;
++ (NSDictionary*)auxStringAttributes;
++ (NSDictionary*)completedTaskAttributes;
 
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;
 @property (retain, readwrite) UILabel *ageLabel;
+@property (retain, readwrite) AttributedLabel *taskLabel;
 @end
 
 @implementation FlexiTaskCell
-
-@synthesize priorityLabel, todoIdLabel, ageLabel, task;
+@synthesize priorityLabel, todoIdLabel, ageLabel, taskLabel, task;
 
 + (NSString*)cellId { return NSStringFromClass(self); }
 + (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
@@ -102,6 +110,48 @@
     CGFloat ageLabelHeight = [self shouldShowTaskAge] ? AGE_HEIGHT : 0;
     return fmax(2*VERTICAL_PADDING+labelSize.height+ageLabelHeight, 50);
 }
+
++ (NSDictionary*)taskStringAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef black = [UIColor blackColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)black, (id)kCTForegroundColorAttributeName,
+            nil];
+}
+
++ (NSDictionary*)auxStringAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef gray = [UIColor grayColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)gray, (id)kCTForegroundColorAttributeName,
+            nil];
+
+}
+
++ (NSDictionary*)completedTaskAttributes {
+    UIFont *taskFont = [[self class] taskFont];
+    CGColorRef black = [UIColor blackColor].CGColor;
+    CTFontRef font = CTFontCreateWithName((CFStringRef)taskFont.fontName,
+                                          taskFont.pointSize,
+                                          NULL);
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            (id)font, (id)kCTFontAttributeName,
+            (id)black, (id)kCTForegroundColorAttributeName,
+            [NSNumber numberWithBool:YES], (id)kTTStrikethroughAttributeName,
+            nil];
+}
+
 - (id)init {
     self = [super initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:[[self class] cellId]];
@@ -119,11 +169,13 @@
         self.todoIdLabel.textColor = [UIColor lightGrayColor];
         self.todoIdLabel.textAlignment = UITextAlignmentRight;
 
-        self.textLabel.font = [[self class] taskFont];
+        self.taskLabel = [[[AttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
+        self.taskLabel.backgroundColor = [UIColor clearColor];
 
-        [self addSubview:priorityLabel];
-        [self addSubview:todoIdLabel];
-        [self addSubview:ageLabel];
+        [self addSubview:self.priorityLabel];
+        [self addSubview:self.todoIdLabel];
+        [self addSubview:self.ageLabel];
+        [self addSubview:self.taskLabel];
     }
     return self;
 }
@@ -132,7 +184,18 @@
     self.priorityLabel = nil;
     self.ageLabel = nil;
     self.todoIdLabel = nil;
+    self.taskLabel = nil;
     [super dealloc];
+}
+
+- (NSAttributedString*)attributedTaskText {
+    NSAssert(self.taskLabel, @"Task cannot be nil");
+
+    NSDictionary *taskAttributes = (self.task.completed) ?
+        [[self class] completedTaskAttributes] : [[self class] taskStringAttributes];
+
+    return [[[NSAttributedString alloc] initWithString:[self.task inScreenFormat]
+                                            attributes:taskAttributes] autorelease];
 }
 
 - (void)layoutSubviews {
@@ -141,7 +204,7 @@
     CGRect todoIdFrame = CGRectMake(0, 16, 23, 13);
     CGRect priorityFrame = CGRectMake(28, VERTICAL_PADDING, 12, 21);
     CGRect ageFrame = CGRectMake(46, 27, 235, AGE_HEIGHT);
-    CGRect todoFrame = CGRectMake(46, VERTICAL_PADDING,
+    CGRect taskFrame = CGRectMake(46, VERTICAL_PADDING,
                                   [[self class] taskTextWidth], 19);
 
     self.todoIdLabel.frame = todoIdFrame;
@@ -190,31 +253,23 @@
 			break;
 	}
 	
-    self.textLabel.text = [self.task inScreenFormat];
-    CGSize maxSize = CGSizeMake(CGRectGetWidth(todoFrame), CGFLOAT_MAX);
-    CGSize labelSize = [self.textLabel.text sizeWithFont:[[self class] taskFont]
-                                       constrainedToSize:maxSize
-                                           lineBreakMode:UILineBreakModeWordWrap];
-    todoFrame.origin.x = [[self class] taskTextOriginX];
-    todoFrame.size = labelSize;
-    self.textLabel.frame = todoFrame;
-    self.textLabel.numberOfLines = 0;
+    CGSize maxSize = CGSizeMake(CGRectGetWidth(taskFrame), CGFLOAT_MAX);
+    CGSize labelSize = [[self.task inScreenFormat] sizeWithFont:[[self class] taskFont]
+                                              constrainedToSize:maxSize
+                                                  lineBreakMode:UILineBreakModeWordWrap];
+
+    taskFrame.origin.x = [[self class] taskTextOriginX];
+    taskFrame.size = labelSize;
+    self.taskLabel.frame = taskFrame;
+    self.taskLabel.text = [self attributedTaskText];
 
     todoIdFrame.origin.y = [[self class] heightForCellWithTask:self.task]/2.0 -
         CGRectGetHeight(todoIdFrame)/2.0;
     self.todoIdLabel.frame = todoIdFrame;
 
-	if ([self.task completed]) {
-		// TODO: There doesn't seem to be a strikethrough option for UILabel.
-		// For now, let's just disable the label.
-		self.textLabel.enabled = NO;
-	} else {
-		self.textLabel.enabled = YES;
-	}
-
 	if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
         ageFrame.origin.x = [[self class] taskTextOriginX];
-        ageFrame.origin.y = self.textLabel.frame.origin.y + self.textLabel.frame.size.height;
+        ageFrame.origin.y = CGRectGetMinY(taskFrame) + CGRectGetHeight(taskFrame);
         ageFrame.size.width = [[self class] taskTextWidth];
         self.ageLabel.frame = ageFrame;
 		self.ageLabel.text = [self.task relativeAge];
@@ -223,13 +278,6 @@
 		self.ageLabel.text = @"";
 		self.ageLabel.hidden = YES;
 	}
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end
