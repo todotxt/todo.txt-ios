@@ -198,8 +198,8 @@
     self.taskLabel.frame = taskFrame;
     self.taskLabel.text = [self attributedTaskText];
 
-    todoIdFrame.origin.y = [[self class] heightForCellWithTask:self.task]/2.0 -
-        CGRectGetHeight(todoIdFrame)/2.0;
+    // A little hack-y to align priority label with task ID
+    todoIdFrame.origin.y = VERTICAL_PADDING + 2.0;
     self.todoIdLabel.frame = todoIdFrame;
 
 	if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
