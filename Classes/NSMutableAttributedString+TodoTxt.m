@@ -19,10 +19,9 @@
  * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
- * @author Gina Trapani <ginatrapani[at]gmail[dot]com>
- * @author Shawn McGuire <mcguiresm[at]gmail[dot]com> 
+ * @author Ricky Hussmmann <ricky[dot]hussmann[at]gmail[dot]com>
  * @license http://www.gnu.org/licenses/gpl.html
- * @copyright 2009-2011 Gina Trapani, Shawn McGuire
+ * @copyright 2009-2011 Ricky Hussmann
  *
  *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
@@ -48,37 +47,29 @@
  */
 
 #import "ContextParser.h"
-#import "TestFlight.h"
+#import "NSMutableAttributedString+TodoTxt.h"
+#import "ProjectParser.h"
 
-static NSRegularExpression* contextPattern = nil;
+@implementation NSMutableAttributedString (TodoTxt)
 
-@implementation ContextParser
-+ (void)initialize {
-	contextPattern = [[NSRegularExpression alloc] 
-                      initWithPattern:@"(?:^|\\s)@(\\S*\\w)"
-                      options:0
-                      error:nil];
+- (void)addAttributesToProjectText:(NSDictionary*)attributes {
+    [[ProjectParser textPattern] enumerateMatchesInString:self.string
+                                                  options:0
+                                                    range:NSMakeRange(0, self.string.length)
+                                               usingBlock:
+     ^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+         [self addAttributes:attributes range:result.range];
+     }];
 }
 
-+ (NSRegularExpression*)textPattern { return contextPattern; }
-
-+ (NSArray*) parse:(NSString*)inputText {
-	if (!inputText) {
-		return [NSArray array];
-	}
-	
-	NSArray *contextMatches = 
-				 [contextPattern matchesInString:inputText
-					options:0
-					range:NSMakeRange(0, [inputText length])];
-	
-	NSMutableArray* contexts = [NSMutableArray arrayWithCapacity:[contextMatches count]];
-	for (NSTextCheckingResult *match in contextMatches) {
-		[contexts addObject:[inputText substringWithRange:[match rangeAtIndex:1]]];
-	}	
-	
-	return contexts;
+- (void)addAttributesToContextText:(NSDictionary*)attributes {
+    [[ContextParser textPattern] enumerateMatchesInString:self.string
+                                                  options:0
+                                                    range:NSMakeRange(0, self.string.length)
+                                               usingBlock:
+     ^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+         [self addAttributes:attributes range:result.range];
+     }];
 }
-
 
 @end

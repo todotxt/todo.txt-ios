@@ -47,9 +47,13 @@
 
 #import "AttributedLabel.h"
 #import "Color.h"
+#import "ContextParser.h"
 #import "FlexiTaskCell.h"
+#import "ProjectParser.h"
 
 #import <CoreText/CoreText.h>
+
+#import "NSMutableAttributedString+TodoTxt.h"
 
 #define VERTICAL_PADDING        5
 #define PRI_XPOS_SHORT          28
@@ -129,8 +133,17 @@
     NSDictionary *taskAttributes = (self.task.completed) ?
         [[self class] completedTaskAttributes] : [[self class] taskStringAttributes];
 
-    return [[[NSAttributedString alloc] initWithString:[self.task inScreenFormat]
-                                            attributes:taskAttributes] autorelease];
+    NSString* taskText = [self.task inScreenFormat];
+    NSMutableAttributedString *taskString;
+    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
+                                                         attributes:taskAttributes] autorelease];
+
+    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
+                                                              forKey:(id)kCTForegroundColorAttributeName];
+    [taskString addAttributesToProjectText:grayAttriubte];
+    [taskString addAttributesToContextText:grayAttriubte];
+
+    return [[[NSAttributedString alloc] initWithAttributedString:taskString] autorelease];
 }
 
 - (void)layoutSubviews {
