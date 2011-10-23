@@ -271,10 +271,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 -(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-    Task *task = [tasks objectAtIndex:indexPath.row];
+    Task *task = [self taskForTable:tableView atIndex:indexPath.row];
     [task markComplete:[NSDate date]];
     [taskBag update:task];
-//    [task release];
     [self reloadData:nil];
     [todo_txt_touch_iosAppDelegate pushToRemote];
 }
