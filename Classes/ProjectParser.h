@@ -54,6 +54,6 @@
 }
 
 + (NSArray*) parse:(NSString*)inputText;
-
++ (NSRegularExpression*)textPattern;
 
 @end

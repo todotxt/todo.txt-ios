@@ -131,6 +131,7 @@
 		88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */; };
 		88F1AB391412EA1700AB3D18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB371412EA1700AB3D18 /* Default.png */; };
 		88F1AB3A1412EA1700AB3D18 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB381412EA1700AB3D18 /* Default@2x.png */; };
+		F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */; };
 		F45C4F8D1453624D00E92C6D /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F45C4F8C1453624D00E92C6D /* AttributedLabel.m */; };
 		F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C4F8F145363F300E92C6D /* CoreText.framework */; };
 		F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F5795614478D8400309ECA /* FlexiTaskCell.m */; };
@@ -348,6 +349,8 @@
 		88F1AB371412EA1700AB3D18 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		88F1AB381412EA1700AB3D18 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		F4595BE41453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+TodoTxt.h"; sourceTree = "<group>"; };
+		F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+TodoTxt.m"; sourceTree = "<group>"; };
 		F45C4F8B1453624D00E92C6D /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
 		F45C4F8C1453624D00E92C6D /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		F45C4F8F145363F300E92C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -606,6 +609,8 @@
 				8817330B13F10A9800B6B9F9 /* Color.m */,
 				888065B51401A51C0036DE2A /* Network.h */,
 				888065B61401A51C0036DE2A /* Network.m */,
+				F4595BE41453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.h */,
+				F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -931,6 +936,7 @@
 				7DD54F421443CD5400C130DC /* iPadLoginScreenViewController.m in Sources */,
 				F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */,
 				F45C4F8D1453624D00E92C6D /* AttributedLabel.m in Sources */,
+				F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,13 +53,14 @@
 static NSRegularExpression* projectPattern = nil;
 
 @implementation ProjectParser
-
 + (void)initialize {
 	projectPattern = [[NSRegularExpression alloc] 
 					  initWithPattern:@"\\+(\\S*\\w)"
-					  options:0 
+					  options:0
 					  error:nil];
 }
+
++ (NSRegularExpression*)textPattern { return projectPattern; }
 
 + (NSArray*) parse:(NSString*)inputText {
 	if (!inputText) {
