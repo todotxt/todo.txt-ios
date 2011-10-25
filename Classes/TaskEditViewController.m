@@ -166,7 +166,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
         // After setting the accessory view for the text view, we no longer need a reference to the accessory view.
         self.accessoryView = nil;
     }
-	
+
+    textView.keyboardType = UIKeyboardTypeDefault;
     return YES;
 }
 
