@@ -77,7 +77,7 @@
 //
 - (void)drawRect:(CGRect)rect {
     // layout master
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.text);
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.text);
 
     // rect format
     CGMutablePathRef textPath = CGPathCreateMutable();
@@ -99,32 +99,32 @@
 
     // get lines
     CFArrayRef leftLines = CTFrameGetLines(textFrame);
-    CGPoint *origins = malloc(sizeof(CGPoint)*[(__bridge NSArray *)leftLines count]);
+    CGPoint *origins = malloc(sizeof(CGPoint)*[(NSArray *)leftLines count]);
     CTFrameGetLineOrigins(textFrame,
                           CFRangeMake(0, 0), origins);
     NSInteger lineIndex = 0;
 
-    for (id oneLine in (__bridge NSArray *)leftLines)
+    for (id oneLine in (NSArray *)leftLines)
     {
-        CFArrayRef runs = CTLineGetGlyphRuns((__bridge CTLineRef)oneLine);
-        CGRect lineBounds = CTLineGetImageBounds((__bridge CTLineRef)oneLine, context);
+        CFArrayRef runs = CTLineGetGlyphRuns((CTLineRef)oneLine);
+        CGRect lineBounds = CTLineGetImageBounds((CTLineRef)oneLine, context);
 
         lineBounds.origin.x += origins[lineIndex].x;
         lineBounds.origin.y += origins[lineIndex].y;
         lineIndex++;
         CGFloat offset = 0;
 
-        for (id oneRun in (__bridge NSArray *)runs)
+        for (id oneRun in (NSArray *)runs)
         {
             CGFloat ascent = 0;
             CGFloat descent = 0;
 
-            CGFloat width = CTRunGetTypographicBounds((__bridge CTRunRef) oneRun,
+            CGFloat width = CTRunGetTypographicBounds((CTRunRef) oneRun,
                                                       CFRangeMake(0, 0),
                                                       &ascent,
                                                       &descent, NULL);
 
-            NSDictionary *attributes = (__bridge NSDictionary *)CTRunGetAttributes((__bridge CTRunRef) oneRun);
+            NSDictionary *attributes = (NSDictionary *)CTRunGetAttributes((CTRunRef) oneRun);
 
             BOOL strikeOut = [[attributes objectForKey:kTTStrikethroughAttributeName] boolValue];
 
@@ -145,7 +145,7 @@
 
                 if (color)
                 {
-                    CGContextSetStrokeColorWithColor(context, (__bridge CGColorRef)color);
+                    CGContextSetStrokeColorWithColor(context, (CGColorRef)color);
                 }
                 else
                 {
