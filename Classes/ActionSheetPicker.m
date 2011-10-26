@@ -35,10 +35,37 @@
 #pragma mark NSObject
 
 + (void)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
-	ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title];
+    //Prevent crashes when there are no projects or categories
+    if( [data count] == 0) {
+        //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"No data available"]];
+        [self showHUDWithCustomView:aView withMessage:@"No data available"];
+    } else {
+    ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title];
 	[actionSheetPicker showActionPicker];
-	[actionSheetPicker release];
+	[actionSheetPicker release]; 
+    
+    }
 }
+
++ (void)showHUDWithCustomView:(UIView *)view withMessage:(NSString *)message {
+    
+    MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:HUD];
+    
+    // The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+    // Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+    HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+    
+    // Set custom view mode
+    HUD.mode = MBProgressHUDModeCustomView;
+    
+    HUD.labelText = message;
+    
+    [HUD show:YES];
+    [HUD hide:YES afterDelay:1];
+}
+
+
 
 + (void)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title {
 	ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title];
