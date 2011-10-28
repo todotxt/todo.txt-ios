@@ -12,9 +12,10 @@
 //	Some code derived from marcio's post on Stack Overflow [ http://stackoverflow.com/questions/1262574/add-uipickerview-a-button-in-action-sheet-how ]  
 
 #import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
 
 
-@interface ActionSheetPicker : NSObject <UIPickerViewDelegate, UIPickerViewDataSource> {
+@interface ActionSheetPicker : NSObject <UIPickerViewDelegate, UIPickerViewDataSource, MBProgressHUDDelegate> {
 	UIView *_view;
 	
 	NSArray *_data;
@@ -32,6 +33,8 @@
 	UIPickerView *_pickerView;
 	UIDatePicker *_datePickerView;
 	NSInteger _pickerPosition;
+    
+    MBProgressHUD *HUD;
 }
 
 @property (nonatomic, retain) UIView *view;
@@ -79,5 +82,7 @@
 - (void)eventForDatePicker:(id)sender;
 
 - (BOOL)isViewPortrait;
+
++ (void)showHUDWithCustomView:(UIView *)view withMessage:(NSString *)message;
 
 @end
