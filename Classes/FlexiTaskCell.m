@@ -97,7 +97,7 @@
 
     if (self) {
         self.priorityLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        self.priorityLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        self.priorityLabel.font = [UIFont boldSystemFontOfSize:14.0];
 
         self.ageLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         self.ageLabel.font = [UIFont systemFontOfSize:10.0];
@@ -150,7 +150,7 @@
     [super layoutSubviews];
 
     CGRect todoIdFrame = CGRectMake(0, 16, 23, 13);
-    CGRect priorityFrame = CGRectMake(28, VERTICAL_PADDING-1, 12, 21);
+    CGRect priorityFrame = CGRectMake(28, VERTICAL_PADDING-2, 12, 21);
     CGRect ageFrame = CGRectMake(46, 27, 235, AGE_HEIGHT);
     CGRect taskFrame = CGRectMake(46, VERTICAL_PADDING,
                                   [[self class] taskTextWidth], 19);
@@ -212,7 +212,7 @@
     self.taskLabel.text = [self attributedTaskText];
 
     // A little hack-y to align priority label with task ID
-    todoIdFrame.origin.y = VERTICAL_PADDING + 2.0;
+    todoIdFrame.origin.y = VERTICAL_PADDING + 3;
     self.todoIdLabel.frame = todoIdFrame;
 
 	if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
