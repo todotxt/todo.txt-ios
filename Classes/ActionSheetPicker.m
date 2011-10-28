@@ -54,7 +54,7 @@
     
     // The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
     // Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-    HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+    HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_white.png"]] autorelease];
     
     // Set custom view mode
     HUD.mode = MBProgressHUDModeCustomView;
@@ -167,7 +167,12 @@
 		viewController.view = view;
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
 		_popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-		[self.popOverController presentPopoverFromRect:self.view.frame inView:self.view.superview?:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
+        //The clicked button is saved into the appdelegate.  The Popover is anchored to that.
+        todo_txt_touch_iosAppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+        [self.popOverController presentPopoverFromBarButtonItem:appdelegate.lastClickedButton
+                                       permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+
 	} else {
 		//spawn actionsheet
 		_actionSheet = [[UIActionSheet alloc] initWithTitle:[self isViewPortrait]?nil:@"\n\n\n" delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
