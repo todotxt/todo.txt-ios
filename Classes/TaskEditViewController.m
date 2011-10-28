@@ -259,38 +259,43 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[textView becomeFirstResponder];
 }
 
-- (IBAction)segmentControlPressed:(id)sender {
-	[textView resignFirstResponder];
-
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+- (IBAction) keyboardAccessoryButtonPressed:(id)sender {
 	
-	switch (segmentedControl.selectedSegmentIndex) {
-		case 0: // Priority
-			[ActionSheetPicker displayActionPickerWithView:self.view 
-													  data:[Priority allCodes]
-											 selectedIndex:0
-													target:self 
-													action:@selector(priorityWasSelected::) 
-													 title:@"Select Priority"];
-			break;
-		case 1: // Project
-			[ActionSheetPicker displayActionPickerWithView:self.view 
-													  data:[taskBag projects]
-											 selectedIndex:0
-													target:self 
-													action:@selector(projectWasSelected::) 
-													 title:@"Select Project"];			
-			break;
-		case 2: // Context
+	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        //For ipad, we have ample space and it is not necessary to hide the keyboard
+        todo_txt_touch_iosAppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+        appdelegate.lastClickedButton = sender;
+    } else {
+        [textView resignFirstResponder];
+    }
+    
+    UIBarButtonItem *button = (UIBarButtonItem*)sender;
+ 
+	if([button.title isEqualToString:@"Context"]) { // Context 
 			[ActionSheetPicker displayActionPickerWithView:self.view 
 													  data:[taskBag contexts]
 											 selectedIndex:0
 													target:self 
 													action:@selector(contextWasSelected::) 
 													 title:@"Select Context"];			
-			break;			
-	}
+	} else if([button.title isEqualToString:@"Priority"]) { // Priority 
+        [ActionSheetPicker displayActionPickerWithView:self.view 
+                                                  data:[Priority allCodes]
+                                         selectedIndex:0
+                                                target:self 
+                                                action:@selector(priorityWasSelected::) 
+                                                 title:@"Select Priority"];
+        
+    } else if([button.title isEqualToString:@"Project"]) { // Priority 
+        [ActionSheetPicker displayActionPickerWithView:self.view 
+                                              data:[taskBag projects]
+                                     selectedIndex:0
+                                            target:self 
+                                            action:@selector(projectWasSelected::) 
+                                             title:@"Select Project"];			
+    }
 }
 
 

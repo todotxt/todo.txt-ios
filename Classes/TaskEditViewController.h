@@ -79,6 +79,7 @@
 - (IBAction)doneButtonPressed:(id)sender;
 - (IBAction)helpButtonPressed:(id)sender;
 - (IBAction)segmentControlPressed:(id)sender;
+- (IBAction) keyboardAccessoryButtonPressed:(id)sender; 
 - (void) addEditTask;
 
 @end

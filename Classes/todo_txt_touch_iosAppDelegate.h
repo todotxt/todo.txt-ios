@@ -62,6 +62,7 @@
 	UINavigationController *navigationController;
     id <TaskBag> taskBag;
 	RemoteClientManager *remoteClientManager;
+    id lastClickedButton; //Anchor holder for the Popover in iPad
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -69,6 +70,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, readonly) id <TaskBag> taskBag;
 @property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
+@property (nonatomic, retain) id lastClickedButton; 
 
 - (void) syncClient;
 - (void) syncClientForceChoice:(BOOL)forceChoice;
