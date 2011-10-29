@@ -409,4 +409,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
     return UITableViewCellAccessoryDetailDisclosureButton;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
 @end

@@ -138,13 +138,6 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[textView becomeFirstResponder];
 	
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 #pragma mark -
 #pragma mark Text view delegate methods
@@ -310,11 +303,13 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[task release];
 }
 
-
 - (void)dealloc {		
 	[textView release];
     [super dealloc];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ return YES;
+}
 
 @end
