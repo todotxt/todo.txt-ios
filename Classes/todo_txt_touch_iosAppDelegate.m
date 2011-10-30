@@ -64,6 +64,7 @@
 @synthesize navigationController;
 @synthesize taskBag;
 @synthesize remoteClientManager;
+@synthesize lastClickedButton;
 
 
 #pragma mark -

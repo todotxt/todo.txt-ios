@@ -138,7 +138,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
     CGSize expectedLabelSize = [[task inScreenFormat] 
-			sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0f]
+			sizeWithFont:[UIFont fontWithName:@"Helvetica" size:14.0f]
 			constrainedToSize:maximumLabelSize 
 		    lineBreakMode:UILineBreakModeWordWrap]; 
 	
@@ -166,8 +166,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
 	if(section == 0) {
-		Task* task = [self task];
-		return [NSString stringWithFormat:@"Task %02d", [task taskId] + 1];;
+		return [NSString stringWithFormat:@""];
 	} else {
 		return @"Actions";
 	}
@@ -195,6 +194,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	
     label = (UILabel *)[cell viewWithTag:2];
     label.text = [[task priority] listFormat];
+    label.font = [UIFont boldSystemFontOfSize:14.0];
 	// Set the priority color
 	PriorityName n = [[task priority] name];
 	switch (n) {
@@ -222,6 +222,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	
     label = (UILabel *)[cell viewWithTag:3];
     label.text = [task inScreenFormat];
+    label.font = [UIFont systemFontOfSize:14.0];
 	if ([task completed]) {
 		// TODO: There doesn't seem to be a strikethrough option for UILabel.
 		// For now, let's just disable the label.
