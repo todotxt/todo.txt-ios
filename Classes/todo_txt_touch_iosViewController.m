@@ -149,7 +149,7 @@
     [super viewDidLoad];
 	self.title = @"Todo.txt Touch";
 	self.navigationItem.backBarButtonItem =
-		[[[UIBarButtonItem alloc] initWithTitle:@"Task List"
+		[[[UIBarButtonItem alloc] initWithTitle:@"Todo.txt"
 										  style:UIBarButtonItemStyleBordered
 										 target:nil
 										 action:nil] autorelease];
