@@ -37,8 +37,8 @@
 + (void)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
     //Prevent crashes when there are no projects or categories
     if( [data count] == 0) {
-        //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"No data available"]];
-        [self showHUDWithCustomView:aView withMessage:@"No data available"];
+        //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"None to display"]];
+        [self showHUDWithCustomView:aView withMessage:@"None available"];
     } else {
     ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title];
 	[actionSheetPicker showActionPicker];
