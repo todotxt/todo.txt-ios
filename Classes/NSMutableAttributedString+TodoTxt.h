@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
+ * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
