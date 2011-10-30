@@ -134,6 +134,7 @@
 		F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */; };
 		F45C4F8D1453624D00E92C6D /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F45C4F8C1453624D00E92C6D /* AttributedLabel.m */; };
 		F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C4F8F145363F300E92C6D /* CoreText.framework */; };
+		F4AE4916145DC01B00499191 /* FlexiTaskCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE4915145DC01B00499191 /* FlexiTaskCellFactory.m */; };
 		F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F5795614478D8400309ECA /* FlexiTaskCell.m */; };
 /* End PBXBuildFile section */
 
@@ -354,6 +355,8 @@
 		F45C4F8B1453624D00E92C6D /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
 		F45C4F8C1453624D00E92C6D /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		F45C4F8F145363F300E92C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		F4AE4914145DC01B00499191 /* FlexiTaskCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiTaskCellFactory.h; sourceTree = "<group>"; };
+		F4AE4915145DC01B00499191 /* FlexiTaskCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiTaskCellFactory.m; sourceTree = "<group>"; };
 		F4F5795514478D8400309ECA /* FlexiTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiTaskCell.h; sourceTree = "<group>"; };
 		F4F5795614478D8400309ECA /* FlexiTaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiTaskCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -400,6 +403,8 @@
 				7DD54F401443CD5400C130DC /* iPadLoginScreenViewController.m */,
 				F45C4F8B1453624D00E92C6D /* AttributedLabel.h */,
 				F45C4F8C1453624D00E92C6D /* AttributedLabel.m */,
+				F4AE4914145DC01B00499191 /* FlexiTaskCellFactory.h */,
+				F4AE4915145DC01B00499191 /* FlexiTaskCellFactory.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -937,6 +942,7 @@
 				F4F5795714478D8400309ECA /* FlexiTaskCell.m in Sources */,
 				F45C4F8D1453624D00E92C6D /* AttributedLabel.m in Sources */,
 				F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */,
+				F4AE4916145DC01B00499191 /* FlexiTaskCellFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

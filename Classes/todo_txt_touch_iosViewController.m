@@ -50,6 +50,7 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "FlexiTaskCell.h"
+#import "FlexiTaskCellFactory.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
@@ -203,11 +204,11 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Create the cell if cells are available with same cell identifier
-	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCell cellId]];
+	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
 
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-        cell = [[[FlexiTaskCell alloc] init] autorelease];
+        cell = [FlexiTaskCellFactory cellForDeviceOrientation];
 	}
 
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
