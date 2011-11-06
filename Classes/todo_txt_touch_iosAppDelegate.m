@@ -321,6 +321,18 @@
 	}
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([remoteClientManager.currentClient handleOpenURL:url]) {
+        if ([remoteClientManager.currentClient isAuthenticated]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
+}
+
 #pragma mark -
 #pragma mark Memory management
 

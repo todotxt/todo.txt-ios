@@ -49,7 +49,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
-#import "DropboxSDK.h"
+#import <DropboxSDK/DropboxSDK.h>
 #import "TestFlight.h"
 
 @interface DropboxRemoteClient : NSObject<RemoteClient> {
@@ -66,5 +66,6 @@
 - (void) pullTodo;
 - (void) pushTodo:(NSString*)path;
 - (BOOL) isAvailable;
+- (BOOL) handleOpenURL:(NSURL *)url;
 
 @end
