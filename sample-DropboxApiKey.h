@@ -47,37 +47,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "TestFlight.h"
+#ifndef todo_txt_touch_ios_DropBoxApiKey_h
+#define todo_txt_touch_ios_DropBoxApiKey_h
 
-typedef enum {
-	ClientDropBox = 0
-} Client;
+/* Don't put these values in quotes */
+#define DROPBOX_APP_KEY your_dropbox_app_key
+#define DROPBOX_APP_SECRET your_dropbox_app_secret
 
-@protocol RemoteClientDelegate;
-
-@protocol RemoteClient <NSObject> 
-
-- (Client) client;
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodo:(NSString*)path;
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
-
-@required
-@property (nonatomic, assign) id<RemoteClientDelegate> delegate;
-
-@end
-
-@protocol RemoteClientDelegate <NSObject>
-
-- (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
-
-
-@end
+#endif

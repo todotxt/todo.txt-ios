@@ -63,6 +63,7 @@
 
 @interface TaskEditViewController : UIViewController <UITextViewDelegate>{
 	 id <TaskEditViewControllerDelegate> delegate;
+	UINavigationItem *navItem;
 	UITextView *textView; 
 	UIView *accessoryView;
 	NSString *curInput;
@@ -71,6 +72,7 @@
 }
 
 @property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UINavigationItem *navItem;
 @property (nonatomic, retain) IBOutlet UITextView *textView;
 @property (nonatomic, assign) IBOutlet UIView *accessoryView;
 @property (nonatomic, retain) Task *task;
@@ -78,7 +80,6 @@
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;
 - (IBAction)helpButtonPressed:(id)sender;
-- (IBAction)segmentControlPressed:(id)sender;
 - (IBAction) keyboardAccessoryButtonPressed:(id)sender; 
 - (void) addEditTask;
 
