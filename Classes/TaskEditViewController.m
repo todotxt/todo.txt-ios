@@ -106,7 +106,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 
 @implementation TaskEditViewController
 
-@synthesize delegate, textView, accessoryView, task;
+@synthesize delegate, navItem, textView, accessoryView, task;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -129,15 +129,18 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (task) {
-		self.title = @"Edit Task";	
+		self.navItem.title = @"Edit Task";
+		self.navItem.rightBarButtonItem.title = @"Done";
 		textView.text = [task inFileFormat];
 	} else {
-		self.title = @"Add Task";
+		self.navItem.title = @"Add Task";
+		self.navItem.rightBarButtonItem.title = @"Add";
 	}
 	curSelectedRange = textView.selectedRange;
 	[textView becomeFirstResponder];
 	
 }
+
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -317,6 +320,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 
 
 - (void)dealloc {		
+	[navItem release];
 	[textView release];
     [super dealloc];
 }
