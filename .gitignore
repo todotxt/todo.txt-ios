@@ -12,6 +12,7 @@ build/*
 
 xcuserdata
 dropbox.plist
+DropboxApiKey.h
 
 todo.txt-touch-ios.xcodeproj/xcuserdata/*
 todo.txt-touch-ios.xcodeproj/project.xcworkspace/xcuserdata/*
