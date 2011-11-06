@@ -265,7 +265,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
-        todo_txt_touch_iosAppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+        todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
         appdelegate.lastClickedButton = sender;
     } else {
         [textView resignFirstResponder];
