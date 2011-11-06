@@ -51,8 +51,10 @@
 #import "Network.h"
 #import "TaskIo.h"
 #import "TestFlight.h"
+#import "DropboxApiKey.h"
+#import "Util.h"
 
-@interface DropboxRemoteClient () <DBSessionDelegate, DBRestClientDelegate, DBLoginControllerDelegate>
+@interface DropboxRemoteClient () <DBSessionDelegate, DBRestClientDelegate>
 @end
 
 @implementation DropboxRemoteClient
@@ -65,21 +67,13 @@
 						@"todo.txt", nil]];
 }
 
-- (NSDictionary*) getApiKey {
-	NSBundle* bundle = [NSBundle mainBundle];
-	NSString* plistPath = [bundle pathForResource:@"dropbox" ofType:@"plist"];
-	return [[[NSDictionary alloc] initWithContentsOfFile:plistPath] autorelease];
-}
-
 - (id) init {
 	self = [super init];
 	if (self) {
-		NSDictionary *apiKey = [self getApiKey];
-		NSString* consumerKey = [apiKey objectForKey:@"dropbox_consumer_key"];
-		NSString* consumerSecret = [apiKey objectForKey:@"dropbox_consumer_secret"];
-		
 		DBSession* session = 
-        [[DBSession alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret];
+        [[DBSession alloc] initWithAppKey:str(DROPBOX_APP_KEY) 
+								appSecret:str(DROPBOX_APP_SECRET) 
+									 root:kDBRootDropbox];
 		session.delegate = self; 
 		[DBSession setSharedSession:session];
 		[session release];
@@ -97,7 +91,7 @@
 }
 
 - (void) deauthenticate {
-	[[DBSession sharedSession] unlink];
+	[[DBSession sharedSession] unlinkAll];
 	[[NSFileManager defaultManager] 
 		removeItemAtPath:[self todoTxtTmpFile] 
 					error:nil];
@@ -108,9 +102,7 @@
 }
 
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController {
-	DBLoginController* controller = [[DBLoginController new] autorelease];
-	controller.delegate = self;
-	[controller presentFromController:parentViewController];
+	[[DBSession sharedSession] link];
 }
 
 - (DBRestClient*)restClient {
@@ -146,6 +138,7 @@
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
+	//FIXME: set parent rev?
 	[self.restClient uploadFile:@"todo.txt" toPath:remotePath fromPath:path];
 }
 
@@ -192,25 +185,29 @@
 #pragma mark -
 #pragma mark DBSessionDelegate methods
 
-- (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session {
+- (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId {
 	//TODO: signal login failure
 }
 
 
 #pragma mark -
 #pragma mark DBLoginControllerDelegate methods
-
-- (void)loginControllerDidLogin:(DBLoginController*)controller {
-	// call RemoteClientDelegate method
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loginControllerDidLogin:)]) {
-		[self.delegate remoteClient:self loginControllerDidLogin:YES];
-	}	
-}
-
-- (void)loginControllerDidCancel:(DBLoginController*)controller {
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loginControllerDidLogin:)]) {
-		[self.delegate remoteClient:self loginControllerDidLogin:NO];
-	}	
+- (BOOL) handleOpenURL:(NSURL *)url {
+	if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+			// call RemoteClientDelegate method
+			if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loginControllerDidLogin:)]) {
+				[self.delegate remoteClient:self loginControllerDidLogin:YES];
+			}	
+        } else {
+			if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loginControllerDidLogin:)]) {
+				[self.delegate remoteClient:self loginControllerDidLogin:NO];
+			}				
+		}
+        return YES;
+    }
+    return NO;
 }
 
 @end

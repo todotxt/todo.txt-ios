@@ -49,6 +49,10 @@
 
 #import <Foundation/Foundation.h>
 
+// str(x) converts a preprocessor macro to an NSString literal
+// see http://gcc.gnu.org/onlinedocs/cpp/Stringification.html
+#define str(x) @_str(x)
+#define _str(x) #x
 
 @interface Util : NSObject {
 
