@@ -678,9 +678,9 @@
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -708,9 +708,9 @@
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -760,9 +760,9 @@
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
