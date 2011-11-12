@@ -169,7 +169,7 @@
 		_popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
         
         //The clicked button is saved into the appdelegate.  The Popover is anchored to that.
-        todo_txt_touch_iosAppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+        todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
         [self.popOverController presentPopoverFromBarButtonItem:appdelegate.lastClickedButton
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 

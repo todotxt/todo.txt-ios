@@ -1,8 +1,8 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.h
+ * Todo.txt-Touch-iOS/sample-DropboxApiKey.h
  *
- * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
+ * Copyright (c) 2011 Gina Trapani
  *
  * LICENSE:
  *
@@ -20,9 +20,8 @@
  * <http://www.gnu.org/licenses/>.
  *
  * @author Gina Trapani <ginatrapani[at]gmail[dot]com>
- * @author Shawn McGuire <mcguiresm[at]gmail[dot]com> 
  * @license http://www.gnu.org/licenses/gpl.html
- * @copyright 2009-2011 Gina Trapani, Shawn McGuire
+ * @copyright 2011 Gina Trapani
  *
  *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
@@ -47,37 +46,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "TestFlight.h"
+#ifndef todo_txt_touch_ios_DropBoxApiKey_h
+#define todo_txt_touch_ios_DropBoxApiKey_h
 
-typedef enum {
-	ClientDropBox = 0
-} Client;
+/* Don't put these values in quotes */
+#define DROPBOX_APP_KEY your_dropbox_app_key
+#define DROPBOX_APP_SECRET your_dropbox_app_secret
 
-@protocol RemoteClientDelegate;
-
-@protocol RemoteClient <NSObject> 
-
-- (Client) client;
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodo:(NSString*)path;
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
-
-@required
-@property (nonatomic, assign) id<RemoteClientDelegate> delegate;
-
-@end
-
-@protocol RemoteClientDelegate <NSObject>
-
-- (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
-
-
-@end
+#endif
