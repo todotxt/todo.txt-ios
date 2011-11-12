@@ -78,6 +78,8 @@
 		888065B11401A3D10036DE2A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065B01401A3D10036DE2A /* Reachability.m */; };
 		888065B71401A51C0036DE2A /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065B61401A51C0036DE2A /* Network.m */; };
 		888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888065B81401AF7D0036DE2A /* SystemConfiguration.framework */; };
+		888286AB146E5165007DBB16 /* PGTableViewWithEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 888286AA146E5165007DBB16 /* PGTableViewWithEmptyView.m */; };
+		888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888286AC146E52C5007DBB16 /* QuartzCore.framework */; };
 		88866D3113F794320073944B /* Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 88866D3013F794320073944B /* Sort.m */; };
 		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
 		88A91724146614920075B886 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A91723146614920075B886 /* DropboxSDK.framework */; };
@@ -211,6 +213,9 @@
 		888065B51401A51C0036DE2A /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		888065B61401A51C0036DE2A /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		888065B81401AF7D0036DE2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		888286A9146E5165007DBB16 /* PGTableViewWithEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTableViewWithEmptyView.h; sourceTree = "<group>"; };
+		888286AA146E5165007DBB16 /* PGTableViewWithEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTableViewWithEmptyView.m; sourceTree = "<group>"; };
+		888286AC146E52C5007DBB16 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		88866D2F13F794320073944B /* Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sort.h; path = Classes/Sort.h; sourceTree = "<group>"; };
 		88866D3013F794320073944B /* Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sort.m; path = Classes/Sort.m; sourceTree = "<group>"; };
 		8887496B13F3715400871E49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
@@ -241,6 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */,
 				F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */,
 				5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */,
 				888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */,
@@ -348,6 +354,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				888286AC146E52C5007DBB16 /* QuartzCore.framework */,
 				88A91723146614920075B886 /* DropboxSDK.framework */,
 				F45C4F8F145363F300E92C6D /* CoreText.framework */,
 				5910DBD014216A2300BB2D68 /* MessageUI.framework */,
@@ -469,6 +476,7 @@
 		59216D3B13EA316100FF07EE /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				888286A8146E5165007DBB16 /* PGTableWithEmptyView */,
 				888065AF1401A3D10036DE2A /* Reachability.h */,
 				888065B01401A3D10036DE2A /* Reachability.m */,
 				8887496B13F3715400871E49 /* ActionSheetPicker.h */,
@@ -514,6 +522,15 @@
 				888065941401898E0036DE2A /* RemoteClientManager.m */,
 			);
 			name = Remote;
+			sourceTree = "<group>";
+		};
+		888286A8146E5165007DBB16 /* PGTableWithEmptyView */ = {
+			isa = PBXGroup;
+			children = (
+				888286A9146E5165007DBB16 /* PGTableViewWithEmptyView.h */,
+				888286AA146E5165007DBB16 /* PGTableViewWithEmptyView.m */,
+			);
+			path = PGTableWithEmptyView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -653,6 +670,7 @@
 				F45C4F8D1453624D00E92C6D /* AttributedLabel.m in Sources */,
 				F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */,
 				DEA1880214579780007452B4 /* MBProgressHUD.m in Sources */,
+				888286AB146E5165007DBB16 /* PGTableViewWithEmptyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
