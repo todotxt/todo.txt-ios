@@ -222,7 +222,7 @@
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    return [[[FlexiTaskCellFactory cellIDForDeviceOrientation] class] heightForCellWithTask:task];
+    return [FlexiTaskCellFactory heightForCellWithTask:task];
 }
 
 // Load the detail view controller when user taps the row
@@ -412,6 +412,10 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self reloadData:nil];
 }
 
 @end

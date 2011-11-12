@@ -51,6 +51,8 @@
 #import <Foundation/Foundation.h>
 
 @interface FlexiTaskCellFactory : NSObject
++ (CGFloat)heightForCellWithTask:(Task*)aTask;
+
 + (FlexiTaskCell*)cellForDeviceOrientation;
 + (NSString*)cellIDForDeviceOrientation;
 @end

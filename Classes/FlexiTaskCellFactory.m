@@ -46,6 +46,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import "FlexiIPadLandscapeCell.h"
+#import "FlexiIPadPortraitCell.h"
+#import "FlexiIPhoneLandscapeCell.h"
+#import "FlexiIPhonePortraitCell.h"
 #import "FlexiTaskCellFactory.h"
 
 @interface FlexiTaskCellFactory ()
@@ -54,8 +58,26 @@
 @end
 
 @implementation FlexiTaskCellFactory
++ (CGFloat)heightForCellWithTask:(Task*)aTask {
+    return [[[self cellForDeviceOrientation] class] heightForCellWithTask:aTask];
+}
+
 + (FlexiTaskCell*)cellForDeviceOrientation {
-    return [[[FlexiTaskCell alloc] init] autorelease];
+    FlexiTaskCell* taskCell;
+    if ([self currentDeviceIsIpad]) {
+        if ([self currentOrientationIsPortrait]) {
+            taskCell = [[[FlexiIPadPortraitCell alloc] init] autorelease];
+        } else {
+            taskCell = [[[FlexiIPadLandscapeCell alloc] init] autorelease];
+        }
+    } else {
+        if ([self currentOrientationIsPortrait]) {
+            taskCell = [[[FlexiIPhonePortraitCell alloc] init] autorelease];
+        } else {
+            taskCell = [[[FlexiIPhoneLandscapeCell alloc] init] autorelease];
+        }
+    }
+    return taskCell;
 }
 
 + (NSString*)cellIDForDeviceOrientation {
@@ -68,6 +90,6 @@
 }
 
 + (BOOL)currentOrientationIsPortrait {
-    return UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
+    return UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
 }
 @end

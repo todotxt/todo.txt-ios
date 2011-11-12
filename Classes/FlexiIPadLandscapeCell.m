@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/FlexiTaskCell.h
+ * Todo.txt-Touch-iOS/Classes/FlexiIPadLandscapeCell.m
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -45,18 +45,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "Task.h"
-#import <UIKit/UIKit.h>
+#import "FlexiIPadLandscapeCell.h"
 
-@interface FlexiTaskCell : UITableViewCell
+@implementation FlexiIPadLandscapeCell
 
-// -(id)init is now the designated initializer
-
-+ (CGFloat)heightForCellWithTask:(Task*)aTask;
-+ (NSString*)cellId;
-
-+ (BOOL)shouldShowTaskId;
-
-@property (readwrite, retain) Task* task;
++ (CGFloat)shortTaskWidth { return 935.0; }
++ (CGFloat)longTaskWidth { return 956.0; }
 
 @end
