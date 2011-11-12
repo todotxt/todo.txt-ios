@@ -230,35 +230,38 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
-	Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
-	NSString *newText = [NSString stringWithFormat:@"%@ %@",
-						 [selectedPriority fileFormat],
-						 [[PriorityTextSplitter split:textView.text] text]];
-	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
-	textView.text = newText;
-
+	if (selectedIndex.intValue >= 0) {
+		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
+		NSString *newText = [NSString stringWithFormat:@"%@ %@",
+							 [selectedPriority fileFormat],
+							 [[PriorityTextSplitter split:textView.text] text]];
+		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+		textView.text = newText;
+	}
 	[textView becomeFirstResponder];
 }
 
 - (void) projectWasSelected:(NSNumber *)selectedIndex:(id)element {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
-	item = [NSString stringWithFormat:@"+%@", item];
-	NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
-	textView.text = newText;
-	
+	if (selectedIndex.intValue >= 0) {
+		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
+		item = [NSString stringWithFormat:@"+%@", item];
+		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+		textView.text = newText;
+	}	
 	[textView becomeFirstResponder];
 }
 
 - (void) contextWasSelected:(NSNumber *)selectedIndex:(id)element {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
-	item = [NSString stringWithFormat:@"@%@", item];
-	NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-	curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
-	textView.text = newText;
-	
+	if (selectedIndex.intValue >= 0) {
+		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
+		item = [NSString stringWithFormat:@"@%@", item];
+		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+		textView.text = newText;
+	}	
 	[textView becomeFirstResponder];
 }
 

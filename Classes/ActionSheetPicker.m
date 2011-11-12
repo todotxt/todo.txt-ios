@@ -39,6 +39,7 @@
     if( [data count] == 0) {
         //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"None to display"]];
         [self showHUDWithCustomView:aView withMessage:@"None available"];
+		[target performSelector:action withObject:[NSNumber numberWithInt:-1] withObject:aView];
     } else {
     ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title];
 	[actionSheetPicker showActionPicker];
@@ -60,7 +61,8 @@
     HUD.mode = MBProgressHUDModeCustomView;
     
     HUD.labelText = message;
-    
+    HUD.yOffset = -100;
+	
     [HUD show:YES];
     [HUD hide:YES afterDelay:1];
 }
@@ -228,6 +230,15 @@
 	} else {
 		[self.popOverController dismissPopoverAnimated:YES];
 	}
+	
+	if (nil != self.data) {
+		//send data picker message
+		[self.target performSelector:self.action withObject:[NSNumber numberWithInt:-1] withObject:self.view];
+	} else {
+		//send date picker message
+		[self.target performSelector:self.action withObject:nil withObject:self.view];
+	}    
+
 	[self release];
 }
 
