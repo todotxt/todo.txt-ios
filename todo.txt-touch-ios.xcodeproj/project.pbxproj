@@ -84,6 +84,7 @@
 		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
 		88A91724146614920075B886 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A91723146614920075B886 /* DropboxSDK.framework */; };
 		88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AAFC621419CB960062BBF6 /* Icon@2x.png */; };
+		88F043E2148879C1007C32DA /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88334817146F5D4F009CBDE9 /* SSTextView.m */; };
 		88F1AB2A1412D5F100AB3D18 /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */; };
 		88F1AB2B1412D5F100AB3D18 /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */; };
 		88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */; };
@@ -200,6 +201,8 @@
 		8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagFactory.m; path = Classes/TaskBagFactory.m; sourceTree = "<group>"; };
 		8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBagImpl.h; path = Classes/TaskBagImpl.h; sourceTree = "<group>"; };
 		8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagImpl.m; path = Classes/TaskBagImpl.m; sourceTree = "<group>"; };
+		88334816146F5D4F009CBDE9 /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
+		88334817146F5D4F009CBDE9 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
 		883E42FC13EB7BDC002FEBCC /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBag.h; path = Classes/TaskBag.h; sourceTree = "<group>"; };
 		883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalTaskRepository.h; path = Classes/LocalTaskRepository.h; sourceTree = "<group>"; };
 		883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalFileTaskRepository.h; path = Classes/LocalFileTaskRepository.h; sourceTree = "<group>"; };
@@ -524,6 +527,8 @@
 				888065B61401A51C0036DE2A /* Network.m */,
 				F4595BE41453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.h */,
 				F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */,
+				88334816146F5D4F009CBDE9 /* SSTextView.h */,
+				88334817146F5D4F009CBDE9 /* SSTextView.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -648,6 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88F043E2148879C1007C32DA /* SSTextView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* todo_txt_touch_iosViewController.m in Sources */,
