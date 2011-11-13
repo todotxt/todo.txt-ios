@@ -62,7 +62,7 @@
 #define ACTION_ROW_HEIGHT 50
 #define DETAIL_CELL_PADDING 10
 
-char *buttons[] = { "Complete", "Prioritize", "Update", "Delete", "Share" }; 
+char *buttons[] = { "Complete", "Prioritize", "Update", "Delete" };
 char *completed_buttons[] = { "Undo Complete", "Delete" }; 
 
 @implementation TaskViewController
