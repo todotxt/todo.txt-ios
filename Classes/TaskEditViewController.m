@@ -107,7 +107,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 
 @implementation TaskEditViewController
 
-@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpCloseButton, popOverController;
+@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpCloseButton, popOverController, actionSheetPicker;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -312,6 +312,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
     
+	[actionSheetPicker actionPickerCancel];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
         todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -323,14 +324,14 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     UIBarButtonItem *button = (UIBarButtonItem*)sender;
  
 	if([button.title isEqualToString:@"Context"]) { // Context 
-			[ActionSheetPicker displayActionPickerWithView:self.view 
+		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
 													  data:[taskBag contexts]
 											 selectedIndex:0
 													target:self 
 													action:@selector(contextWasSelected::) 
 													 title:@"Select Context"];			
 	} else if([button.title isEqualToString:@"Priority"]) { // Priority 
-        [ActionSheetPicker displayActionPickerWithView:self.view 
+		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
                                                   data:[Priority allCodes]
                                          selectedIndex:0
                                                 target:self 
@@ -338,7 +339,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
                                                  title:@"Select Priority"];
         
     } else if([button.title isEqualToString:@"Project"]) { // Priority 
-        [ActionSheetPicker displayActionPickerWithView:self.view 
+		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
                                               data:[taskBag projects]
                                      selectedIndex:0
                                             target:self 
@@ -365,6 +366,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	self.helpView = nil;
 	self.helpCloseButton = nil;
 	self.popOverController = nil;
+	self.actionSheetPicker = nil;
 }
 
 
@@ -374,6 +376,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[helpView release];
 	[helpCloseButton release];
 	[popOverController release];
+	[actionSheetPicker release];
     [super dealloc];
 }
 

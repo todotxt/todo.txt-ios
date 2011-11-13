@@ -50,6 +50,7 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 #import "TestFlight.h"
+#import "ActionSheetPicker.h"
 
 @class TaskEditViewController;
 
@@ -72,6 +73,7 @@
 	UIView *helpView;
 	UIButton *helpCloseButton;
 	UIPopoverController *popOverController;
+	ActionSheetPicker *actionSheetPicker;
 }
 
 @property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
@@ -82,6 +84,7 @@
 @property (nonatomic, retain) IBOutlet UIView *helpView;
 @property (nonatomic, retain) IBOutlet UIButton *helpCloseButton;
 @property (nonatomic, retain) UIPopoverController *popOverController;
+@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;
