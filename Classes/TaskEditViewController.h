@@ -69,6 +69,9 @@
 	NSString *curInput;
 	Task *task;
 	NSRange curSelectedRange;
+	UIView *helpView;
+	UIButton *helpCloseButton;
+	UIPopoverController *popOverController;
 }
 
 @property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
@@ -76,10 +79,14 @@
 @property (nonatomic, retain) IBOutlet UITextView *textView;
 @property (nonatomic, assign) IBOutlet UIView *accessoryView;
 @property (nonatomic, retain) Task *task;
+@property (nonatomic, retain) IBOutlet UIView *helpView;
+@property (nonatomic, retain) IBOutlet UIButton *helpCloseButton;
+@property (nonatomic, retain) UIPopoverController *popOverController;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;
 - (IBAction)helpButtonPressed:(id)sender;
+- (IBAction)helpCloseButtonPressed:(id)sender;
 - (IBAction) keyboardAccessoryButtonPressed:(id)sender; 
 - (void) addEditTask;
 
