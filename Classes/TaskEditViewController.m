@@ -135,25 +135,15 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (task) {
-		self.navItem.title = @"Edit Task";
-		self.navItem.rightBarButtonItem.title = @"Done";
+		self.title = @"Edit Task";	
 		textView.text = [task inFileFormat];
 	} else {
-		self.navItem.title = @"Add Task";
-		self.navItem.rightBarButtonItem.title = @"Add";
+		self.title = @"Add Task";
 	}
 	curSelectedRange = textView.selectedRange;
 	[textView becomeFirstResponder];
 	
 }
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 #pragma mark -
 #pragma mark Text view delegate methods
@@ -315,7 +305,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[actionSheetPicker actionPickerCancel];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
-        todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
+        todo_txt_touch_iosAppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
         appdelegate.lastClickedButton = sender;
     } else {
         [textView resignFirstResponder];
@@ -369,9 +359,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	self.actionSheetPicker = nil;
 }
 
-
 - (void)dealloc {		
-	[navItem release];
 	[textView release];
 	[helpView release];
 	[helpCloseButton release];
@@ -380,5 +368,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     [super dealloc];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ return YES;
+}
 
 @end
