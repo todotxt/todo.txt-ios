@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.h
+ * Todo.txt-Touch-iOS/Classes/FlexiIPadPortraitCell.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -22,7 +22,6 @@
  * @author Ricky Hussmmann <ricky[dot]hussmann[at]gmail[dot]com>
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Ricky Hussmann
- *
  *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
@@ -46,9 +45,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "FlexiTaskCell.h"
 
-@interface NSMutableAttributedString (TodoTxt)
-- (void)addAttributesToProjectText:(NSDictionary*)attributes;
-- (void)addAttributesToContextText:(NSDictionary*)attributes;
+@interface FlexiIPadPortraitCell : FlexiTaskCell
+
 @end

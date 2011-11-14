@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.h
+ * Todo.txt-Touch-iOS/Classes/FlexiTaskCellFactory.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -46,9 +46,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import "FlexiTaskCell.h"
+
 #import <Foundation/Foundation.h>
 
-@interface NSMutableAttributedString (TodoTxt)
-- (void)addAttributesToProjectText:(NSDictionary*)attributes;
-- (void)addAttributesToContextText:(NSDictionary*)attributes;
+@interface FlexiTaskCellFactory : NSObject
++ (CGFloat)heightForCellWithTask:(Task*)aTask;
+
++ (FlexiTaskCell*)cellForDeviceOrientation;
++ (NSString*)cellIDForDeviceOrientation;
 @end

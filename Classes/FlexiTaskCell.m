@@ -2,7 +2,7 @@
  *
  * Todo.txt-Touch-iOS/Classes/FlexiTaskCell.m
  *
- * Copyright (c) 2011 rhussmann
+ * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
  * LICENSE:
  *
@@ -19,9 +19,9 @@
  * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
- * @author rhussmann
+ * @author Ricky Hussmmann <ricky[dot]hussmann[at]gmail[dot]com>
  * @license http://www.gnu.org/licenses/gpl.html
- * @copyright 2011 rhussmann
+ * @copyright 2009-2011 Ricky Hussmann
  *
  * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
  *
@@ -72,7 +72,6 @@
 
 - (NSAttributedString*)attributedTaskText;
 
-+ (BOOL)isiPad;
 + (UIFont*)taskFont;
 + (CGFloat)taskTextWidth;
 + (CGFloat)shortTaskWidth;
@@ -233,7 +232,7 @@
 
 + (BOOL)shouldShowTaskId {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	return[defaults boolForKey:@"show_line_numbers_preference"];
+	return [defaults boolForKey:@"show_line_numbers_preference"];
 }
 
 + (BOOL)shouldShowTaskAge {
@@ -300,16 +299,21 @@
 }
 
 + (CGFloat)shortTaskWidth {
-    return [self isiPad] ? TEXT_WIDTH_SHORT_IPAD : TEXT_WIDTH_SHORT_IPHONE;
+    // TODO: This must be overridden by subclases! This method should never be called!
+    [NSException exceptionWithName:@"IncompleteImplementationException"
+                            reason:@"FlexiTaskCell shortTaskWidth: should never be called, "
+     @"it should always be overridden by subclasses."
+                          userInfo:nil];
+    return 0;
 }
 
 + (CGFloat)longTaskWidth {
-    return [self isiPad] ? TEXT_WIDTH_LONG_IPAD : TEXT_WIDTH_LONG_IPHONE;
-}
-
-+ (BOOL)isiPad {
-    return
-    [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+    // TODO: This must be overridden by subclases! This method should never be called!
+    [NSException exceptionWithName:@"IncompleteImplementationException"
+                            reason:@"FlexiTaskCell longTaskWidth: should never be called, "
+     @"it should always be overridden by subclasses."
+                          userInfo:nil];
+    return 0;
 }
 
 @end
