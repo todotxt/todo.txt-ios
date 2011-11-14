@@ -95,7 +95,6 @@
 								<string key="NSFrame">{{104, 8}, {112, 30}}</string>
 								<reference key="NSSuperview" ref="940181822"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
@@ -195,8 +194,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUILabel" id="1000277151">
 						<reference key="NSNextResponder" ref="1013477715"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{59, 161}, {201, 21}}</string>
+						<int key="NSvFlags">258</int>
+						<string key="NSFrame">{{66, 68}, {201, 28}}</string>
 						<reference key="NSSuperview" ref="1013477715"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="84324719"/>
@@ -215,6 +214,7 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="714363598">
 							<int key="type">1</int>
 							<double key="pointSize">17</double>
@@ -227,11 +227,10 @@
 					</object>
 					<object class="IBUILabel" id="84324719">
 						<reference key="NSNextResponder" ref="1013477715"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 190}, {293, 21}}</string>
+						<int key="NSvFlags">258</int>
+						<string key="NSFrame">{{14, 104}, {293, 33}}</string>
 						<reference key="NSSuperview" ref="1013477715"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -244,12 +243,13 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 						<int key="IBUILineBreakMode">2</int>
 						<reference key="IBUIFontDescription" ref="714363598"/>
 						<reference key="IBUIFont" ref="979610820"/>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 460}</string>
+				<string key="NSFrame">{{0, 64}, {320, 372}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1000277151"/>
@@ -258,6 +258,11 @@
 					<bytes key="NSWhite">MAA</bytes>
 				</object>
 				<float key="IBUIAlpha">0.69999998807907104</float>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
+					<bool key="IBUIPrompted">NO</bool>
+				</object>
+				<object class="IBUISimulatedToolbarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUISearchDisplayController" id="412186738">
