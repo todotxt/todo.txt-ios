@@ -34,16 +34,17 @@
 #pragma mark -
 #pragma mark NSObject
 
-+ (void)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
++ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
     //Prevent crashes when there are no projects or categories
     if( [data count] == 0) {
         //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"None to display"]];
         [self showHUDWithCustomView:aView withMessage:@"None available"];
+		[target performSelector:action withObject:[NSNumber numberWithInt:-1] withObject:aView];
+		return nil;
     } else {
-    ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title];
-	[actionSheetPicker showActionPicker];
-	[actionSheetPicker release]; 
-    
+		ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title] autorelease];
+		[actionSheetPicker showActionPicker];
+		return actionSheetPicker;
     }
 }
 
@@ -60,17 +61,18 @@
     HUD.mode = MBProgressHUDModeCustomView;
     
     HUD.labelText = message;
-    
+    HUD.yOffset = -100;
+	
     [HUD show:YES];
     [HUD hide:YES afterDelay:1];
 }
 
 
 
-+ (void)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title {
-	ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title];
++ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title {
+	ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title] autorelease];
 	[actionSheetPicker showActionPicker];
-	[actionSheetPicker release];
+	return actionSheetPicker;
 }
 
 - (id)initWithContainingView:(UIView *)aView target:(id)target action:(SEL)action {
@@ -228,6 +230,15 @@
 	} else {
 		[self.popOverController dismissPopoverAnimated:YES];
 	}
+	
+	if (nil != self.data) {
+		//send data picker message
+		[self.target performSelector:self.action withObject:[NSNumber numberWithInt:-1] withObject:self.view];
+	} else {
+		//send date picker message
+		[self.target performSelector:self.action withObject:nil withObject:self.view];
+	}    
+
 	[self release];
 }
 
