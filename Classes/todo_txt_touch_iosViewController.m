@@ -50,6 +50,7 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "FlexiTaskCell.h"
+#import "FlexiTaskCellFactory.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
@@ -203,11 +204,11 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Create the cell if cells are available with same cell identifier
-	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCell cellId]];
+	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
 
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
-        cell = [[[FlexiTaskCell alloc] init] autorelease];
+        cell = [FlexiTaskCellFactory cellForDeviceOrientation];
 	}
 
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
@@ -221,7 +222,7 @@
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    return [FlexiTaskCell heightForCellWithTask:task];
+    return [FlexiTaskCellFactory heightForCellWithTask:task];
 }
 
 // Load the detail view controller when user taps the row
@@ -407,6 +408,14 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
     
     return UITableViewCellAccessoryDetailDisclosureButton;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self reloadData:nil];
 }
 
 @end

@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.h
+ * Todo.txt-Touch-iOS/Classes/FlexiIPhonePortraitCell.m
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -46,9 +46,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "FlexiIPhonePortraitCell.h"
 
-@interface NSMutableAttributedString (TodoTxt)
-- (void)addAttributesToProjectText:(NSDictionary*)attributes;
-- (void)addAttributesToContextText:(NSDictionary*)attributes;
+@implementation FlexiIPhonePortraitCell
+
++ (CGFloat)shortTaskWidth { return 235.0; }
++ (CGFloat)longTaskWidth { return 253.0; }
+
 @end

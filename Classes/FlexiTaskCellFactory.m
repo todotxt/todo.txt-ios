@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.h
+ * Todo.txt-Touch-iOS/Classes/FlexiTaskCellFactory.m
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -46,9 +46,50 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "FlexiIPadLandscapeCell.h"
+#import "FlexiIPadPortraitCell.h"
+#import "FlexiIPhoneLandscapeCell.h"
+#import "FlexiIPhonePortraitCell.h"
+#import "FlexiTaskCellFactory.h"
 
-@interface NSMutableAttributedString (TodoTxt)
-- (void)addAttributesToProjectText:(NSDictionary*)attributes;
-- (void)addAttributesToContextText:(NSDictionary*)attributes;
+@interface FlexiTaskCellFactory ()
++ (BOOL)currentDeviceIsIpad;
++ (BOOL)currentOrientationIsPortrait;
+@end
+
+@implementation FlexiTaskCellFactory
++ (CGFloat)heightForCellWithTask:(Task*)aTask {
+    return [[[self cellForDeviceOrientation] class] heightForCellWithTask:aTask];
+}
+
++ (FlexiTaskCell*)cellForDeviceOrientation {
+    FlexiTaskCell* taskCell;
+    if ([self currentDeviceIsIpad]) {
+        if ([self currentOrientationIsPortrait]) {
+            taskCell = [[[FlexiIPadPortraitCell alloc] init] autorelease];
+        } else {
+            taskCell = [[[FlexiIPadLandscapeCell alloc] init] autorelease];
+        }
+    } else {
+        if ([self currentOrientationIsPortrait]) {
+            taskCell = [[[FlexiIPhonePortraitCell alloc] init] autorelease];
+        } else {
+            taskCell = [[[FlexiIPhoneLandscapeCell alloc] init] autorelease];
+        }
+    }
+    return taskCell;
+}
+
++ (NSString*)cellIDForDeviceOrientation {
+    return [[[self cellForDeviceOrientation] class] cellId];
+}
+
++ (BOOL)currentDeviceIsIpad {
+    return
+    [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+}
+
++ (BOOL)currentOrientationIsPortrait {
+    return UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
+}
 @end
