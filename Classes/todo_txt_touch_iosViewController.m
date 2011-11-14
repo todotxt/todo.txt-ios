@@ -416,6 +416,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self reloadData:nil];
+    [self hideSearchBar:YES];    
 }
 
 @end
