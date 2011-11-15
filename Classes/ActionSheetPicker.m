@@ -28,13 +28,15 @@
 @synthesize pickerView = _pickerView;
 @synthesize datePickerView = _datePickerView;
 @synthesize pickerPosition = _pickerPosition;
+@synthesize rect = _rect;
+@synthesize barButtonItem = _barButtonItem;
 
 @dynamic viewSize;
 
 #pragma mark -
 #pragma mark NSObject
 
-+ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
++ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
     //Prevent crashes when there are no projects or categories
     if( [data count] == 0) {
         //[self showHUDWithCustomView:aView withMessage:[title stringByAppendingString:@"None to display"]];
@@ -42,7 +44,7 @@
 		[target performSelector:action withObject:[NSNumber numberWithInt:-1] withObject:aView];
 		return nil;
     } else {
-		ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title] autorelease];
+		ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title rect:rect barButtonItem:barButtonItem] autorelease];
 		[actionSheetPicker showActionPicker];
 		return actionSheetPicker;
     }
@@ -69,23 +71,25 @@
 
 
 
-+ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title {
-	ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title] autorelease];
++ (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
+	ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title rect:rect barButtonItem:barButtonItem] autorelease];
 	[actionSheetPicker showActionPicker];
 	return actionSheetPicker;
 }
 
-- (id)initWithContainingView:(UIView *)aView target:(id)target action:(SEL)action {
+- (id)initWithContainingView:(UIView *)aView target:(id)target action:(SEL)action rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
 	if ((self = [super init]) != nil) {
 		self.view = aView;
 		self.target = target;
 		self.action = action;
+		self.rect = rect;
+		self.barButtonItem = barButtonItem;
 	}
 	return self;
 }
 
-- (id)initForDataWithContainingView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title {
-	if ([self initWithContainingView:aView target:target action:action] != nil) {
+- (id)initForDataWithContainingView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
+	if ([self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem] != nil) {
 		self.data = data;
 		self.selectedIndex = selectedIndex;
 		self.title = title;
@@ -93,8 +97,8 @@
 	return self;
 }
 
-- (id)initForDateWithContainingView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title {
-	if ([self initWithContainingView:aView target:target action:action] != nil) {
+- (id)initForDateWithContainingView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
+	if ([self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem] != nil) {
 		self.datePickerMode = datePickerMode;
 		self.selectedDate = selectedDate;
 		self.title = title;
@@ -170,11 +174,13 @@
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
 		_popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
         
-        //The clicked button is saved into the appdelegate.  The Popover is anchored to that.
-        todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [self.popOverController presentPopoverFromBarButtonItem:appdelegate.lastClickedButton
+        if (self.barButtonItem) {
+			[self.popOverController presentPopoverFromBarButtonItem:self.barButtonItem
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-
+		} else {
+			[self.popOverController presentPopoverFromRect:self.rect inView:self.view
+										   permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+		}
 	} else {
 		//spawn actionsheet
 		_actionSheet = [[UIActionSheet alloc] initWithTitle:[self isViewPortrait]?nil:@"\n\n\n" delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];

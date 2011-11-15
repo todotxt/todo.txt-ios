@@ -282,7 +282,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 // Load the detail view controller when user taps the row
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
+	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:NO];
 	Task * task = [self task];
 	
 	// Tapping the detail view triggers the update option
@@ -380,8 +380,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 - (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
 	//TODO: progress dialog
-	Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
-	[AsyncTask runTask:@selector(prioritizeTask:) onTarget:self withArgument:selectedPriority];		
+	if (selectedIndex.intValue >= 0) {
+		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
+		[AsyncTask runTask:@selector(prioritizeTask:) onTarget:self withArgument:selectedPriority];		
+	}
 }
 
 - (void) didTapCompleteButton {
@@ -400,12 +402,15 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 - (void) didTapPrioritizeButton {
 	NSLog(@"didTapPrioritizeButton called");
 	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
+	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]]; //FIXME: don't hardcode this
 	[ActionSheetPicker displayActionPickerWithView:self.view 
 						data:[Priority allCodes]
 						selectedIndex:curPriority 
 						target:self 
 						action:@selector(priorityWasSelected::) 
-						title:@"Select Priority"];
+						title:@"Select Priority"
+						 rect:cell.frame
+				barButtonItem:nil];
 }
 
 - (void) didTapUpdateButton {
