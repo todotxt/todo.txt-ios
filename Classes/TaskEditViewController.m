@@ -135,10 +135,12 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (task) {
-		self.title = @"Edit Task";	
+		self.navItem.title = @"Edit Task";	
+		self.navItem.rightBarButtonItem.title = @"Done";
 		textView.text = [task inFileFormat];
 	} else {
-		self.title = @"Add Task";
+		self.navItem.title = @"Add Task";
+		self.navItem.rightBarButtonItem.title = @"Add";
 	}
 	curSelectedRange = textView.selectedRange;
 	[textView becomeFirstResponder];
@@ -352,6 +354,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     // e.g. self.myOutlet = nil;
 	[curInput release];
 	curInput = nil;
+	self.navItem = nil;
 	self.task = nil;
 	self.helpView = nil;
 	self.helpCloseButton = nil;
@@ -359,7 +362,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	self.actionSheetPicker = nil;
 }
 
-- (void)dealloc {		
+- (void)dealloc {
+	[navItem release];
 	[textView release];
 	[helpView release];
 	[helpCloseButton release];
