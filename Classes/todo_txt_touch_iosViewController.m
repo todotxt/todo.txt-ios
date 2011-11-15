@@ -62,7 +62,7 @@
 #pragma mark -
 #pragma mark Synthesizers
 
-@synthesize table, tableCell, tasks, appSettingsViewController, savedSearchTerm, searchResults;
+@synthesize table, tableCell, tasks, appSettingsViewController, savedSearchTerm, searchResults, actionSheetPicker;
 
 - (Sort*) sortOrderPref {
 	SortName name = SortPriority;
@@ -347,24 +347,34 @@ shouldReloadTableForSearchString:(NSString *)searchString
 }
 
 - (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
-	sort = [Sort byName:selectedIndex.intValue];
-	[self setSortOrderPref];
-	[self reloadData:nil];
-	[self hideSearchBar:NO];
+	self.actionSheetPicker = nil;
+	if (selectedIndex.intValue >= 0) {
+		sort = [Sort byName:selectedIndex.intValue];
+		[self setSortOrderPref];
+		[self reloadData:nil];
+		[self hideSearchBar:NO];
+	}
 }
 
 - (IBAction)segmentControlPressed:(id)sender {
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
 	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	CGRect rect = [self.view convertRect:segmentedControl.frame fromView:segmentedControl];
+	rect = CGRectMake(segmentedControl.frame.origin.x + segmentedControl.frame.size.width / 4, rect.origin.y, 
+					  rect.size.width, rect.size.height);
 	switch (segmentedControl.selectedSegmentIndex) {
 		case 0: // Filter
 			break;
 		case 1: // Sort
-			[ActionSheetPicker displayActionPickerWithView:self.view 
+			self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
 					data:[Sort descriptions]
 					selectedIndex:[sort name]
 					target:self 
 					action:@selector(sortOrderWasSelected::) 
-					 title:@"Select Sort Order"];			
+					 title:@"Select Sort Order"
+					  rect:rect
+			 barButtonItem:nil];			
 			break;
 	}
 }
@@ -388,6 +398,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	// e.g. self.myOutlet = nil;
 	self.table = nil;
 	self.tableCell = nil;
+	self.actionSheetPicker = nil;
 }
 
 
@@ -397,6 +408,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	self.tasks = nil;
 	self.savedSearchTerm = nil;
 	self.searchResults = nil;
+	self.actionSheetPicker = nil;
 	[super dealloc];
 }
 
@@ -416,7 +428,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self reloadData:nil];
-    [self hideSearchBar:YES];    
+    [self hideSearchBar:YES];   
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
 }
 
 @end
