@@ -265,11 +265,17 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
-		NSString *newText = [NSString stringWithFormat:@"%@ %@",
-							 [selectedPriority fileFormat],
-							 [[PriorityTextSplitter split:textView.text] text]];
+		NSString *newText = nil;
+		if (selectedPriority == [Priority NONE]) {
+			newText = [NSString stringWithString:[[PriorityTextSplitter split:textView.text] text]];
+		} else {
+			newText = [NSString stringWithFormat:@"%@ %@",
+								 [selectedPriority fileFormat],
+								 [[PriorityTextSplitter split:textView.text] text]];
+		}
 		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
 		textView.text = newText;
 	}
@@ -277,6 +283,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (void) projectWasSelected:(NSNumber *)selectedIndex:(id)element {
+	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
@@ -289,6 +296,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (void) contextWasSelected:(NSNumber *)selectedIndex:(id)element {
+	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
@@ -316,27 +324,34 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     UIBarButtonItem *button = (UIBarButtonItem*)sender;
  
 	if([button.title isEqualToString:@"Context"]) { // Context 
-		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
 													  data:[taskBag contexts]
 											 selectedIndex:0
 													target:self 
 													action:@selector(contextWasSelected::) 
-													 title:@"Select Context"];			
+													 title:@"Select Context"
+													  rect:CGRectZero
+											 barButtonItem:button];			
 	} else if([button.title isEqualToString:@"Priority"]) { // Priority 
-		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+		NSInteger curPriority = (NSInteger)[[[PriorityTextSplitter split:textView.text] priority] name];
+		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
                                                   data:[Priority allCodes]
-                                         selectedIndex:0
+                                         selectedIndex:curPriority
                                                 target:self 
                                                 action:@selector(priorityWasSelected::) 
-                                                 title:@"Select Priority"];
+												 title:@"Select Priority"
+												  rect:CGRectZero
+										 barButtonItem:button];
         
     } else if([button.title isEqualToString:@"Project"]) { // Priority 
-		actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
                                               data:[taskBag projects]
                                      selectedIndex:0
                                             target:self 
                                             action:@selector(projectWasSelected::) 
-                                             title:@"Select Project"];			
+											 title:@"Select Project"
+											  rect:CGRectZero
+									 barButtonItem:button];			
     }
 }
 

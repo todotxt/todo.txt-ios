@@ -51,6 +51,7 @@
 #import "Sort.h"
 #import "IASKAppSettingsViewController.h"
 #import "TestFlight.h"
+#import "ActionSheetPicker.h"
 
 @interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, 
 	UITableViewDelegate, UITableViewDataSource, 
@@ -64,7 +65,8 @@
 	IASKAppSettingsViewController *appSettingsViewController;
 	NSString *savedSearchTerm;
 	NSArray *searchResults;
-}
+	ActionSheetPicker *actionSheetPicker;
+	}
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
@@ -72,6 +74,7 @@
 @property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
 @property (nonatomic, copy) NSString *savedSearchTerm;
 @property (nonatomic, retain) NSArray *searchResults;
+@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;
