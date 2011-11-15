@@ -120,10 +120,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
         case 1:
             if([task completed]) {
 				// For completed tasks there are 2 buttons: Undo Complete and Delete. 
-				rows = 2;
+				rows = sizeof(completed_buttons) / sizeof(char*);
 			} else {
 				// Otherwise, there are 5 buttons: Update, Prioritize, Complete, Delete, and Share. 
-				rows = 5;
+				rows = sizeof(buttons) / sizeof(char*);
 			}
             break;
         default:
