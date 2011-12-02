@@ -126,6 +126,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
     [super viewDidLoad];
 	curInput = [[NSString alloc] init];	
 	
+	textView.placeholder = @"Call Mom @phone +FamilialPeace";
+	
 	helpCloseButton.layer.cornerRadius = 8.0f;
 	helpCloseButton.layer.masksToBounds = YES;
 	helpCloseButton.layer.borderWidth = 1.0f;
