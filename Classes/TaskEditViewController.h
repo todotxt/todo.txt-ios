@@ -51,6 +51,7 @@
 #import "Task.h"
 #import "TestFlight.h"
 #import "ActionSheetPicker.h"
+#import "SSTextView.h"
 
 @class TaskEditViewController;
 
@@ -65,7 +66,7 @@
 @interface TaskEditViewController : UIViewController <UITextViewDelegate>{
 	 id <TaskEditViewControllerDelegate> delegate;
 	UINavigationItem *navItem;
-	UITextView *textView; 
+	SSTextView *textView; 
 	UIView *accessoryView;
 	NSString *curInput;
 	Task *task;
@@ -78,7 +79,7 @@
 
 @property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UINavigationItem *navItem;
-@property (nonatomic, retain) IBOutlet UITextView *textView;
+@property (nonatomic, retain) IBOutlet SSTextView *textView;
 @property (nonatomic, assign) IBOutlet UIView *accessoryView;
 @property (nonatomic, retain) Task *task;
 @property (nonatomic, retain) IBOutlet UIView *helpView;
