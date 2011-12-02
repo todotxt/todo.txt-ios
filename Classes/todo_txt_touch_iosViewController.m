@@ -167,6 +167,11 @@
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];          
 	self.navigationItem.rightBarButtonItem = addButton;
 	[addButton release];
+	
+	UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStyleBordered target:self action:@selector(sortButtonPressed:)];          
+	self.navigationItem.leftBarButtonItem = sortButton;
+	[sortButton release];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -356,27 +361,40 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	}
 }
 
-- (IBAction)segmentControlPressed:(id)sender {
+//- (IBAction)segmentControlPressed:(id)sender {
+//	[actionSheetPicker actionPickerCancel];
+//	self.actionSheetPicker = nil;
+//	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+//	CGRect rect = [self.view convertRect:segmentedControl.frame fromView:segmentedControl];
+//	rect = CGRectMake(segmentedControl.frame.origin.x + segmentedControl.frame.size.width / 4, rect.origin.y, 
+//					  rect.size.width, rect.size.height);
+//	switch (segmentedControl.selectedSegmentIndex) {
+//		case 0: // Filter
+//			break;
+//		case 1: // Sort
+//			self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+//																			   data:[Sort descriptions]
+//																	  selectedIndex:[sort name]
+//																			 target:self 
+//																			 action:@selector(sortOrderWasSelected::) 
+//																			  title:@"Select Sort Order"
+//																			   rect:rect
+//																	  barButtonItem:nil];			
+//			break;
+//	}
+//}
+
+- (IBAction)sortButtonPressed:(id)sender {
 	[actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
-	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-	CGRect rect = [self.view convertRect:segmentedControl.frame fromView:segmentedControl];
-	rect = CGRectMake(segmentedControl.frame.origin.x + segmentedControl.frame.size.width / 4, rect.origin.y, 
-					  rect.size.width, rect.size.height);
-	switch (segmentedControl.selectedSegmentIndex) {
-		case 0: // Filter
-			break;
-		case 1: // Sort
-			self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-					data:[Sort descriptions]
-					selectedIndex:[sort name]
-					target:self 
-					action:@selector(sortOrderWasSelected::) 
-					 title:@"Select Sort Order"
-					  rect:rect
-			 barButtonItem:nil];			
-			break;
-	}
+	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+																	   data:[Sort descriptions]
+															  selectedIndex:[sort name]
+																	 target:self 
+																	 action:@selector(sortOrderWasSelected::) 
+																	  title:@"Select Sort Order"
+																	   rect:CGRectZero
+															  barButtonItem:sender];			
 }
 
 - (void)didReceiveMemoryWarning {
