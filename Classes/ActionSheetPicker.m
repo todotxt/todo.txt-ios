@@ -176,10 +176,10 @@
         
         if (self.barButtonItem) {
 			[self.popOverController presentPopoverFromBarButtonItem:self.barButtonItem
-                                       permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+                                       permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		} else {
 			[self.popOverController presentPopoverFromRect:self.rect inView:self.view
-										   permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+										   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		}
 	} else {
 		//spawn actionsheet
