@@ -247,7 +247,13 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
 		[[self.view layer] addAnimation:animation forKey:kCATransitionReveal];
 		
-		const CGRect rect = (CGRect){CGPointZero,self.view.frame.size};
+		CGSize size;
+		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
+			size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+		} else {
+			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);			
+		}
+		const CGRect rect = (CGRect){CGPointZero,size};		
 		helpView.frame  = rect;
 		helpCloseButton.hidden = NO;
 		[self.view addSubview:helpView];
