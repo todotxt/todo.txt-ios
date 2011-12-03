@@ -51,14 +51,17 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 #import "TestFlight.h"
+#import "ActionSheetPicker.h"
 
 @interface TaskViewController : UITableViewController <UIActionSheetDelegate> {
     NSInteger taskIndex;
 	UITableViewCell *tableCell; 
+	ActionSheetPicker *actionSheetPicker;
 }
 
 @property (nonatomic, assign) NSInteger taskIndex;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
 
 - (void) didTapCompleteButton;
 - (void) didTapPrioritizeButton;

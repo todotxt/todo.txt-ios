@@ -107,7 +107,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 
 @implementation TaskEditViewController
 
-@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpCloseButton, popOverController, actionSheetPicker;
+@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpContents, helpCloseButton, popOverController, actionSheetPicker;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -128,6 +128,12 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	
 	textView.placeholder = @"Call Mom @phone +FamilialPeace";
 	
+	[helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
+	 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
+	 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
+	 "<p>A task can include any number of projects or contexts.</p>"
+	 "</body></html>"
+						 baseURL:nil];
 	helpCloseButton.layer.cornerRadius = 8.0f;
 	helpCloseButton.layer.masksToBounds = YES;
 	helpCloseButton.layer.borderWidth = 1.0f;
@@ -226,15 +232,24 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (IBAction)helpButtonPressed:(id)sender {
+	// Close help view if necessary
+	[self.popOverController dismissPopoverAnimated:NO];
+	
 	// Display help text
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		CGSize size;
+		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
+			size = CGSizeMake(320, 380);
+		} else {
+			size = CGSizeMake(460, 300);			
+		}
+		const CGRect rect = (CGRect){CGPointZero,size};		
+		helpView.frame  = rect;
 		//spawn popovercontroller
-		if (popOverController == nil) {
-			UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-			viewController.view = helpView;
-			viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-			popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-		}	
+		UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+		viewController.view = helpView;
+		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
+		self.popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
 		helpCloseButton.hidden = YES;
         [popOverController presentPopoverFromBarButtonItem:sender
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
@@ -247,7 +262,13 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
 		[[self.view layer] addAnimation:animation forKey:kCATransitionReveal];
 		
-		const CGRect rect = (CGRect){CGPointZero,self.view.frame.size};
+		CGSize size;
+		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
+			size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+		} else {
+			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);			
+		}
+		const CGRect rect = (CGRect){CGPointZero,size};		
 		helpView.frame  = rect;
 		helpCloseButton.hidden = NO;
 		[self.view addSubview:helpView];
@@ -374,6 +395,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	self.navItem = nil;
 	self.task = nil;
 	self.helpView = nil;
+	self.helpContents = nil;
 	self.helpCloseButton = nil;
 	self.popOverController = nil;
 	self.actionSheetPicker = nil;
@@ -383,6 +405,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[navItem release];
 	[textView release];
 	[helpView release];
+	[helpContents release];
 	[helpCloseButton release];
 	[popOverController release];
 	[actionSheetPicker release];
@@ -392,5 +415,12 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  return YES;
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[popOverController dismissPopoverAnimated:NO];
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
+}
+
 
 @end
