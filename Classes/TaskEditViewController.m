@@ -232,15 +232,24 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 }
 
 - (IBAction)helpButtonPressed:(id)sender {
+	// Close help view if necessary
+	[self.popOverController dismissPopoverAnimated:NO];
+	
 	// Display help text
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		CGSize size;
+		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
+			size = CGSizeMake(320, 380);
+		} else {
+			size = CGSizeMake(460, 300);			
+		}
+		const CGRect rect = (CGRect){CGPointZero,size};		
+		helpView.frame  = rect;
 		//spawn popovercontroller
-		if (popOverController == nil) {
-			UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-			viewController.view = helpView;
-			viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-			popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-		}	
+		UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+		viewController.view = helpView;
+		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
+		self.popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
 		helpCloseButton.hidden = YES;
         [popOverController presentPopoverFromBarButtonItem:sender
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
@@ -406,5 +415,12 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  return YES;
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[popOverController dismissPopoverAnimated:NO];
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
+}
+
 
 @end

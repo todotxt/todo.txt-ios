@@ -67,7 +67,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 @implementation TaskViewController
 
-@synthesize taskIndex, tableCell;
+@synthesize taskIndex, tableCell, actionSheetPicker;
 
 - (Task*) task {
 	return [[todo_txt_touch_iosAppDelegate sharedTaskBag] taskAtIndex:taskIndex];
@@ -401,9 +401,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 - (void) didTapPrioritizeButton {
 	NSLog(@"didTapPrioritizeButton called");
+	[actionSheetPicker actionPickerCancel];
 	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]]; //FIXME: don't hardcode this
-	[ActionSheetPicker displayActionPickerWithView:self.view 
+	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
 						data:[Priority allCodes]
 						selectedIndex:curPriority 
 						target:self 
@@ -461,10 +462,17 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 - (void) dealloc {;
 	[super dealloc];
+	[actionSheetPicker release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
+}
+
 
 @end
