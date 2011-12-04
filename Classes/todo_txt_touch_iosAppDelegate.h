@@ -73,6 +73,7 @@
 @property (nonatomic, retain) id lastClickedButton; 
 
 - (void) syncClient;
+- (void) syncClientWithPrompt;
 - (void) syncClientForceChoice:(BOOL)forceChoice;
 - (void) pushToRemote;
 - (void) pullFromRemote;
@@ -84,6 +85,7 @@
 + (id<TaskBag>) sharedTaskBag;
 + (RemoteClientManager*) sharedRemoteClientManager;
 + (void) syncClient;
++ (void) syncClientWithPrompt;
 + (void) pushToRemote;
 + (void) pullFromRemote;
 + (BOOL) isOfflineMode;

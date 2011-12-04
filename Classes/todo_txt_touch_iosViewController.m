@@ -302,7 +302,10 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	[todo_txt_touch_iosAppDelegate syncClient];
 }
 
+static BOOL savedOfflineMode = NO;
+
 - (IBAction)settingsButtonPressed:(id)sender {
+	savedOfflineMode = [todo_txt_touch_iosAppDelegate isOfflineMode];
     UINavigationController *aNavController = [[UINavigationController alloc] initWithRootViewController:self.appSettingsViewController];
     //[viewController setShowCreditsFooter:NO];   // Uncomment to not display InAppSettingsKit credits for creators.
     // But we encourage you not to uncomment. Thank you!
@@ -324,7 +327,10 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
 	
-	// your code here to reconfigure the app for changed settings
+	// If offline mode was disabled, prompt for sync now.
+	if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
+		[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
+	}	
 }
 
 #pragma mark -

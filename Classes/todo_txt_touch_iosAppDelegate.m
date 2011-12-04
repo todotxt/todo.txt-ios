@@ -86,6 +86,10 @@
 	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
 }
 
++ (void) syncClientWithPrompt {	
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClientWithPrompt) withObject:nil waitUntilDone:NO];
+}
+
 + (void) pushToRemote {	
 	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
 }
@@ -207,6 +211,10 @@
 
 - (void) syncClient {
 	[self syncClientForceChoice:NO];
+}
+
+- (void) syncClientWithPrompt {
+	[self syncClientForceChoice:YES];
 }
 
 - (void) syncClientForceChoice:(BOOL)forceChoice {
