@@ -82,7 +82,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	
 	if (insertAt.location > 0) {
 		[newText appendString:[s substringToIndex:(insertAt.location)]];
-		if ([newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
+		if (newText.length > 0 && [newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
 			[newText appendFormat:@"%c", SINGLE_SPACE];
 		}
 		[newText appendString:stringToInsert];
@@ -96,10 +96,14 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		}
 	} else {
 		[newText appendString:stringToInsert];
-		if (s.length > 0 && [s characterAtIndex:(s.length - 1)] != SINGLE_SPACE) {
+		if (s.length > 0 && [s characterAtIndex:0] != SINGLE_SPACE) {
 			[newText appendFormat:@"%c", SINGLE_SPACE];
 		}	
 		[newText appendString:s];
+	}
+	
+	if (newText.length > 0 && [newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
+		[newText appendFormat:@"%c", SINGLE_SPACE];
 	}
 	
 	return newText;
@@ -301,6 +305,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		}
 		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
 		textView.text = newText;
+		textView.selectedRange = curSelectedRange;
 	}
 	[textView becomeFirstResponder];
 }
@@ -314,6 +319,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
 		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
 		textView.text = newText;
+		textView.selectedRange = curSelectedRange;
 	}	
 	[textView becomeFirstResponder];
 }
@@ -327,6 +333,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
 		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
 		textView.text = newText;
+		textView.selectedRange = curSelectedRange;
 	}	
 	[textView becomeFirstResponder];
 }
@@ -340,6 +347,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
         //For ipad, we have ample space and it is not necessary to hide the keyboard
         todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
         appdelegate.lastClickedButton = sender;
+		curSelectedRange = textView.selectedRange;
     } else {
         [textView resignFirstResponder];
     }
