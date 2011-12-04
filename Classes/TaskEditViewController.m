@@ -107,7 +107,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 
 @implementation TaskEditViewController
 
-@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpCloseButton, popOverController, actionSheetPicker;
+@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpContents, helpCloseButton, popOverController, actionSheetPicker;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -128,6 +128,12 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	
 	textView.placeholder = @"Call Mom @phone +FamilialPeace";
 	
+	[helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
+	 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
+	 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
+	 "<p>A task can include any number of projects or contexts.</p>"
+	 "</body></html>"
+						 baseURL:nil];
 	helpCloseButton.layer.cornerRadius = 8.0f;
 	helpCloseButton.layer.masksToBounds = YES;
 	helpCloseButton.layer.borderWidth = 1.0f;
@@ -380,6 +386,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	self.navItem = nil;
 	self.task = nil;
 	self.helpView = nil;
+	self.helpContents = nil;
 	self.helpCloseButton = nil;
 	self.popOverController = nil;
 	self.actionSheetPicker = nil;
@@ -389,6 +396,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	[navItem release];
 	[textView release];
 	[helpView release];
+	[helpContents release];
 	[helpCloseButton release];
 	[popOverController release];
 	[actionSheetPicker release];

@@ -75,6 +75,7 @@
 	UIButton *helpCloseButton;
 	UIPopoverController *popOverController;
 	ActionSheetPicker *actionSheetPicker;
+	UIWebView* helpContents;
 }
 
 @property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
@@ -83,6 +84,7 @@
 @property (nonatomic, assign) IBOutlet UIView *accessoryView;
 @property (nonatomic, retain) Task *task;
 @property (nonatomic, retain) IBOutlet UIView *helpView;
+@property (nonatomic, retain) IBOutlet UIView *helpContents;
 @property (nonatomic, retain) IBOutlet UIButton *helpCloseButton;
 @property (nonatomic, retain) UIPopoverController *popOverController;
 @property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
