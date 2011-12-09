@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/FlexiIPadPortraitCell.h
+ * Todo.txt-Touch-iOS/Classes/TaskViewCell.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *

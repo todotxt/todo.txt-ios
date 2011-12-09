@@ -55,8 +55,13 @@
 #import "Color.h"
 #import "ActionSheetPicker.h"
 #import "TestFlight.h"
+#import "TaskViewCell.h"
 
-#define TEXT_LABEL_WIDTH 227
+#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
+#define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
+#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    695
+#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   955
+
 #define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
@@ -132,8 +137,29 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     return rows;
 }
 
+- (CGFloat)textLabelWidth {
+	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
+
+	if (isiPad)
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT;
+		else
+			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE;
+	}
+	else
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT;
+		else
+			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE;
+	}
+		
+}
+
 - (CGFloat)calcTextHeightWithTask:(Task*)task {
-	CGFloat maxWidth = TEXT_LABEL_WIDTH;
+	CGFloat maxWidth = [self textLabelWidth];
     CGFloat maxHeight = 9999;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
@@ -277,6 +303,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     }
 
     return cell;
+}
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[self.tableView reloadData];
 }
 
 // Load the detail view controller when user taps the row
@@ -449,6 +479,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[dlg showInView:self.view];
 	[dlg release];		
 }
+
 
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 10 && buttonIndex == [actionSheet destructiveButtonIndex]) {
