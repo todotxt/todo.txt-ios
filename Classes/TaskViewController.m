@@ -55,8 +55,19 @@
 #import "Color.h"
 #import "ActionSheetPicker.h"
 #import "TestFlight.h"
+#import "TaskViewCell.h"
+#import "FlexiTaskCell.h"
+#import "AttributedLabel.h"
+#import <CoreText/CoreText.h>
 
-#define TEXT_LABEL_WIDTH 227
+#import "NSMutableAttributedString+TodoTxt.h"
+
+#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  269
+#define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
+#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    695
+#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   955
+#define VERTICAL_PADDING        5
+
 #define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
@@ -132,8 +143,37 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     return rows;
 }
 
+- (BOOL)showLineNumbers {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	// TODO ID label setup
+	return [defaults boolForKey:@"show_line_numbers_preference"];	
+}
+
+- (CGFloat)textLabelWidth {
+	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
+	
+	CGFloat offset = [self showLineNumbers] ? 18 : 0;
+
+	if (isiPad)
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT - offset;
+		else
+			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE - offset;
+	}
+	else
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT - offset;
+		else
+			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE - offset;
+	}
+		
+}
+
 - (CGFloat)calcTextHeightWithTask:(Task*)task {
-	CGFloat maxWidth = TEXT_LABEL_WIDTH;
+	CGFloat maxWidth = [self textLabelWidth];
     CGFloat maxHeight = 9999;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
@@ -171,6 +211,24 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 		return @"Actions";
 	}
 }
+
+- (NSAttributedString*)attributedTaskText:(Task *)task {
+    NSDictionary *taskAttributes = (task.completed) ?
+	[FlexiTaskCell completedTaskAttributes] : [FlexiTaskCell taskStringAttributes];
+	
+    NSString* taskText = [self.task inScreenFormat];
+    NSMutableAttributedString *taskString;
+    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
+                                                         attributes:taskAttributes] autorelease];
+	
+    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
+                                                              forKey:(id)kCTForegroundColorAttributeName];
+    [taskString addAttributesToProjectText:grayAttriubte];
+    [taskString addAttributesToContextText:grayAttriubte];
+	
+    return [[[NSAttributedString alloc] initWithAttributedString:taskString] autorelease];
+}
+
 
 // Return cell for the rows in table view
 -(UITableViewCell *) renderTaskCell:(UITableView *)tableView
@@ -220,20 +278,24 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 			break;
 	}
 	
-    label = (UILabel *)[cell viewWithTag:3];
-    label.text = [task inScreenFormat];
-    label.font = [UIFont systemFontOfSize:14.0];
-	if ([task completed]) {
-		// TODO: There doesn't seem to be a strikethrough option for UILabel.
-		// For now, let's just disable the label.
-		label.enabled = NO;
-	} else {
-		label.enabled = YES;
+	label = (UILabel *)[cell viewWithTag:1];
+	
+	if ([self showLineNumbers]) {
+		[label setHidden:false];
+		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
 	}
+	else {
+		[label setHidden:true];
+	}	
+	
+	AttributedLabel *al = (AttributedLabel *)[cell viewWithTag:3];
+	al.text = [self attributedTaskText:task];
+	
+	CGRect labelFrame = CGRectMake(46, VERTICAL_PADDING,
+								   [self textLabelWidth], [self calcTextHeightWithTask:task]);
 
-	CGRect labelFrame = label.frame;
-	labelFrame.size.height = [self calcTextHeightWithTask:task];
-	label.frame = labelFrame;
+	al.frame = labelFrame;
+	
 	UILabel *dateLabel = (UILabel *)[cell viewWithTag:4];
     if (![task completed]) {
 		dateLabel.text = [task relativeAge];
@@ -277,6 +339,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     }
 
     return cell;
+}
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[self.tableView reloadData];
 }
 
 // Load the detail view controller when user taps the row
@@ -449,6 +515,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[dlg showInView:self.view];
 	[dlg release];		
 }
+
 
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 10 && buttonIndex == [actionSheet destructiveButtonIndex]) {
