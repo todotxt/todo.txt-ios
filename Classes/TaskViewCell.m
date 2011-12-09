@@ -90,13 +90,13 @@
 
 	CGRect frame = text.frame;
 	if ([self showLineNumbers]) {
-		frame.origin.x = 49;
+		frame.origin.x = 47;
 	}
 	else
 	{
-		frame.origin.x = 31;
+		frame.origin.x = 29;
 	}
-	
+	text.frame = frame;
 	
 	frame = priority.frame;
 	frame.origin.y = text.frame.origin.y;
