@@ -57,7 +57,7 @@
 #import "TestFlight.h"
 #import "TaskViewCell.h"
 
-#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
+#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  269
 #define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
 #define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    695
 #define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   955
@@ -137,23 +137,31 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     return rows;
 }
 
+- (BOOL)showLineNumbers {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	// TODO ID label setup
+	return [defaults boolForKey:@"show_line_numbers_preference"];	
+}
+
 - (CGFloat)textLabelWidth {
 	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
+	
+	CGFloat offset = [self showLineNumbers] ? 18 : 0;
 
 	if (isiPad)
 	{
 		if (isPortrait)
-			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT;
+			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT - offset;
 		else
-			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE;
+			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE - offset;
 	}
 	else
 	{
 		if (isPortrait)
-			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT;
+			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT - offset;
 		else
-			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE;
+			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE - offset;
 	}
 		
 }
@@ -245,6 +253,17 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 			label.textColor = [Color black];
 			break;
 	}
+	
+	label = (UILabel *)[cell viewWithTag:1];
+	
+	if ([self showLineNumbers]) {
+		[label setHidden:false];
+		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
+	}
+	else {
+		[label setHidden:true];
+	}	
+	
 	
     label = (UILabel *)[cell viewWithTag:3];
     label.text = [task inScreenFormat];

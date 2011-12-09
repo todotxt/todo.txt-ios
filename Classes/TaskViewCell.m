@@ -65,6 +65,13 @@
     // Configure the view for the selected state
 }
 
+- (BOOL)showLineNumbers {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	// TODO ID label setup
+	return [defaults boolForKey:@"show_line_numbers_preference"];	
+}
+
+
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
@@ -80,11 +87,40 @@
 								sizeWithFont:[UIFont fontWithName:@"Helvetica" size:14.0f]
 								constrainedToSize:maximumLabelSize 
 								lineBreakMode:UILineBreakModeWordWrap]; 
+
+	CGRect frame = text.frame;
+	if ([self showLineNumbers]) {
+		frame.origin.x = 49;
+	}
+	else
+	{
+		frame.origin.x = 31;
+	}
 	
-	CGRect frame = priority.frame;
+	
+	frame = priority.frame;
 	frame.origin.y = text.frame.origin.y;
+	if ([self showLineNumbers]) {
+		frame.origin.x = 30;
+	}
+	else {
+		frame.origin.x = 12;
+	}
+	
 	frame.size.height = expectedLabelSize.height;
 	priority.frame = frame;
+	
+	if ([self showLineNumbers]) {
+		CGFloat top = frame.origin.y;
+		CGFloat height = frame.size.height;
+		
+		UILabel *number = (UILabel *)[self viewWithTag:1];
+		frame = number.frame;
+		frame.origin.y = top;
+		frame.origin.x = 4;
+		frame.size.height = height;
+		number.frame = frame;
+	}
 }
 
 
