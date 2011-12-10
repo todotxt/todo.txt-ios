@@ -77,9 +77,7 @@
 + (CGFloat)shortTaskWidth;
 + (CGFloat)longTaskWidth;
 + (CGFloat)taskTextOriginX;
-+ (NSDictionary*)taskStringAttributes;
 + (NSDictionary*)auxStringAttributes;
-+ (NSDictionary*)completedTaskAttributes;
 
 @property (retain, readwrite) UILabel *priorityLabel;
 @property (retain, readwrite) UILabel *todoIdLabel;

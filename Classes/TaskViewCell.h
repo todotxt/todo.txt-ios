@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/FlexiTaskCell.h
+ * Todo.txt-Touch-iOS/Classes/TaskViewCell.h
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -45,22 +45,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "Task.h"
 #import <UIKit/UIKit.h>
 
-@interface FlexiTaskCell : UITableViewCell
-
-// -(id)init is now the designated initializer
-
-+ (CGFloat)heightForCellWithTask:(Task*)aTask;
-+ (NSString*)cellId;
-
-+ (BOOL)shouldShowTaskId;
-
-+ (NSDictionary*)taskStringAttributes;
-+ (NSDictionary*)completedTaskAttributes;
-
-
-@property (readwrite, retain) Task* task;
+@interface TaskViewCell : UITableViewCell
 
 @end

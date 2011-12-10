@@ -209,7 +209,7 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Create the cell if cells are available with same cell identifier
-	FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
+	FlexiTaskCell *cell = (FlexiTaskCell *)[tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
 
 	// If there are no cells available, allocate a new one with Default style
 	if (cell == nil) {
