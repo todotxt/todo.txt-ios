@@ -72,6 +72,50 @@
 }
 
 
+
+- (void)nudge:(UILabel *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos ypos:(CGFloat)ypos height:(CGFloat)height
+{
+	
+	CGRect frame = label.frame;
+	if ([self showLineNumbers]) {
+		frame.origin.x = numberedxpos;
+	}
+	else
+	{
+		frame.origin.x = barexpos;
+	}
+	
+	if (ypos >= 0)
+	{
+		frame.origin.y = ypos;
+	}
+	
+	if (height >= 0)
+	{
+		frame.size.height = height;
+	}
+	
+	label.frame = frame;
+}
+
+
+- (void)nudge:(UILabel *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos
+{
+	[self nudge:label numberedxpos:numberedxpos barexpos:barexpos ypos:-1 height:-1];
+}
+
+
+- (void)nudge:(UILabel *)label xpos:(CGFloat)xpos ypos:(CGFloat)ypos
+{
+	[self nudge:label numberedxpos:xpos barexpos:xpos ypos:ypos height:-1];
+}
+
+- (void)nudge:(UILabel *)label xpos:(CGFloat)xpos
+{
+	[self nudge:label numberedxpos:xpos barexpos:xpos];
+}
+
+
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
@@ -88,39 +132,21 @@
 								constrainedToSize:maximumLabelSize 
 								lineBreakMode:UILineBreakModeWordWrap]; 
 
-	CGRect frame = text.frame;
-	if ([self showLineNumbers]) {
-		frame.origin.x = 47;
-	}
-	else
-	{
-		frame.origin.x = 29;
-	}
-	text.frame = frame;
-	
-	frame = priority.frame;
-	frame.origin.y = text.frame.origin.y;
-	if ([self showLineNumbers]) {
-		frame.origin.x = 30;
-	}
-	else {
-		frame.origin.x = 12;
-	}
-	
-	frame.size.height = expectedLabelSize.height;
-	priority.frame = frame;
+	[self nudge:text numberedxpos:47 barexpos:29];
+	[self nudge:priority numberedxpos:30 barexpos:12 ypos:text.frame.origin.y height:expectedLabelSize.height];
 	
 	if ([self showLineNumbers]) {
-		CGFloat top = frame.origin.y;
-		CGFloat height = frame.size.height;
+		CGFloat top = priority.frame.origin.y;
+		CGFloat height = priority.frame.size.height;
 		
 		UILabel *number = (UILabel *)[self viewWithTag:1];
-		frame = number.frame;
-		frame.origin.y = top;
-		frame.origin.x = 4;
-		frame.size.height = height;
-		number.frame = frame;
+		
+		[self nudge:number numberedxpos:4 barexpos:4 ypos:top height:height];
 	}
+	
+	UILabel *date = (UILabel *)[self viewWithTag:4];
+	CGFloat dateTop = text.frame.origin.y + text.frame.size.height;
+	[self nudge:date xpos:text.frame.origin.x ypos:dateTop];
 }
 
 
