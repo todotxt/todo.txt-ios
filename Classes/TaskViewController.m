@@ -56,11 +56,17 @@
 #import "ActionSheetPicker.h"
 #import "TestFlight.h"
 #import "TaskViewCell.h"
+#import "FlexiTaskCell.h"
+#import "AttributedLabel.h"
+#import <CoreText/CoreText.h>
+
+#import "NSMutableAttributedString+TodoTxt.h"
 
 #define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  269
 #define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
 #define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    695
 #define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   955
+#define VERTICAL_PADDING        5
 
 #define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
 #define MIN_ROW_HEIGHT 50
@@ -206,6 +212,24 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	}
 }
 
+- (NSAttributedString*)attributedTaskText:(Task *)task {
+    NSDictionary *taskAttributes = (task.completed) ?
+	[FlexiTaskCell completedTaskAttributes] : [FlexiTaskCell taskStringAttributes];
+	
+    NSString* taskText = [self.task inScreenFormat];
+    NSMutableAttributedString *taskString;
+    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
+                                                         attributes:taskAttributes] autorelease];
+	
+    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
+                                                              forKey:(id)kCTForegroundColorAttributeName];
+    [taskString addAttributesToProjectText:grayAttriubte];
+    [taskString addAttributesToContextText:grayAttriubte];
+	
+    return [[[NSAttributedString alloc] initWithAttributedString:taskString] autorelease];
+}
+
+
 // Return cell for the rows in table view
 -(UITableViewCell *) renderTaskCell:(UITableView *)tableView
 {
@@ -264,21 +288,14 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 		[label setHidden:true];
 	}	
 	
+	AttributedLabel *al = (AttributedLabel *)[cell viewWithTag:3];
+	al.text = [self attributedTaskText:task];
 	
-    label = (UILabel *)[cell viewWithTag:3];
-    label.text = [task inScreenFormat];
-    label.font = [UIFont systemFontOfSize:14.0];
-	if ([task completed]) {
-		// TODO: There doesn't seem to be a strikethrough option for UILabel.
-		// For now, let's just disable the label.
-		label.enabled = NO;
-	} else {
-		label.enabled = YES;
-	}
+	CGRect labelFrame = CGRectMake(46, VERTICAL_PADDING,
+								   [self textLabelWidth], [self calcTextHeightWithTask:task]);
 
-	CGRect labelFrame = label.frame;
-	labelFrame.size.height = [self calcTextHeightWithTask:task];
-	label.frame = labelFrame;
+	al.frame = labelFrame;
+	
 	UILabel *dateLabel = (UILabel *)[cell viewWithTag:4];
     if (![task completed]) {
 		dateLabel.text = [task relativeAge];

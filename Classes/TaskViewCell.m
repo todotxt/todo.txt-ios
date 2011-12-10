@@ -46,24 +46,48 @@
  */
 
 #import "TaskViewCell.h"
+#import "AttributedLabel.h"
+
+@interface TaskViewCell ()
+@property (retain, readwrite) AttributedLabel *taskLabel;
+
+@end
 
 @implementation TaskViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+#define LABELTAG 3
+#define TEXTLEFTLONG 47
+#define TEXTLEFTSHORT 29
+
+@synthesize taskLabel;
+
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+
+	if (self) {
+		for (UIView *subview in [self.contentView subviews]) {
+			if (subview.tag == LABELTAG) {
+				[subview removeFromSuperview];
+			}
+		}
+		
+		self.taskLabel = [[[AttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
+        self.taskLabel.backgroundColor = [UIColor clearColor];
+		
+		self.taskLabel.tag = LABELTAG;
+		
+		[self.contentView addSubview:self.taskLabel];
     }
-    return self;
+
+	return(self);
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)dealloc {
+	self.taskLabel = nil;
+	[super dealloc];
 }
+
 
 - (BOOL)showLineNumbers {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -73,7 +97,7 @@
 
 
 
-- (void)nudge:(UILabel *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos ypos:(CGFloat)ypos height:(CGFloat)height
+- (void)nudge:(UIView *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos ypos:(CGFloat)ypos height:(CGFloat)height
 {
 	
 	CGRect frame = label.frame;
@@ -99,18 +123,18 @@
 }
 
 
-- (void)nudge:(UILabel *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos
+- (void)nudge:(UIView *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos
 {
 	[self nudge:label numberedxpos:numberedxpos barexpos:barexpos ypos:-1 height:-1];
 }
 
 
-- (void)nudge:(UILabel *)label xpos:(CGFloat)xpos ypos:(CGFloat)ypos
+- (void)nudge:(UIView *)label xpos:(CGFloat)xpos ypos:(CGFloat)ypos
 {
 	[self nudge:label numberedxpos:xpos barexpos:xpos ypos:ypos height:-1];
 }
 
-- (void)nudge:(UILabel *)label xpos:(CGFloat)xpos
+- (void)nudge:(UIView *)label xpos:(CGFloat)xpos
 {
 	[self nudge:label numberedxpos:xpos barexpos:xpos];
 }
@@ -121,7 +145,7 @@
 	[super layoutSubviews];
 	
 	UILabel *priority = (UILabel *)[self viewWithTag:2];
-	UILabel *text = (UILabel *)[self viewWithTag:3];
+	UIView *text = (UIView *)[self viewWithTag:LABELTAG];
 	
 	CGFloat maxWidth = 999;
 	CGFloat maxHeight = 9999;
@@ -132,7 +156,7 @@
 								constrainedToSize:maximumLabelSize 
 								lineBreakMode:UILineBreakModeWordWrap]; 
 
-	[self nudge:text numberedxpos:47 barexpos:29];
+	[self nudge:text numberedxpos:TEXTLEFTLONG barexpos:TEXTLEFTSHORT];
 	[self nudge:priority numberedxpos:30 barexpos:12 ypos:text.frame.origin.y height:expectedLabelSize.height];
 	
 	if ([self showLineNumbers]) {
@@ -146,7 +170,7 @@
 	
 	UILabel *date = (UILabel *)[self viewWithTag:4];
 	CGFloat dateTop = text.frame.origin.y + text.frame.size.height;
-	[self nudge:date xpos:text.frame.origin.x ypos:dateTop];
+	[self nudge:date numberedxpos:TEXTLEFTLONG barexpos:TEXTLEFTSHORT ypos:dateTop height:-1];
 }
 
 

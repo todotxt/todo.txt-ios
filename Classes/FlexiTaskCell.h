@@ -57,6 +57,10 @@
 
 + (BOOL)shouldShowTaskId;
 
++ (NSDictionary*)taskStringAttributes;
++ (NSDictionary*)completedTaskAttributes;
+
+
 @property (readwrite, retain) Task* task;
 
 @end
