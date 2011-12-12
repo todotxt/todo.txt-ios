@@ -99,12 +99,21 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 - (void)viewWillAppear:(BOOL)animated {
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
-    
+	
+ 	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reloadViewData) 
+												 name:kTodoChangedNotification 
+											   object:nil];
+   
 	[self reloadViewData];
 	
     self.title = @"Task Details";
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];	
+}
 
 #pragma mark -
 #pragma mark Table view data source
