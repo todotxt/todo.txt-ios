@@ -47,50 +47,25 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "RemoteClientManager.h"
+
+#import <Foundation/Foundation.h>
+#import "RemoteClient.h"
+#import <DropboxSDK/DropboxSDK.h>
 #import "TestFlight.h"
 
-#define kTodoChangedNotification @"kTodoChangedNotification"
-
-@class todo_txt_touch_iosViewController;
-
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
-    UIWindow *window;
-    todo_txt_touch_iosViewController *viewController;
-	UINavigationController *navigationController;
-    id <TaskBag> taskBag;
-	RemoteClientManager *remoteClientManager;
-    id lastClickedButton; //Anchor holder for the Popover in iPad
+@interface DropboxTodoUploader : NSObject {
+	id<RemoteClient> remoteClient;
+	DBRestClient *restClient;
+	NSString *rev;
+	NSString *localFile;
+	BOOL force;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet todo_txt_touch_iosViewController *viewController;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, readonly) id <TaskBag> taskBag;
-@property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
-@property (nonatomic, retain) id lastClickedButton; 
+@property (nonatomic, assign) id<RemoteClient> remoteClient;
+@property (nonatomic, readonly) NSString *rev;
+@property (nonatomic, retain) NSString *localFile;
+@property (nonatomic, assign) BOOL force;
 
-- (void) syncClient;
-- (void) syncClientWithPrompt;
-- (void) syncClientForceChoice:(BOOL)forceChoice;
-- (void) pushToRemote;
-- (void) pullFromRemote;
-- (BOOL) isOfflineMode;
-- (BOOL) setOfflineMode:(BOOL)goOffline;
-- (void) logout;
-
-+ (todo_txt_touch_iosAppDelegate*) sharedDelegate;
-+ (id<TaskBag>) sharedTaskBag;
-+ (RemoteClientManager*) sharedRemoteClientManager;
-+ (void) syncClient;
-+ (void) syncClientWithPrompt;
-+ (void) pushToRemote;
-+ (void) pullFromRemote;
-+ (BOOL) isOfflineMode;
-+ (BOOL) setOfflineMode:(BOOL)goOffline;
-+ (void) logout;
+- (void) pushTodo;
 
 @end
-
