@@ -110,6 +110,16 @@
 	return [[todo_txt_touch_iosAppDelegate sharedDelegate] logout];
 }
 
++ (BOOL) needToPush {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:@"need_to_push"];
+}
+
++ (void) setNeedToPush:(BOOL)needToPush {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:needToPush forKey:@"need_to_push"];
+}
+
 - (void) presentLoginController {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         navigationController.viewControllers = [NSArray arrayWithObject:[[[iPadLoginScreenViewController alloc] init] autorelease]];
@@ -218,7 +228,7 @@
 }
 
 - (void) syncClientForceChoice:(BOOL)forceChoice {
-	if ([self isOfflineMode] || forceChoice) {
+	if ([self isOfflineMode] || forceChoice || [todo_txt_touch_iosAppDelegate needToPush]) {
 		if (![remoteClientManager.currentClient isAvailable]) {
 			// TODO: toast?
 			[self setOfflineMode:YES];
@@ -228,7 +238,7 @@
                                   delegate:self 
                                   cancelButtonTitle:@"Cancel" 
                                   destructiveButtonTitle:nil 
-                                  otherButtonTitles:@"Upload Changes", @"Download to device", nil ];
+                                  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
             dlg.tag = 10;
             [dlg showInView:self.navigationController.visibleViewController.view];
             [dlg release];		
@@ -253,7 +263,9 @@
 	} 
 }
 
-- (void) pushToRemote {
+- (void) pushToRemoteForce:(BOOL)force {
+	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+	
 	if ([self isOfflineMode]) {
 		return;
 	}
@@ -265,13 +277,26 @@
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		// We probably shouldn't be assuming LocalFileTaskRepository here, 
 		// but that is what the Android app does, so why not?
-		[remoteClientManager.currentClient pushTodo:[LocalFileTaskRepository filename]];
+		NSString *path = [LocalFileTaskRepository filename];
+		
+		if (force) {
+			[remoteClientManager.currentClient pushTodoForce:path];
+		} else {
+			[remoteClientManager.currentClient pushTodo:path];
+		}
+		
 		// pushTodo is asynchronous. When it returns, it will call
 		// the delegate method 'uploadedFile'
 	}	
 }
 
+- (void) pushToRemote {
+	[self pushToRemoteForce:NO];
+}
+
 - (void) pullFromRemote {
+	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+	
 	if ([self isOfflineMode]) {
 		return;
 	}
@@ -318,8 +343,70 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 }
 
+- (void) remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError *)error {
+	NSLog(@"Error downloading todo.txt file: %@", error);
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+	
+	if (error.code == 404) {
+		// ignore missing file. They may not have created one yet.
+		return;
+	}
+	
+	UIAlertView *alert =
+	[[UIAlertView alloc] initWithTitle: @"Error"
+							   message: @"There was an error downloading your todo.txt file."
+							  delegate: nil
+					 cancelButtonTitle: @"OK"
+					 otherButtonTitles: nil];
+    [alert show];
+    [alert release];
+}
+
 - (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void) remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError *)error {
+	NSLog(@"Error uploading todo file: %@", error);
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+	
+	UIAlertView *alert =
+	[[UIAlertView alloc] initWithTitle: @"Error"
+							   message: @"There was an error uploading your todo.txt file."
+							  delegate: nil
+					 cancelButtonTitle: @"OK"
+					 otherButtonTitles: nil];
+    [alert show];
+    [alert release];
+	
+	//remember the error, so that next time we press the sync button,
+	// we prompt the user to pull or push
+	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
+}
+
+- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath {
+	// alert user to the conflict and ask if he wants to force push or pull
+	NSLog(@"Upload conflict");
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+	
+	UIAlertView *alert =
+	[[UIAlertView alloc] initWithTitle: @"File Conflict"
+							   message: @"Oops! There is a newer version of your todo.txt file in Dropbox. Do you want to upload your local changes, or download the Dropbox version?"
+							  delegate: self
+					 cancelButtonTitle: @"Cancel"
+					 otherButtonTitles: @"Upload changes", @"Download to device", nil];
+    [alert show];
+    [alert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == [alertView firstOtherButtonIndex]) {
+		[self pushToRemoteForce:YES];
+	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
+		[self pullFromRemote];
+	} else { //cancel
+		[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
+	}
 }
 
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {

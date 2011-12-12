@@ -73,6 +73,8 @@
 		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
 		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
+		8878944014954AE4000AC39C /* DropboxTodoDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878943F14954AE4000AC39C /* DropboxTodoDownloader.m */; };
+		887894441495AEC7000AC39C /* DropboxTodoUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 887894431495AEC7000AC39C /* DropboxTodoUploader.m */; };
 		888065951401898E0036DE2A /* RemoteClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 888065941401898E0036DE2A /* RemoteClientManager.m */; };
 		88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 88806598140191A30036DE2A /* DropboxRemoteClient.m */; };
 		888065AE14019D3C0036DE2A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888065AD14019D3C0036DE2A /* CFNetwork.framework */; };
@@ -214,6 +216,10 @@
 		8858D0B713EA89C50083FA44 /* Priority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Priority.m; path = Classes/Priority.m; sourceTree = "<group>"; };
 		8858D0B813EA89C50083FA44 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Classes/Task.h; sourceTree = "<group>"; };
 		8858D0B913EA89C50083FA44 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Classes/Task.m; sourceTree = "<group>"; };
+		8878943E14954AE4000AC39C /* DropboxTodoDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxTodoDownloader.h; sourceTree = "<group>"; };
+		8878943F14954AE4000AC39C /* DropboxTodoDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxTodoDownloader.m; sourceTree = "<group>"; };
+		887894421495AEC7000AC39C /* DropboxTodoUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxTodoUploader.h; sourceTree = "<group>"; };
+		887894431495AEC7000AC39C /* DropboxTodoUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxTodoUploader.m; sourceTree = "<group>"; };
 		888065931401898E0036DE2A /* RemoteClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteClientManager.h; sourceTree = "<group>"; };
 		888065941401898E0036DE2A /* RemoteClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteClientManager.m; sourceTree = "<group>"; };
 		88806597140191A30036DE2A /* DropboxRemoteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxRemoteClient.h; sourceTree = "<group>"; };
@@ -553,6 +559,10 @@
 				88A91726146643B70075B886 /* DropboxApiKey.h */,
 				88806597140191A30036DE2A /* DropboxRemoteClient.h */,
 				88806598140191A30036DE2A /* DropboxRemoteClient.m */,
+				8878943E14954AE4000AC39C /* DropboxTodoDownloader.h */,
+				8878943F14954AE4000AC39C /* DropboxTodoDownloader.m */,
+				887894421495AEC7000AC39C /* DropboxTodoUploader.h */,
+				887894431495AEC7000AC39C /* DropboxTodoUploader.m */,
 				888065931401898E0036DE2A /* RemoteClientManager.h */,
 				888065941401898E0036DE2A /* RemoteClientManager.m */,
 			);
@@ -713,6 +723,8 @@
 				F4564BF214718A5800DF207C /* FlexiIPhonePortraitCell.m in Sources */,
 				F4564BF314718A5800DF207C /* FlexiTaskCellFactory.m in Sources */,
 				0F4F00611491A91900DBF796 /* TaskViewCell.m in Sources */,
+				8878944014954AE4000AC39C /* DropboxTodoDownloader.m in Sources */,
+				887894441495AEC7000AC39C /* DropboxTodoUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

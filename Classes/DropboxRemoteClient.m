@@ -54,17 +54,26 @@
 #import "DropboxApiKey.h"
 #import "Util.h"
 
-@interface DropboxRemoteClient () <DBSessionDelegate, DBRestClientDelegate>
+@interface DropboxRemoteClient () <DBSessionDelegate>
 @end
 
 @implementation DropboxRemoteClient
 
 @synthesize delegate;
 
-- (NSString*) todoTxtTmpFile {
++ (NSString*) todoTxtTmpFile {
 	return 	[NSString pathWithComponents:
 			   [NSArray arrayWithObjects:NSTemporaryDirectory(), 
 						@"todo.txt", nil]];
+}
+
++ (NSString*) todoTxtRemoteFile {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
+
+	return 	[NSString pathWithComponents:
+			 [NSArray arrayWithObjects:remotePath, 
+			  @"todo.txt", nil]];
 }
 
 - (id) init {
@@ -93,7 +102,7 @@
 - (void) deauthenticate {
 	[[DBSession sharedSession] unlinkAll];
 	[[NSFileManager defaultManager] 
-		removeItemAtPath:[self todoTxtTmpFile] 
+		removeItemAtPath:[DropboxRemoteClient todoTxtTmpFile] 
 					error:nil];
 }
 
@@ -103,14 +112,6 @@
 
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController {
 	[[DBSession sharedSession] link];
-}
-
-- (DBRestClient*)restClient {
-    if (restClient == nil) {
-    	restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    	restClient.delegate = self;
-    }
-    return restClient;
 }
 
 - (void) pullTodo {
@@ -123,63 +124,41 @@
 		return;
 	}
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *remotePath = [[defaults stringForKey:@"file_location_preference"] stringByAppendingString:@"/todo.txt"];
-	NSString *localPath = [self todoTxtTmpFile];
-	
-	[self.restClient loadFile:remotePath intoPath:localPath];
+	[downloader release];
+	downloader = [[DropboxTodoDownloader alloc] init];
+	downloader.remoteClient = self;
+	[downloader pullTodo];
 }
 
 - (void) pushTodo:(NSString*)path {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread:@selector(pushTodo) withObject:path waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(pushTodo:) withObject:path waitUntilDone:NO];
+		return;
+	}
+
+	[uploader release];
+	uploader = [[DropboxTodoUploader alloc] init];
+	uploader.remoteClient = self;
+	uploader.localFile = path;
+	[uploader pushTodo];	
+}
+
+- (void) pushTodoForce:(NSString*)path {
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread:@selector(pushTodoForce:) withObject:path waitUntilDone:NO];
 		return;
 	}
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
-	//FIXME: set parent rev?
-	[self.restClient uploadFile:@"todo.txt" toPath:remotePath fromPath:path];
+	uploader = [[DropboxTodoUploader alloc] init];
+	uploader.remoteClient = self;
+	uploader.localFile = path;
+	uploader.force = YES;
+	[uploader pushTodo];	
 }
 
 - (BOOL) isAvailable {
 	return [Network isAvailable];
 }
-
-#pragma mark -
-#pragma mark DBRestClientDelegate methods
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-	// call RemoteClientDelegate method
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loadedFile:)]) {
-		[self.delegate remoteClient:self loadedFile:destPath];
-	}
-}
-
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
-	// TODO: implement loadFileFailedWithError
-	// For now, lets call loadedFile and pass it nil
-	// call RemoteClientDelegate method
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loadedFile:)]) {
-		[self.delegate remoteClient:self loadedFile:nil];
-	}
-}
-
-- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath {
-	// call RemoteClientDelegate method
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
-		[self.delegate remoteClient:self uploadedFile:destPath];
-	}
-}
-
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-	// TODO: implement uploadFileFailedWithError
-	// For now, lets call uploadedFile and pass it nil
-	// call RemoteClientDelegate method
-	if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
-		[self.delegate remoteClient:self uploadedFile:nil];
-	}
-}
-
 
 
 #pragma mark -
@@ -208,6 +187,12 @@
         return YES;
     }
     return NO;
+}
+
+- (void) dealloc {
+	[downloader release];
+	[uploader release];
+	[super dealloc];
 }
 
 @end

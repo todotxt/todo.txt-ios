@@ -65,6 +65,7 @@ typedef enum {
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
 - (void) pullTodo;
 - (void) pushTodo:(NSString*)path;
+- (void) pushTodoForce:(NSString*)path;
 - (BOOL) isAvailable;
 - (BOOL) handleOpenURL:(NSURL *)url;
 
@@ -76,7 +77,10 @@ typedef enum {
 @protocol RemoteClientDelegate <NSObject>
 
 - (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath;
+- (void)remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError*)error;
 - (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
+- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError*)error;
+- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath;
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
 
 
