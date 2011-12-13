@@ -238,7 +238,7 @@
                                   delegate:self 
                                   cancelButtonTitle:@"Cancel" 
                                   destructiveButtonTitle:nil 
-                                  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
+                                  otherButtonTitles:@"Upload Changes", @"Download to device", nil ];
             dlg.tag = 10;
             [dlg showInView:self.navigationController.visibleViewController.view];
             [dlg release];		
@@ -344,7 +344,7 @@
 }
 
 - (void) remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError *)error {
-	NSLog(@"Error downloading todo.txt file: %@", error);
+	NSLog(@"Error downloading todo file: %@", error);
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	
 	if (error.code == 404) {
@@ -354,7 +354,7 @@
 	
 	UIAlertView *alert =
 	[[UIAlertView alloc] initWithTitle: @"Error"
-							   message: @"There was an error downloading your todo.txt file."
+							   message: @"There was an error downloading the todo.txt file."
 							  delegate: nil
 					 cancelButtonTitle: @"OK"
 					 otherButtonTitles: nil];
@@ -372,7 +372,7 @@
 	
 	UIAlertView *alert =
 	[[UIAlertView alloc] initWithTitle: @"Error"
-							   message: @"There was an error uploading your todo.txt file."
+							   message: @"There was an error uploading the todo.txt file."
 							  delegate: nil
 					 cancelButtonTitle: @"OK"
 					 otherButtonTitles: nil];
@@ -390,11 +390,11 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	
 	UIAlertView *alert =
-	[[UIAlertView alloc] initWithTitle: @"File Conflict"
-							   message: @"Oops! There is a newer version of your todo.txt file in Dropbox. Do you want to upload your local changes, or download the Dropbox version?"
+	[[UIAlertView alloc] initWithTitle: @"Merge Conflict"
+							   message: @"There is a newer version of the todo file on the remote server. Do you want to upload your local changes, or download the remote version?"
 							  delegate: self
 					 cancelButtonTitle: @"Cancel"
-					 otherButtonTitles: @"Upload changes", @"Download to device", nil];
+					 otherButtonTitles: @"Upload Changes", @"Download to device", nil];
     [alert show];
     [alert release];
 }
