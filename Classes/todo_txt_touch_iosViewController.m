@@ -57,6 +57,8 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "TestFlight.h"
 
+static BOOL savedOfflineMode = NO;
+
 @implementation todo_txt_touch_iosViewController
 
 #pragma mark -
@@ -190,6 +192,13 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void) viewDidAppear:(BOOL)animated {	
+	// If offline mode was disabled, prompt for sync now.
+	if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
+		[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
+	}	
+}
+
 #pragma mark -
 #pragma mark Table view datasource methods
 
@@ -302,8 +311,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	[todo_txt_touch_iosAppDelegate syncClient];
 }
 
-static BOOL savedOfflineMode = NO;
-
 - (IBAction)settingsButtonPressed:(id)sender {
 	savedOfflineMode = [todo_txt_touch_iosAppDelegate isOfflineMode];
     UINavigationController *aNavController = [[UINavigationController alloc] initWithRootViewController:self.appSettingsViewController];
@@ -326,11 +333,6 @@ static BOOL savedOfflineMode = NO;
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
-	
-	// If offline mode was disabled, prompt for sync now.
-	if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
-		[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
-	}	
 }
 
 #pragma mark -
