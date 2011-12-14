@@ -48,7 +48,6 @@
  */
 
 #import "Priority.h"
-#import "TestFlight.h"
 
 static NSArray* priorityArray = nil;
 

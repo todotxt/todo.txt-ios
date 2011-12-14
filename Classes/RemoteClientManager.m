@@ -49,7 +49,6 @@
 
 #import "RemoteClientManager.h"
 #import "DropboxRemoteClient.h"
-#import "TestFlight.h"
 
 @implementation RemoteClientManager
 

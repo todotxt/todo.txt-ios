@@ -4,7 +4,5 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-    // Allows access to TestFlight SDK across all files
-    #import "TestFlight.h"
+    #import <UIKit/UIKit.h>    
 #endif

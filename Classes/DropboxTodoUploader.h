@@ -51,7 +51,6 @@
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
 #import <DropboxSDK/DropboxSDK.h>
-#import "TestFlight.h"
 
 @interface DropboxTodoUploader : NSObject {
 	id<RemoteClient> remoteClient;
