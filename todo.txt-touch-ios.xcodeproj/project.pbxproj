@@ -50,7 +50,6 @@
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
 		7D57054A12F89F1900BB5E8D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054612F89F1900BB5E8D /* Icon.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
-		7DC696171441442D00C2CB70 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC696151441442D00C2CB70 /* libTestFlight.a */; };
 		7DD54F3C1443CCAC00C130DC /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD54F3B1443CCAC00C130DC /* MainWindow-iPad.xib */; };
 		7DD54F3E1443CD1C00C130DC /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */; };
 		7DD54F421443CD5400C130DC /* iPadLoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD54F401443CD5400C130DC /* iPadLoginScreenViewController.m */; };
@@ -172,8 +171,6 @@
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		7D57054612F89F1900BB5E8D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		7DC696151441442D00C2CB70 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		7DC696161441442D00C2CB70 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		7DD54F3B1443CCAC00C130DC /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7DD54F3F1443CD5400C130DC /* iPadLoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadLoginScreenViewController.h; sourceTree = "<group>"; };
@@ -282,7 +279,6 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */,
-				7DC696171441442D00C2CB70 /* libTestFlight.a in Frameworks */,
 				88A91724146614920075B886 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,8 +337,6 @@
 			children = (
 				33CF5E09144410B90050F60D /* Entitlements.entitlements */,
 				7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */,
-				7DC696151441442D00C2CB70 /* libTestFlight.a */,
-				7DC696161441442D00C2CB70 /* TestFlight.h */,
 				5910DBD61424014800BB2D68 /* InAppSettings.bundle */,
 				5910DB9214215A4600BB2D68 /* InAppSettingsKit */,
 				080E96DDFE201D6D7F000001 /* Classes */,

@@ -48,7 +48,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "TestFlight.h"
 
 @interface iPadLoginScreenViewController : UIViewController {
     

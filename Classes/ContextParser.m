@@ -48,7 +48,6 @@
  */
 
 #import "ContextParser.h"
-#import "TestFlight.h"
 
 static NSRegularExpression* contextPattern = nil;
 

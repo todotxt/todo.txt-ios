@@ -54,7 +54,6 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "ActionSheetPicker.h"
-#import "TestFlight.h"
 #import "TaskViewCell.h"
 #import "FlexiTaskCell.h"
 #import "AttributedLabel.h"
