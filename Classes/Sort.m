@@ -50,7 +50,6 @@
 
 #import "Sort.h"
 #import "Task.h"
-#import "TestFlight.h"
 
 static NSArray* sortList = nil;
 

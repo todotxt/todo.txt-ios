@@ -52,7 +52,6 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxTodoDownloader.h"
 #import "DropboxTodoUploader.h"
-#import "TestFlight.h"
 
 @interface DropboxRemoteClient : NSObject<RemoteClient> {
 	id<RemoteClientDelegate> delegate;

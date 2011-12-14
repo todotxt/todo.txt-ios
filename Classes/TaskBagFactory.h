@@ -49,7 +49,6 @@
 
 
 #import "TaskBag.h"
-#import "TestFlight.h"
 
 
 @interface TaskBagFactory : NSObject {

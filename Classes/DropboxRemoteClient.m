@@ -50,7 +50,6 @@
 #import "DropboxRemoteClient.h"
 #import "Network.h"
 #import "TaskIo.h"
-#import "TestFlight.h"
 #import "DropboxApiKey.h"
 #import "Util.h"
 
