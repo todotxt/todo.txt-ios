@@ -54,6 +54,7 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "ActionSheetPicker.h"
 #import "PriorityTextSplitter.h"
+#import "TaskUtil.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define SINGLE_SPACE ' '
@@ -314,11 +315,14 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
-		item = [NSString stringWithFormat:@"+%@", item];
-		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
-		textView.text = newText;
-		textView.selectedRange = curSelectedRange;
+		
+		if (! [TaskUtil taskHasProject:textView.text project:item]) {
+			item = [NSString stringWithFormat:@"+%@", item];
+			NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+			curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+			textView.text = newText;
+			textView.selectedRange = curSelectedRange;
+		}
 	}	
 	[textView becomeFirstResponder];
 }
@@ -328,11 +332,14 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
-		item = [NSString stringWithFormat:@"@%@", item];
-		NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
-		textView.text = newText;
-		textView.selectedRange = curSelectedRange;
+		
+		if (! [TaskUtil taskHasContext:textView.text context:item]) {
+			item = [NSString stringWithFormat:@"@%@", item];
+			NSString *newText = insertPadded(textView.text, curSelectedRange, item);
+			curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+			textView.text = newText;
+			textView.selectedRange = curSelectedRange;
+		}
 	}	
 	[textView becomeFirstResponder];
 }
