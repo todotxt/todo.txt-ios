@@ -50,7 +50,6 @@
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
 #import "RemoteClientManager.h"
-#import "TestFlight.h"
 
 #define kTodoChangedNotification @"kTodoChangedNotification"
 

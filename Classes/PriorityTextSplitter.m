@@ -48,7 +48,6 @@
  */
 
 #import "PriorityTextSplitter.h"
-#import "TestFlight.h"
 
 static NSRegularExpression* priorityPattern = nil;
 

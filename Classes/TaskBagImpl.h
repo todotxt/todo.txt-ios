@@ -49,7 +49,6 @@
 
 #import "TaskBag.h"
 #import "LocalTaskRepository.h"
-#import "TestFlight.h"
 
 @interface TaskBagImpl : NSObject <TaskBag> {
     id <LocalTaskRepository> localTaskRepository;

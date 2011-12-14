@@ -50,7 +50,6 @@
 #import "TaskBag.h"
 #import "Sort.h"
 #import "IASKAppSettingsViewController.h"
-#import "TestFlight.h"
 #import "ActionSheetPicker.h"
 
 @interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, 
