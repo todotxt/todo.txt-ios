@@ -67,7 +67,7 @@
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
 - (void) pullTodo;
 - (void) pushTodo:(NSString*)path;
-- (void) pushTodoForce:(NSString*)path;
+- (void) pushTodoOverwrite:(NSString*)path;
 - (BOOL) isAvailable;
 - (BOOL) handleOpenURL:(NSURL *)url;
 
