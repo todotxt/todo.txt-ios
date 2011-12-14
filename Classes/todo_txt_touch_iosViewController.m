@@ -55,7 +55,6 @@
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
 #import "todo_txt_touch_iosAppDelegate.h"
-#import "TestFlight.h"
 
 static BOOL savedOfflineMode = NO;
 
@@ -346,8 +345,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 		[alert addButtonWithTitle:@"Log out"];
 		[alert show];
 	}
-    else if([key isEqualToString:@"leave_feedback"]) {
-        [TestFlight openFeedbackView];    
+    else if([key isEqualToString:@"about_todo"]) {
+        NSURL *url = [NSURL URLWithString:@"http://todotxt.com"];
+        [[UIApplication sharedApplication] openURL:url];
     }
 }
 

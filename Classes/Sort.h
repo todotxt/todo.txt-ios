@@ -49,7 +49,6 @@
 
 
 #import <Foundation/Foundation.h>
-#import "TestFlight.h"
 
 typedef enum {
 	SortPriority = 0,

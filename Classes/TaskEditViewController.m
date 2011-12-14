@@ -54,7 +54,6 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "ActionSheetPicker.h"
 #import "PriorityTextSplitter.h"
-#import "TestFlight.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define SINGLE_SPACE ' '

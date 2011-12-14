@@ -51,7 +51,6 @@
 #import "TaskBagFactory.h"
 #import "TaskBagImpl.h"
 #import "LocalFileTaskRepository.h"
-#import "TestFlight.h"
 
 @implementation TaskBagFactory
 
