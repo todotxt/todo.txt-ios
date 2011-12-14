@@ -142,16 +142,16 @@
 	[uploader pushTodo];	
 }
 
-- (void) pushTodoForce:(NSString*)path {
+- (void) pushTodoOverwrite:(NSString*)path {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread:@selector(pushTodoForce:) withObject:path waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(pushTodoOverwrite:) withObject:path waitUntilDone:NO];
 		return;
 	}
 	
 	uploader = [[DropboxTodoUploader alloc] init];
 	uploader.remoteClient = self;
 	uploader.localFile = path;
-	uploader.force = YES;
+	uploader.overwrite = YES;
 	[uploader pushTodo];	
 }
 

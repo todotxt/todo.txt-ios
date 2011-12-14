@@ -55,7 +55,7 @@
 
 @implementation DropboxTodoUploader 
 
-@synthesize remoteClient, rev, localFile, force;
+@synthesize remoteClient, rev, localFile, overwrite;
 
 - (DBRestClient*)restClient {
     if (restClient == nil) {
@@ -83,7 +83,7 @@
 	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
 	NSString *lastRev = [defaults stringForKey:@"dropbox_last_rev"];
 	
-	if (!force && ![rev isEqualToString:lastRev]) {
+	if (!overwrite && ![rev isEqualToString:lastRev]) {
 		// Conflict! Call RemoteClientDelegate method
 		if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithConflict:)]) {
 			[self.remoteClient.delegate remoteClient:self.remoteClient uploadFileFailedWithConflict:remotePath];

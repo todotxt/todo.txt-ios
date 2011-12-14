@@ -75,6 +75,8 @@
 - (void) syncClientWithPrompt;
 - (void) syncClientForceChoice:(BOOL)forceChoice;
 - (void) pushToRemote;
+- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
+- (void) pullFromRemoteForce:(BOOL)force;
 - (void) pullFromRemote;
 - (BOOL) isOfflineMode;
 - (BOOL) setOfflineMode:(BOOL)goOffline;

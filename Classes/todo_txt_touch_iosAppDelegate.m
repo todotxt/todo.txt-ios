@@ -252,17 +252,17 @@
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 10) {
         if (buttonIndex == [actionSheet firstOtherButtonIndex]) {
-            [self pushToRemote];
+            [self pushToRemoteOverwrite:NO force:YES];
         } else if (buttonIndex == [actionSheet firstOtherButtonIndex] + 1){
-            [self pullFromRemote];
+            [self pullFromRemoteForce:YES];
         }
 	} 
 }
 
-- (void) pushToRemoteForce:(BOOL)force {
+- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force {
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 	
-	if ([self isOfflineMode]) {
+	if (!force && [self isOfflineMode]) {
 		return;
 	}
 	
@@ -275,8 +275,8 @@
 		// but that is what the Android app does, so why not?
 		NSString *path = [LocalFileTaskRepository filename];
 		
-		if (force) {
-			[remoteClientManager.currentClient pushTodoForce:path];
+		if (overwrite) {
+			[remoteClientManager.currentClient pushTodoOverwrite:path];
 		} else {
 			[remoteClientManager.currentClient pushTodo:path];
 		}
@@ -287,13 +287,13 @@
 }
 
 - (void) pushToRemote {
-	[self pushToRemoteForce:NO];
+	[self pushToRemoteOverwrite:NO force:NO];
 }
 
-- (void) pullFromRemote {
+- (void) pullFromRemoteForce:(BOOL)force {
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 	
-	if ([self isOfflineMode]) {
+	if (!force && [self isOfflineMode]) {
 		return;
 	}
 	
@@ -306,6 +306,10 @@
 		// pullTodo is asynchronous. When it returns, it will call
 		// the delegate method 'loadedFile'
 	}	
+}
+
+- (void) pullFromRemote {
+	[self pullFromRemoteForce:NO];
 }
 
 - (BOOL) isOfflineMode {
@@ -397,9 +401,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == [alertView firstOtherButtonIndex]) {
-		[self pushToRemoteForce:YES];
+		[self pushToRemoteOverwrite:YES force:YES];
 	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
-		[self pullFromRemote];
+		[self pullFromRemoteForce:YES];
 	} else { //cancel
 		[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
 	}

@@ -57,13 +57,13 @@
 	DBRestClient *restClient;
 	NSString *rev;
 	NSString *localFile;
-	BOOL force;
+	BOOL overwrite;
 }
 
 @property (nonatomic, assign) id<RemoteClient> remoteClient;
 @property (nonatomic, readonly) NSString *rev;
 @property (nonatomic, retain) NSString *localFile;
-@property (nonatomic, assign) BOOL force;
+@property (nonatomic, assign) BOOL overwrite;
 
 - (void) pushTodo;
 
