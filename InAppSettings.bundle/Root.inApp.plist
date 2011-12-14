@@ -96,13 +96,13 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Feedback</string>
+			<string>About</string>
 		</dict>
 		<dict>
 			<key>Key</key>
-			<string>leave_feedback</string>
+			<string>about_todo</string>
 			<key>Title</key>
-			<string>Leave Feedback</string>
+			<string>About Todo.txt Touch</string>
 			<key>Type</key>
 			<string>IASKButtonSpecifier</string>
 		</dict>

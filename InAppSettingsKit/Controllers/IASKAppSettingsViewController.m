@@ -100,7 +100,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         // If set to YES, will display credits for InAppSettingsKit creators
-        _showCreditsFooter = YES;
+        _showCreditsFooter = NO;
         
         // If set to YES, will add a DONE button at the right of the navigation bar
         _showDoneButton = YES;
@@ -110,7 +110,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 - (void)awakeFromNib {
 	// If set to YES, will display credits for InAppSettingsKit creators
-	_showCreditsFooter = YES;
+	_showCreditsFooter = NO;
 	
 	// If set to YES, will add a DONE button at the right of the navigation bar
 	// if loaded via NIB, it's likely we sit in a TabBar- or NavigationController

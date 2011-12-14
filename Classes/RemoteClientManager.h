@@ -49,7 +49,6 @@
 
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
-#import "TestFlight.h"
 
 @interface RemoteClientManager : NSObject {
     Client currentClientToken;
