@@ -253,7 +253,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
 		viewController.view = helpView;
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-		self.popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+		self.popOverController = [[[UIPopoverController alloc] initWithContentViewController:viewController] autorelease];
 		helpCloseButton.hidden = YES;
         [popOverController presentPopoverFromBarButtonItem:sender
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];

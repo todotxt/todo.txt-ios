@@ -67,6 +67,7 @@
 	
     [HUD show:YES];
     [HUD hide:YES afterDelay:1];
+	[HUD release];
 }
 
 
@@ -89,7 +90,7 @@
 }
 
 - (id)initForDataWithContainingView:(UIView *)aView data:(NSArray *)data selectedIndex:(NSInteger)selectedIndex target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
-	if ([self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem] != nil) {
+	if ((self = [self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem]) != nil) {
 		self.data = data;
 		self.selectedIndex = selectedIndex;
 		self.title = title;
@@ -98,7 +99,7 @@
 }
 
 - (id)initForDateWithContainingView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
-	if ([self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem] != nil) {
+	if ((self = [self initWithContainingView:aView target:target action:action rect:rect barButtonItem:barButtonItem]) != nil) {
 		self.datePickerMode = datePickerMode;
 		self.selectedDate = selectedDate;
 		self.title = title;
