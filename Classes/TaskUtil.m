@@ -1,6 +1,6 @@
 /**
  *
- * Todo.txt-Touch-iOS/Classes/NSMutableAttributedString+TodoTxt.m
+ * Todo.txt-Touch-iOS/Classes/TaskUtil.m
  *
  * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
  *
@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
- * @author Ricky Hussmmann <ricky[dot]hussmann[at]gmail[dot]com>
+ * @author Paul Roub <paul@roub.net>
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2011 Ricky Hussmann
  *
