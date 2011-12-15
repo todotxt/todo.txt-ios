@@ -184,7 +184,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Tap the + sign to add your first todo.</string>
+						<string key="IBUIText">Tap the + button to add your first todo.</string>
 						<reference key="IBUITextColor" ref="651757441"/>
 						<nil key="IBUIHighlightedColor"/>
 						<reference key="IBUIShadowColor" ref="724423243"/>

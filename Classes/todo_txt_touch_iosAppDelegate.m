@@ -1,12 +1,12 @@
 /**
+ * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
- * Todo.txt-Touch-iOS/Classes/todo_txt_touch_iosAppDelegate.m
+ * @author Todo.txt contributors <todotxt@yahoogroups.com>
+ * @copyright 2011 Todo.txt contributors (http://todotxt.com)
+ *  
+ * Dual-licensed under the GNU General Public License and the MIT License
  *
- * Copyright (c) 2009-2011 Gina Trapani, Shawn McGuire
- *
- * LICENSE:
- *
- * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file (http://todotxt.com).
+ * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
  *
  * Todo.txt Touch is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any
@@ -19,12 +19,8 @@
  * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
- * @author Gina Trapani <ginatrapani[at]gmail[dot]com>
- * @author Shawn McGuire <mcguiresm[at]gmail[dot]com> 
- * @license http://www.gnu.org/licenses/gpl.html
- * @copyright 2009-2011 Gina Trapani, Shawn McGuire
  *
- * Copyright (c) 2011 Gina Trapani and contributors, http://todotxt.com
+ * @license The MIT License http://www.opensource.org/licenses/mit-license.php
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -136,6 +132,11 @@
 	navigationController.navigationBar.hidden = NO;
 }
 
+- (void) clearUserDefaults {
+	NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -145,6 +146,7 @@
 								 @"NO", @"show_task_age_preference", 
 								 @"NO", @"windows_line_breaks_preference", 
 								 @"NO", @"work_offline_preference", 
+								 @"NO", @"need_to_push",
 								 @"/todo", @"file_location_preference", nil];	
     [defaults registerDefaults:appDefaults];
 	
@@ -252,17 +254,17 @@
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 10) {
         if (buttonIndex == [actionSheet firstOtherButtonIndex]) {
-            [self pushToRemote];
+            [self pushToRemoteOverwrite:NO force:YES];
         } else if (buttonIndex == [actionSheet firstOtherButtonIndex] + 1){
-            [self pullFromRemote];
+            [self pullFromRemoteForce:YES];
         }
 	} 
 }
 
-- (void) pushToRemoteForce:(BOOL)force {
+- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force {
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 	
-	if ([self isOfflineMode]) {
+	if (!force && [self isOfflineMode]) {
 		return;
 	}
 	
@@ -275,8 +277,8 @@
 		// but that is what the Android app does, so why not?
 		NSString *path = [LocalFileTaskRepository filename];
 		
-		if (force) {
-			[remoteClientManager.currentClient pushTodoForce:path];
+		if (overwrite) {
+			[remoteClientManager.currentClient pushTodoOverwrite:path];
 		} else {
 			[remoteClientManager.currentClient pushTodo:path];
 		}
@@ -287,13 +289,13 @@
 }
 
 - (void) pushToRemote {
-	[self pushToRemoteForce:NO];
+	[self pushToRemoteOverwrite:NO force:NO];
 }
 
-- (void) pullFromRemote {
+- (void) pullFromRemoteForce:(BOOL)force {
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 	
-	if ([self isOfflineMode]) {
+	if (!force && [self isOfflineMode]) {
 		return;
 	}
 	
@@ -306,6 +308,10 @@
 		// pullTodo is asynchronous. When it returns, it will call
 		// the delegate method 'loadedFile'
 	}	
+}
+
+- (void) pullFromRemote {
+	[self pullFromRemoteForce:NO];
 }
 
 - (BOOL) isOfflineMode {
@@ -322,9 +328,8 @@
 
 - (void) logout {
 	[remoteClientManager.currentClient deauthenticate];
+	[self clearUserDefaults];
 	[self presentLoginController];
-	// TODO: delete user preferences
-
 }
 
 #pragma mark -
@@ -397,9 +402,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == [alertView firstOtherButtonIndex]) {
-		[self pushToRemoteForce:YES];
+		[self pushToRemoteOverwrite:YES force:YES];
 	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
-		[self pullFromRemote];
+		[self pullFromRemoteForce:YES];
 	} else { //cancel
 		[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
 	}
