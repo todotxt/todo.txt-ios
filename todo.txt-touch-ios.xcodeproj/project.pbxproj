@@ -27,7 +27,6 @@
 		2899E5220DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* todo_txt_touch_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */; };
-		33CF22D31499A27E00034E43 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CF22D21499A27E00034E43 /* Default-Landscape~ipad.png */; };
 		33CF22D51499A42E00034E43 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */; };
 		33CF22D71499A43600034E43 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */; };
 		33CF5E0A144410B90050F60D /* Entitlements.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 33CF5E09144410B90050F60D /* Entitlements.entitlements */; };
@@ -65,7 +64,6 @@
 		7D57054A12F89F1900BB5E8D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054612F89F1900BB5E8D /* Icon.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
 		7DD54F3C1443CCAC00C130DC /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD54F3B1443CCAC00C130DC /* MainWindow-iPad.xib */; };
-		7DD54F3E1443CD1C00C130DC /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */; };
 		7DD54F421443CD5400C130DC /* iPadLoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD54F401443CD5400C130DC /* iPadLoginScreenViewController.m */; };
 		7DD54F431443CD5400C130DC /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD54F411443CD5400C130DC /* iPadLoginScreenViewController.xib */; };
 		8817330813F0F23D00B6B9F9 /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8817330713F0F23D00B6B9F9 /* TaskTableCell.xib */; };
@@ -142,7 +140,6 @@
 		28D7ACF70DDB3853001CB0EB /* todo_txt_touch_iosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
-		33CF22D21499A27E00034E43 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		33CF5E09144410B90050F60D /* Entitlements.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Entitlements.entitlements; sourceTree = "<group>"; };
@@ -198,7 +195,6 @@
 		7D57054612F89F1900BB5E8D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DD54F3B1443CCAC00C130DC /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7DD54F3F1443CD5400C130DC /* iPadLoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadLoginScreenViewController.h; sourceTree = "<group>"; };
 		7DD54F401443CD5400C130DC /* iPadLoginScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadLoginScreenViewController.m; sourceTree = "<group>"; };
 		7DD54F411443CD5400C130DC /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = iPadLoginScreenViewController.xib; path = Classes/iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
@@ -393,11 +389,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */,
-				33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */,
-				33CF22D21499A27E00034E43 /* Default-Landscape~ipad.png */,
 				33CF5E09144410B90050F60D /* Entitlements.entitlements */,
-				7DD54F3D1443CD1C00C130DC /* Default-Portrait~ipad.png */,
 				5910DBD61424014800BB2D68 /* InAppSettings.bundle */,
 				5910DB9214215A4600BB2D68 /* InAppSettingsKit */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -423,6 +415,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */,
+				33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */,
 				5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */,
 				5910DBD8142406BD00BB2D68 /* 19-gear.png */,
 				88AAFC621419CB960062BBF6 /* Icon@2x.png */,
@@ -743,10 +737,8 @@
 				5910DBD9142406BD00BB2D68 /* 19-gear.png in Resources */,
 				5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */,
 				7DD54F3C1443CCAC00C130DC /* MainWindow-iPad.xib in Resources */,
-				7DD54F3E1443CD1C00C130DC /* Default-Portrait~ipad.png in Resources */,
 				7DD54F431443CD5400C130DC /* iPadLoginScreenViewController.xib in Resources */,
 				33CF5E0A144410B90050F60D /* Entitlements.entitlements in Resources */,
-				33CF22D31499A27E00034E43 /* Default-Landscape~ipad.png in Resources */,
 				33CF22D51499A42E00034E43 /* Default-Portrait~ipad.png in Resources */,
 				33CF22D71499A43600034E43 /* Default-Landscape~ipad.png in Resources */,
 			);
