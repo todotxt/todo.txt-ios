@@ -53,6 +53,23 @@
 
 
 @implementation iPadLoginScreenViewController
+@synthesize todoTxtLabel, touchLabel, loginButton, imageView;
+
+- (void) layoutSubviews:(UIInterfaceOrientation)interfaceOrientation {
+	// Rearrange the widgets on the screen based on orientation.
+	
+	if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+		self.todoTxtLabel.frame = CGRectMake(374, 177, self.todoTxtLabel.frame.size.width, self.todoTxtLabel.frame.size.height);
+		self.touchLabel.frame = CGRectMake(551, 173, self.touchLabel.frame.size.width, self.touchLabel.frame.size.height);
+		self.imageView.frame = CGRectMake(384, 314, self.imageView.frame.size.width, self.imageView.frame.size.height);		
+		self.loginButton.frame = CGRectMake(430, 250, self.loginButton.frame.size.width, self.loginButton.frame.size.height);
+	} else {
+		self.todoTxtLabel.frame = CGRectMake(246, 296, self.todoTxtLabel.frame.size.width, self.todoTxtLabel.frame.size.height);
+		self.touchLabel.frame = CGRectMake(423, 292, self.touchLabel.frame.size.width, self.touchLabel.frame.size.height);
+		self.imageView.frame = CGRectMake(256, 432, self.imageView.frame.size.width, self.imageView.frame.size.height);		
+		self.loginButton.frame = CGRectMake(307, 365, self.loginButton.frame.size.width, self.loginButton.frame.size.height);
+	}
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,11 +104,20 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+	[self layoutSubviews:[[UIApplication sharedApplication] statusBarOrientation]];	
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
 	return YES;
 }
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
+	[self layoutSubviews:interfaceOrientation];
+}
+
 
 - (IBAction)loginButtonPressed:(id)sender {
 	RemoteClientManager *remoteClientManager = [todo_txt_touch_iosAppDelegate sharedRemoteClientManager];
