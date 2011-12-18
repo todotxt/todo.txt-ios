@@ -50,8 +50,16 @@
 #import <UIKit/UIKit.h>
 
 @interface iPadLoginScreenViewController : UIViewController {
-    
+    UILabel *todoTxtLabel;
+	UILabel *touchLabel;
+	UIButton *loginButton;
+	UIImageView *imageView;	
 }
+
+@property (nonatomic, retain) IBOutlet UILabel *todoTxtLabel;
+@property (nonatomic, retain) IBOutlet UILabel *touchLabel;
+@property (nonatomic, retain) IBOutlet UIButton *loginButton;
+@property (nonatomic, retain) IBOutlet UIImageView *imageView;
 
 - (IBAction)loginButtonPressed:(id)sender;
 
