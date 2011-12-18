@@ -71,6 +71,7 @@
 @property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
 @property (nonatomic, retain) id lastClickedButton; 
 
+- (void) clearUserDefaults;
 - (void) syncClient;
 - (void) syncClientWithPrompt;
 - (void) syncClientForceChoice:(BOOL)forceChoice;
