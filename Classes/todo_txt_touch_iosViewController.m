@@ -354,6 +354,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
+		savedOfflineMode = NO;
 		[self dismissModalViewControllerAnimated:YES];
         [todo_txt_touch_iosAppDelegate logout];
     }

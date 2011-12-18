@@ -136,6 +136,11 @@
 	navigationController.navigationBar.hidden = NO;
 }
 
+- (void) clearUserDefaults {
+	NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -145,6 +150,7 @@
 								 @"NO", @"show_task_age_preference", 
 								 @"NO", @"windows_line_breaks_preference", 
 								 @"NO", @"work_offline_preference", 
+								 @"NO", @"need_to_push",
 								 @"/todo", @"file_location_preference", nil];	
     [defaults registerDefaults:appDefaults];
 	
@@ -326,9 +332,8 @@
 
 - (void) logout {
 	[remoteClientManager.currentClient deauthenticate];
+	[self clearUserDefaults];
 	[self presentLoginController];
-	// TODO: delete user preferences
-
 }
 
 #pragma mark -
