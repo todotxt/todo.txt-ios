@@ -112,6 +112,7 @@
         [self addSubview:self.todoIdLabel];
         [self addSubview:self.ageLabel];
         [self addSubview:self.taskLabel];
+		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }
