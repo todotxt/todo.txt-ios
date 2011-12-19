@@ -228,7 +228,7 @@
 		[self.target performSelector:self.action withObject:self.selectedDate withObject:self.view];
 	}
     
-	[self release];
+	//[self release];
 }
 
 - (void)actionPickerCancel {
@@ -246,7 +246,7 @@
 		[self.target performSelector:self.action withObject:nil withObject:self.view];
 	}    
 
-	[self release];
+	//[self release];
 }
 
 - (BOOL) isViewPortrait {
