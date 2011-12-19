@@ -57,6 +57,7 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 
 static BOOL savedOfflineMode = NO;
+static BOOL needSync = NO;
 
 @implementation todo_txt_touch_iosViewController
 
@@ -192,9 +193,14 @@ static BOOL savedOfflineMode = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {	
-	// If offline mode was disabled, prompt for sync now.
-	if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
-		[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
+	if (needSync) {
+		needSync = NO;
+		if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
+			// If offline mode was just disabled, prompt for push/pull.
+			[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
+		} else {
+			[todo_txt_touch_iosAppDelegate syncClient];
+		}
 	}	
 }
 
@@ -332,6 +338,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
+	needSync = YES;
 }
 
 #pragma mark -
