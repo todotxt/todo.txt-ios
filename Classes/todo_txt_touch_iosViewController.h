@@ -80,8 +80,6 @@
 //- (IBAction)segmentControlPressed:(id)sender;
 - (IBAction)sortButtonPressed:(id)sender;
 - (IBAction)settingsButtonPressed:(id)sender;
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath;
 - (void)handleSearchForTerm:(NSString *)searchTerm;
 
 @end
