@@ -44,6 +44,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface Todo_txt_unit_tests : SenTestCase
+@interface ContextParserTest : SenTestCase
 
 @end
