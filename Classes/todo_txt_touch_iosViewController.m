@@ -51,6 +51,7 @@
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
 #import "todo_txt_touch_iosAppDelegate.h"
+#import "FilterFactory.h"
 
 static BOOL savedOfflineMode = NO;
 static BOOL needSync = NO;
@@ -87,8 +88,9 @@ static BOOL needSync = NO;
 	
 	// reload searchbar tableview data if necessary
 	if (self.savedSearchTerm)
-	{
-		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:savedSearchTerm withSortOrder:sort];
+	{	
+		id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:savedSearchTerm caseSensitive:NO];
+		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
 		[self.searchDisplayController.searchResultsTableView reloadData];
 	}
 }
@@ -262,7 +264,8 @@ static BOOL needSync = NO;
 
 - (void)handleSearchForTerm:(NSString *)searchTerm {
 	self.savedSearchTerm = searchTerm;
-	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:savedSearchTerm withSortOrder:sort];
+	id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:savedSearchTerm caseSensitive:NO];
+	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller 

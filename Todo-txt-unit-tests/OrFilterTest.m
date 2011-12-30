@@ -42,36 +42,44 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "Todo_txt_unit_tests.h"
-#import "TaskUtil.h"
+#import "OrFilterTest.h"
+#import "OrFilter.h"
+#import "ByPriorityFilter.h"
+#import "ByProjectFilter.h"
+#import "ByContextFIlter.h"
+#import "ByTextFilter.h"
+#import "Task.h"
 
-@implementation Todo_txt_unit_tests
+@implementation OrFilterTest
 
-- (void)setUp
+- (void)testNoFilters
 {
-    [super setUp];
-    
-    // Set-up code here.
+	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
+	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
 }
 
-- (void)tearDown
+- (void)testMultipleFilters_matchesBoth
 {
-    // Tear-down code here.
-    
-    [super tearDown];
+	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
+	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
 }
 
-- (void)testHasContext
+- (void)testMultipleFilters_matchesOnlyOne
 {
-	STAssertFalse([TaskUtil taskHasContext:@"" context:@"home"], @"context in empty string");
-	STAssertFalse([TaskUtil taskHasContext:@"hi @home" context:@"work"], @"work context in hi @home");
-	STAssertTrue([TaskUtil taskHasContext:@"hi @home" context:@"home"], @"context in hi @home");
+	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
+	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
 }
 
-- (void)testHasProject
+- (void)testMultipleFilters_matchesNone
 {
-	STAssertFalse([TaskUtil taskHasProject:@"" project:@"reorganize"], @"project in empty string");
-	STAssertTrue([TaskUtil taskHasProject:@"hi +reorganize" project:@"reorganize"], @"project in hi +reorganize");
+	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
+	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertFalse([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
 }
 
 @end

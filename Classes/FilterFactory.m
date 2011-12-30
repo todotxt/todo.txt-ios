@@ -41,25 +41,40 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import <Foundation/Foundation.h>
-#import "Task.h"
-#import "Sort.h"
-#import "Filter.h"
 
-@protocol TaskBag <NSObject>
+#import "FilterFactory.h"
+#import "AndFilter.h"
+#import "ByPriorityFilter.h"
+#import "ByContextFilter.h"
+#import "ByProjectFilter.h"
+#import "ByTextFilter.h"
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+@implementation FilterFactory
+
++ (id <Filter>) getAndFilterWithPriorities:(NSArray*)priorities 
+								  contexts:(NSArray*)contexts 
+								  projects:(NSArray*)projects 
+									  text:(NSString*)text 
+							 caseSensitive:(BOOL)caseSensitive {
+
+	AndFilter *filter = [[[AndFilter alloc] init] autorelease];
+	
+	if (priorities.count > 0) {
+		[filter addFilter:[[[ByPriorityFilter alloc] initWithPriorities:priorities] autorelease]];
+	}
+	
+	if (contexts.count > 0) {
+		[filter addFilter:[[[ByContextFilter alloc] initWithContexts:contexts] autorelease]];
+	}
+	
+	if (projects.count > 0) {
+		[filter addFilter:[[[ByProjectFilter alloc] initWithProjects:projects] autorelease]];
+	}
+	
+	if (text.length > 0) {
+		[filter addFilter:[[[ByTextFilter alloc] initWithText:text caseSensitive:caseSensitive] autorelease]];
+	}
+	return filter;
+}
 
 @end

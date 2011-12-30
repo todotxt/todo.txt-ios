@@ -41,25 +41,59 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import <Foundation/Foundation.h>
-#import "Task.h"
-#import "Sort.h"
-#import "Filter.h"
 
-@protocol TaskBag <NSObject>
+#import "ProjectParserTest.h"
+#import "ProjectParser.h"
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+@implementation ProjectParserTest
+
+- (void)test_empty
+{
+    NSString *input = @"";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+}
+
+- (void)test_nil
+{
+    NSString *input = nil;
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+}
+
+- (void)test_withoutProject
+{
+    NSString *input = @"a simple string";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+}
+
+- (void)test_withProject
+{
+    NSString *input = @"a simple +string";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEquals(1U, strings.count, @"Should be one match");
+	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+}
+
+- (void)test_withMultipleProjects
+{
+    NSString *input = @"a simple +string +test";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEquals(2U, strings.count, @"Should be two matches");
+	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+}
+
+- (void)test_withInterspersedProjects
+{
+    NSString *input = @"+more complex +case with a +string +test";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEquals(4U, strings.count, @"Should be four matches");
+	STAssertTrue([strings containsObject:@"more"], @"should contain \"more\"");
+	STAssertTrue([strings containsObject:@"case"], @"should contain \"case\"");
+	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+}
 
 @end

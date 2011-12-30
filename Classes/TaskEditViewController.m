@@ -50,59 +50,8 @@
 #import "ActionSheetPicker.h"
 #import "PriorityTextSplitter.h"
 #import "TaskUtil.h"
+#import "Strings.h"
 #import <QuartzCore/QuartzCore.h>
-
-#define SINGLE_SPACE ' '
-
-NSRange calculateSelectedRange(NSRange oldRange, NSString *oldText, NSString* newText) {
-	NSUInteger length = oldRange.length;
-	
-	if (newText == nil) {
-		return NSMakeRange(0, length);
-	}
-	
-	if (oldText == nil) {
-		return NSMakeRange(newText.length, 0);
-	}
-	
-	NSInteger pos = oldRange.location + (newText.length - oldText.length);
-	pos = pos < 0 ? 0 : pos;
-	pos = pos > newText.length ? newText.length : pos;
-
-	return NSMakeRange(pos, length);
-}
-
-NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) {
-	NSMutableString *newText = [NSMutableString stringWithCapacity:(s.length + stringToInsert.length + 2)];
-	
-	if (insertAt.location > 0) {
-		[newText appendString:[s substringToIndex:(insertAt.location)]];
-		if (newText.length > 0 && [newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
-			[newText appendFormat:@"%c", SINGLE_SPACE];
-		}
-		[newText appendString:stringToInsert];
-		NSUInteger pos = NSMaxRange(insertAt);
-		NSString *postItem = [s substringFromIndex:pos];
-		if (postItem.length > 0) {
-			if ([postItem characterAtIndex:0] != SINGLE_SPACE) {
-				[newText appendFormat:@"%c", SINGLE_SPACE];
-			}
-			[newText appendString:postItem];
-		}
-	} else {
-		[newText appendString:stringToInsert];
-		if (s.length > 0 && [s characterAtIndex:0] != SINGLE_SPACE) {
-			[newText appendFormat:@"%c", SINGLE_SPACE];
-		}	
-		[newText appendString:s];
-	}
-	
-	if (newText.length > 0 && [newText characterAtIndex:(newText.length - 1)] != SINGLE_SPACE) {
-		[newText appendFormat:@"%c", SINGLE_SPACE];
-	}
-	
-	return newText;
-}
 
 @implementation TaskEditViewController
 
@@ -298,7 +247,7 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 								 [selectedPriority fileFormat],
 								 [[PriorityTextSplitter split:textView.text] text]];
 		}
-		curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+		curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
 		textView.text = newText;
 		textView.selectedRange = curSelectedRange;
 	}
@@ -313,8 +262,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		
 		if (! [TaskUtil taskHasProject:textView.text project:item]) {
 			item = [NSString stringWithFormat:@"+%@", item];
-			NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-			curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+			NSString *newText = [Strings insertPaddedString:textView.text atRange:curSelectedRange withString:item];
+			curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
 			textView.text = newText;
 			textView.selectedRange = curSelectedRange;
 		}
@@ -330,8 +279,8 @@ NSString* insertPadded(NSString *s, NSRange insertAt, NSString *stringToInsert) 
 		
 		if (! [TaskUtil taskHasContext:textView.text context:item]) {
 			item = [NSString stringWithFormat:@"@%@", item];
-			NSString *newText = insertPadded(textView.text, curSelectedRange, item);
-			curSelectedRange = calculateSelectedRange(curSelectedRange, textView.text, newText);
+			NSString *newText = [Strings insertPaddedString:textView.text atRange:curSelectedRange withString:item];
+			curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
 			textView.text = newText;
 			textView.selectedRange = curSelectedRange;
 		}

@@ -41,25 +41,43 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import <Foundation/Foundation.h>
+
+#import "ByProjectFilter.h"
 #import "Task.h"
-#import "Sort.h"
-#import "Filter.h"
 
-@protocol TaskBag <NSObject>
+@implementation ByProjectFilter
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+@synthesize projects;
+
+- (id) initWithProjects:(NSArray *)projectList {
+	self = [super init];
+	
+	if (self) {
+		projects = [projectList retain];
+	}
+	
+	return self;	
+}
+
+- (BOOL) apply:(id)object {
+	if (projects.count == 0) {
+		return YES;
+	}
+	
+	Task *input = (Task*)object;
+	
+	for (NSString* project in input.projects) {
+		if ([projects containsObject:project]) {
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (void) dealloc {
+	[super dealloc];
+	[projects release];
+}
 
 @end

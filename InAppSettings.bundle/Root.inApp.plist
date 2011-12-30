@@ -69,9 +69,9 @@
 			<key>Titles</key>
 			<array>
 				<string>None</string>
-				<string>Count All Open Items</string>
-				<string>Count Prioritized Items</string>
-				<string>Count Priority (A) Items</string>
+				<string>Incomplete tasks</string>
+				<string>Prioritized tasks</string>
+				<string>Priority A tasks</string>
 			</array>
 			<key>ShortTitles</key>
 			<array>
