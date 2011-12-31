@@ -42,36 +42,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "Todo_txt_unit_tests.h"
-#import "TaskUtil.h"
+#import <SenTestingKit/SenTestingKit.h>
 
-@implementation Todo_txt_unit_tests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    // Set-up code here.
-}
-
-- (void)tearDown
-{
-    // Tear-down code here.
-    
-    [super tearDown];
-}
-
-- (void)testHasContext
-{
-	STAssertFalse([TaskUtil taskHasContext:@"" context:@"home"], @"context in empty string");
-	STAssertFalse([TaskUtil taskHasContext:@"hi @home" context:@"work"], @"work context in hi @home");
-	STAssertTrue([TaskUtil taskHasContext:@"hi @home" context:@"home"], @"context in hi @home");
-}
-
-- (void)testHasProject
-{
-	STAssertFalse([TaskUtil taskHasProject:@"" project:@"reorganize"], @"project in empty string");
-	STAssertTrue([TaskUtil taskHasProject:@"hi +reorganize" project:@"reorganize"], @"project in hi +reorganize");
-}
+@interface TaskTest : SenTestCase
 
 @end
