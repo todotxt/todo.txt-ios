@@ -41,25 +41,43 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import <Foundation/Foundation.h>
+
+#import "ByContextFilter.h"
 #import "Task.h"
-#import "Sort.h"
-#import "Filter.h"
 
-@protocol TaskBag <NSObject>
+@implementation ByContextFilter
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+@synthesize contexts;
+
+- (id) initWithContexts:(NSArray *)contextList {
+	self = [super init];
+	
+	if (self) {
+		contexts = [contextList retain];
+	}
+	
+	return self;	
+}
+
+- (BOOL) apply:(id)object {
+	if (contexts.count == 0) {
+		return YES;
+	}
+	
+	Task *input = (Task*)object;
+	
+	for (NSString* context in input.contexts) {
+		if ([contexts containsObject:context]) {
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (void) dealloc {
+	[super dealloc];
+	[contexts release];
+}
 
 @end

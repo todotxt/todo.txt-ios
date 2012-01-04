@@ -115,6 +115,26 @@
 		88A5B6C314ADA91000EA6F70 /* PriorityTextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */; };
 		88A91724146614920075B886 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A91723146614920075B886 /* DropboxSDK.framework */; };
 		88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AAFC621419CB960062BBF6 /* Icon@2x.png */; };
+		88DB7C0A14B2C760003A96F9 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */; };
+		88DB7C0C14B2C760003A96F9 /* ByContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF414B2A9F0003A96F9 /* ByContextFilter.m */; };
+		88DB7C0E14B2C760003A96F9 /* ByPriorityFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF714B2B073003A96F9 /* ByPriorityFilter.m */; };
+		88DB7C1014B2C760003A96F9 /* ByProjectFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BFA14B2B319003A96F9 /* ByProjectFilter.m */; };
+		88DB7C1214B2C760003A96F9 /* ByTextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BFD14B2B423003A96F9 /* ByTextFilter.m */; };
+		88DB7C1414B2C760003A96F9 /* AndFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C0014B2B9FB003A96F9 /* AndFilter.m */; };
+		88DB7C1614B2C760003A96F9 /* OrFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C0314B2BE68003A96F9 /* OrFilter.m */; };
+		88DB7C1814B2C760003A96F9 /* AndFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C0614B2C6A6003A96F9 /* AndFilterTest.m */; };
+		88DB7C1B14B2C786003A96F9 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */; };
+		88DB7C1D14B2C786003A96F9 /* ByContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF414B2A9F0003A96F9 /* ByContextFilter.m */; };
+		88DB7C1F14B2C786003A96F9 /* ByPriorityFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF714B2B073003A96F9 /* ByPriorityFilter.m */; };
+		88DB7C2114B2C786003A96F9 /* ByProjectFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BFA14B2B319003A96F9 /* ByProjectFilter.m */; };
+		88DB7C2314B2C786003A96F9 /* ByTextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BFD14B2B423003A96F9 /* ByTextFilter.m */; };
+		88DB7C2514B2C786003A96F9 /* AndFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C0014B2B9FB003A96F9 /* AndFilter.m */; };
+		88DB7C2714B2C786003A96F9 /* OrFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C0314B2BE68003A96F9 /* OrFilter.m */; };
+		88DB7C2A14B3E87E003A96F9 /* ByContextFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C2914B3E87E003A96F9 /* ByContextFilterTest.m */; };
+		88DB7C2D14B3F140003A96F9 /* ByPriorityFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C2C14B3F140003A96F9 /* ByPriorityFilterTest.m */; };
+		88DB7C3014B3F5C1003A96F9 /* ByProjectFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C2F14B3F5C0003A96F9 /* ByProjectFilterTest.m */; };
+		88DB7C3314B3FDE9003A96F9 /* ByTextFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C3214B3FDE8003A96F9 /* ByTextFilterTest.m */; };
+		88DB7C3614B4056F003A96F9 /* OrFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7C3514B4056E003A96F9 /* OrFilterTest.m */; };
 		88F043E2148879C1007C32DA /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88334817146F5D4F009CBDE9 /* SSTextView.m */; };
 		88F1AB2A1412D5F100AB3D18 /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */; };
 		88F1AB2B1412D5F100AB3D18 /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */; };
@@ -294,6 +314,33 @@
 		88A91723146614920075B886 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		88A91726146643B70075B886 /* DropboxApiKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropboxApiKey.h; path = ../DropboxApiKey.h; sourceTree = "<group>"; };
 		88AAFC621419CB960062BBF6 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		88DB7BEE14AFC0E2003A96F9 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Filter.h; path = Classes/Filter.h; sourceTree = "<group>"; };
+		88DB7BF014AFC3CD003A96F9 /* FilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterFactory.h; path = Classes/FilterFactory.h; sourceTree = "<group>"; };
+		88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FilterFactory.m; path = Classes/FilterFactory.m; sourceTree = "<group>"; };
+		88DB7BF314B2A9F0003A96F9 /* ByContextFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByContextFilter.h; path = Classes/ByContextFilter.h; sourceTree = "<group>"; };
+		88DB7BF414B2A9F0003A96F9 /* ByContextFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ByContextFilter.m; path = Classes/ByContextFilter.m; sourceTree = "<group>"; };
+		88DB7BF614B2B073003A96F9 /* ByPriorityFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByPriorityFilter.h; path = Classes/ByPriorityFilter.h; sourceTree = "<group>"; };
+		88DB7BF714B2B073003A96F9 /* ByPriorityFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ByPriorityFilter.m; path = Classes/ByPriorityFilter.m; sourceTree = "<group>"; };
+		88DB7BF914B2B318003A96F9 /* ByProjectFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByProjectFilter.h; path = Classes/ByProjectFilter.h; sourceTree = "<group>"; };
+		88DB7BFA14B2B319003A96F9 /* ByProjectFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ByProjectFilter.m; path = Classes/ByProjectFilter.m; sourceTree = "<group>"; };
+		88DB7BFC14B2B423003A96F9 /* ByTextFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByTextFilter.h; path = Classes/ByTextFilter.h; sourceTree = "<group>"; };
+		88DB7BFD14B2B423003A96F9 /* ByTextFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ByTextFilter.m; path = Classes/ByTextFilter.m; sourceTree = "<group>"; };
+		88DB7BFF14B2B9FA003A96F9 /* AndFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AndFilter.h; path = Classes/AndFilter.h; sourceTree = "<group>"; };
+		88DB7C0014B2B9FB003A96F9 /* AndFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AndFilter.m; path = Classes/AndFilter.m; sourceTree = "<group>"; };
+		88DB7C0214B2BE67003A96F9 /* OrFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrFilter.h; path = Classes/OrFilter.h; sourceTree = "<group>"; };
+		88DB7C0314B2BE68003A96F9 /* OrFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrFilter.m; path = Classes/OrFilter.m; sourceTree = "<group>"; };
+		88DB7C0514B2C6A6003A96F9 /* AndFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndFilterTest.h; sourceTree = "<group>"; };
+		88DB7C0614B2C6A6003A96F9 /* AndFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AndFilterTest.m; sourceTree = "<group>"; };
+		88DB7C2814B3E87E003A96F9 /* ByContextFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByContextFilterTest.h; sourceTree = "<group>"; };
+		88DB7C2914B3E87E003A96F9 /* ByContextFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ByContextFilterTest.m; sourceTree = "<group>"; };
+		88DB7C2B14B3F140003A96F9 /* ByPriorityFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByPriorityFilterTest.h; sourceTree = "<group>"; };
+		88DB7C2C14B3F140003A96F9 /* ByPriorityFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ByPriorityFilterTest.m; sourceTree = "<group>"; };
+		88DB7C2E14B3F5C0003A96F9 /* ByProjectFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByProjectFilterTest.h; sourceTree = "<group>"; };
+		88DB7C2F14B3F5C0003A96F9 /* ByProjectFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ByProjectFilterTest.m; sourceTree = "<group>"; };
+		88DB7C3114B3FDE8003A96F9 /* ByTextFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByTextFilterTest.h; sourceTree = "<group>"; };
+		88DB7C3214B3FDE8003A96F9 /* ByTextFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ByTextFilterTest.m; sourceTree = "<group>"; };
+		88DB7C3414B4056D003A96F9 /* OrFilterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrFilterTest.h; sourceTree = "<group>"; };
+		88DB7C3514B4056E003A96F9 /* OrFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrFilterTest.m; sourceTree = "<group>"; };
 		88F1AB271412D5F000AB3D18 /* LoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScreenViewController.h; sourceTree = "<group>"; };
 		88F1AB281412D5F100AB3D18 /* LoginScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginScreenViewController.m; sourceTree = "<group>"; };
 		88F1AB291412D5F100AB3D18 /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoginScreenViewController.xib; path = Classes/LoginScreenViewController.xib; sourceTree = "<group>"; };
@@ -593,6 +640,21 @@
 				882B3E8713EF46E80085C888 /* TextSplitter.m */,
 				88866D2F13F794320073944B /* Sort.h */,
 				88866D3013F794320073944B /* Sort.m */,
+				88DB7BEE14AFC0E2003A96F9 /* Filter.h */,
+				88DB7BF014AFC3CD003A96F9 /* FilterFactory.h */,
+				88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */,
+				88DB7BF314B2A9F0003A96F9 /* ByContextFilter.h */,
+				88DB7BF414B2A9F0003A96F9 /* ByContextFilter.m */,
+				88DB7BF614B2B073003A96F9 /* ByPriorityFilter.h */,
+				88DB7BF714B2B073003A96F9 /* ByPriorityFilter.m */,
+				88DB7BF914B2B318003A96F9 /* ByProjectFilter.h */,
+				88DB7BFA14B2B319003A96F9 /* ByProjectFilter.m */,
+				88DB7BFC14B2B423003A96F9 /* ByTextFilter.h */,
+				88DB7BFD14B2B423003A96F9 /* ByTextFilter.m */,
+				88DB7BFF14B2B9FA003A96F9 /* AndFilter.h */,
+				88DB7C0014B2B9FB003A96F9 /* AndFilter.m */,
+				88DB7C0214B2BE67003A96F9 /* OrFilter.h */,
+				88DB7C0314B2BE68003A96F9 /* OrFilter.m */,
 			);
 			name = Task;
 			path = ..;
@@ -696,6 +758,18 @@
 				8875F17114AF079F00BFA5C9 /* PriorityTextSplitterTest.m */,
 				8875F17314AF0BAD00BFA5C9 /* PriorityTest.h */,
 				8875F17414AF0BAD00BFA5C9 /* PriorityTest.m */,
+				88DB7C0514B2C6A6003A96F9 /* AndFilterTest.h */,
+				88DB7C0614B2C6A6003A96F9 /* AndFilterTest.m */,
+				88DB7C2814B3E87E003A96F9 /* ByContextFilterTest.h */,
+				88DB7C2914B3E87E003A96F9 /* ByContextFilterTest.m */,
+				88DB7C2B14B3F140003A96F9 /* ByPriorityFilterTest.h */,
+				88DB7C2C14B3F140003A96F9 /* ByPriorityFilterTest.m */,
+				88DB7C2E14B3F5C0003A96F9 /* ByProjectFilterTest.h */,
+				88DB7C2F14B3F5C0003A96F9 /* ByProjectFilterTest.m */,
+				88DB7C3114B3FDE8003A96F9 /* ByTextFilterTest.h */,
+				88DB7C3214B3FDE8003A96F9 /* ByTextFilterTest.m */,
+				88DB7C3414B4056D003A96F9 /* OrFilterTest.h */,
+				88DB7C3514B4056E003A96F9 /* OrFilterTest.m */,
 			);
 			name = Task;
 			sourceTree = "<group>";
@@ -836,6 +910,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88DB7C0A14B2C760003A96F9 /* FilterFactory.m in Sources */,
+				88DB7C0C14B2C760003A96F9 /* ByContextFilter.m in Sources */,
+				88DB7C0E14B2C760003A96F9 /* ByPriorityFilter.m in Sources */,
+				88DB7C1014B2C760003A96F9 /* ByProjectFilter.m in Sources */,
+				88DB7C1214B2C760003A96F9 /* ByTextFilter.m in Sources */,
+				88DB7C1414B2C760003A96F9 /* AndFilter.m in Sources */,
+				88DB7C1614B2C760003A96F9 /* OrFilter.m in Sources */,
+				88DB7C1814B2C760003A96F9 /* AndFilterTest.m in Sources */,
 				8875F16914AF001C00BFA5C9 /* Sort.m in Sources */,
 				888693DE14AEAE93002BB234 /* RelativeDate.m in Sources */,
 				888693DF14AEAE93002BB234 /* Util.m in Sources */,
@@ -856,6 +938,11 @@
 				8875F16F14AF067900BFA5C9 /* ContextParserTest.m in Sources */,
 				8875F17214AF079F00BFA5C9 /* PriorityTextSplitterTest.m in Sources */,
 				8875F17514AF0BAE00BFA5C9 /* PriorityTest.m in Sources */,
+				88DB7C2A14B3E87E003A96F9 /* ByContextFilterTest.m in Sources */,
+				88DB7C2D14B3F140003A96F9 /* ByPriorityFilterTest.m in Sources */,
+				88DB7C3014B3F5C1003A96F9 /* ByProjectFilterTest.m in Sources */,
+				88DB7C3314B3FDE9003A96F9 /* ByTextFilterTest.m in Sources */,
+				88DB7C3614B4056F003A96F9 /* OrFilterTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +950,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88DB7C1B14B2C786003A96F9 /* FilterFactory.m in Sources */,
+				88DB7C1D14B2C786003A96F9 /* ByContextFilter.m in Sources */,
+				88DB7C1F14B2C786003A96F9 /* ByPriorityFilter.m in Sources */,
+				88DB7C2114B2C786003A96F9 /* ByProjectFilter.m in Sources */,
+				88DB7C2314B2C786003A96F9 /* ByTextFilter.m in Sources */,
+				88DB7C2514B2C786003A96F9 /* AndFilter.m in Sources */,
+				88DB7C2714B2C786003A96F9 /* OrFilter.m in Sources */,
 				88F043E2148879C1007C32DA /* SSTextView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */,

@@ -41,25 +41,18 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 #import <Foundation/Foundation.h>
-#import "Task.h"
-#import "Sort.h"
 #import "Filter.h"
 
-@protocol TaskBag <NSObject>
+@interface ByContextFilter : NSObject <Filter> {
+	NSArray *contexts;
+}
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+@property (nonatomic, readonly) NSArray *contexts;
+
+- (id) initWithContexts:(NSArray*)contextList;
+
+- (BOOL) apply:(id)object;
 
 @end
