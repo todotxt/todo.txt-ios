@@ -73,10 +73,46 @@ Task* find(NSArray *tasks, Task *task) {
    
 }
 
+- (void) updateBadge {
+	NSInteger count = 0;
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *showWhich = [defaults stringForKey:@"badgeCount_preference"];
+	
+	if (! [showWhich isEqualToString:@"none"])
+	{
+		bool needA = [showWhich isEqualToString:@"priorityA"];
+		bool needPriority = [showWhich isEqualToString:@"anyPriority"];
+		
+		for (Task* task in tasks) {
+			if (! task.completed) {
+				PriorityName pname = [[task priority] name];
+				
+				if (needA)
+				{
+					if (pname == PriorityA)
+						++count;
+				}
+				else if (needPriority)
+				{
+					if (pname != PriorityNone)
+						++count;
+				}
+				else
+					++count;
+			}	
+		}	
+	}
+	
+	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
+}
+
 - (void) reload {
     [localTaskRepository create];
     [tasks release];
     tasks = [[localTaskRepository load] retain];
+	
+	[self updateBadge];
 }
 
 - (void) reloadWithFile:(NSString*)file {
@@ -102,6 +138,8 @@ Task* find(NSArray *tasks, Task *task) {
     [tasks addObject:task];
 	[task release];
     [localTaskRepository store:tasks];
+	
+	[self updateBadge];
 }
 
 
@@ -111,6 +149,9 @@ Task* find(NSArray *tasks, Task *task) {
     if (found) {
         [task copyInto:found];
         [localTaskRepository store:tasks];
+		
+		[self updateBadge];
+		
 		return found;
     }
 	return nil;
@@ -123,6 +164,8 @@ Task* find(NSArray *tasks, Task *task) {
     if (found) {
         [tasks removeObject:found];
         [localTaskRepository store:tasks];
+		
+		[self updateBadge];
     }    
 }
 
