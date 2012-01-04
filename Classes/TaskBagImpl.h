@@ -43,6 +43,7 @@
  */
 #import "TaskBag.h"
 #import "LocalTaskRepository.h"
+#import "Filter.h"
 
 @interface TaskBagImpl : NSObject <TaskBag> {
     id <LocalTaskRepository> localTaskRepository;
@@ -58,7 +59,7 @@
 - (Task*) taskAtIndex:(NSUInteger)index;
 - (NSUInteger) indexOfTask:(Task*)task;
 - (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder;
+- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
 - (int) size;
 - (NSArray*) projects;
 - (NSArray*) contexts;

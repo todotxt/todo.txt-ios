@@ -41,25 +41,45 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import <Foundation/Foundation.h>
+
+#import "AndFilterTest.h"
+#import "AndFilter.h"
+#import "ByPriorityFilter.h"
+#import "ByProjectFilter.h"
+#import "ByContextFIlter.h"
+#import "ByTextFilter.h"
 #import "Task.h"
-#import "Sort.h"
-#import "Filter.h"
 
-@protocol TaskBag <NSObject>
+@implementation AndFilterTest
 
-- (void) reload;
-- (void) reloadWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+- (void)testNoFilters
+{
+	AndFilter *andFilter = [[[AndFilter alloc] init] autorelease];
+	STAssertTrue([andFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
+}
+
+- (void)testMultipleFilters_matchesBoth
+{
+	AndFilter *andFilter = [[[AndFilter alloc] init] autorelease];
+	[andFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[andFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertTrue([andFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
+}
+
+- (void)testMultipleFilters_matchesOnlyOne
+{
+	AndFilter *andFilter = [[[AndFilter alloc] init] autorelease];
+	[andFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[andFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertFalse([andFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not false");
+}
+
+- (void)testMultipleFilters_matchesNone
+{
+	AndFilter *andFilter = [[[AndFilter alloc] init] autorelease];
+	[andFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
+	[andFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
+	STAssertFalse([andFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
+}
 
 @end
