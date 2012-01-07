@@ -117,7 +117,7 @@
 - (void)markIncomplete {
 	if (completed) {
 		[completionDate release];
-		completionDate = nil;
+		completionDate = [[NSString string] retain];
 		completed = NO;
 	}
 }
@@ -207,7 +207,7 @@
 		return NO;
 	}
 	
-	if (![projects isEqualToArray:[task contexts]]) {
+	if (![projects isEqualToArray:[task projects]]) {
 		return NO;
 	}
 	

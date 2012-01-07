@@ -47,6 +47,7 @@
 #import "RemoteClient.h"
 #import "LocalFileTaskRepository.h"
 #import "TaskIo.h"
+#import "Filter.h"
 
 Task* find(NSArray *tasks, Task *task) {
 	for(int i = 0; i < [tasks count]; i++) {
@@ -146,27 +147,25 @@ Task* find(NSArray *tasks, Task *task) {
     return [self tasksWithFilter:nil withSortOrder:nil];
 }
 
-- (NSArray*) tasksWithFilter:(NSObject*)filterSpec withSortOrder:(Sort*)sortOrder {
+- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder {
 	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[tasks count]];
-	// TODO: implement filtering
-	// FIXME: right now we just assume that filterSpec is a string
-	// and we will return only those tasks that contain that string.
-	// Proper filtering still to come
-	if (filterSpec != nil) {
-		NSString *searchTerm = (NSString*)filterSpec; 
+	if (filter != nil) {
 		for (Task* task in tasks) {
-			if ([task.text rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location != NSNotFound) {
+			if ([filter apply:task]) {
 				[localTasks addObject:task];
 			}
 		}
 	} else {	
 		[localTasks setArray:tasks];
 	}
-	
-	if (sortOrder) {
-		[localTasks sortUsingSelector:[sortOrder comparator]];
+		
+	if (!sortOrder) {
+		sortOrder = [Sort byName:SortPriority];
 	}
-    return localTasks;
+	
+	[localTasks sortUsingSelector:[sortOrder comparator]];
+	
+	return localTasks;
 }
 
 - (int) size {
