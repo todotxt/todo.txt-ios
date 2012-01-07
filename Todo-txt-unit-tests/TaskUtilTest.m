@@ -44,6 +44,7 @@
 
 #import "TaskUtilTest.h"
 #import "TaskUtil.h"
+#import "Task.h"
 
 @implementation TaskUtilTest
 
@@ -72,6 +73,58 @@
 {
 	STAssertFalse([TaskUtil taskHasProject:@"" project:@"reorganize"], @"project in empty string");
 	STAssertTrue([TaskUtil taskHasProject:@"hi +reorganize" project:@"reorganize"], @"project in hi +reorganize");
+}
+
+- (NSArray *) allocTasks
+{
+	NSMutableArray *tasks = [[NSMutableArray alloc] init];
+	
+	Task *task = [[Task alloc] initWithId:1 withRawText:@"unprioritized"];
+	[tasks addObject:task];
+	task = [[Task alloc] initWithId:2 withRawText:@"x unprioritized and closed"];
+	[tasks addObject:task];
+
+	task = [[Task alloc] initWithId:3 withRawText:@"(B) prioritized"];
+	[tasks addObject:task];
+	task = [[Task alloc] initWithId:4 withRawText:@"x (B) prioritized and closed"];
+	[tasks addObject:task];
+
+	task = [[Task alloc] initWithId:5 withRawText:@"(A) priority A"];
+	[tasks addObject:task];
+	task = [[Task alloc] initWithId:6 withRawText:@"x (A) priority A and closed"];
+	[tasks addObject:task];
+	
+	// 3 open, 2 prioritized, 1 A
+	
+	return tasks;
+}
+
+- (void)testBadgeCountNone
+{
+	NSArray *tasks = [self allocTasks];
+	NSInteger count = [TaskUtil badgeCount:tasks which:@"none"];
+	STAssertEquals(0, count, @"no badge count");
+}
+
+- (void)testBadgeCountAny
+{
+	NSArray *tasks = [self allocTasks];
+	NSInteger count = [TaskUtil badgeCount:tasks which:@"any"];
+	STAssertEquals(3, count, @"any badge count");
+}
+
+- (void)testBadgeCountPrioritized
+{
+	NSArray *tasks = [self allocTasks];
+	NSInteger count = [TaskUtil badgeCount:tasks which:@"anyPriority"];
+	STAssertEquals(2, count, @"any priority count");
+}
+
+- (void)testBadgeCountPriorityA
+{
+	NSArray *tasks = [self allocTasks];
+	NSInteger count = [TaskUtil badgeCount:tasks which:@"priorityA"];
+	STAssertEquals(1, count, @"priority A count");
 }
 
 @end
