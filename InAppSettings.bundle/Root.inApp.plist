@@ -51,6 +51,37 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Badge Count</string>
+			<key>DefaultValue</key>
+			<string>none</string>
+			<key>Key</key>
+			<string>badgeCount_preference</string>
+			<key>Values</key>
+			<array>
+				<string>none</string>
+				<string>any</string>
+				<string>anyPriority</string>
+				<string>priorityA</string>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>None</string>
+				<string>Count All Open Items</string>
+				<string>Count Prioritized Items</string>
+				<string>Count Priority (A) Items</string>
+			</array>
+			<key>ShortTitles</key>
+			<array>
+				<string>None</string>
+				<string>All Open</string>
+				<string>Prioritized</string>
+				<string>Priority (A)	</string>
+			</array>
+		</dict>
+		<dict>
 			<key>Title</key>
 			<string>Dropbox</string>
 			<key>Type</key>
