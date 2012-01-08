@@ -49,5 +49,6 @@
 
 + (BOOL) taskHasContext:(NSString *)task context:(NSString *)context; 
 + (BOOL) taskHasProject:(NSString *)task project:(NSString *)project; 
++ (NSInteger) badgeCount:(NSArray *)tasks which:(NSString * const)which;
 
 @end

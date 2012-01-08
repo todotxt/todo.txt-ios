@@ -48,6 +48,7 @@
 #import "LocalFileTaskRepository.h"
 #import "TaskIo.h"
 #import "Filter.h"
+#import "TaskUtil.h"
 
 Task* find(NSArray *tasks, Task *task) {
 	for(int i = 0; i < [tasks count]; i++) {
@@ -75,36 +76,12 @@ Task* find(NSArray *tasks, Task *task) {
 }
 
 - (void) updateBadge {
-	NSInteger count = 0;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *showWhich = [defaults stringForKey:@"badgeCount_preference"];
-	
-	if (! [showWhich isEqualToString:@"none"])
-	{
-		bool needA = [showWhich isEqualToString:@"priorityA"];
-		bool needPriority = [showWhich isEqualToString:@"anyPriority"];
-		
-		for (Task* task in tasks) {
-			if (! task.completed) {
-				PriorityName pname = [[task priority] name];
-				
-				if (needA)
-				{
-					if (pname == PriorityA)
-						++count;
-				}
-				else if (needPriority)
-				{
-					if (pname != PriorityNone)
-						++count;
-				}
-				else
-					++count;
-			}	
-		}	
-	}
-	
+
+	NSInteger count = [TaskUtil badgeCount:tasks which:showWhich];
+
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
 }
 
