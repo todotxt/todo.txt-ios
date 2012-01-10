@@ -44,13 +44,15 @@
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
 #import <DropboxSDK/DropboxSDK.h>
-#import "DropboxTodoDownloader.h"
-#import "DropboxTodoUploader.h"
+#import "DropboxFIleDownloader.h"
+#import "DropboxFileUploader.h"
 
 @interface DropboxRemoteClient : NSObject<RemoteClient> {
 	id<RemoteClientDelegate> delegate;
-	DropboxTodoDownloader *downloader;
-	DropboxTodoUploader *uploader;
+	DropboxFileDownloader *todoDownloader;
+	DropboxFileDownloader *doneDownloader;
+	DropboxFileUploader *todoUploader;
+	DropboxFileUploader *doneUploader;
 }
 
 @property (nonatomic, assign) id<RemoteClientDelegate> delegate;
@@ -60,12 +62,13 @@
 - (BOOL) isAuthenticated;
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
 - (void) pullTodo;
-- (void) pushTodo:(NSString*)path;
-- (void) pushTodoOverwrite:(NSString*)path;
+- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
 - (BOOL) isAvailable;
 - (BOOL) handleOpenURL:(NSURL *)url;
 
 + (NSString*) todoTxtTmpFile;
 + (NSString*) todoTxtRemoteFile;
++ (NSString*) doneTxtTmpFile;
++ (NSString*) doneTxtRemoteFile;
 
 @end

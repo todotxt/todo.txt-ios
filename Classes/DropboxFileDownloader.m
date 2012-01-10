@@ -42,15 +42,25 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "DropboxTodoDownloader.h"
-#import "DropboxRemoteClient.h"
+#import "DropboxFileDownloader.h"
 
-@interface DropboxTodoDownloader () <DBRestClientDelegate>
+@interface DropboxFileDownloader () <DBRestClientDelegate>
 @end
 
-@implementation DropboxTodoDownloader 
+@implementation DropboxFileDownloader 
 
-@synthesize remoteClient, rev;
+@synthesize files, status, error;
+
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
+	self = [super init];
+	if (self) {
+		target = aTarget;
+		onComplete = selector;
+		status = dbInitialized;
+		curFile = -1;
+	}
+	return self;
+}
 
 - (DBRestClient*)restClient {
     if (restClient == nil) {
@@ -59,55 +69,102 @@
     }
     return restClient;
 }
- 
-- (void) pullTodo {
+
+- (void) loadNextFile {
+	if (++curFile < files.count) {
+		DropboxFile *file = [files objectAtIndex:curFile];
+		if (file.status == dbFound) {
+			[self.restClient loadFile:file.remoteFile
+								atRev:file.loadedMetadata.rev 
+							 intoPath:file.localFile];		
+		} else {
+			[self loadNextFile];
+		}
+	} else {
+		// we're done!
+		status = dbSuccess;
+		[target performSelector:onComplete];
+	}
+}
+
+- (void) loadNextMetadata {
+	if (++curFile < files.count) {
+		DropboxFile *file = [files objectAtIndex:curFile];
+		file.status = dbStarted;
+		[self.restClient loadMetadata:file.remoteFile];
+	} else {
+		// we got all of the metadata, now get the files
+		curFile = -1;
+		[self loadNextFile];
+	}
+}
+
+- (void) pullFiles:(NSArray*)dropboxFiles {
+	[files release];
+	files = [dropboxFiles retain];
+	curFile = -1;
+	status = dbStarted;
 	
-	// First call loadMetadata to get the current rev
-	// then, call loadFile with that rev
-	// don't save rev until we successfully loaded the file
-	[self.restClient loadMetadata:[DropboxRemoteClient todoTxtRemoteFile]];
+	// first check metadata of each file, starting with the first
+	[self loadNextMetadata];
 }
 
 #pragma mark -
 #pragma mark DBRestClientDelegate methods
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
-	// we loaded the latest metadata for the todo file. Now we can pull it
-	rev = [metadata.rev retain];	
-		
-	[self.restClient loadFile:[DropboxRemoteClient todoTxtRemoteFile]
-						atRev:rev 
-					 intoPath:[DropboxRemoteClient todoTxtTmpFile]];	
+	DropboxFile *file = [files objectAtIndex:curFile];
+
+	// save off the returned metadata
+	file.loadedMetadata = metadata;	
+	
+	if ([metadata.rev isEqualToString:file.originalRev]) {
+		// don't bother downloading if the rev is the same
+		file.status = dbNotChanged;
+	} else {
+		file.status = dbFound;
+	}
+
+	// get the next metadata
+	[self loadNextMetadata];
 }
 
 - (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
+	DropboxFile *file = [files objectAtIndex:curFile];
+
 	// there was no metadata for the todo file, meaning it does not exist
 	// so there is nothing to load
-	// call RemoteClientDelegate method
-	if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:loadedFile:)]) {
-		[self.remoteClient.delegate remoteClient:self.remoteClient loadedFile:nil];
-	}
+	file.status = dbNotFound;
+	
+	// get the next metadata
+	[self loadNextMetadata];
 }
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-	// save off the downloaded file's rev
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setValue:rev forKey:@"dropbox_last_rev"];
-	
-	// call RemoteClientDelegate method
-	if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:loadedFile:)]) {
-		[self.remoteClient.delegate remoteClient:self.remoteClient loadedFile:destPath];
-	}
+	DropboxFile *file = [files objectAtIndex:curFile];
+
+	file.status = dbSuccess;
+
+	[self loadNextFile];
 }
 
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
-	if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:loadFileFailedWithError:)]) {
-		[self.remoteClient.delegate remoteClient:self.remoteClient loadFileFailedWithError:error];
-	}
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)theError {
+	DropboxFile *file = [files objectAtIndex:curFile];
+	
+	file.status = dbError;
+	file.error = theError;
+	
+	status = dbError;
+	[error release];
+	error = [theError retain];
+
+	// don't bother downloading any more files after the first error
+	[target performSelector:onComplete];
 }
 
 - (void) dealloc {
-	[rev release];
+	[error release];
+	[files release];
 	[restClient release];
 	[super dealloc];
 }

@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -41,20 +41,39 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 #import <Foundation/Foundation.h>
+#import <DropboxSDK/DropboxSDK.h>
 
-// str(x) converts a preprocessor macro to an NSString literal
-// see http://gcc.gnu.org/onlinedocs/cpp/Stringification.html
-#define str(x) @_str(x)
-#define _str(x) #x
+typedef enum {
+	dbInitialized = 0,
+	dbStarted,
+	dbFound,
+	dbNotFound,
+	dbNotChanged,
+	dbConflict,
+	dbSuccess,
+	dbError
+} DropboxFileStatus;
 
-@interface Util : NSObject {
-
+@interface DropboxFile : NSObject {
+	NSString *remoteFile;
+	NSString *localFile;
+	NSString *originalRev;
+	DBMetadata *loadedMetadata;
+	DropboxFileStatus status;
+	NSError *error;
 }
 
-+ (NSString *)stringFromDate:(NSDate*)date withFormat:(NSString*)format;
-+ (NSDate *)dateFromString:(NSString*)date withFormat:(NSString*)format;
+@property (nonatomic, readonly) NSString *remoteFile;
+@property (nonatomic, readonly) NSString *localFile;
+@property (nonatomic, readonly) NSString *originalRev;
+@property (nonatomic, retain) DBMetadata *loadedMetadata;
+@property (nonatomic, assign) DropboxFileStatus status;
+@property (nonatomic, retain) NSError *error;
 
-+ (BOOL) renameFile:(NSString*)origFile newFile:(NSString*)newFile overwrite:(BOOL)overwrite;
+- (id) initWithRemoteFile:(NSString*)aRemoteFile 
+				localFile:(NSString*)aLocalFile 
+			  originalRev:(NSString*)rev;
 
 @end

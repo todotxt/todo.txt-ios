@@ -47,9 +47,13 @@
 
 @protocol LocalTaskRepository <NSObject>
 
+- (BOOL) todoFileModifiedSince:(NSDate*)date;
+- (BOOL) doneFileModifiedSince:(NSDate*)date;
 - (void) create;
 - (void) purge;
 - (NSMutableArray*) load;
 - (void) store:(NSArray*)tasks;
+- (void) archive:(NSArray*)tasks;
+- (void) loadDoneTasksWithFile:(NSString*)file;
 
 @end
