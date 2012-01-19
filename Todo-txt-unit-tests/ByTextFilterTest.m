@@ -120,4 +120,41 @@
     STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"helloABCworld"] autorelease]], @"apply was not true");
 }
 
+- (void)shouldMatch:(NSString *)pattern rawText:(NSString *)rawText cs:(BOOL)cs
+{
+	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:pattern caseSensitive:cs];
+    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should match '%@'", pattern, rawText);
+}
+
+- (void)shouldNotMatch:(NSString *)pattern rawText:(NSString *)rawText cs:(BOOL)cs
+{
+	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:pattern caseSensitive:cs];
+    STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should not match '%@'", pattern, rawText);
+}
+
+- (void)testFilter_andCaseSensitive
+{
+	[self shouldMatch:@"abc xyz" rawText:@"abc xyz" cs:YES];
+	[self shouldMatch:@"abc xyz" rawText:@"abcxyz"  cs:YES];
+	[self shouldMatch:@"abc xyz" rawText:@"xyz abc" cs:YES];
+	[self shouldNotMatch:@"abc xyz" rawText:@"xyz"  cs:YES];
+	[self shouldNotMatch:@"abc xyz" rawText:@"ABC xyz"  cs:YES];
+}
+
+- (void)testFilter_andCaseInsensitive
+{
+	[self shouldMatch:@"abc xyz" rawText:@"abc xyz" cs:NO];
+	[self shouldMatch:@"abc xyz" rawText:@"abcxyz"  cs:NO];
+	[self shouldMatch:@"abc xyz" rawText:@"xyz abc" cs:NO];
+	[self shouldNotMatch:@"abc xyz" rawText:@"xyz"  cs:NO];
+	[self shouldMatch:@"abc xyz" rawText:@"ABC xyz"  cs:NO];
+}
+
+- (void)testFilter_andIgnoreWhitespace
+{
+	[self shouldMatch:@"abc " rawText:@"abc" cs:YES];
+	[self shouldMatch:@" abc" rawText:@"abc" cs:YES];
+	[self shouldMatch:@" abc " rawText:@"abc" cs:YES];
+}
+
 @end
