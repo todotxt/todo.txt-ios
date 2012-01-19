@@ -45,6 +45,7 @@
 #import "TaskUtil.h"
 #import "ContextParser.h"
 #import "ProjectParser.h"
+#import "Task.h"
 
 @implementation TaskUtil
 
@@ -80,6 +81,38 @@
 			return TRUE;
 	
 	return FALSE;
+}
+
++ (NSInteger) badgeCount:(NSArray *)tasks which:(NSString * const)which
+{
+	NSInteger count = 0;
+	
+	if (! [which isEqualToString:@"none"])
+	{
+		bool needA = [which isEqualToString:@"priorityA"];
+		bool needPriority = [which isEqualToString:@"anyPriority"];
+		
+		for (Task* task in tasks) {
+			if (! task.completed) {
+				PriorityName pname = [[task priority] name];
+				
+				if (needA)
+				{
+					if (pname == PriorityA)
+						++count;
+				}
+				else if (needPriority)
+				{
+					if (pname != PriorityNone)
+						++count;
+				}
+				else
+					++count;
+			}	
+		}	
+	}
+
+	return count;
 }
 
 @end
