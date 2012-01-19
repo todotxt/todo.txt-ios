@@ -48,6 +48,7 @@
 @interface ByTextFilter : NSObject <Filter> {
 	NSString *text;
 	BOOL caseSensitive;
+	NSArray *parts;
 }
 
 @property (nonatomic, readonly) NSString *text;

@@ -60,16 +60,14 @@
 			text = [[aText uppercaseString] retain];
 		}
 		caseSensitive = isCaseSensitive;
+		
+		parts = [text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	}
 	
 	return self;	
 }
 
 - (BOOL) apply:(id)object {
-	if (text.length == 0) {
-		return YES;
-	}
-	
 	Task *input = (Task*)object;
 	
 	NSString *taskText;
@@ -78,12 +76,14 @@
 	} else {
 		taskText = [input.text uppercaseString];
 	}
-	
-	if ([taskText rangeOfString:text].location != NSNotFound) {
-		return YES;
+
+	for (id item in parts)
+	{
+		if (([item length] > 0) && ([taskText rangeOfString:item].location == NSNotFound))
+			return NO;
 	}
 	
-	return NO;
+	return YES;
 }
 
 - (void) dealloc {
