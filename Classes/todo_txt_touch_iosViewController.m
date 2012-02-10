@@ -291,7 +291,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 {
     id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
     Task *task = [self taskForTable:tableView atIndex:indexPath.row];
-    [task markComplete:[NSDate date]];
+     if (task.completed) {
+        [task markIncomplete];
+    } else {
+	[task markComplete:[NSDate date]];
+    }
     [taskBag update:task];
     [self reloadData:nil];
     [todo_txt_touch_iosAppDelegate pushToRemote];
@@ -299,7 +303,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return @"Complete";
+        Task *task = [self taskForTable:tableView atIndex:indexPath.row];
+    if (task.completed) {
+        return @"Incomplete";
+    } else {
+    	return @"Complete";
+    }
 }
 
 
