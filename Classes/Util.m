@@ -61,4 +61,24 @@
     return [parser dateFromString:date];
 }
 
++ (BOOL) renameFile:(NSString*)origFile newFile:(NSString*)newFile overwrite:(BOOL)overwrite {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error = nil;
+	
+	if (overwrite && [fileManager fileExistsAtPath:newFile]) {
+		// delete old file first
+		if ([fileManager removeItemAtPath:newFile error:&error] != YES) {
+			NSLog(@"Error deleting %@ before overwriting: %@", newFile, error.localizedDescription);
+			return NO;
+		}
+	}
+	
+	if ([fileManager moveItemAtPath:origFile toPath:newFile error:&error]  != YES) {
+		NSLog(@"Error moving %@ to %@: %@", origFile, newFile, error.localizedDescription);
+		return NO;
+	} else {
+		return YES;
+	}	
+}
+
 @end

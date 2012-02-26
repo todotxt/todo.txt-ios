@@ -271,7 +271,7 @@
 		}
 	}
 	
-	if (priority == PriorityNone && [other priority] == PriorityNone) {
+	if (priority == [Priority NONE] && [other priority] == [Priority NONE]) {
 		return [self compareByIdAscending:other];
 	}
 	

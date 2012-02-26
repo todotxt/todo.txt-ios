@@ -65,15 +65,20 @@
     return items;
 }
 
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename withWindowsBreaks:(BOOL)useWindowsBreaks {
-    [[NSFileManager defaultManager] createFileAtPath:filename
-                                            contents:nil attributes:nil];
++ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite withWindowsBreaks:(BOOL)useWindowsBreaks {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (overwrite || ![fileManager fileExistsAtPath:filename]) {
+		[fileManager createFileAtPath:filename contents:nil attributes:nil];
+	}
+	
     NSFileHandle *fileHandle = 
-        [NSFileHandle fileHandleForWritingAtPath:filename];
+		[NSFileHandle fileHandleForWritingAtPath:filename];
     
+	[fileHandle seekToEndOfFile];
+	
     for (Task *task in tasks) {
         [fileHandle writeData:
-            [[task inFileFormat] dataUsingEncoding:NSUTF8StringEncoding]];
+		 [[task inFileFormat] dataUsingEncoding:NSUTF8StringEncoding]];
 		if (useWindowsBreaks) {
 			[fileHandle writeData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 		} else {
@@ -83,5 +88,6 @@
     
     [fileHandle closeFile];
 }
+
 
 @end

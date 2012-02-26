@@ -41,20 +41,27 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+
 #import <Foundation/Foundation.h>
+#import <DropboxSDK/DropboxSDK.h>
+#import "DropboxFile.h"
 
-// str(x) converts a preprocessor macro to an NSString literal
-// see http://gcc.gnu.org/onlinedocs/cpp/Stringification.html
-#define str(x) @_str(x)
-#define _str(x) #x
-
-@interface Util : NSObject {
-
+@interface DropboxFileDownloader : NSObject {
+	DBRestClient *restClient;
+	id target;
+	SEL onComplete;
+	DropboxFileStatus status;
+	NSError *error;
+	NSArray *files;
+	NSInteger curFile;
 }
 
-+ (NSString *)stringFromDate:(NSDate*)date withFormat:(NSString*)format;
-+ (NSDate *)dateFromString:(NSString*)date withFormat:(NSString*)format;
+@property (nonatomic, readonly) NSArray *files;
+@property (nonatomic, readonly) DropboxFileStatus status;
+@property (nonatomic, readonly) NSError *error;
 
-+ (BOOL) renameFile:(NSString*)origFile newFile:(NSString*)newFile overwrite:(BOOL)overwrite;
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector;
+- (void) pullFiles:(NSArray*)dropboxFiles;
 
 @end

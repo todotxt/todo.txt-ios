@@ -431,8 +431,19 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task release];
 	
 	//TODO: toast?
+	
+	BOOL auto_archive = [[NSUserDefaults standardUserDefaults] boolForKey:@"auto_archive_preference"];
+	if (auto_archive) {
+		[taskBag archive];
+	}
+	
 	[todo_txt_touch_iosAppDelegate pushToRemote];
-	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
+	
+	if (auto_archive) {
+		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
+	} else {
+		[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
+	}
 }
 
 - (void) prioritizeTask:(Priority*)selectedPriority {

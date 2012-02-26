@@ -55,6 +55,7 @@
 	UINavigationController *navigationController;
     id <TaskBag> taskBag;
 	RemoteClientManager *remoteClientManager;
+	NSDate *lastSync;
     id lastClickedButton; //Anchor holder for the Popover in iPad
 }
 

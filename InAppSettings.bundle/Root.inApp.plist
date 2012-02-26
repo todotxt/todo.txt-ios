@@ -83,6 +83,30 @@
 		</dict>
 		<dict>
 			<key>Title</key>
+			<string>Archive</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Auto Archive</string>
+			<key>Key</key>
+			<string>auto_archive_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
+			<key>Title</key>
+			<string>Archive Now</string>
+			<key>Key</key>
+			<string>archive_button</string>
+		</dict>
+		<dict>
+			<key>Title</key>
 			<string>Dropbox</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

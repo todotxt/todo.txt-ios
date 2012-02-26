@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -42,20 +42,33 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import "DropboxFile.h"
 
-#import <Foundation/Foundation.h>
-#import "RemoteClient.h"
-#import <DropboxSDK/DropboxSDK.h>
+@implementation DropboxFile
 
-@interface DropboxTodoDownloader : NSObject {
-	id<RemoteClient> remoteClient;
-	DBRestClient *restClient;
-	NSString *rev;
+@synthesize remoteFile, localFile, originalRev, loadedMetadata, status, error;
+
+- (id) initWithRemoteFile:(NSString*)aRemoteFile 
+				localFile:(NSString*)aLocalFile 
+			  originalRev:(NSString*)rev {
+	self = [super init];
+	if (self) {
+		remoteFile = [aRemoteFile copy];
+		localFile = [aLocalFile copy];
+		originalRev = [rev copy];		
+		status = dbInitialized;
+	}
+	return self;
+
 }
 
-@property (nonatomic, assign) id<RemoteClient> remoteClient;
-@property (nonatomic, readonly) NSString *rev;
-
-- (void) pullTodo;
+- (void) dealloc {
+	[error release];
+	[loadedMetadata release];
+	[localFile release];
+	[remoteFile release];
+	[originalRev release];
+	[super dealloc];
+}
 
 @end
