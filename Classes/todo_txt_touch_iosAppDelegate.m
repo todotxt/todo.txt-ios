@@ -51,6 +51,7 @@
 #import "AsyncTask.h"
 #import "Network.h"
 #import "LocalFileTaskRepository.h"
+#import "Util.h"
 
 @implementation todo_txt_touch_iosAppDelegate
 
@@ -275,13 +276,16 @@
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		// We probably shouldn't be assuming LocalFileTaskRepository here, 
 		// but that is what the Android app does, so why not?
-		NSString *path = [LocalFileTaskRepository filename];
+		NSString *todoPath = [LocalFileTaskRepository todoFilename];
+		NSString *donePath = nil;
 		
-		if (overwrite) {
-			[remoteClientManager.currentClient pushTodoOverwrite:path];
-		} else {
-			[remoteClientManager.currentClient pushTodo:path];
+		if ([taskBag doneFileModifiedSince:lastSync]) {
+			donePath = [LocalFileTaskRepository doneFilename];
 		}
+		
+		[remoteClientManager.currentClient pushTodoOverwrite:overwrite 
+													withTodo:todoPath 
+													withDone:donePath];
 		
 		// pushTodo is asynchronous. When it returns, it will call
 		// the delegate method 'uploadedFile'
@@ -332,27 +336,41 @@
 	[self presentLoginController];
 }
 
-#pragma mark -
-#pragma mark RemoteClientDelegate methods
-
-- (void)remoteClient:(id<RemoteClient>)client loadedFile:(NSString*)destPath {
-	if (destPath) {
-		[taskBag reloadWithFile:destPath];
-		// Send notification so that whichever screen is active can refresh itself
-		[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
+- (void) syncComplete:(BOOL)success {
+	if (success) {
+		[lastSync release];
+		lastSync = [[NSDate date] retain];
 	}
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 }
 
+#pragma mark -
+#pragma mark RemoteClientDelegate methods
+
+- (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath{
+	if (todoPath) {
+		[taskBag reloadWithFile:todoPath];
+		// Send notification so that whichever screen is active can refresh itself
+		[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
+	}
+	
+	if (donePath) {
+		[taskBag loadDoneTasksWithFile:donePath];
+	}
+
+	[self syncComplete:YES];
+}
+
 - (void) remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError *)error {
 	NSLog(@"Error downloading todo.txt file: %@", error);
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	
 	if (error.code == 404) {
 		// ignore missing file. They may not have created one yet.
+		[self syncComplete:YES];
 		return;
 	}
 	
+	[self syncComplete:NO];
 	UIAlertView *alert =
 	[[UIAlertView alloc] initWithTitle: @"Error"
 							   message: @"There was an error downloading your todo.txt file."
@@ -364,12 +382,18 @@
 }
 
 - (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    // Push is complete. Let's do a pull now in case the remote done.txt changed
+	[self pullFromRemoteForce:YES];
 }
 
 - (void) remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError *)error {
 	NSLog(@"Error uploading todo file: %@", error);
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+	
+	//remember the error, so that next time we press the sync button,
+	// we prompt the user to pull or push
+	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
+
+	[self syncComplete:NO];
 	
 	UIAlertView *alert =
 	[[UIAlertView alloc] initWithTitle: @"Error"
@@ -379,20 +403,22 @@
 					 otherButtonTitles: nil];
     [alert show];
     [alert release];
-	
-	//remember the error, so that next time we press the sync button,
-	// we prompt the user to pull or push
-	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
 }
 
 - (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath {
 	// alert user to the conflict and ask if he wants to force push or pull
 	NSLog(@"Upload conflict");
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+	[self syncComplete:NO];
+	
+	NSString *message = [NSString 
+		stringWithFormat:@"Oops! There is a newer version of your %@ file in Dropbox. "
+						 "Do you want to upload your local changes, or download the Dropbox version?",
+						 [destPath lastPathComponent]
+						 ];
 	
 	UIAlertView *alert =
 	[[UIAlertView alloc] initWithTitle: @"File Conflict"
-							   message: @"Oops! There is a newer version of your todo.txt file in Dropbox. Do you want to upload your local changes, or download the Dropbox version?"
+							   message: message
 							  delegate: self
 					 cancelButtonTitle: @"Cancel"
 					 otherButtonTitles: @"Upload changes", @"Download to device", nil];
@@ -444,6 +470,7 @@
     [window release];
     [taskBag release];
 	[remoteClientManager release];
+	[lastSync release];
     [super dealloc];
 }
 

@@ -43,12 +43,12 @@
  */
 #import "LocalFileTaskRepository.h"
 #import "TaskIo.h"
-
+#import "Task.h"
+#import "Util.h"
 
 @implementation LocalFileTaskRepository
 
-
-+ (NSString*) filename {
++ (NSString*) todoFilename {
     static NSString *TODO_TXT_FILE = nil;
     if(!TODO_TXT_FILE) {
         TODO_TXT_FILE = [[[NSSearchPathForDirectoriesInDomains(
@@ -58,8 +58,52 @@
     return TODO_TXT_FILE;
 }
 
++ (NSString*) doneFilename {
+    static NSString *DONE_TXT_FILE = nil;
+    if(!DONE_TXT_FILE) {
+        DONE_TXT_FILE = [[[NSSearchPathForDirectoriesInDomains(
+				NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] 
+				stringByAppendingPathComponent:@"done.txt"] retain];
+    }
+    return DONE_TXT_FILE;
+}
+
+- (NSDate*) dateLastModifiedForFile:(NSString*)filename {
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if([fileManager fileExistsAtPath:filename]) {
+		NSDictionary *attributes = [fileManager attributesOfItemAtPath:filename error:nil];
+		NSLog(@"File \"%@\" last modified %@", filename, [attributes fileModificationDate]);
+		return [attributes fileModificationDate];
+	} else {
+		NSLog(@"File \"%@\" does not exist!", filename);
+	}
+	return [NSDate distantPast];
+}
+
+- (NSDate*) todoFileLastModified {
+	return [self dateLastModifiedForFile:[LocalFileTaskRepository todoFilename]];
+}
+
+- (NSDate*) doneFileLastModified {
+	return [self dateLastModifiedForFile:[LocalFileTaskRepository doneFilename]];
+}
+
+- (BOOL) todoFileModifiedSince:(NSDate*)date {
+	if (date) {
+		return [date compare:[self todoFileLastModified]] == NSOrderedAscending;
+	}
+	return YES;
+}
+
+- (BOOL) doneFileModifiedSince:(NSDate*)date {
+	if (date) {
+		return [date compare:[self doneFileLastModified]] == NSOrderedAscending;
+	}
+	return YES;
+}
+
 - (void) create {
-    NSString *filename = [LocalFileTaskRepository filename];
+    NSString *filename = [LocalFileTaskRepository todoFilename];
     NSFileManager* fileManager = [NSFileManager defaultManager];
     if(![fileManager fileExistsAtPath:filename]) {
         [fileManager createFileAtPath:filename contents:nil attributes:nil];
@@ -67,7 +111,7 @@
 }
 
 - (void) purge {
-    NSString *filename = [LocalFileTaskRepository filename];
+    NSString *filename = [LocalFileTaskRepository todoFilename];
     NSFileManager* fileManager = [NSFileManager defaultManager];
     if(![fileManager fileExistsAtPath:filename]) {
         [fileManager removeItemAtPath:filename error:nil];
@@ -76,14 +120,50 @@
 
 - (NSMutableArray*) load {
     [self create];    
-    return [TaskIo loadTasksFromFile:[LocalFileTaskRepository filename]];
+    NSMutableArray* tasks = [TaskIo loadTasksFromFile:[LocalFileTaskRepository todoFilename]];
+	return tasks;
 }
 
 - (void) store:(NSArray*)tasks {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [TaskIo writeTasks:tasks 
-				toFile:[LocalFileTaskRepository filename]
+				toFile:[LocalFileTaskRepository todoFilename]
+			 overwrite:YES
 	 withWindowsBreaks:[defaults boolForKey:@"windows_line_breaks_preference"]];
+}
+
+- (void) archive:(NSArray*)tasks {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL windowsLineBreaks = [defaults boolForKey:@"windows_line_breaks_preference"];
+	
+	NSMutableArray *completedTasks = [NSMutableArray arrayWithCapacity:tasks.count];	
+	NSMutableArray *incompleteTasks = [NSMutableArray arrayWithCapacity:tasks.count];	
+
+	for (Task *task in tasks) {
+		if (task.completed) {
+			[completedTasks addObject:task];
+		} else {
+			[incompleteTasks addObject:task];
+		}
+	}
+	
+	// append completed tasks to done.txt
+	[TaskIo writeTasks:completedTasks 
+				 toFile:[LocalFileTaskRepository doneFilename]
+			  overwrite:NO
+	  withWindowsBreaks:windowsLineBreaks];
+	
+	// write incomplete tasks back to todo.txt
+	//TODO: remove blank lines (if we ever add support for PRESERVE_BLANK_LINES)
+    [TaskIo writeTasks:incompleteTasks 
+				toFile:[LocalFileTaskRepository todoFilename]
+			 overwrite:YES
+	 withWindowsBreaks:windowsLineBreaks];
+}
+
+- (void) loadDoneTasksWithFile:(NSString*)file {
+	//move from tmp to real location
+	[Util renameFile:file newFile:[LocalFileTaskRepository doneFilename] overwrite:YES];
 }
 
 @end

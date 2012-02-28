@@ -42,15 +42,27 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "DropboxTodoUploader.h"
+#import "DropboxFileUploader.h"
 #import "DropboxRemoteClient.h"
 
-@interface DropboxTodoUploader () <DBRestClientDelegate>
+@interface DropboxFileUploader () <DBRestClientDelegate>
 @end
 
-@implementation DropboxTodoUploader 
+@implementation DropboxFileUploader 
 
-@synthesize remoteClient, rev, localFile, overwrite;
+@synthesize overwrite, files, status, error;
+
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
+	self = [super init];
+	if (self) {
+		overwrite = NO;
+		target = aTarget;
+		onComplete = selector;
+		status = dbInitialized;
+		curFile = -1;
+	}
+	return self;
+}
 
 - (DBRestClient*)restClient {
     if (restClient == nil) {
@@ -60,73 +72,121 @@
     return restClient;
 }
  
-- (void) pushTodo {
+- (void) uploadNextFile {
+	if (++curFile < files.count) {
+		DropboxFile *file = [files objectAtIndex:curFile];
+		if (file.status == dbFound || file.status == dbNotFound) {
+			[self.restClient uploadFile:[file.remoteFile lastPathComponent] 
+								 toPath:[file.remoteFile stringByDeletingLastPathComponent] 
+						  withParentRev:file.loadedMetadata.rev 
+							   fromPath:file.localFile];
+		} else {
+			[self uploadNextFile];
+		}
+	} else {
+		// we're done!
+		status = dbSuccess;
+		[target performSelector:onComplete];
+	}
+}
+
+- (void) loadNextMetadata {
+	if (++curFile < files.count) {
+		DropboxFile *file = [files objectAtIndex:curFile];
+		file.status = dbStarted;
+		[self.restClient loadMetadata:file.remoteFile];
+	} else {
+		// we got all of the metadata, now get the files
+		curFile = -1;
+		[self uploadNextFile];
+	}
+}
+
+- (void) pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite {
+	[files release];
+	files = [dropboxFiles retain];
+	curFile = -1;
+	status = dbStarted;
+	overwrite = doOverwrite;
 	
-	// First call loadMetadata to get the current rev
-	// then, call uploadFile with that rev
-	[self.restClient loadMetadata:[DropboxRemoteClient todoTxtRemoteFile]];
+	// first check metadata of each file, starting with the first
+	[self loadNextMetadata];
 }
 
 #pragma mark -
 #pragma mark DBRestClientDelegate methods
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
-	// we loaded the latest metadata for the todo file. Now we can push it
-	rev = [metadata.rev retain];	
-
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
-	NSString *lastRev = [defaults stringForKey:@"dropbox_last_rev"];
+	DropboxFile *file = [files objectAtIndex:curFile];
 	
-	if (!overwrite && ![rev isEqualToString:lastRev]) {
-		// Conflict! Call RemoteClientDelegate method
-		if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithConflict:)]) {
-			[self.remoteClient.delegate remoteClient:self.remoteClient uploadFileFailedWithConflict:remotePath];
-		}
+	// save off the returned metadata
+	file.loadedMetadata = metadata;	
+
+	if (!overwrite && ![metadata.rev isEqualToString:file.originalRev]) {
+		// Conflict! Stop everything and return to caller
+		file.status = dbConflict;
+		status = dbConflict;
+		[target performSelector:onComplete];
+		
 		return;
 	}
 	
-	[self.restClient uploadFile:@"todo.txt" toPath:remotePath withParentRev:rev fromPath:localFile];
+	file.status = dbFound;
+
+	// get the next metadata
+	[self loadNextMetadata];
 }
 
 - (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
+	DropboxFile *file = [files objectAtIndex:curFile];
+
 	// there was no metadata for the todo file, meaning it does not exist
 	// so we can upload with a nil rev
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *remotePath = [defaults stringForKey:@"file_location_preference"];
-	[self.restClient uploadFile:@"todo.txt" toPath:remotePath withParentRev:nil fromPath:localFile];
+	file.loadedMetadata = nil;
+	file.status = dbNotFound;
+	
+	// get the next metadata
+	[self loadNextMetadata];
 }
 
 - (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath 
 		  metadata:(DBMetadata *)metadata {	
-	rev = [metadata.rev retain];	
+	DropboxFile *file = [files objectAtIndex:curFile];
+	
+	file.loadedMetadata = metadata;	
 
 	if (![metadata.path isEqualToString:destPath]) {
 		// If the uploaded remote path does not match our expected remotePath, 
 		// then a conflict occurred and we should announce the conflict to the user.
+		file.status = dbConflict;
+		status = dbConflict;
+		[target performSelector:onComplete];
 		return;
 	}
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setValue:rev forKey:@"dropbox_last_rev"];
-
-	// call RemoteClientDelegate method
-	if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
-		[self.remoteClient.delegate remoteClient:self.remoteClient uploadedFile:destPath];
-	}
+	file.status = dbSuccess;
+	
+	[self uploadNextFile];
 }
 
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-	// call RemoteClientDelegate method
-	if (self.remoteClient.delegate && [self.remoteClient.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
-		[self.remoteClient.delegate remoteClient:self.remoteClient uploadFileFailedWithError:error];
-	}
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)theError {
+	DropboxFile *file = [files objectAtIndex:curFile];
+	
+	file.status = dbError;
+	file.error = theError;
+	
+	status = dbError;
+	[error release];
+	error = [theError retain];
+	
+	// don't bother uploading any more files after the first error
+	[target performSelector:onComplete];
 }
 
 - (void) dealloc {
-	[rev release];
+	[error release];
+	[files release];
 	[restClient release];
-	[localFile release];
 	[super dealloc];
 }
 

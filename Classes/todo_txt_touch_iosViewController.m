@@ -53,6 +53,9 @@
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "FilterFactory.h"
 
+#define LOGOUT_TAG 10
+#define ARCHIVE_TAG 11
+
 static BOOL savedOfflineMode = NO;
 static BOOL needSync = NO;
 
@@ -193,12 +196,14 @@ static BOOL needSync = NO;
 - (void) viewDidAppear:(BOOL)animated {	
 	if (needSync) {
 		needSync = NO;
-		if (savedOfflineMode && ![todo_txt_touch_iosAppDelegate isOfflineMode] ) {
-			// If offline mode was just disabled, prompt for push/pull.
-			[todo_txt_touch_iosAppDelegate syncClientWithPrompt];
-		} else {
-			[todo_txt_touch_iosAppDelegate syncClient];
-		}
+        if (![todo_txt_touch_iosAppDelegate isOfflineMode]) {
+            if (savedOfflineMode) {
+                // If offline mode was just disabled, prompt for push/pull.
+                [todo_txt_touch_iosAppDelegate syncClientWithPrompt];
+            } else {
+                [todo_txt_touch_iosAppDelegate syncClient];
+            }
+        }
 	}	
 }
 
@@ -291,15 +296,32 @@ shouldReloadTableForSearchString:(NSString *)searchString
 {
     id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
     Task *task = [self taskForTable:tableView atIndex:indexPath.row];
-    [task markComplete:[NSDate date]];
+    
+    if (task.completed) {
+        [task markIncomplete];
+    } else {
+        [task markComplete:[NSDate date]];
+    }
+    
     [taskBag update:task];
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_archive_preference"]) {
+		[taskBag archive];
+	}
+	
     [self reloadData:nil];
     [todo_txt_touch_iosAppDelegate pushToRemote];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return @"Complete";
+    Task *task = [self taskForTable:tableView atIndex:indexPath.row];
+    
+    if (task.completed) {
+        return @"Undo Complete";
+    } else {
+        return @"Complete";
+    }
 }
 
 
@@ -348,7 +370,18 @@ shouldReloadTableForSearchString:(NSString *)searchString
 														delegate:self 
 											   cancelButtonTitle:@"Cancel"
 											   otherButtonTitles:nil] autorelease];
+		alert.tag = LOGOUT_TAG;
 		[alert addButtonWithTitle:@"Log out"];
+		[alert show];
+	}
+	if ([key isEqualToString:@"archive_button"]) {
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+														 message:@"Are you sure you wish to archive your completed tasks?" 
+														delegate:self 
+											   cancelButtonTitle:@"Cancel"
+											   otherButtonTitles:nil] autorelease];
+		alert.tag = ARCHIVE_TAG;
+		[alert addButtonWithTitle:@"Archive"];
 		[alert show];
 	}
     else if([key isEqualToString:@"about_todo"]) {
@@ -360,9 +393,22 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-		savedOfflineMode = NO;
 		[self dismissModalViewControllerAnimated:YES];
-        [todo_txt_touch_iosAppDelegate logout];
+
+        switch (alertView.tag) {
+			case LOGOUT_TAG:
+				savedOfflineMode = NO;
+				[todo_txt_touch_iosAppDelegate logout];
+				break;
+			case ARCHIVE_TAG:
+				NSLog(@"Archiving...");
+				[[todo_txt_touch_iosAppDelegate sharedTaskBag] archive];
+				[self reloadData:nil];
+				[todo_txt_touch_iosAppDelegate pushToRemote];
+				break;
+			default:
+				break;
+		}		
     }
 }
 

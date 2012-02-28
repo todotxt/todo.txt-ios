@@ -48,11 +48,16 @@
 @interface TaskBagImpl : NSObject <TaskBag> {
     id <LocalTaskRepository> localTaskRepository;
     NSMutableArray *tasks;
+	NSDate *lastReload;
 }
 
 - (id) initWithRepository:(id <LocalTaskRepository>)repo;
+- (BOOL) todoFileModifiedSince:(NSDate*)date;
+- (BOOL) doneFileModifiedSince:(NSDate*)date;
+- (void) archive;
 - (void) reload;
 - (void) reloadWithFile:(NSString*)file;
+- (void) loadDoneTasksWithFile:(NSString*)file;
 - (void) addAsTask:(NSString*)input;
 - (Task*) update:(Task*)task;
 - (void) remove:(Task*)task;
