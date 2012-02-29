@@ -89,17 +89,19 @@
 }
 
 - (BOOL) todoFileModifiedSince:(NSDate*)date {
-	if (date) {
-		return [date compare:[self todoFileLastModified]] == NSOrderedAscending;
-	}
-	return YES;
+    NSDate *lastModified = [self todoFileLastModified];
+	if (!date) {
+        date = [NSDate distantPast];
+    }
+    return [date compare:lastModified] == NSOrderedAscending;
 }
 
 - (BOOL) doneFileModifiedSince:(NSDate*)date {
-	if (date) {
-		return [date compare:[self doneFileLastModified]] == NSOrderedAscending;
-	}
-	return YES;
+    NSDate *lastModified = [self doneFileLastModified];
+	if (!date) {
+        date = [NSDate distantPast];
+    }
+    return [date compare:lastModified] == NSOrderedAscending;
 }
 
 - (void) create {
