@@ -208,8 +208,8 @@
 	
 	if (todoUploader.status == dbError) {
 		// call remote client delegate function
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loadFileFailedWithError:)]) {
-			[self.delegate remoteClient:self loadFileFailedWithError:todoDownloader.error];
+		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
+			[self.delegate remoteClient:self uploadFileFailedWithError:todoDownloader.error];
 		}
 	} else if (todoUploader.status == dbConflict) {
 		NSString *conflictFile = nil;

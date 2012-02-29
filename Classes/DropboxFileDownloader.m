@@ -121,6 +121,8 @@
 	if ([metadata.rev isEqualToString:file.originalRev]) {
 		// don't bother downloading if the rev is the same
 		file.status = dbNotChanged;
+    } else if (metadata.isDeleted) {
+        file.status = dbNotFound;
 	} else {
 		file.status = dbFound;
 	}
