@@ -119,20 +119,26 @@
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
 	DropboxFile *file = [files objectAtIndex:curFile];
 	
-	// save off the returned metadata
-	file.loadedMetadata = metadata;	
+    if (metadata.isDeleted) {
+        // if the file does not exist, we can upload it with a nil parentrev
+        file.loadedMetadata = nil;
+        file.status = dbNotFound;
+    } else {
+        // save off the returned metadata
+        file.loadedMetadata = metadata;	
 
-	if (!overwrite && ![metadata.rev isEqualToString:file.originalRev]) {
-		// Conflict! Stop everything and return to caller
-		file.status = dbConflict;
-		status = dbConflict;
-		[target performSelector:onComplete];
-		
-		return;
-	}
-	
-	file.status = dbFound;
-
+        if (!overwrite && ![metadata.rev isEqualToString:file.originalRev]) {
+            // Conflict! Stop everything and return to caller
+            file.status = dbConflict;
+            status = dbConflict;
+            [target performSelector:onComplete];
+            
+            return;
+        }
+        
+        file.status = dbFound;
+    }
+    
 	// get the next metadata
 	[self loadNextMetadata];
 }
