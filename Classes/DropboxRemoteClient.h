@@ -49,10 +49,6 @@
 
 @interface DropboxRemoteClient : NSObject<RemoteClient> {
 	id<RemoteClientDelegate> delegate;
-	DropboxFileDownloader *todoDownloader;
-	DropboxFileDownloader *doneDownloader;
-	DropboxFileUploader *todoUploader;
-	DropboxFileUploader *doneUploader;
 }
 
 @property (nonatomic, assign) id<RemoteClientDelegate> delegate;

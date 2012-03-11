@@ -118,19 +118,19 @@
 
 - (void) presentLoginController {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        navigationController.viewControllers = [NSArray arrayWithObject:[[[iPadLoginScreenViewController alloc] init] autorelease]];
-        navigationController.navigationBar.hidden = YES;
+        loginController = [[iPadLoginScreenViewController alloc] init];
     }
     else
     {
-        navigationController.viewControllers = [NSArray arrayWithObject:[[[LoginScreenViewController alloc] init] autorelease]];
-        navigationController.navigationBar.hidden = YES;
+        loginController = [[LoginScreenViewController alloc] init];
     }
+    [self.navigationController presentModalViewController:loginController animated:NO];
 }
 
 - (void) presentMainViewController {
-	navigationController.viewControllers = [NSArray arrayWithObject:viewController];
-	navigationController.navigationBar.hidden = NO;
+    [loginController dismissModalViewControllerAnimated:YES];
+    [loginController release];
+    loginController = nil;
 }
 
 - (void) clearUserDefaults {
@@ -159,13 +159,13 @@
     
     // Add the view controller's view to the window and display.
     [self.window addSubview:navigationController.view];
-
+    
 	if (![remoteClientManager.currentClient isAuthenticated]) {
 		[self presentLoginController];
 	}
 	
 	[self.window makeKeyAndVisible];
-
+    
     return YES;
 }
 
@@ -438,7 +438,9 @@
 
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
 	if (success) {
-		[self syncClient];
+		// Don't sync because we already did that when the app was reactivated by Dropbox
+        // We may need to do something else for other services.
+        //[self syncClient];
 		[self presentMainViewController];
 	}
 }
@@ -465,6 +467,7 @@
 }
 
 - (void)dealloc {
+    [loginController release];
     [viewController release];
 	[navigationController release];
     [window release];
