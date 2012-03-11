@@ -86,7 +86,7 @@
 	} else {
 		// we're done!
 		status = dbSuccess;
-		[target performSelector:onComplete];
+		[target performSelector:onComplete withObject:self];
 	}
 }
 
@@ -131,7 +131,7 @@
             // Conflict! Stop everything and return to caller
             file.status = dbConflict;
             status = dbConflict;
-            [target performSelector:onComplete];
+            [target performSelector:onComplete withObject:self];
             
             return;
         }
@@ -166,7 +166,7 @@
 		// then a conflict occurred and we should announce the conflict to the user.
 		file.status = dbConflict;
 		status = dbConflict;
-		[target performSelector:onComplete];
+		[target performSelector:onComplete withObject:self];
 		return;
 	}
 	
@@ -186,7 +186,7 @@
 	error = [theError retain];
 	
 	// don't bother uploading any more files after the first error
-	[target performSelector:onComplete];
+	[target performSelector:onComplete withObject:self];
 }
 
 - (void) dealloc {

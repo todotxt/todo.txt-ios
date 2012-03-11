@@ -52,6 +52,7 @@
 @interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
     UIWindow *window;
     todo_txt_touch_iosViewController *viewController;
+    UIViewController *loginController;
 	UINavigationController *navigationController;
     id <TaskBag> taskBag;
 	RemoteClientManager *remoteClientManager;

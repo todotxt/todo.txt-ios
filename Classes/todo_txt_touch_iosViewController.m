@@ -393,15 +393,16 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-		[self dismissModalViewControllerAnimated:YES];
 
         switch (alertView.tag) {
 			case LOGOUT_TAG:
+                [self dismissModalViewControllerAnimated:NO];
 				savedOfflineMode = NO;
 				[todo_txt_touch_iosAppDelegate logout];
 				break;
 			case ARCHIVE_TAG:
-				NSLog(@"Archiving...");
+                [self dismissModalViewControllerAnimated:YES];
+                NSLog(@"Archiving...");
 				[[todo_txt_touch_iosAppDelegate sharedTaskBag] archive];
 				[self reloadData:nil];
 				[todo_txt_touch_iosAppDelegate pushToRemote];

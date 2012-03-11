@@ -99,14 +99,7 @@
 		session.delegate = self; 
 		[DBSession setSharedSession:session];
 		[session release];
-		
-		todoDownloader = [[DropboxFileDownloader alloc] initWithTarget:self
-															onComplete:@selector(pullTodoCompleted)];
-
-		todoUploader = [[DropboxFileUploader alloc] initWithTarget:self
-														onComplete:@selector(pushTodoCompleted)];
-		
-	}
+    }
 	return self;
 }
 
@@ -134,7 +127,7 @@
 	[[DBSession sharedSession] link];
 }
 
-- (void) pullTodoCompleted {
+- (void) pullTodoCompleted:(DropboxFileDownloader*)todoDownloader {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	DropboxFile *todoFile = [todoDownloader.files objectAtIndex:0];
 	DropboxFile *doneFile = [todoDownloader.files objectAtIndex:1];
@@ -169,6 +162,8 @@
 			[self.delegate remoteClient:self loadFileFailedWithError:todoDownloader.error];
 		}
 	}
+    
+    [todoDownloader release];
 }
 
 - (void) pullTodo {
@@ -183,6 +178,8 @@
 		return;
 	}
 	
+    DropboxFileDownloader* todoDownloader = [[DropboxFileDownloader alloc] initWithTarget:self
+                                                                               onComplete:@selector(pullTodoCompleted:)];
 	[todoDownloader pullFiles:[NSArray arrayWithObjects:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
 														   localFile:[DropboxRemoteClient todoTxtTmpFile]
 														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]] autorelease],
@@ -192,7 +189,7 @@
 							  nil]];
 }
 
-- (void) pushTodoCompleted {
+- (void) pushTodoCompleted:(DropboxFileUploader*)todoUploader {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	DropboxFile *todoFile = [todoUploader.files objectAtIndex:0];
 	DropboxFile *doneFile = nil;
@@ -209,7 +206,7 @@
 	if (todoUploader.status == dbError) {
 		// call remote client delegate function
 		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
-			[self.delegate remoteClient:self uploadFileFailedWithError:todoDownloader.error];
+			[self.delegate remoteClient:self uploadFileFailedWithError:todoUploader.error];
 		}
 	} else if (todoUploader.status == dbConflict) {
 		NSString *conflictFile = nil;
@@ -253,7 +250,9 @@
 													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]] autorelease]];
 	}
 
-	[todoUploader pushFiles:files overwrite:doOverwrite];	
+    DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] initWithTarget:self
+                                                    onComplete:@selector(pushTodoCompleted:)];
+    [todoUploader pushFiles:files overwrite:doOverwrite];	
 }
 
 - (BOOL) isAvailable {
@@ -290,10 +289,6 @@
 }
 
 - (void) dealloc {
-	[todoDownloader release];
-	[doneDownloader release];
-	[todoUploader release];
-	[doneUploader release];
 	[super dealloc];
 }
 
