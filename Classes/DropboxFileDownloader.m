@@ -83,7 +83,7 @@
 	} else {
 		// we're done!
 		status = dbSuccess;
-		[target performSelector:onComplete];
+		[target performSelector:onComplete withObject:self];
 	}
 }
 
@@ -161,7 +161,7 @@
 	error = [theError retain];
 
 	// don't bother downloading any more files after the first error
-	[target performSelector:onComplete];
+	[target performSelector:onComplete withObject:self];
 }
 
 - (void) dealloc {

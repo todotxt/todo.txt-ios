@@ -65,6 +65,11 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSError *error = nil;
 	
+    if (![fileManager fileExistsAtPath:origFile]) {
+        NSLog(@"Error renaming file. origFile %@ does not exist", origFile);
+        return NO;
+    }
+    
 	if (overwrite && [fileManager fileExistsAtPath:newFile]) {
 		// delete old file first
 		if ([fileManager removeItemAtPath:newFile error:&error] != YES) {
