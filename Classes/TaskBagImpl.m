@@ -149,9 +149,9 @@ static Task* find(NSArray *tasks, Task *task) {
 				 withDefaultPrependedDate:date];
     [tasks addObject:task];
 	[task release];
+	[self updateBadge];
     [self store];
 
-	[self updateBadge];
 }
 
 
@@ -160,9 +160,9 @@ static Task* find(NSArray *tasks, Task *task) {
     Task *found = find(tasks, task);
     if (found) {
         if (found != task) [task copyInto:found];
-        [self store];
 
 		[self updateBadge];
+        [self store];
 		
 		return found;
     }
@@ -175,9 +175,8 @@ static Task* find(NSArray *tasks, Task *task) {
     Task *found = find(tasks, task);
     if (found) {
         [tasks removeObject:found];
-        [self store];
-
 		[self updateBadge];
+        [self store];
     }    
 }
 
