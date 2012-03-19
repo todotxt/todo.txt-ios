@@ -83,7 +83,7 @@ static BOOL needSync = NO;
 
 - (void) reloadData:(NSNotification *) notification {
 	// reload global tasklist from disk
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload:YES];	
 
 	// reload main tableview data
 	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort];

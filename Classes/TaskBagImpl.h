@@ -55,7 +55,7 @@
 - (BOOL) todoFileModifiedSince:(NSDate*)date;
 - (BOOL) doneFileModifiedSince:(NSDate*)date;
 - (void) archive;
-- (void) reload;
+- (void) reload:(BOOL)force;
 - (void) reloadWithFile:(NSString*)file;
 - (void) loadDoneTasksWithFile:(NSString*)file;
 - (void) addAsTask:(NSString*)input;
