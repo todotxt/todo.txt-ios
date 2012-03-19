@@ -80,7 +80,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 - (void) reloadViewData {
 	// Scroll the table view to the top before it appears
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload:NO];
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];
 	
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:NO];

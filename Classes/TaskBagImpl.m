@@ -104,14 +104,14 @@ static Task* find(NSArray *tasks, Task *task) {
 }
 
 - (void) archive {
-	[self reload:NO];
+	[self reload];
 	[localTaskRepository archive:tasks];
     [lastReload release];
     lastReload = nil;
 }
 
-- (void) reload:(BOOL)force {
-	if (!tasks || [self todoFileModifiedSince:lastReload] || force) {
+- (void) reload {
+	if (!tasks || [self todoFileModifiedSince:lastReload]) {
 		[localTaskRepository create];
 		[tasks release];
 		tasks = [[localTaskRepository load] retain];
@@ -125,7 +125,7 @@ static Task* find(NSArray *tasks, Task *task) {
 	if (file) {
 		NSMutableArray *remoteTasks = [TaskIo loadTasksFromFile:file];
 		[self store:remoteTasks];
-		[self reload:NO];
+		[self reload];
 	}
 }
 
@@ -136,7 +136,7 @@ static Task* find(NSArray *tasks, Task *task) {
 }
 
 - (void) addAsTask:(NSString*)input {
-    [self reload:NO];
+    [self reload];
     
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSDate *date = nil;
@@ -156,7 +156,7 @@ static Task* find(NSArray *tasks, Task *task) {
 
 
 - (Task*) update:(Task*)task {
-    [self reload:NO];
+    [self reload];
     Task *found = find(tasks, task);
     if (found) {
         if (found != task) [task copyInto:found];
@@ -171,7 +171,7 @@ static Task* find(NSArray *tasks, Task *task) {
 
 
 - (void) remove:(Task*)task {
-    [self reload:NO];
+    [self reload];
     Task *found = find(tasks, task);
     if (found) {
         [tasks removeObject:found];

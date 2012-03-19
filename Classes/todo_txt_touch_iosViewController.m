@@ -83,7 +83,7 @@ static BOOL needSync = NO;
 
 - (void) reloadData:(NSNotification *) notification {
 	// reload global tasklist from disk
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload:YES];	
+	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
 
 	// reload main tableview data
 	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort];
@@ -359,6 +359,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
+    [[todo_txt_touch_iosAppDelegate sharedTaskBag] updateBadge];
 	needSync = YES;
 }
 

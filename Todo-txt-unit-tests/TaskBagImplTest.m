@@ -64,7 +64,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
 	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
@@ -97,7 +97,7 @@
 	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
 	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	STAssertEquals(taskBag.size, 1, @"Should have one task");
 	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 99U, @"Task ID should be 0");
@@ -124,7 +124,7 @@
 	
 	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
 	STAssertEquals([taskBag.tasks objectAtIndex:0], task1, @"Task should be same as object task1");
@@ -303,7 +303,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	Task* foundTask = [taskBag taskAtIndex:1];
 	
@@ -329,7 +329,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	Task* foundTask = [taskBag taskAtIndex:3];
 	
@@ -356,7 +356,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	NSUInteger foundTask = [taskBag indexOfTask:task2];
 	
@@ -384,7 +384,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag reload:NO];
+	[taskBag reload];
 	
 	NSUInteger foundTask = [taskBag indexOfTask:task2];
 	
