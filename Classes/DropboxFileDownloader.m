@@ -63,11 +63,16 @@
 }
 
 - (DBRestClient*)restClient {
-    if (restClient == nil) {
-    	restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    	restClient.delegate = self;
-    }
-    return restClient;
+	if (restClient == nil) {
+		restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+		restClient.delegate = self;
+	}
+	return restClient;
+}
+
+- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
+	status = aStatus;
+	[target performSelectorOnMainThread:onComplete withObject:self waitUntilDone:NO];
 }
 
 - (void) loadNextFile {
@@ -82,8 +87,7 @@
 		}
 	} else {
 		// we're done!
-		status = dbSuccess;
-		[target performSelector:onComplete withObject:self];
+		[self reportCompletionWithStatus:dbSuccess];
 	}
 }
 
@@ -121,8 +125,8 @@
 	if ([metadata.rev isEqualToString:file.originalRev]) {
 		// don't bother downloading if the rev is the same
 		file.status = dbNotChanged;
-    } else if (metadata.isDeleted) {
-        file.status = dbNotFound;
+	} else if (metadata.isDeleted) {
+		file.status = dbNotFound;
 	} else {
 		file.status = dbFound;
 	}
@@ -156,12 +160,11 @@
 	file.status = dbError;
 	file.error = theError;
 	
-	status = dbError;
 	[error release];
 	error = [theError retain];
 
 	// don't bother downloading any more files after the first error
-	[target performSelector:onComplete withObject:self];
+	[self reportCompletionWithStatus:dbError];
 }
 
 - (void) dealloc {

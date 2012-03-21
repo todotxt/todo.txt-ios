@@ -27,6 +27,7 @@
     NSDictionary* userInfo;
 
     NSHTTPURLResponse* response;
+    NSDictionary* xDropboxMetadataJSON;
     NSInteger bytesDownloaded;
     CGFloat downloadProgress;
     CGFloat uploadProgress;
@@ -56,8 +57,8 @@
 
 @property (nonatomic, readonly) NSURLRequest* request;
 @property (nonatomic, readonly) NSHTTPURLResponse* response;
+@property (nonatomic, readonly) NSDictionary* xDropboxMetadataJSON;
 @property (nonatomic, readonly) NSInteger statusCode;
-@property (nonatomic, readonly) long long contentLength;
 @property (nonatomic, readonly) CGFloat downloadProgress;
 @property (nonatomic, readonly) CGFloat uploadProgress;
 @property (nonatomic, readonly) NSData* resultData;
