@@ -82,6 +82,7 @@
 		8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */; };
 		8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */; };
 		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
+		883FBFC21520307300D9FA3A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88D5C2851519995C00C3744B /* DropboxSDK.framework */; };
 		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
 		8875F16714AEF5EE00BFA5C9 /* SortTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8875F16614AEF5EE00BFA5C9 /* SortTest.m */; };
@@ -415,6 +416,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				883FBFC21520307300D9FA3A /* DropboxSDK.framework in Frameworks */,
 				88E5140814D250F300177F45 /* CoreText.framework in Frameworks */,
 				88E5140914D250F300177F45 /* SystemConfiguration.framework in Frameworks */,
 				0F75B418149912DF00848E27 /* UIKit.framework in Frameworks */,
