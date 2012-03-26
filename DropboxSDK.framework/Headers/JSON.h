@@ -41,10 +41,15 @@
  accepts and what it generates. For example, it does not support trailing commas
  in arrays or objects. Nor does it support embedded comments, or
  anything else not in the JSON specification. This is considered a feature. 
+
+
+ SBJson has been renamed to DBJson in the DropboxSDK because static libraries
+ are unable to hide symbols and other libraries that developers use include
+ SBJson
  
 */
 
-#import "SBJSON.h"
-#import "NSObject+SBJSON.h"
-#import "NSString+SBJSON.h"
+#import "DBJSON.h"
+#import "NSObject+DBJSON.h"
+#import "NSString+DBJSON.h"
 

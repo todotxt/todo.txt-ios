@@ -65,13 +65,18 @@
 }
 
 - (DBRestClient*)restClient {
-    if (restClient == nil) {
-    	restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    	restClient.delegate = self;
-    }
-    return restClient;
+	if (restClient == nil) {
+		restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+		restClient.delegate = self;
+	}
+	return restClient;
 }
- 
+
+- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
+	status = aStatus;
+	[target performSelectorOnMainThread:onComplete withObject:self waitUntilDone:NO];
+}
+
 - (void) uploadNextFile {
 	if (++curFile < files.count) {
 		DropboxFile *file = [files objectAtIndex:curFile];
@@ -85,8 +90,7 @@
 		}
 	} else {
 		// we're done!
-		status = dbSuccess;
-		[target performSelector:onComplete withObject:self];
+		[self reportCompletionWithStatus:dbSuccess];
 	}
 }
 
@@ -119,26 +123,24 @@
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
 	DropboxFile *file = [files objectAtIndex:curFile];
 	
-    if (metadata.isDeleted) {
-        // if the file does not exist, we can upload it with a nil parentrev
-        file.loadedMetadata = nil;
-        file.status = dbNotFound;
-    } else {
-        // save off the returned metadata
-        file.loadedMetadata = metadata;	
-
-        if (!overwrite && ![metadata.rev isEqualToString:file.originalRev]) {
-            // Conflict! Stop everything and return to caller
-            file.status = dbConflict;
-            status = dbConflict;
-            [target performSelector:onComplete withObject:self];
-            
-            return;
-        }
-        
-        file.status = dbFound;
-    }
-    
+	if (metadata.isDeleted) {
+		// if the file does not exist, we can upload it with a nil parentrev
+		file.loadedMetadata = nil;
+		file.status = dbNotFound;
+	} else {
+		// save off the returned metadata
+		file.loadedMetadata = metadata;	
+		
+		if (!overwrite && ![metadata.rev isEqualToString:file.originalRev]) {
+			// Conflict! Stop everything and return to caller
+			file.status = dbConflict;
+			[self reportCompletionWithStatus:dbConflict];
+			return;
+		}
+		
+		file.status = dbFound;
+	}
+	
 	// get the next metadata
 	[self loadNextMetadata];
 }
@@ -165,8 +167,7 @@
 		// If the uploaded remote path does not match our expected remotePath, 
 		// then a conflict occurred and we should announce the conflict to the user.
 		file.status = dbConflict;
-		status = dbConflict;
-		[target performSelector:onComplete withObject:self];
+		[self reportCompletionWithStatus:dbConflict];
 		return;
 	}
 	
@@ -181,12 +182,11 @@
 	file.status = dbError;
 	file.error = theError;
 	
-	status = dbError;
 	[error release];
 	error = [theError retain];
 	
 	// don't bother uploading any more files after the first error
-	[target performSelector:onComplete withObject:self];
+	[self reportCompletionWithStatus:dbError];
 }
 
 - (void) dealloc {

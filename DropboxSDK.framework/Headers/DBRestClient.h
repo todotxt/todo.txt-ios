@@ -119,13 +119,14 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath;
 // Implement the following callback instead of the previous if you care about the value of the
-// Content-Type HTTP header. Only one will be called per successful response.
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType;
+// Content-Type HTTP header and the file metadata. Only one will be called per successful response.
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata;
 - (void)restClient:(DBRestClient*)client loadProgress:(CGFloat)progress forFile:(NSString*)destPath;
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error;
 // [error userInfo] contains the destinationPath
 
-- (void)restClient:(DBRestClient*)client loadedThumbnail:(NSString*)destPath;
+
+- (void)restClient:(DBRestClient*)client loadedThumbnail:(NSString*)destPath metadata:(DBMetadata*)metadata;
 - (void)restClient:(DBRestClient*)client loadThumbnailFailedWithError:(NSError*)error;
 
 - (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath 
@@ -137,6 +138,10 @@
 
 // Deprecated upload callback
 - (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath;
+
+// Deprecated download callbacks
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType;
+- (void)restClient:(DBRestClient*)client loadedThumbnail:(NSString*)destPath;
 
 - (void)restClient:(DBRestClient*)client loadedRevisions:(NSArray *)revisions forFile:(NSString *)path;
 - (void)restClient:(DBRestClient*)client loadRevisionsFailedWithError:(NSError *)error;

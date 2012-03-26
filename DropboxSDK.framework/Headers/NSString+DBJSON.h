@@ -29,58 +29,30 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * SBJSONErrorDomain;
-
-
-enum {
-    EUNSUPPORTED = 1,
-    EPARSENUM,
-    EPARSE,
-    EFRAGMENT,
-    ECTRL,
-    EUNICODE,
-    EDEPTH,
-    EESCAPE,
-    ETRAILCOMMA,
-    ETRAILGARBAGE,
-    EEOF,
-    EINPUT
-};
-
 /**
- @brief Common base class for parsing & writing.
-
- This class contains the common error-handling code and option between the parser/writer.
- */
-@interface SBJsonBase : NSObject {
-    NSMutableArray *errorTrace;
-
-@protected
-    NSUInteger depth, maxDepth;
-}
-
-/**
- @brief The maximum recursing depth.
+ @brief Adds JSON parsing methods to NSString
  
- Defaults to 512. If the input is nested deeper than this the input will be deemed to be
- malicious and the parser returns nil, signalling an error. ("Nested too deep".) You can
- turn off this security feature by setting the maxDepth value to 0.
- */
-@property NSUInteger maxDepth;
+This is a category on NSString that adds methods for parsing the target string.
+*/
+@interface NSString (NSString_DBJSON)
+
 
 /**
- @brief Return an error trace, or nil if there was no errors.
+ @brief Returns the object represented in the receiver, or nil on error. 
  
- Note that this method returns the trace of the last method that failed.
- You need to check the return value of the call you're making to figure out
- if the call actually failed, before you know call this method.
+ Returns a a scalar object represented by the string's JSON fragment representation.
+ 
+ @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
- @property(copy,readonly) NSArray* errorTrace;
+- (id)JSONFragmentValue;
 
-/// @internal for use in subclasses to add errors to the stack trace
-- (void)addErrorWithCode:(NSUInteger)code description:(NSString*)str;
+/**
+ @brief Returns the NSDictionary or NSArray represented by the current string's JSON representation.
+ 
+ Returns the dictionary or array represented in the receiver, or nil on error.
 
-/// @internal for use in subclasess to clear the error before a new parsing attempt
-- (void)clearErrorTrace;
+ Returns the NSDictionary or NSArray represented by the current string's JSON representation.
+ */
+- (id)JSONValue;
 
 @end

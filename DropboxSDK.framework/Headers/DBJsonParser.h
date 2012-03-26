@@ -28,41 +28,60 @@
  */
 
 #import <Foundation/Foundation.h>
-
-
-/**
- @brief Adds JSON generation to Foundation classes
- 
- This is a category on NSObject that adds methods for returning JSON representations
- of standard objects to the objects themselves. This means you can call the
- -JSONRepresentation method on an NSArray object and it'll do what you want.
- */
-@interface NSObject (NSObject_SBJSON)
+#import "DBJsonBase.h"
 
 /**
- @brief Returns a string containing the receiver encoded as a JSON fragment.
+  @brief Options for the parser class.
  
- This method is added as a category on NSObject but is only actually
- supported for the following objects:
- @li NSDictionary
- @li NSArray
- @li NSString
- @li NSNumber (also used for booleans)
- @li NSNull 
- 
- @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
+ This exists so the DBJSON facade can implement the options in the parser without having to re-declare them.
  */
-- (NSString *)JSONFragment;
+@protocol DBJsonParser
 
 /**
- @brief Returns a string containing the receiver encoded in JSON.
-
- This method is added as a category on NSObject but is only actually
- supported for the following objects:
- @li NSDictionary
- @li NSArray
+ @brief Return the object represented by the given string.
+ 
+ Returns the object represented by the passed-in string or nil on error. The returned object can be
+ a string, number, boolean, null, array or dictionary.
+ 
+ @param repr the json string to parse
  */
-- (NSString *)JSONRepresentation;
+- (id)objectWithString:(NSString *)repr;
 
 @end
+
+
+/**
+ @brief The JSON parser class.
+ 
+ JSON is mapped to Objective-C types in the following way:
+ 
+ @li Null -> NSNull
+ @li String -> NSMutableString
+ @li Array -> NSMutableArray
+ @li Object -> NSMutableDictionary
+ @li Boolean -> NSNumber (initialised with -initWithBool:)
+ @li Number -> NSDecimalNumber
+ 
+ Since Objective-C doesn't have a dedicated class for boolean values, these turns into NSNumber
+ instances. These are initialised with the -initWithBool: method, and 
+ round-trip back to JSON properly. (They won't silently suddenly become 0 or 1; they'll be
+ represented as 'true' and 'false' again.)
+ 
+ JSON numbers turn into NSDecimalNumber instances,
+ as we can thus avoid any loss of precision. (JSON allows ridiculously large numbers.)
+ 
+ */
+@interface DBJsonParser : DBJsonBase <DBJsonParser> {
+    
+@private
+    const char *c;
+}
+
+@end
+
+// don't use - exists for backwards compatibility with 2.1.x only. Will be removed in 2.3.
+@interface DBJsonParser (Private)
+- (id)fragmentWithString:(id)repr;
+@end
+
 
