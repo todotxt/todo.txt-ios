@@ -66,12 +66,14 @@ static NSRegularExpression* contextPattern = nil;
 					options:0
 					range:NSMakeRange(0, [inputText length])];
 	
-	NSMutableArray* contexts = [NSMutableArray arrayWithCapacity:[contextMatches count]];
+  NSMutableSet* contexts = [NSMutableSet setWithCapacity:[contextMatches count]]; 
 	for (NSTextCheckingResult *match in contextMatches) {
-		[contexts addObject:[inputText substringWithRange:[match rangeAtIndex:1]]];
+    NSString *theContextInLowercase = [[inputText substringWithRange:[match rangeAtIndex:1]] lowercaseString];
+    
+    [contexts addObject:theContextInLowercase];
 	}	
 	
-	return contexts;
+	return [contexts allObjects];
 }
 
 
