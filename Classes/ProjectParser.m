@@ -49,7 +49,7 @@ static NSRegularExpression* projectPattern = nil;
 @implementation ProjectParser
 + (void)initialize {
 	projectPattern = [[NSRegularExpression alloc] 
-					  initWithPattern:@"\\+(\\S*\\w)"
+					  initWithPattern:@"(?:^|\\s)\\+(\\S*\\w)"
 					  options:0
 					  error:nil];
 }
@@ -68,7 +68,7 @@ static NSRegularExpression* projectPattern = nil;
 	
 	NSMutableArray* projects = [NSMutableArray arrayWithCapacity:[projectMatches count]];
 	for (NSTextCheckingResult *match in projectMatches) {
-		[projects addObject:[inputText substringWithRange:[match rangeAtIndex:1]]];
+		[projects addObject:[[inputText substringWithRange:[match rangeAtIndex:1]] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
 	}	
 	
 	return projects;

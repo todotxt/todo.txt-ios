@@ -96,4 +96,13 @@
 	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
 }
 
+- (void)test_withPrefixedPlusSign
+{
+	NSString *input = @"Check out http://example.com/this+is+a+test +Research @Computer +URLs";
+	NSArray *strings = [ProjectParser parse:input];
+	STAssertEquals(2U, strings.count, @"Should be two matches");
+	STAssertTrue([strings containsObject:@"Research"], @"should contain \"Research\"");
+	STAssertTrue([strings containsObject:@"URLs"], @"should contain \"URLs\"");
+}
+
 @end
