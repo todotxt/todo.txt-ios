@@ -73,6 +73,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	curInput = [[NSString alloc] init];	
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:)
+												 name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)
+												 name:UIKeyboardWillHideNotification object:nil];
 	
 	textView.placeholder = @"Call Mom @phone +FamilialPeace";
 	
@@ -101,6 +106,25 @@
 	curSelectedRange = textView.selectedRange;
 	[textView becomeFirstResponder];
 	
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+	kbRect = [self.view convertRect:kbRect toView:nil];
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
+    textView.contentInset = contentInsets;
+    textView.scrollIndicatorInsets = contentInsets;
+	
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbRect.size.height;
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+	UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+	textView.contentInset = contentInsets;
+	textView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark -
@@ -346,6 +370,7 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	[curInput release];
