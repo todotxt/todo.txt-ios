@@ -67,27 +67,25 @@
 @property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
 @property (nonatomic, retain) id lastClickedButton; 
 
+- (void)displayNotification:(NSString *)message;
 - (void) clearUserDefaults;
 - (void) syncClient;
-- (void) syncClientWithPrompt;
-- (void) syncClientForceChoice:(BOOL)forceChoice;
+- (void) syncClientForce:(BOOL)force;
 - (void) pushToRemote;
 - (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
 - (void) pullFromRemoteForce:(BOOL)force;
 - (void) pullFromRemote;
-- (BOOL) isOfflineMode;
-- (BOOL) setOfflineMode:(BOOL)goOffline;
+- (BOOL) isManualMode;
 - (void) logout;
 
 + (todo_txt_touch_iosAppDelegate*) sharedDelegate;
 + (id<TaskBag>) sharedTaskBag;
 + (RemoteClientManager*) sharedRemoteClientManager;
++ (void)displayNotification:(NSString *)message;
 + (void) syncClient;
-+ (void) syncClientWithPrompt;
 + (void) pushToRemote;
 + (void) pullFromRemote;
-+ (BOOL) isOfflineMode;
-+ (BOOL) setOfflineMode:(BOOL)goOffline;
++ (BOOL) isManualMode;
 + (void) logout;
 
 @end

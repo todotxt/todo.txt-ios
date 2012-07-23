@@ -406,9 +406,9 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[taskBag remove:task];
 	[task release];
 	 
-	//TODO: toast?
+	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
+	[todo_txt_touch_iosAppDelegate displayNotification:@"Deleted task"];
 	[todo_txt_touch_iosAppDelegate pushToRemote];
-	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
 }
 
 - (void) undoCompleteTask {
@@ -418,7 +418,6 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[taskBag update:task];
 	[task release];
 	
-	//TODO: toast?
 	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
@@ -429,21 +428,20 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[task markComplete:[NSDate date]];
 	[taskBag update:task];
 	[task release];
-	
-	//TODO: toast?
-	
+		
 	BOOL auto_archive = [[NSUserDefaults standardUserDefaults] boolForKey:@"auto_archive_preference"];
 	if (auto_archive) {
 		[taskBag archive];
 	}
 	
-	[todo_txt_touch_iosAppDelegate pushToRemote];
 	
 	if (auto_archive) {
-		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
+		[todo_txt_touch_iosAppDelegate displayNotification:@"Task completed and archived"];
 	} else {
 		[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 	}
+	[todo_txt_touch_iosAppDelegate pushToRemote];
 }
 
 - (void) prioritizeTask:(Priority*)selectedPriority {
@@ -453,7 +451,6 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[taskBag update:task];
 	[task release];
 	
-	//TODO: toast?
 	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
