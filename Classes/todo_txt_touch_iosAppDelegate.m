@@ -52,6 +52,8 @@
 #import "Network.h"
 #import "LocalFileTaskRepository.h"
 #import "Util.h"
+#import "Reachability.h"
+#import "SJNotificationViewController.h"
 
 @implementation todo_txt_touch_iosAppDelegate
 
@@ -82,24 +84,16 @@
 	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
 }
 
-+ (void) syncClientWithPrompt {	
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClientWithPrompt) withObject:nil waitUntilDone:NO];
-}
-
 + (void) pushToRemote {	
 	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
 }
 
 + (void) pullFromRemote {
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] pullFromRemote];
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pullFromRemote) withObject:nil waitUntilDone:NO];
 }
 
-+ (BOOL) isOfflineMode {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] isOfflineMode];
-}
-
-+ (BOOL) setOfflineMode:(BOOL)goOffline {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] setOfflineMode:goOffline];
++ (BOOL) isManualMode {
+	return [[todo_txt_touch_iosAppDelegate sharedDelegate] isManualMode];
 }
 
 + (void) logout {
@@ -114,6 +108,10 @@
 + (void) setNeedToPush:(BOOL)needToPush {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:needToPush forKey:@"need_to_push"];
+}
+
++ (void)displayNotification:(NSString *)message {
+	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(displayNotification:) withObject:message waitUntilDone:NO];
 }
 
 - (void) presentLoginController {
@@ -138,6 +136,37 @@
 	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
 }
 
+
+BOOL wasConnected = YES;
+- (void)reachabilityChanged {
+	if ([self isManualMode]) return;
+	
+	if ([[[todo_txt_touch_iosAppDelegate sharedRemoteClientManager] currentClient] isAvailable]) {
+		if (!wasConnected) {
+			[self displayNotification:@"Connection reestablished: syncing with Dropbox now..."];
+		}
+		[todo_txt_touch_iosAppDelegate syncClient];
+		wasConnected = YES;
+	} else {
+		wasConnected = NO;
+	}
+}
+
+- (void)displayNotification:(NSString *)message {
+	SJNotificationViewController *notificationController = [[SJNotificationViewController alloc] initWithNibName:@"SJNotificationViewController" bundle:nil];
+	[notificationController setParentView:self.navigationController.topViewController.view];
+	[notificationController setNotificationTitle:message];
+	
+	[notificationController setNotificationDuration:2000];
+	[notificationController setNotificationPosition:SJNotificationPositionTop];
+	[notificationController setBackgroundColor:[UIColor colorWithRed:0
+															   green:0
+																blue:0 
+															   alpha:0.6f]];
+	
+	[notificationController show];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -146,7 +175,7 @@
 								 @"NO", @"date_new_tasks_preference", 
 								 @"NO", @"show_task_age_preference", 
 								 @"NO", @"windows_line_breaks_preference", 
-								 @"NO", @"work_offline_preference", 
+								 @"NO", @"manual_sync_preference", 
 								 @"NO", @"need_to_push",
 								 @"/todo", @"file_location_preference", nil];	
     [defaults registerDefaults:appDefaults];
@@ -155,8 +184,12 @@
     taskBag = [[TaskBagFactory getTaskBag] retain];
 		
 	// Start listening for network status updates.
-	[Network startNotifier];    
+	[Network startNotifier];
     
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reachabilityChanged) 
+												 name:kReachabilityChangedNotification object:nil];
+
     // Add the view controller's view to the window and display.
     [self.window addSubview:navigationController.view];
     
@@ -202,8 +235,8 @@
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
 	
-	if (![self isOfflineMode] && [remoteClientManager.currentClient isAuthenticated]) {
-		[self syncClient];
+	if (![self isManualMode] && [remoteClientManager.currentClient isAuthenticated]) {
+		[todo_txt_touch_iosAppDelegate syncClient];
 	}
 }
 
@@ -213,42 +246,32 @@
      Called when the application is about to terminate.
      See also applicationDidEnterBackground:.
      */
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
 #pragma mark Remote functions
 
 - (void) syncClient {
-	[self syncClientForceChoice:NO];
+	[self syncClientForce:NO];
 }
 
-- (void) syncClientWithPrompt {
-	[self syncClientForceChoice:YES];
-}
-
-- (void) syncClientForceChoice:(BOOL)forceChoice {
-	if ([self isOfflineMode] || forceChoice || [todo_txt_touch_iosAppDelegate needToPush]) {
-		if (![remoteClientManager.currentClient isAvailable]) {
-			// TODO: toast?
-			[self setOfflineMode:YES];
-		} else {
-			UIActionSheet* dlg = [[UIActionSheet alloc] 
-                                  initWithTitle:@"Manual Sync: Do you want to upload or download your todo.txt file?"
-                                  delegate:self 
-                                  cancelButtonTitle:@"Cancel" 
-                                  destructiveButtonTitle:nil 
-                                  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
-            dlg.tag = 10;
-            [dlg showInView:self.navigationController.visibleViewController.view];
-            [dlg release];		
-		}
+- (void) syncClientForce:(BOOL)force {
+	
+	if ([self isManualMode]) {
+		UIActionSheet* dlg = [[UIActionSheet alloc] 
+							  initWithTitle:@"Manual Sync: Do you want to upload or download your todo.txt file?"
+							  delegate:self 
+							  cancelButtonTitle:@"Cancel" 
+							  destructiveButtonTitle:nil 
+							  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
+		dlg.tag = 10;
+		[dlg showInView:self.navigationController.visibleViewController.view];
+		[dlg release];
+	} else if ([todo_txt_touch_iosAppDelegate needToPush]) {
+		[self pushToRemoteOverwrite:NO force:force];
 	} else {
-		if (![remoteClientManager.currentClient isAvailable]) {
-			// TODO: toast?
-			[self setOfflineMode:YES];
-		} else {
-			[self pullFromRemote];
-		}
+		[self pullFromRemoteForce:force];
 	}
 }
 
@@ -263,33 +286,34 @@
 }
 
 - (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force {
-	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-	
-	if (!force && [self isOfflineMode]) {
+	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
+
+	if (!force && [self isManualMode]) {
 		return;
 	}
 	
 	if (![remoteClientManager.currentClient isAvailable]) {
-		// TODO: toast?
-		[self setOfflineMode:YES];
-	} else {
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-		// We probably shouldn't be assuming LocalFileTaskRepository here, 
-		// but that is what the Android app does, so why not?
-		NSString *todoPath = [LocalFileTaskRepository todoFilename];
-		NSString *donePath = nil;
-		
-		if ([taskBag doneFileModifiedSince:lastSync]) {
-			donePath = [LocalFileTaskRepository doneFilename];
-		}
-		
-		[remoteClientManager.currentClient pushTodoOverwrite:overwrite 
-													withTodo:todoPath 
-													withDone:donePath];
-		
-		// pushTodo is asynchronous. When it returns, it will call
-		// the delegate method 'uploadedFile'
-	}	
+		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+		return;
+	}
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	// We probably shouldn't be assuming LocalFileTaskRepository here, 
+	// but that is what the Android app does, so why not?
+	NSString *todoPath = [LocalFileTaskRepository todoFilename];
+	NSString *donePath = nil;
+	
+	if ([taskBag doneFileModifiedSince:lastSync]) {
+		donePath = [LocalFileTaskRepository doneFilename];
+	}
+	
+	[remoteClientManager.currentClient pushTodoOverwrite:overwrite 
+												withTodo:todoPath 
+												withDone:donePath];
+	
+	// pushTodo is asynchronous. When it returns, it will call
+	// the delegate method 'uploadedFile'
+	
 }
 
 - (void) pushToRemote {
@@ -297,37 +321,31 @@
 }
 
 - (void) pullFromRemoteForce:(BOOL)force {
-	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-	
-	if (!force && [self isOfflineMode]) {
+	if (!force && [self isManualMode]) {
 		return;
 	}
 	
+	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+
 	if (![remoteClientManager.currentClient isAvailable]) {
-		// TODO: toast?
-		[self setOfflineMode:YES];
-	} else {
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-		[remoteClientManager.currentClient pullTodo];
-		// pullTodo is asynchronous. When it returns, it will call
-		// the delegate method 'loadedFile'
-	}	
+		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+		return;
+	}
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[remoteClientManager.currentClient pullTodo];
+	// pullTodo is asynchronous. When it returns, it will call
+	// the delegate method 'loadedFile'
+
 }
 
 - (void) pullFromRemote {
 	[self pullFromRemoteForce:NO];
 }
 
-- (BOOL) isOfflineMode {
+- (BOOL) isManualMode {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	return [defaults boolForKey:@"work_offline_preference"];
-}
-
-- (BOOL) setOfflineMode:(BOOL)goOffline {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	BOOL oldValue = [defaults boolForKey:@"work_offline_preference"];
-	[defaults setBool:goOffline forKey:@"work_offline_preference"];
-	return oldValue;
+	return [defaults boolForKey:@"manual_sync_preference"];
 }
 
 - (void) logout {
@@ -338,6 +356,7 @@
 
 - (void) syncComplete:(BOOL)success {
 	if (success) {
+		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 		[lastSync release];
 		lastSync = [[NSDate date] retain];
 	}
@@ -382,6 +401,8 @@
 }
 
 - (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
+	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+
     // Push is complete. Let's do a pull now in case the remote done.txt changed
 	[self pullFromRemoteForce:YES];
 }
@@ -389,10 +410,6 @@
 - (void) remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError *)error {
 	NSLog(@"Error uploading todo file: %@", error);
 	
-	//remember the error, so that next time we press the sync button,
-	// we prompt the user to pull or push
-	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
-
 	[self syncComplete:NO];
 	
 	UIAlertView *alert =
@@ -431,8 +448,6 @@
 		[self pushToRemoteOverwrite:YES force:YES];
 	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
 		[self pullFromRemoteForce:YES];
-	} else { //cancel
-		[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
 	}
 }
 
