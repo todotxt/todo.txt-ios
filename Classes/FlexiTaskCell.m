@@ -154,20 +154,10 @@
     self.ageLabel.frame = ageFrame;
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-// TODO ID label setup
-	if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-		self.todoIdLabel.text = [NSString stringWithFormat:@"%02d", [self.task taskId] + 1];
-		self.todoIdLabel.hidden = NO;
-	} else {
-		self.todoIdLabel.hidden = YES;
-	}
+	self.todoIdLabel.hidden = YES;
 
 // Priority label setup
-    if ([defaults boolForKey:@"show_line_numbers_preference"]) {
-        priorityFrame.origin.x = PRI_XPOS_SHORT;//28
-    } else {
-        priorityFrame.origin.x = PRI_XPOS_LONG;//10
-    }
+    priorityFrame.origin.x = PRI_XPOS_LONG;//10
     priorityLabel.frame = priorityFrame;
     priorityLabel.text = [[self.task priority] listFormat];
 	// Set the priority color
@@ -225,22 +215,17 @@
 + (NSString*)cellId { return NSStringFromClass(self); }
 + (UIFont*)taskFont { return [UIFont systemFontOfSize:14.0]; }
 
-+ (BOOL)shouldShowTaskId {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	return [defaults boolForKey:@"show_line_numbers_preference"];
-}
-
 + (BOOL)shouldShowTaskAge {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:@"show_task_age_preference"];
 }
 
 + (CGFloat)taskTextWidth {
-    return [self shouldShowTaskId] ? [self shortTaskWidth] : [self longTaskWidth];
+    return [self longTaskWidth];
 }
 
 + (CGFloat)taskTextOriginX {
-    return [self shouldShowTaskId] ? TEXT_XPOS_SHORT : TEXT_XPOS_LONG;
+    return TEXT_XPOS_LONG;
 }
 
 + (CGFloat)heightForCellWithTask:(Task*)aTask {

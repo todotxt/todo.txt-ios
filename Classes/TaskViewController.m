@@ -146,17 +146,11 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
     return rows;
 }
 
-- (BOOL)showLineNumbers {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	// TODO ID label setup
-	return [defaults boolForKey:@"show_line_numbers_preference"];	
-}
-
 - (CGFloat)textLabelWidth {
 	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
 	
-	CGFloat offset = [self showLineNumbers] ? 18 : 0;
+	CGFloat offset = 0;
 
 	if (isiPad)
 	{
@@ -282,14 +276,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	}
 	
 	label = (UILabel *)[cell viewWithTag:1];
-	
-	if ([self showLineNumbers]) {
-		[label setHidden:false];
-		label.text = [NSString stringWithFormat:@"%02d", [task taskId] + 1];
-	}
-	else {
-		[label setHidden:true];
-	}	
+	[label setHidden:true];
 	
 	AttributedLabel *al = (AttributedLabel *)[cell viewWithTag:3];
 	al.text = [self attributedTaskText:task];

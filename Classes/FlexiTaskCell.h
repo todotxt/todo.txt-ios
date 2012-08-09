@@ -52,8 +52,6 @@
 + (CGFloat)heightForCellWithTask:(Task*)aTask;
 + (NSString*)cellId;
 
-+ (BOOL)shouldShowTaskId;
-
 + (NSDictionary*)taskStringAttributes;
 + (NSDictionary*)completedTaskAttributes;
 

@@ -14,16 +14,6 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>show_line_numbers_preference</string>
-			<key>Title</key>
-			<string>Show Line Numbers</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
 			<string>date_new_tasks_preference</string>
 			<key>Title</key>
 			<string>Date New Tasks</string>

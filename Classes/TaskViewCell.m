@@ -85,26 +85,11 @@
 	[super dealloc];
 }
 
-
-- (BOOL)showLineNumbers {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	// TODO ID label setup
-	return [defaults boolForKey:@"show_line_numbers_preference"];	
-}
-
-
-
 - (void)nudge:(UIView *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos ypos:(CGFloat)ypos height:(CGFloat)height
 {
 	
 	CGRect frame = label.frame;
-	if ([self showLineNumbers]) {
-		frame.origin.x = numberedxpos;
-	}
-	else
-	{
-		frame.origin.x = barexpos;
-	}
+	frame.origin.x = barexpos;
 	
 	if (ypos >= 0)
 	{
@@ -155,15 +140,6 @@
 
 	[self nudge:text numberedxpos:TEXTLEFTLONG barexpos:TEXTLEFTSHORT];
 	[self nudge:priority numberedxpos:30 barexpos:12 ypos:text.frame.origin.y height:expectedLabelSize.height];
-	
-	if ([self showLineNumbers]) {
-		CGFloat top = priority.frame.origin.y;
-		CGFloat height = priority.frame.size.height;
-		
-		UILabel *number = (UILabel *)[self viewWithTag:1];
-		
-		[self nudge:number numberedxpos:4 barexpos:4 ypos:top height:height];
-	}
 	
 	UILabel *date = (UILabel *)[self viewWithTag:4];
 	CGFloat dateTop = text.frame.origin.y + text.frame.size.height;
