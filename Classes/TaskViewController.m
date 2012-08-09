@@ -56,10 +56,10 @@
 
 #import "NSMutableAttributedString+TodoTxt.h"
 
-#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  269
+#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
 #define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
-#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    695
-#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   955
+#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    635
+#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   895
 #define VERTICAL_PADDING        5
 
 #define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
@@ -177,7 +177,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 
 - (CGFloat)calcTextHeightWithTask:(Task*)task {
 	CGFloat maxWidth = [self textLabelWidth];
-    CGFloat maxHeight = 9999;
+    CGFloat maxHeight = CGFLOAT_MAX;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
     CGSize expectedLabelSize = [[task inScreenFormat] 
