@@ -72,6 +72,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	if (![todo_txt_touch_iosAppDelegate isManualMode]) {
+		[todo_txt_touch_iosAppDelegate syncClient];
+	}
+	
 	curInput = [[NSString alloc] init];	
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:)
@@ -182,9 +187,8 @@
 		[taskBag addAsTask:curInput];
 	}
 	
-	//TODO: toast?
+	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
 	[todo_txt_touch_iosAppDelegate pushToRemote];
-	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:NO];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

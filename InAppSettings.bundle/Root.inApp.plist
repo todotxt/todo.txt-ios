@@ -115,9 +115,9 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>work_offline_preference</string>
+			<string>manual_sync_preference</string>
 			<key>Title</key>
-			<string>Work Offline</string>
+			<string>Manual Sync</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>

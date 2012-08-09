@@ -56,7 +56,6 @@
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
 
-static BOOL savedOfflineMode = NO;
 static BOOL needSync = NO;
 
 @implementation todo_txt_touch_iosViewController
@@ -196,13 +195,8 @@ static BOOL needSync = NO;
 - (void) viewDidAppear:(BOOL)animated {	
 	if (needSync) {
 		needSync = NO;
-        if (![todo_txt_touch_iosAppDelegate isOfflineMode]) {
-            if (savedOfflineMode) {
-                // If offline mode was just disabled, prompt for push/pull.
-                [todo_txt_touch_iosAppDelegate syncClientWithPrompt];
-            } else {
-                [todo_txt_touch_iosAppDelegate syncClient];
-            }
+        if (![todo_txt_touch_iosAppDelegate isManualMode]) {
+			[todo_txt_touch_iosAppDelegate syncClient];
         }
 	}	
 }
@@ -334,11 +328,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (IBAction)syncButtonPressed:(id)sender {
 	NSLog(@"syncButtonPressed called");
+	[todo_txt_touch_iosAppDelegate displayNotification:@"Syncing with Dropbox now..."];
 	[todo_txt_touch_iosAppDelegate syncClient];
 }
 
 - (IBAction)settingsButtonPressed:(id)sender {
-	savedOfflineMode = [todo_txt_touch_iosAppDelegate isOfflineMode];
     UINavigationController *aNavController = [[UINavigationController alloc] initWithRootViewController:self.appSettingsViewController];
     //[viewController setShowCreditsFooter:NO];   // Uncomment to not display InAppSettingsKit credits for creators.
     // But we encourage you not to uncomment. Thank you!
@@ -398,12 +392,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
         switch (alertView.tag) {
 			case LOGOUT_TAG:
                 [self dismissModalViewControllerAnimated:NO];
-				savedOfflineMode = NO;
 				[todo_txt_touch_iosAppDelegate logout];
 				break;
 			case ARCHIVE_TAG:
                 [self dismissModalViewControllerAnimated:YES];
                 NSLog(@"Archiving...");
+				[todo_txt_touch_iosAppDelegate displayNotification:@"Archiving completed tasks..."];
 				[[todo_txt_touch_iosAppDelegate sharedTaskBag] archive];
 				[self reloadData:nil];
 				[todo_txt_touch_iosAppDelegate pushToRemote];
