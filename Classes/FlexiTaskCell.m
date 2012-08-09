@@ -199,7 +199,7 @@
     todoIdFrame.origin.y = VERTICAL_PADDING + 3;
     self.todoIdLabel.frame = todoIdFrame;
 
-	if ([defaults boolForKey:@"show_task_age_preference"] && ![self.task completed]) {
+	if ([defaults boolForKey:@"date_new_tasks_preference"] && ![self.task completed]) {
         ageFrame.origin.x = [[self class] taskTextOriginX];
         ageFrame.origin.y = CGRectGetMinY(taskFrame) + CGRectGetHeight(taskFrame);
         ageFrame.size.width = [[self class] taskTextWidth];
@@ -217,7 +217,7 @@
 
 + (BOOL)shouldShowTaskAge {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:@"show_task_age_preference"];
+    return [defaults boolForKey:@"date_new_tasks_preference"];
 }
 
 + (CGFloat)taskTextWidth {

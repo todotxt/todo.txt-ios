@@ -172,7 +172,6 @@ BOOL wasConnected = YES;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
 								 @"NO", @"date_new_tasks_preference", 
-								 @"NO", @"show_task_age_preference", 
 								 @"NO", @"windows_line_breaks_preference", 
 								 @"NO", @"manual_sync_preference", 
 								 @"NO", @"need_to_push",

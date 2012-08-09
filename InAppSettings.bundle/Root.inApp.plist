@@ -24,16 +24,6 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>show_task_age_preference</string>
-			<key>Title</key>
-			<string>Show Task Age</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
 			<string>windows_line_breaks_preference</string>
 			<key>Title</key>
 			<string>Windows Line Breaks</string>
@@ -73,7 +63,7 @@
 		</dict>
 		<dict>
 			<key>Title</key>
-			<string>Archive</string>
+			<string>Done.txt</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
