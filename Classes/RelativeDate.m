@@ -70,15 +70,15 @@ static NSString* computeRelativeDate(NSDate* date, int years,
 		if (days < -1) {
 			return [NSString stringWithFormat:@"%d days ago", abs(days)];
 		} else if (days == -1) {
-			return [NSString stringWithString:@"1 day ago"];
+			return @"1 day ago";
 		} else if (days == 0) {
-			return [NSString stringWithString:@"today"];
+			return @"today";
 		}
 	} else if (years == 0 || years == -1) {
 		if (years == -1) {
 			months = 11 - months + currentMonth();
 			if (months == 1) {
-				return [NSString stringWithString:@"1 month ago"];
+				return @"1 month ago";
 			} else {
 				return [NSString stringWithFormat:@"%d months ago", months];
 			}
@@ -86,7 +86,7 @@ static NSString* computeRelativeDate(NSDate* date, int years,
 			if (months != -1) {
 				return [NSString stringWithFormat:@"%d months ago", abs(months)];
 			} else {
-				return [NSString stringWithString:@"1 month ago"];
+				return @"1 month ago";
 			}
 		}
 	} else {
