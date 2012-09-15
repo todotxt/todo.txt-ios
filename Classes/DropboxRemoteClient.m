@@ -124,7 +124,7 @@
 }
 
 - (void) presentLoginControllerFromController:(UIViewController*)parentViewController {
-	[[DBSession sharedSession] link];
+	[[DBSession sharedSession] linkFromController:(UIViewController*)parentViewController];
 }
 
 - (void) pullTodoCompleted:(DropboxFileDownloader*)todoDownloader {
