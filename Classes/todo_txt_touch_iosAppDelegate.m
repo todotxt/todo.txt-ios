@@ -126,7 +126,12 @@
 }
 
 - (void) presentMainViewController {
-    [loginController dismissModalViewControllerAnimated:YES];
+	if ([[loginController parentViewController] respondsToSelector:@selector(dismissModalViewControllerAnimated:)]){
+        [[loginController parentViewController] dismissModalViewControllerAnimated:YES];
+    } else {
+        [[loginController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     [loginController release];
     loginController = nil;
 }
@@ -451,9 +456,11 @@ BOOL wasConnected = YES;
 
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
 	if (success) {
-		// Don't sync because we already did that when the app was reactivated by Dropbox
-        // We may need to do something else for other services.
-        //[self syncClient];
+		// If we login using the Dropbox app we will sync after re-activation.
+		// But, if we login using the webview, we never leave the app,
+		// so we have to sync now. Unfortunately, this causes a double
+		// sync when the Dropbox app is used, but I don't see an easy way around that.
+        [self syncClient];
 		[self presentMainViewController];
 	}
 }
