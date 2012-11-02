@@ -194,7 +194,8 @@ BOOL wasConnected = YES;
 												 name:kReachabilityChangedNotification object:nil];
 
     // Add the view controller's view to the window and display.
-    [self.window addSubview:navigationController.view];
+    //[self.window addSubview:navigationController.view];  // doesn't work under iOS 6
+	[self.window setRootViewController:navigationController];
     
 	if (![remoteClientManager.currentClient isAuthenticated]) {
 		[self presentLoginController];
