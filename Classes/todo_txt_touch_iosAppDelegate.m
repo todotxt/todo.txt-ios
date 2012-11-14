@@ -122,7 +122,7 @@
     {
         loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentModalViewController:loginController animated:NO];
+    [self.navigationController presentModalViewController:loginController animated:YES];
 }
 
 - (void) presentMainViewController {
