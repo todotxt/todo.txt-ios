@@ -122,7 +122,7 @@
     {
         loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentModalViewController:loginController animated:NO];
+    [self.navigationController presentModalViewController:loginController animated:YES];
 }
 
 - (void) presentMainViewController {
@@ -136,9 +136,18 @@
     loginController = nil;
 }
 
+// http://stackoverflow.com/questions/9679163/why-does-clearing-nsuserdefaults-cause-exc-crash-later-when-creating-a-uiwebview
+//
 - (void) clearUserDefaults {
 	NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+	
+	id workaround51Crash = [[NSUserDefaults standardUserDefaults] objectForKey:@"WebKitLocalStorageDatabasePathPreferenceKey"];
+	
+	NSDictionary *emptySettings = (workaround51Crash != nil)
+	? [NSDictionary dictionaryWithObject:workaround51Crash forKey:@"WebKitLocalStorageDatabasePathPreferenceKey"]
+	: [NSDictionary dictionary];
+	
+	[[NSUserDefaults standardUserDefaults] setPersistentDomain:emptySettings forName:appDomain];
 }
 
 
