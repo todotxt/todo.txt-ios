@@ -408,7 +408,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
     }
 }
 
-- (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) sortOrderWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		sort = [Sort byName:selectedIndex.intValue];
@@ -433,7 +433,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //																			   data:[Sort descriptions]
 //																	  selectedIndex:[sort name]
 //																			 target:self 
-//																			 action:@selector(sortOrderWasSelected::) 
+//																			 action:@selector(sortOrderWasSelected:element:)
 //																			  title:@"Select Sort Order"
 //																			   rect:rect
 //																	  barButtonItem:nil];			
@@ -448,7 +448,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 																	   data:[Sort descriptions]
 															  selectedIndex:[sort name]
 																	 target:self 
-																	 action:@selector(sortOrderWasSelected::) 
+																	 action:@selector(sortOrderWasSelected:element:)
 																	  title:@"Select Sort Order"
 																	   rect:CGRectZero
 															  barButtonItem:sender];			
