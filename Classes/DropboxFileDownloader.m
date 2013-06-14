@@ -2,7 +2,7 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -44,40 +44,43 @@
 
 #import "DropboxFileDownloader.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @interface DropboxFileDownloader () <DBRestClientDelegate>
+
+@property (nonatomic, strong) DBRestClient *restClient;
+
+@property (nonatomic) NSInteger curFile;
+
+@property (nonatomic, strong) NSArray *files;
+@property (nonatomic, strong) NSError *error;
+
+@property (nonatomic, strong) RACSubject *subject;
+
 @end
 
-@implementation DropboxFileDownloader 
+@implementation DropboxFileDownloader
 
-@synthesize files, status, error;
-
-- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
+- (id)init
+{
 	self = [super init];
 	if (self) {
-		target = aTarget;
-		onComplete = selector;
-		status = dbInitialized;
-		curFile = -1;
+		self.curFile = -1;
 	}
 	return self;
 }
 
 - (DBRestClient*)restClient {
-	if (restClient == nil) {
-		restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-		restClient.delegate = self;
+	if (_restClient == nil) {
+		_restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+		_restClient.delegate = self;
 	}
-	return restClient;
-}
-
-- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
-	status = aStatus;
-	[target performSelectorOnMainThread:onComplete withObject:self waitUntilDone:NO];
+	return _restClient;
 }
 
 - (void) loadNextFile {
-	if (++curFile < files.count) {
-		DropboxFile *file = [files objectAtIndex:curFile];
+	if (++self.curFile < self.files.count) {
+		DropboxFile *file = [self.files objectAtIndex:self.curFile];
 		if (file.status == dbFound) {
 			[self.restClient loadFile:file.remoteFile
 								atRev:file.loadedMetadata.rev 
@@ -87,37 +90,41 @@
 		}
 	} else {
 		// we're done!
-		[self reportCompletionWithStatus:dbSuccess];
+        [self.subject sendNext:self.files];
+        [self.subject sendCompleted];
 	}
 }
 
 - (void) loadNextMetadata {
-	if (++curFile < files.count) {
-		DropboxFile *file = [files objectAtIndex:curFile];
+	if (++self.curFile < self.files.count) {
+		DropboxFile *file = [self.files objectAtIndex:self.curFile];
 		file.status = dbStarted;
 		[self.restClient loadMetadata:file.remoteFile];
 	} else {
 		// we got all of the metadata, now get the files
-		curFile = -1;
+		self.curFile = -1;
 		[self loadNextFile];
 	}
 }
 
-- (void) pullFiles:(NSArray*)dropboxFiles {
-	[files release];
-	files = [dropboxFiles retain];
-	curFile = -1;
-	status = dbStarted;
-	
+- (RACSignal *)pullFiles:(NSArray *)dropboxFiles {
+	self.files = dropboxFiles;
+	self.curFile = -1;
+    
 	// first check metadata of each file, starting with the first
-	[self loadNextMetadata];
+    // TODO: these steps will not work due to ordering issues,
+    // i.e. the subject may not be returned until *after* the signal sends complete
+    self.subject = [RACSubject subject];
+    [self loadNextMetadata];
+    
+    return self.subject;
 }
 
 #pragma mark -
 #pragma mark DBRestClientDelegate methods
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	// save off the returned metadata
 	file.loadedMetadata = metadata;	
@@ -136,7 +143,7 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	// there was no metadata for the todo file, meaning it does not exist
 	// so there is nothing to load
@@ -147,7 +154,7 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	file.status = dbSuccess;
 
@@ -155,23 +162,16 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)theError {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 	
 	file.status = dbError;
 	file.error = theError;
 	
-	[error release];
-	error = [theError retain];
+	self.error = theError;
 
 	// don't bother downloading any more files after the first error
-	[self reportCompletionWithStatus:dbError];
+	[self.subject sendError:theError];
 }
 
-- (void) dealloc {
-	[error release];
-	[files release];
-	[restClient release];
-	[super dealloc];
-}
 
 @end

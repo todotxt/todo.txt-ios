@@ -62,13 +62,5 @@
 
 }
 
-- (void) dealloc {
-	[error release];
-	[loadedMetadata release];
-	[localFile release];
-	[remoteFile release];
-	[originalRev release];
-	[super dealloc];
-}
 
 @end

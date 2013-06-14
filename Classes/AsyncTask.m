@@ -67,7 +67,6 @@ static NSOperationQueue *operationQueue = nil;
     NSInvocationOperation *operation = [[NSInvocationOperation alloc] 
 					initWithTarget:target selector:selector object:argument];
     [operationQueue addOperation:operation];
-	[operation release];
 }
 
 @end
