@@ -58,7 +58,6 @@
 @implementation todo_txt_touch_iosAppDelegate
 
 @synthesize window;
-@synthesize viewController;
 @synthesize navigationController;
 @synthesize taskBag;
 @synthesize remoteClientManager;
@@ -201,10 +200,6 @@ BOOL wasConnected = YES;
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(reachabilityChanged) 
 												 name:kReachabilityChangedNotification object:nil];
-
-    // Add the view controller's view to the window and display.
-    //[self.window addSubview:navigationController.view];  // doesn't work under iOS 6
-	[self.window setRootViewController:navigationController];
     
 	if (![remoteClientManager.currentClient isAuthenticated]) {
 		[self presentLoginController];

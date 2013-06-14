@@ -61,7 +61,6 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet todo_txt_touch_iosViewController *viewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, readonly) id <TaskBag> taskBag;
 @property (nonatomic, readonly) RemoteClientManager *remoteClientManager;

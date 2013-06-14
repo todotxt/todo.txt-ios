@@ -71,6 +71,8 @@
 		1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */; };
 		1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */; };
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
+		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
+		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -278,6 +280,9 @@
 		1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditViewController.xib; sourceTree = "<group>"; };
 		1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = todo_txt_touch_iosViewController.xib; sourceTree = "<group>"; };
 		1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		1B0C9202176B73A60022C9AE /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
+		1B0C9205176B762D0022C9AE /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -519,6 +524,9 @@
 		1B0C9075176B63D00022C9AE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1B0C9202176B73A60022C9AE /* FilterViewController.h */,
+				1B0C9203176B73A60022C9AE /* FilterViewController.m */,
+				1B0C9205176B762D0022C9AE /* FilterViewController.xib */,
 				1B0C9076176B63D00022C9AE /* iPadLoginScreenViewController.h */,
 				1B0C9077176B63D00022C9AE /* iPadLoginScreenViewController.m */,
 				1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */,
@@ -1070,6 +1078,7 @@
 				1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */,
 				1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */,
 				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
+				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1218,6 +1227,7 @@
 				1B0C91E3176B6B0E0022C9AE /* MBProgressHUD.m in Sources */,
 				1B0C91E4176B6B0E0022C9AE /* PGTableViewWithEmptyView.m in Sources */,
 				1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */,
+				1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
