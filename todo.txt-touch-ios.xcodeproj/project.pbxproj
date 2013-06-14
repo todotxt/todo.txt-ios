@@ -71,7 +71,7 @@
 		1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */; };
 		1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */; };
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
-		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
+		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };

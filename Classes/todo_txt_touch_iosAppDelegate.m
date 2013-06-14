@@ -193,6 +193,7 @@ BOOL wasConnected = YES;
 	
     remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
     taskBag = [[TaskBagFactory getTaskBag] retain];
+	[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
 		
 	// Start listening for network status updates.
 	[Network startNotifier];
