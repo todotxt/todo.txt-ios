@@ -13,6 +13,8 @@
 - (IBAction)selectedSegment:(UISegmentedControl *)sender;
 
 @property (assign, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
+@property (strong, nonatomic) NSArray *contexts;
+@property (strong, nonatomic) NSArray *projects;
 
 @end
 
@@ -61,7 +63,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Build filters...
     
+    [self.filterTarget filterForContexts:self.contexts projects:self.projects];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Build filters...
+    
+    [self.filterTarget filterForContexts:self.contexts projects:self.projects];
 }
 
 #pragma mark - IBActions

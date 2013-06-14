@@ -498,4 +498,15 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	self.actionSheetPicker = nil;
 }
 
+#pragma mark - TaskFilterable methods
+
+- (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
+{
+    id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
+    
+	// reload main tableview data
+	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
+    [table reloadData];
+}
+
 @end
