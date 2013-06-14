@@ -61,6 +61,8 @@
 		1B0C91E5176B6B0E0022C9AE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CA176B6B0E0022C9AE /* README.md */; };
 		1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */; };
 		1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */; };
+		1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
+		1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -104,7 +106,6 @@
 		8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */; };
 		8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */; };
 		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
-		883FBFC21520307300D9FA3A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88D5C2851519995C00C3744B /* DropboxSDK.framework */; };
 		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
 		8875F16714AEF5EE00BFA5C9 /* SortTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8875F16614AEF5EE00BFA5C9 /* SortTest.m */; };
@@ -137,7 +138,6 @@
 		88A5B6C214ADA8CA00EA6F70 /* TextSplitterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5B6BE14ADA63100EA6F70 /* TextSplitterTest.m */; };
 		88A5B6C314ADA91000EA6F70 /* PriorityTextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8A13EF47610085C888 /* PriorityTextSplitter.m */; };
 		88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AAFC621419CB960062BBF6 /* Icon@2x.png */; };
-		88D5C2861519995C00C3744B /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88D5C2851519995C00C3744B /* DropboxSDK.framework */; };
 		88DB7C0A14B2C760003A96F9 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */; };
 		88DB7C0C14B2C760003A96F9 /* ByContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF414B2A9F0003A96F9 /* ByContextFilter.m */; };
 		88DB7C0E14B2C760003A96F9 /* ByPriorityFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DB7BF714B2B073003A96F9 /* ByPriorityFilter.m */; };
@@ -269,6 +269,7 @@
 		1B0C91CB176B6B0E0022C9AE /* SJNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJNotificationViewController.h; sourceTree = "<group>"; };
 		1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = "<group>"; };
 		1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = "<group>"; };
+		1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -373,7 +374,6 @@
 		88A5B6BE14ADA63100EA6F70 /* TextSplitterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextSplitterTest.m; sourceTree = "<group>"; };
 		88A91726146643B70075B886 /* DropboxApiKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropboxApiKey.h; path = ../DropboxApiKey.h; sourceTree = "<group>"; };
 		88AAFC621419CB960062BBF6 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		88D5C2851519995C00C3744B /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		88DB7BEE14AFC0E2003A96F9 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Filter.h; path = Classes/Filter.h; sourceTree = "<group>"; };
 		88DB7BF014AFC3CD003A96F9 /* FilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterFactory.h; path = Classes/FilterFactory.h; sourceTree = "<group>"; };
 		88DB7BF114AFC3CE003A96F9 /* FilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FilterFactory.m; path = Classes/FilterFactory.m; sourceTree = "<group>"; };
@@ -435,7 +435,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				883FBFC21520307300D9FA3A /* DropboxSDK.framework in Frameworks */,
 				88E5140814D250F300177F45 /* CoreText.framework in Frameworks */,
 				88E5140914D250F300177F45 /* SystemConfiguration.framework in Frameworks */,
 				0F75B418149912DF00848E27 /* UIKit.framework in Frameworks */,
@@ -447,6 +446,7 @@
 				0F75B419149912DF00848E27 /* Foundation.framework in Frameworks */,
 				0F75B41A149912DF00848E27 /* CoreGraphics.framework in Frameworks */,
 				88E513F814D128D600177F45 /* libOCMock.a in Frameworks */,
+				1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,7 +463,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */,
-				88D5C2861519995C00C3744B /* DropboxSDK.framework in Frameworks */,
+				1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,7 +743,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				88D5C2851519995C00C3744B /* DropboxSDK.framework */,
+				1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */,
 				888286AC146E52C5007DBB16 /* QuartzCore.framework */,
 				F45C4F8F145363F300E92C6D /* CoreText.framework */,
 				5910DBD014216A2300BB2D68 /* MessageUI.framework */,
@@ -755,7 +755,7 @@
 				7D5705D112F8A07E00BB5E8D /* Security.framework */,
 				0F75B416149912DF00848E27 /* SenTestingKit.framework */,
 			);
-			name = Frameworks;
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		59216B7613E64EA800FF07EE /* Task */ = {
@@ -1252,6 +1252,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1286,6 +1287,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1314,6 +1316,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1343,6 +1346,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1375,6 +1379,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
@@ -1426,6 +1431,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
@@ -1477,6 +1483,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
@@ -1507,6 +1514,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
