@@ -44,10 +44,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TaskFilterable.h"
+#import "TaskFilterDelegate.h"
 
 @interface FilterViewController : UITableViewController
 
-@property (assign, nonatomic) IBOutlet id<TaskFilterable> filterTarget;
+@property (assign, nonatomic) IBOutlet id<TaskFilterDelegate> filterDelegate;
 
 @end

@@ -168,7 +168,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
         filterProjects = self.selectedProjects;
     }
     
-    [self.filterTarget filterForContexts:filterContexts projects:filterProjects];
+    [self.filterDelegate filterForContexts:filterContexts projects:filterProjects];
 }
 
 #pragma mark - Table view data source

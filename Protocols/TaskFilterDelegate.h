@@ -50,7 +50,7 @@
  @discussion A protocol to go between an object with tasks and an object
  which can filter tasks.
  */
-@protocol TaskFilterable <NSObject>
+@protocol TaskFilterDelegate <NSObject>
 
 /*!
  @method filterForContexts

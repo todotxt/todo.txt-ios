@@ -47,10 +47,10 @@
 #import "Sort.h"
 #import "IASKAppSettingsViewController.h"
 #import "ActionSheetPicker.h"
-#import "TaskFilterable.h"
+#import "TaskFilterDelegate.h"
 
 @interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate,
-    TaskFilterable,
+    TaskFilterDelegate,
 	UITableViewDelegate, UITableViewDataSource, 
 	UISearchDisplayDelegate, UISearchBarDelegate> {
 	
