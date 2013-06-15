@@ -188,15 +188,24 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    // Reset the accessory type in case we got a recycled cell that
+    // had a type set.
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     NSString *text = nil;
     switch ([self typeOfFilterForSection:indexPath.section]) {
         case FilterViewFilterTypesContexts:
             text = [NSString stringWithFormat:@"@%@", self.contexts[indexPath.row]];
+            if ([self.selectedContexts containsObject:self.contexts[indexPath.row]]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
             break;
             
         case FilterViewFilterTypesProjects:
             text = [NSString stringWithFormat:@"+%@", self.projects[indexPath.row]];
+            if ([self.selectedProjects containsObject:self.projects[indexPath.row]]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
             break;
     }
     cell.textLabel.text = text;
@@ -208,32 +217,30 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Deselect the cell to remove the selection highlight
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
     // Update contexts and projects to filter on
     switch ([self typeOfFilterForSection:indexPath.section]) {
         case FilterViewFilterTypesContexts:
-            [self.selectedContexts addObject:self.contexts[indexPath.row]];
+            if ([self.selectedContexts containsObject:self.contexts[indexPath.row]]) {
+                [self.selectedContexts removeObject:self.contexts[indexPath.row]];
+            } else {
+                [self.selectedContexts addObject:self.contexts[indexPath.row]];
+            }
             break;
             
         case FilterViewFilterTypesProjects:
-            [self.selectedProjects addObject:self.projects[indexPath.row]];
+            if ([self.selectedProjects containsObject:self.projects[indexPath.row]]) {
+                [self.selectedProjects removeObject:self.projects[indexPath.row]];
+            } else {
+                [self.selectedProjects addObject:self.projects[indexPath.row]];
+            }
             break;
     }
     
-    [self filterOnContextsAndProjects];
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Update contexts and projects to filter on
-    switch ([self typeOfFilterForSection:indexPath.section]) {
-        case FilterViewFilterTypesContexts:
-            [self.selectedContexts removeObject:self.contexts[indexPath.row]];
-            break;
-            
-        case FilterViewFilterTypesProjects:
-            [self.selectedProjects removeObject:self.projects[indexPath.row]];
-            break;
-    }
+    // Reload the row to reflect the updated selection status.
+    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [self filterOnContextsAndProjects];
 }
