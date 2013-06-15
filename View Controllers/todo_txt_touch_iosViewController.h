@@ -41,40 +41,20 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
-#import "RemoteClientManager.h"
+#import "TaskFilterDelegate.h"
 
-#define kTodoChangedNotification @"kTodoChangedNotification"
+@interface todo_txt_touch_iosViewController : UIViewController <TaskFilterDelegate,
+	UITableViewDelegate, UITableViewDataSource, 
+	UISearchDisplayDelegate, UISearchBarDelegate>
 
-@class todo_txt_touch_iosViewController;
-
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) id lastClickedButton; //Anchor holder for the Popover in iPad
-
-- (void)displayNotification:(NSString *)message;
-- (void) clearUserDefaults;
-- (void) syncClient;
-- (void) syncClientForce:(BOOL)force;
-- (void) pushToRemote;
-- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
-- (void) pullFromRemoteForce:(BOOL)force;
-- (void) pullFromRemote;
-- (BOOL) isManualMode;
-- (void) logout;
-
-+ (todo_txt_touch_iosAppDelegate*) sharedDelegate;
-+ (id<TaskBag>) sharedTaskBag;
-+ (RemoteClientManager*) sharedRemoteClientManager;
-+ (void)displayNotification:(NSString *)message;
-+ (void) syncClient;
-+ (void) pushToRemote;
-+ (void) pullFromRemote;
-+ (BOOL) isManualMode;
-+ (void) logout;
+- (IBAction)addButtonPressed:(id)sender;
+- (IBAction)syncButtonPressed:(id)sender;
+//- (IBAction)segmentControlPressed:(id)sender;
+- (IBAction)sortButtonPressed:(id)sender;
+- (IBAction)settingsButtonPressed:(id)sender;
+- (void)handleSearchForTerm:(NSString *)searchTerm;
 
 @end
-

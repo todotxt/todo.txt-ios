@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -55,15 +55,18 @@
 #import "Reachability.h"
 #import "SJNotificationViewController.h"
 
+@interface todo_txt_touch_iosAppDelegate ()
+
+@property (nonatomic, assign) todo_txt_touch_iosViewController *viewController;
+@property (nonatomic, assign) UIViewController *loginController;
+@property (nonatomic, retain) RemoteClientManager *remoteClientManager;
+@property (nonatomic, retain) id<TaskBag> taskBag;
+@property (nonatomic, retain) NSDate *lastSync;
+@property (nonatomic) BOOL wasConnected;
+
+@end
+
 @implementation todo_txt_touch_iosAppDelegate
-
-@synthesize window;
-@synthesize viewController;
-@synthesize navigationController;
-@synthesize taskBag;
-@synthesize remoteClientManager;
-@synthesize lastClickedButton;
-
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -116,24 +119,23 @@
 
 - (void) presentLoginController {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        loginController = [[iPadLoginScreenViewController alloc] init];
+        self.loginController = [[iPadLoginScreenViewController alloc] init];
     }
     else
     {
-        loginController = [[LoginScreenViewController alloc] init];
+        self.loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentModalViewController:loginController animated:YES];
+    [self.navigationController presentModalViewController:self.loginController animated:YES];
 }
 
 - (void) presentMainViewController {
-	if ([[loginController parentViewController] respondsToSelector:@selector(dismissModalViewControllerAnimated:)]){
-        [[loginController parentViewController] dismissModalViewControllerAnimated:YES];
+	if ([[self.loginController parentViewController] respondsToSelector:@selector(dismissModalViewControllerAnimated:)]){
+        [[self.loginController parentViewController] dismissModalViewControllerAnimated:YES];
     } else {
-        [[loginController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        [[self.loginController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     }
     
-    [loginController release];
-    loginController = nil;
+    self.loginController = nil;
 }
 
 // http://stackoverflow.com/questions/9679163/why-does-clearing-nsuserdefaults-cause-exc-crash-later-when-creating-a-uiwebview
@@ -150,19 +152,17 @@
 	[[NSUserDefaults standardUserDefaults] setPersistentDomain:emptySettings forName:appDomain];
 }
 
-
-BOOL wasConnected = YES;
 - (void)reachabilityChanged {
 	if ([self isManualMode]) return;
 	
 	if ([[[todo_txt_touch_iosAppDelegate sharedRemoteClientManager] currentClient] isAvailable]) {
-		if (!wasConnected) {
+		if (!self.wasConnected) {
 			[self displayNotification:@"Connection reestablished: syncing with Dropbox now..."];
 		}
 		[todo_txt_touch_iosAppDelegate syncClient];
-		wasConnected = YES;
+		self.wasConnected = YES;
 	} else {
-		wasConnected = NO;
+		self.wasConnected = NO;
 	}
 }
 
@@ -181,7 +181,8 @@ BOOL wasConnected = YES;
 	[notificationController show];
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.wasConnected = YES;
    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -192,8 +193,9 @@ BOOL wasConnected = YES;
 								 @"/todo", @"file_location_preference", nil];	
     [defaults registerDefaults:appDefaults];
 	
-    remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
-    taskBag = [[TaskBagFactory getTaskBag] retain];
+    self.remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
+    self.taskBag = [[TaskBagFactory getTaskBag] retain];
+	[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
 		
 	// Start listening for network status updates.
 	[Network startNotifier];
@@ -201,12 +203,8 @@ BOOL wasConnected = YES;
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(reachabilityChanged) 
 												 name:kReachabilityChangedNotification object:nil];
-
-    // Add the view controller's view to the window and display.
-    //[self.window addSubview:navigationController.view];  // doesn't work under iOS 6
-	[self.window setRootViewController:navigationController];
     
-	if (![remoteClientManager.currentClient isAuthenticated]) {
+	if (![self.remoteClientManager.currentClient isAuthenticated]) {
 		[self presentLoginController];
 	}
 	
@@ -248,7 +246,7 @@ BOOL wasConnected = YES;
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
 	
-	if (![self isManualMode] && [remoteClientManager.currentClient isAuthenticated]) {
+	if (![self isManualMode] && [self.remoteClientManager.currentClient isAuthenticated]) {
 		[todo_txt_touch_iosAppDelegate syncClient];
 	}
 }
@@ -305,7 +303,7 @@ BOOL wasConnected = YES;
 		return;
 	}
 	
-	if (![remoteClientManager.currentClient isAvailable]) {
+	if (![self.remoteClientManager.currentClient isAvailable]) {
 		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
@@ -316,11 +314,11 @@ BOOL wasConnected = YES;
 	NSString *todoPath = [LocalFileTaskRepository todoFilename];
 	NSString *donePath = nil;
 	
-	if ([taskBag doneFileModifiedSince:lastSync]) {
+	if ([self.taskBag doneFileModifiedSince:self.lastSync]) {
 		donePath = [LocalFileTaskRepository doneFilename];
 	}
 	
-	[remoteClientManager.currentClient pushTodoOverwrite:overwrite 
+	[self.remoteClientManager.currentClient pushTodoOverwrite:overwrite 
 												withTodo:todoPath 
 												withDone:donePath];
 	
@@ -340,13 +338,13 @@ BOOL wasConnected = YES;
 	
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 
-	if (![remoteClientManager.currentClient isAvailable]) {
+	if (![self.remoteClientManager.currentClient isAvailable]) {
 		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	[remoteClientManager.currentClient pullTodo];
+	[self.remoteClientManager.currentClient pullTodo];
 	// pullTodo is asynchronous. When it returns, it will call
 	// the delegate method 'loadedFile'
 
@@ -362,7 +360,7 @@ BOOL wasConnected = YES;
 }
 
 - (void) logout {
-	[remoteClientManager.currentClient deauthenticate];
+	[self.remoteClientManager.currentClient deauthenticate];
 	[self clearUserDefaults];
 	[self presentLoginController];
 }
@@ -370,8 +368,8 @@ BOOL wasConnected = YES;
 - (void) syncComplete:(BOOL)success {
 	if (success) {
 		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-		[lastSync release];
-		lastSync = [[NSDate date] retain];
+		[self.lastSync release];
+		self.lastSync = [[NSDate date] retain];
 	}
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 }
@@ -381,13 +379,13 @@ BOOL wasConnected = YES;
 
 - (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath{
 	if (todoPath) {
-		[taskBag reloadWithFile:todoPath];
+		[self.taskBag reloadWithFile:todoPath];
 		// Send notification so that whichever screen is active can refresh itself
 		[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
 	}
 	
 	if (donePath) {
-		[taskBag loadDoneTasksWithFile:donePath];
+		[self.taskBag loadDoneTasksWithFile:donePath];
 	}
 
 	[self syncComplete:YES];
@@ -476,8 +474,8 @@ BOOL wasConnected = YES;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([remoteClientManager.currentClient handleOpenURL:url]) {
-        if ([remoteClientManager.currentClient isAuthenticated]) {
+    if ([self.remoteClientManager.currentClient handleOpenURL:url]) {
+        if ([self.remoteClientManager.currentClient isAuthenticated]) {
             NSLog(@"App linked successfully!");
             // At this point you can start making API calls
         }
@@ -497,13 +495,13 @@ BOOL wasConnected = YES;
 }
 
 - (void)dealloc {
-    [loginController release];
-    [viewController release];
-	[navigationController release];
-    [window release];
-    [taskBag release];
-	[remoteClientManager release];
-	[lastSync release];
+    self.loginController = nil;
+    self.viewController = nil;
+	self.navigationController = nil;
+    self.window = nil;
+    self.taskBag = nil;
+	self.remoteClientManager = nil;
+	self.lastSync = nil;
     [super dealloc];
 }
 

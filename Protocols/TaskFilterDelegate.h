@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,40 +42,23 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "Sort.h"
-#import "IASKAppSettingsViewController.h"
-#import "ActionSheetPicker.h"
+#import <Foundation/Foundation.h>
 
-@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, 
-	UITableViewDelegate, UITableViewDataSource, 
-	UISearchDisplayDelegate, UISearchBarDelegate> {
-	
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
-	IASKAppSettingsViewController *appSettingsViewController;
-	NSString *savedSearchTerm;
-	NSArray *searchResults;
-	ActionSheetPicker *actionSheetPicker;
-	}
+/*!
+ @protocol TaskFilterable
+ @abstract A go-between for an object with tasks and a filter.
+ @discussion A protocol to go between an object with tasks and an object
+ which can filter tasks.
+ */
+@protocol TaskFilterDelegate <NSObject>
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
-@property (nonatomic, retain) NSArray *tasks;
-@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
-@property (nonatomic, copy) NSString *savedSearchTerm;
-@property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
-
-- (IBAction)addButtonPressed:(id)sender;
-- (IBAction)syncButtonPressed:(id)sender;
-//- (IBAction)segmentControlPressed:(id)sender;
-- (IBAction)sortButtonPressed:(id)sender;
-- (IBAction)settingsButtonPressed:(id)sender;
-- (void)handleSearchForTerm:(NSString *)searchTerm;
+/*!
+ @method filterForContexts
+ @abstract Filter tasks on contexts and projects.
+ @discussion Filter tasks on contexts and projects.
+ @param contexts An array of contexts on which to filter.
+ @param projects An array of projects on which to filter.
+ */
+- (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects;
 
 @end

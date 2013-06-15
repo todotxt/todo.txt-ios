@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -41,40 +41,13 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 #import <UIKit/UIKit.h>
-#import "TaskBag.h"
-#import "RemoteClientManager.h"
 
-#define kTodoChangedNotification @"kTodoChangedNotification"
+#import "TaskFilterDelegate.h"
 
-@class todo_txt_touch_iosViewController;
+@interface FilterViewController : UITableViewController
 
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) id lastClickedButton; //Anchor holder for the Popover in iPad
-
-- (void)displayNotification:(NSString *)message;
-- (void) clearUserDefaults;
-- (void) syncClient;
-- (void) syncClientForce:(BOOL)force;
-- (void) pushToRemote;
-- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
-- (void) pullFromRemoteForce:(BOOL)force;
-- (void) pullFromRemote;
-- (BOOL) isManualMode;
-- (void) logout;
-
-+ (todo_txt_touch_iosAppDelegate*) sharedDelegate;
-+ (id<TaskBag>) sharedTaskBag;
-+ (RemoteClientManager*) sharedRemoteClientManager;
-+ (void)displayNotification:(NSString *)message;
-+ (void) syncClient;
-+ (void) pushToRemote;
-+ (void) pullFromRemote;
-+ (BOOL) isManualMode;
-+ (void) logout;
+@property (assign, nonatomic) IBOutlet id<TaskFilterDelegate> filterDelegate;
 
 @end
-

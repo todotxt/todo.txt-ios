@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -52,18 +52,32 @@
 #import "todo_txt_touch_iosViewController.h"
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "FilterFactory.h"
+#import "IASKAppSettingsViewController.h"
+#import "ActionSheetPicker.h"
 
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
 
-static BOOL needSync = NO;
+@interface todo_txt_touch_iosViewController () <IASKSettingsDelegate>
+
+@property (nonatomic, retain) IBOutlet UITableView *table;
+@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, retain) NSArray *tasks;
+@property (nonatomic, retain) Sort *sort;
+@property (nonatomic, copy) NSString *savedSearchTerm;
+@property (nonatomic, retain) NSArray *searchResults;
+@property (nonatomic, readonly) NSArray *filteredTasks;
+@property (nonatomic, retain) id<Filter> filter;
+@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
+@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic) BOOL needSync;
+
+@end
 
 @implementation todo_txt_touch_iosViewController
 
 #pragma mark -
 #pragma mark Synthesizers
-
-@synthesize table, tableCell, tasks, appSettingsViewController, savedSearchTerm, searchResults, actionSheetPicker;
 
 - (Sort*) sortOrderPref {
 	SortName name = SortPriority;
@@ -75,7 +89,7 @@ static BOOL needSync = NO;
 - (void) setSortOrderPref {
 	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
 	if (def) {
-		[def setInteger:[sort name] forKey:@"sortOrder"];
+		[def setInteger:[self.sort name] forKey:@"sortOrder"];
 		[AsyncTask runTask:@selector(synchronize) onTarget:def];
 	}
 }
@@ -85,14 +99,14 @@ static BOOL needSync = NO;
 	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
 
 	// reload main tableview data
-	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:sort];
-	[table reloadData];
+	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:self.sort];
+	[self.table reloadData];
 	
 	// reload searchbar tableview data if necessary
 	if (self.savedSearchTerm)
 	{	
-		id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:savedSearchTerm caseSensitive:NO];
-		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
+		id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
+		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
 		[self.searchDisplayController.searchResultsTableView reloadData];
 	}
 }
@@ -101,7 +115,7 @@ static BOOL needSync = NO;
 	if(tableView == self.searchDisplayController.searchResultsTableView) {
 		return self.searchResults;
 	} else {
-		return self.tasks;
+		return self.filteredTasks;
 	}
 }
 
@@ -109,7 +123,7 @@ static BOOL needSync = NO;
 	if(tableView == self.searchDisplayController.searchResultsTableView) {
 		return [self.searchResults objectAtIndex:index];
 	} else {
-		return [self.tasks objectAtIndex:index];
+		return [self.filteredTasks objectAtIndex:index];
 	}
 }
 
@@ -157,8 +171,8 @@ static BOOL needSync = NO;
 										 target:nil
 										 action:nil] autorelease];
 	
-	sort = [self sortOrderPref];
-	tasks = nil;
+	self.sort = [self sortOrderPref];
+	self.tasks = nil;
 	
 	// Restore search term
 	if (self.savedSearchTerm)
@@ -193,12 +207,20 @@ static BOOL needSync = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {	
-	if (needSync) {
-		needSync = NO;
+	if (self.needSync) {
+		self.needSync = NO;
         if (![todo_txt_touch_iosAppDelegate isManualMode]) {
 			[todo_txt_touch_iosAppDelegate syncClient];
         }
 	}	
+}
+
+#pragma mark -
+#pragma mark Custom getters/setters
+
+- (NSArray *)filteredTasks
+{
+    return [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:self.sort];
 }
 
 #pragma mark -
@@ -263,8 +285,8 @@ static BOOL needSync = NO;
 
 - (void)handleSearchForTerm:(NSString *)searchTerm {
 	self.savedSearchTerm = searchTerm;
-	id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:savedSearchTerm caseSensitive:NO];
-	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
+	id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
+	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller 
@@ -342,11 +364,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 }
 
 - (IASKAppSettingsViewController*)appSettingsViewController {
-	if (!appSettingsViewController) {
-		appSettingsViewController = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
-		appSettingsViewController.delegate = self;
+	if (!self.appSettingsViewController) {
+		self.appSettingsViewController = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
+		self.appSettingsViewController.delegate = self;
 	}
-	return appSettingsViewController;
+	return self.appSettingsViewController;
 }
 
 #pragma mark -
@@ -354,7 +376,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
     [[todo_txt_touch_iosAppDelegate sharedTaskBag] updateBadge];
-	needSync = YES;
+	self.needSync = YES;
 }
 
 #pragma mark -
@@ -411,7 +433,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void) sortOrderWasSelected:(NSNumber *)selectedIndex:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
-		sort = [Sort byName:selectedIndex.intValue];
+		self.sort = [Sort byName:selectedIndex.intValue];
 		[self setSortOrderPref];
 		[self reloadData:nil];
 		[self hideSearchBar:NO];
@@ -442,11 +464,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //}
 
 - (IBAction)sortButtonPressed:(id)sender {
-	[actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
 	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
 																	   data:[Sort descriptions]
-															  selectedIndex:[sort name]
+															  selectedIndex:[self.sort name]
 																	 target:self 
 																	 action:@selector(sortOrderWasSelected::) 
 																	  title:@"Select Sort Order"
@@ -494,8 +516,18 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self reloadData:nil];
     [self hideSearchBar:YES];   
-	[actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
+}
+
+#pragma mark - TaskFilterable methods
+
+- (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
+{
+    self.filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
+    
+	// reload main tableview data to use the filter
+    [self.table reloadData];
 }
 
 @end
