@@ -44,36 +44,11 @@
 
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
-#import "Sort.h"
-#import "IASKAppSettingsViewController.h"
-#import "ActionSheetPicker.h"
 #import "TaskFilterDelegate.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate,
-    TaskFilterDelegate,
+@interface todo_txt_touch_iosViewController : UIViewController <TaskFilterDelegate,
 	UITableViewDelegate, UITableViewDataSource, 
-	UISearchDisplayDelegate, UISearchBarDelegate> {
-	
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
-	IASKAppSettingsViewController *appSettingsViewController;
-	NSString *savedSearchTerm;
-	NSArray *searchResults;
-	ActionSheetPicker *actionSheetPicker;
-	}
-
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
-@property (nonatomic, retain) NSArray *tasks;
-@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
-@property (nonatomic, copy) NSString *savedSearchTerm;
-@property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, readonly) NSArray *filteredTasks;
-@property (nonatomic, retain) id<Filter> filter;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+	UISearchDisplayDelegate, UISearchBarDelegate>
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;
