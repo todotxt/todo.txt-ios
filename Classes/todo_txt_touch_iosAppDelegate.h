@@ -49,22 +49,11 @@
 
 @class todo_txt_touch_iosViewController;
 
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
-    UIWindow *window;
-    todo_txt_touch_iosViewController *viewController;
-    UIViewController *loginController;
-	UINavigationController *navigationController;
-    id <TaskBag> taskBag;
-	RemoteClientManager *remoteClientManager;
-	NSDate *lastSync;
-    id lastClickedButton; //Anchor holder for the Popover in iPad
-}
+@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, readonly) id <TaskBag> taskBag;
-@property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
-@property (nonatomic, retain) id lastClickedButton; 
+@property (nonatomic, retain) id lastClickedButton; //Anchor holder for the Popover in iPad
 
 - (void)displayNotification:(NSString *)message;
 - (void) clearUserDefaults;
