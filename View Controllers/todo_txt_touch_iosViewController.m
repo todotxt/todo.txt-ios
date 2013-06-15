@@ -101,7 +101,7 @@ static BOOL needSync = NO;
 	if(tableView == self.searchDisplayController.searchResultsTableView) {
 		return self.searchResults;
 	} else {
-		return self.tasks;
+		return self.filteredTasks;
 	}
 }
 
@@ -109,7 +109,7 @@ static BOOL needSync = NO;
 	if(tableView == self.searchDisplayController.searchResultsTableView) {
 		return [self.searchResults objectAtIndex:index];
 	} else {
-		return [self.tasks objectAtIndex:index];
+		return [self.filteredTasks objectAtIndex:index];
 	}
 }
 
@@ -199,6 +199,14 @@ static BOOL needSync = NO;
 			[todo_txt_touch_iosAppDelegate syncClient];
         }
 	}	
+}
+
+#pragma mark -
+#pragma mark Custom getters/setters
+
+- (NSArray *)filteredTasks
+{
+    return [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:sort];
 }
 
 #pragma mark -
@@ -502,10 +510,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
 {
-    id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
+    self.filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
     
-	// reload main tableview data
-	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:sort];
+	// reload main tableview data to use the filter
     [table reloadData];
 }
 

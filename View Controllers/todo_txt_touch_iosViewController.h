@@ -71,6 +71,8 @@
 @property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
 @property (nonatomic, copy) NSString *savedSearchTerm;
 @property (nonatomic, retain) NSArray *searchResults;
+@property (nonatomic, readonly) NSArray *filteredTasks;
+@property (nonatomic, retain) id<Filter> filter;
 @property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
 
 - (IBAction)addButtonPressed:(id)sender;
