@@ -442,7 +442,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
-- (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	//TODO: progress dialog
 	if (selectedIndex.intValue >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
@@ -472,7 +472,7 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 						data:[Priority allCodes]
 						selectedIndex:curPriority 
 						target:self 
-						action:@selector(priorityWasSelected::) 
+						action:@selector(priorityWasSelected:element:)
 						title:@"Select Priority"
 						 rect:cell.frame
 				barButtonItem:nil];
