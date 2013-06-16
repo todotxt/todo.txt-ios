@@ -216,11 +216,19 @@
 }
 
 #pragma mark -
-#pragma mark Custom getters/setters
+#pragma mark Overridden getters/setters
 
 - (NSArray *)filteredTasks
 {
     return [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:self.sort];
+}
+
+- (IASKAppSettingsViewController*)appSettingsViewController {
+	if (!_appSettingsViewController) {
+		_appSettingsViewController = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
+		_appSettingsViewController.delegate = self;
+	}
+	return _appSettingsViewController;
 }
 
 #pragma mark -
@@ -361,14 +369,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
     self.appSettingsViewController.showDoneButton = YES;
     [self presentModalViewController:aNavController animated:YES];
     [aNavController release];
-}
-
-- (IASKAppSettingsViewController*)appSettingsViewController {
-	if (!self.appSettingsViewController) {
-		self.appSettingsViewController = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
-		self.appSettingsViewController.delegate = self;
-	}
-	return self.appSettingsViewController;
 }
 
 #pragma mark -
