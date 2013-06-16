@@ -58,10 +58,18 @@
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
 
+static NSString *const kEmptyFileMessage = @"Your todo.txt file is empty. \
+\n\n\
+Tap the + button to add your first todo.";
+
+static NSString *const kNoFilterResultsMessage = @"No results for chosen \
+contexts and projects.";
+
 @interface todo_txt_touch_iosViewController () <IASKSettingsDelegate>
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
+@property (retain, nonatomic) IBOutlet UILabel *emptyLabel;
 @property (nonatomic, retain) NSArray *tasks;
 @property (nonatomic, retain) Sort *sort;
 @property (nonatomic, copy) NSString *savedSearchTerm;
@@ -188,6 +196,7 @@
 	self.navigationItem.leftBarButtonItem = sortButton;
 	[sortButton release];
 
+    self.emptyLabel.text = kEmptyFileMessage;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -243,6 +252,7 @@
 // Return the number of rows in the section of table view
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    return 0;
 	return [[self taskListForTable:tableView] count];
 }
 
@@ -506,6 +516,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	self.savedSearchTerm = nil;
 	self.searchResults = nil;
 	self.actionSheetPicker = nil;
+    [_emptyLabel release];
 	[super dealloc];
 }
 
@@ -525,6 +536,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
 {
     self.filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
+    
+    if (contexts.count || projects.count) {
+        self.emptyLabel.text = kNoFilterResultsMessage;
+    } else {
+        self.emptyLabel.text = kEmptyFileMessage;
+    }
     
 	// reload main tableview data to use the filter
     [self.table reloadData];
