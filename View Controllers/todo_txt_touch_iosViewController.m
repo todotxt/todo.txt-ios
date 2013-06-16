@@ -58,6 +58,8 @@
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
 
+static NSString *const kCellIdentifier = @"FlexiTaskCell";
+
 @interface todo_txt_touch_iosViewController () <IASKSettingsDelegate>
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
@@ -188,6 +190,7 @@
 	self.navigationItem.leftBarButtonItem = sortButton;
 	[sortButton release];
 
+    [self.table registerNib:[UINib nibWithNibName:@"FlexiTaskCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -249,13 +252,7 @@
 // Return cell for the rows in table view
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Create the cell if cells are available with same cell identifier
-	FlexiTaskCell *cell = (FlexiTaskCell *)[tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
-
-	// If there are no cells available, allocate a new one with Default style
-	if (cell == nil) {
-        cell = [FlexiTaskCellFactory cellForDeviceOrientation];
-	}
+    FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
 
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
 	return cell;
@@ -268,7 +265,8 @@
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    return [FlexiTaskCellFactory heightForCellWithTask:task];
+//    return [FlexiTaskCellFactory heightForCellWithTask:task];
+    return 44;
 }
 
 // Load the detail view controller when user taps the row

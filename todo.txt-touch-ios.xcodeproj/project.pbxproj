@@ -94,6 +94,7 @@
 		5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */; };
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
+		5CCA8E1A176E1446005A705F /* FlexiTaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
@@ -310,6 +311,7 @@
 		59216C7413E8C89200FF07EE /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		59216D3C13EA318100FF07EE /* RelativeDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDate.h; sourceTree = "<group>"; };
 		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
+		5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlexiTaskCell.xib; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				1B0C9088176B63D10022C9AE /* FlexiIPhonePortraitCell.m */,
 				1B0C9089176B63D10022C9AE /* FlexiTaskCell.h */,
 				1B0C908A176B63D10022C9AE /* FlexiTaskCell.m */,
+				5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */,
 				1B0C909B176B64BB0022C9AE /* SSTextView.h */,
 				1B0C909C176B64BB0022C9AE /* SSTextView.m */,
 				1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */,
@@ -1089,6 +1092,7 @@
 				1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */,
 				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
 				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
+				5CCA8E1A176E1446005A705F /* FlexiTaskCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -75,10 +75,10 @@
 + (CGFloat)taskTextOriginX;
 + (NSDictionary*)auxStringAttributes;
 
-@property (retain, readwrite) UILabel *priorityLabel;
-@property (retain, readwrite) UILabel *todoIdLabel;
-@property (retain, readwrite) UILabel *ageLabel;
-@property (retain, readwrite) AttributedLabel *taskLabel;
+@property (nonatomic, assign) IBOutlet UILabel *priorityLabel;
+@property (nonatomic, assign) IBOutlet UILabel *todoIdLabel;
+@property (nonatomic, assign) IBOutlet UILabel *ageLabel;
+@property (nonatomic, assign) IBOutlet UILabel *taskLabel;
 @end
 
 @implementation FlexiTaskCell
@@ -89,36 +89,12 @@
                 reuseIdentifier:[[self class] cellId]];
 
     if (self) {
-        self.priorityLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        self.priorityLabel.font = [UIFont boldSystemFontOfSize:14.0];
-
-        self.ageLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        self.ageLabel.font = [UIFont systemFontOfSize:10.0];
-        self.ageLabel.textColor = [UIColor lightGrayColor];
-
-        self.todoIdLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        self.todoIdLabel.font = [UIFont systemFontOfSize:10.0];
-        self.todoIdLabel.textColor = [UIColor lightGrayColor];
-        self.todoIdLabel.textAlignment = UITextAlignmentRight;
-
-        self.taskLabel = [[[AttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
-        self.taskLabel.backgroundColor = [UIColor clearColor];
-
-        [self addSubview:self.priorityLabel];
-        [self addSubview:self.todoIdLabel];
-        [self addSubview:self.ageLabel];
-        [self addSubview:self.taskLabel];
-		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
     }
+    
+    NSAssert(NO, @"Load from the nib!");
+    
     return self;
-}
-
-- (void)dealloc {
-    self.priorityLabel = nil;
-    self.ageLabel = nil;
-    self.todoIdLabel = nil;
-    self.taskLabel = nil;
-    [super dealloc];
 }
 
 - (NSAttributedString*)attributedTaskText {
@@ -145,20 +121,19 @@
 
     CGRect todoIdFrame = CGRectMake(0, 16, 23, 13);
     CGRect priorityFrame = CGRectMake(28, VERTICAL_PADDING-2, 12, 21);
+    priorityFrame.origin.x = PRI_XPOS_LONG;//10
     CGRect ageFrame = CGRectMake(46, 27, 235, AGE_HEIGHT);
     CGRect taskFrame = CGRectMake(46, VERTICAL_PADDING,
                                   [[self class] taskTextWidth], 19);
 
-    self.todoIdLabel.frame = todoIdFrame;
-    self.priorityLabel.frame = priorityFrame;
-    self.ageLabel.frame = ageFrame;
+//    self.todoIdLabel.frame = todoIdFrame;
+//    self.priorityLabel.frame = priorityFrame;
+//    self.ageLabel.frame = ageFrame;
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	self.todoIdLabel.hidden = YES;
 
-// Priority label setup
-    priorityFrame.origin.x = PRI_XPOS_LONG;//10
-    priorityLabel.frame = priorityFrame;
+    // Priority label setup
     priorityLabel.text = [[self.task priority] listFormat];
 	// Set the priority color
 	PriorityName n = [[self.task priority] name];
@@ -192,18 +167,18 @@
 
     taskFrame.origin.x = [[self class] taskTextOriginX];
     taskFrame.size = labelSize;
-    self.taskLabel.frame = taskFrame;
-    self.taskLabel.text = [self attributedTaskText];
+//    self.taskLabel.frame = taskFrame;
+    self.taskLabel.attributedText = [self attributedTaskText];
 
     // A little hack-y to align priority label with task ID
     todoIdFrame.origin.y = VERTICAL_PADDING + 3;
-    self.todoIdLabel.frame = todoIdFrame;
+//    self.todoIdLabel.frame = todoIdFrame;
 
 	if ([defaults boolForKey:@"date_new_tasks_preference"] && ![self.task completed]) {
         ageFrame.origin.x = [[self class] taskTextOriginX];
         ageFrame.origin.y = CGRectGetMinY(taskFrame) + CGRectGetHeight(taskFrame);
         ageFrame.size.width = [[self class] taskTextWidth];
-        self.ageLabel.frame = ageFrame;
+//        self.ageLabel.frame = ageFrame;
 		self.ageLabel.text = [self.task relativeAge];
 		self.ageLabel.hidden = NO;
 	} else {
