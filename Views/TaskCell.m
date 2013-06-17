@@ -51,9 +51,10 @@
 {
     _task = task;
     
-    // Priority label setup
+    // Setup the priority label
     self.priorityLabel.text = [[self.task priority] listFormat];
-	// Set the priority color
+	
+    // Set the priority label's color
 	PriorityName n = [[self.task priority] name];
 	switch (n) {
 		case PriorityA:
@@ -77,24 +78,42 @@
 			self.priorityLabel.textColor = [Color black];
 			break;
 	}
+    
+    self.taskLabel.attributedText = self.attributedTaskText;
+    
+    // Show the age of the task, if appropriate
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	if ([defaults boolForKey:@"date_new_tasks_preference"] && ![self.task completed]) {
+		self.ageLabel.text = self.task.relativeAge;
+		self.ageLabel.hidden = NO;
+	} else {
+		self.ageLabel.text = @"";
+		self.ageLabel.hidden = YES;
+	}
 }
 
 - (NSAttributedString *)attributedTaskText
 {
-    
     NSAssert(self.taskLabel, @"Task cannot be nil");
     
     NSDictionary *taskAttributes = [[self class] taskStringAttributesForCompleted:self.task.completed];
     
-    NSString* taskText = [self.task inScreenFormat];
+    NSString *taskText = [self.task inScreenFormat];
     NSMutableAttributedString *taskString;
     taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
                                                          attributes:taskAttributes] autorelease];
     
-    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
-                                                              forKey:(id)kCTForegroundColorAttributeName];
-//    [taskString addAttributesToProjectText:grayAttriubte];
-//    [taskString addAttributesToContextText:grayAttriubte];
+    NSDictionary *grayAttribute = [NSDictionary dictionaryWithObject:[UIColor grayColor]
+                                                              forKey:NSForegroundColorAttributeName];
+    
+    NSArray *contextsRanges = [self.task rangesOfContexts];
+    NSArray *projectsRanges = [self.task rangesOfProjects];
+    for (NSValue *rangeValue in [contextsRanges arrayByAddingObjectsFromArray:projectsRanges]) {
+        NSRange range = rangeValue.rangeValue;
+        [taskString setAttributes:grayAttribute range:range];
+    }
+    
+    return taskString;
 }
 
 + (UIFont *)taskFont

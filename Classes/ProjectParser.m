@@ -88,7 +88,7 @@ static NSRegularExpression* projectPattern = nil;
     NSMutableArray *ranges = [NSMutableArray array];
     [projectMatches enumerateObjectsUsingBlock:^(NSTextCheckingResult *result, NSUInteger idx, BOOL *stop) {
         if (result.range.location != NSNotFound) {
-            [ranges addObject:[NSValue valueWithRange:[result rangeAtIndex:1]]];
+            [ranges addObject:[NSValue valueWithRange:[result range]]];
         }
     }];
     
