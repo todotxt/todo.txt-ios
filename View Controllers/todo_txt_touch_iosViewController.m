@@ -190,7 +190,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 	self.navigationItem.leftBarButtonItem = sortButton;
 	[sortButton release];
 
-    [self.table registerNib:[UINib nibWithNibName:@"FlexiTaskCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier];
+    [self.table registerNib:[UINib nibWithNibName:@"TaskCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
