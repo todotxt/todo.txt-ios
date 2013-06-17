@@ -41,6 +41,7 @@ static const CGFloat kMinHeight = 44;
     self = [super initWithCoder:aDecoder];
     
     if (self) {
+        self.shouldShowDate = YES;
         self.taskLabel.font = [[self class] taskFont];
     }
     
@@ -84,8 +85,7 @@ static const CGFloat kMinHeight = 44;
     self.taskLabel.attributedText = self.attributedTaskText;
     
     // Show the age of the task, if appropriate
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	if ([defaults boolForKey:@"date_new_tasks_preference"] && ![self.task completed]) {
+	if (self.shouldShowDate && ![self.task completed]) {
 		self.ageLabel.text = self.task.relativeAge;
 		self.ageLabel.hidden = NO;
 	} else {

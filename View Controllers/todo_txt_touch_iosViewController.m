@@ -252,7 +252,10 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
-
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    cell.shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"];
+    
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
     
     // Set the height of our frame as necessary for the task's text.

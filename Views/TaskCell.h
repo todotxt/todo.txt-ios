@@ -17,4 +17,6 @@
 + (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width;
 + (NSAttributedString *)attributedTextForTask:(Task *)task;
 
+@property (nonatomic) BOOL shouldShowDate;
+
 @end
