@@ -14,35 +14,38 @@
 
 #import <CoreText/CoreText.h>
 
+static TaskCell *staticSizingCell;
+static const CGFloat kMinHeight = 44;
+
 @interface TaskCell ()
 
++ (TaskCell *)sizingCell;
 + (UIFont *)taskFont;
++ (NSAttributedString *)attributedTextForTask:(Task *)task;
 + (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete;
 
-@property (nonatomic, assign) IBOutlet UILabel *priorityLabel;
-@property (nonatomic, assign) IBOutlet UILabel *todoIdLabel;
-@property (nonatomic, assign) IBOutlet UILabel *ageLabel;
-@property (nonatomic, assign) IBOutlet UILabel *taskLabel;
+@property (nonatomic, weak) IBOutlet UILabel *priorityLabel;
+@property (nonatomic, weak) IBOutlet UILabel *ageLabel;
+@property (nonatomic, weak) IBOutlet UILabel *taskLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTopSpace;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelBottomSpace;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelLeadingSpace;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTrailingSpace;
 @property (nonatomic, readonly) NSAttributedString *attributedTaskText;
 
 @end
 
 @implementation TaskCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithCoder:aDecoder];
+    
     if (self) {
-        // Initialization code
+        self.taskLabel.font = [[self class] taskFont];
     }
+    
     return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 #pragma mark - Overridden getters/setters
@@ -94,31 +97,66 @@
 
 - (NSAttributedString *)attributedTaskText
 {
-    NSAssert(self.taskLabel, @"Task cannot be nil");
+    return [[self class] attributedTextForTask:self.task];
+}
+
+#pragma mark - Public class methods
+
++ (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width
+{
+    const CGFloat baseHeight = [self sizingCell].taskLabelTopSpace.constant + [self sizingCell].taskLabelBottomSpace.constant;
+    const CGFloat takenWidth = [self sizingCell].taskLabelLeadingSpace.constant + [self sizingCell].taskLabelTrailingSpace.constant;
     
-    NSDictionary *taskAttributes = [[self class] taskStringAttributesForCompleted:self.task.completed];
+    CGSize taskLabelSize = CGSizeMake(width - takenWidth, CGFLOAT_MAX);
     
-    NSString *taskText = [self.task inScreenFormat];
-    NSMutableAttributedString *taskString;
-    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
-                                                         attributes:taskAttributes] autorelease];
+    CGRect rect = [[self attributedTextForTask:task] boundingRectWithSize:taskLabelSize
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                                  context:nil];
+    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect);
     
-    NSDictionary *grayAttribute = [NSDictionary dictionaryWithObject:[UIColor grayColor]
-                                                              forKey:NSForegroundColorAttributeName];
+    return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
+}
+
+#pragma mark - Private class methods
+
++ (TaskCell *)sizingCell
+{
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        staticSizingCell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([TaskCell class])
+                                                         owner:nil
+                                                       options:nil][0];
+    });
     
-    NSArray *contextsRanges = [self.task rangesOfContexts];
-    NSArray *projectsRanges = [self.task rangesOfProjects];
-    for (NSValue *rangeValue in [contextsRanges arrayByAddingObjectsFromArray:projectsRanges]) {
-        NSRange range = rangeValue.rangeValue;
-        [taskString setAttributes:grayAttribute range:range];
-    }
-    
-    return taskString;
+    return staticSizingCell;
 }
 
 + (UIFont *)taskFont
 {
     return [UIFont systemFontOfSize:14.0];
+}
+
++ (NSAttributedString *)attributedTextForTask:(Task *)task
+{
+    NSAssert(task, @"Task cannot be nil");
+    
+    NSDictionary *taskAttributes = [[self class] taskStringAttributesForCompleted:task.completed];
+    
+    NSString *taskText = [task inScreenFormat];
+    NSMutableAttributedString *taskString;
+    taskString = [[NSMutableAttributedString alloc] initWithString:taskText
+                                                        attributes:taskAttributes];
+    
+    NSDictionary *grayAttribute = @{ NSForegroundColorAttributeName : [UIColor grayColor] };
+    
+    NSArray *contextsRanges = [task rangesOfContexts];
+    NSArray *projectsRanges = [task rangesOfProjects];
+    for (NSValue *rangeValue in [contextsRanges arrayByAddingObjectsFromArray:projectsRanges]) {
+        NSRange range = rangeValue.rangeValue;
+        [taskString addAttributes:grayAttribute range:range];
+    }
+    
+    return taskString;
 }
 
 + (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete
@@ -128,13 +166,13 @@
     
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     NSDictionary *baseAttributes = @{
-                                     taskFont : NSFontAttributeName,
-                                     black : NSForegroundColorAttributeName
+                                     NSFontAttributeName : taskFont,
+                                     NSForegroundColorAttributeName : black
                                      };
     [attributes addEntriesFromDictionary:baseAttributes];
     
     if (isComplete) {
-        NSDictionary *completedAttributes = @{ @(NSUnderlineStyleSingle) : NSStrikethroughStyleAttributeName };
+        NSDictionary *completedAttributes = @{ NSStrikethroughStyleAttributeName : @(NSUnderlineStyleSingle) };
         [attributes addEntriesFromDictionary:completedAttributes];
     }
     

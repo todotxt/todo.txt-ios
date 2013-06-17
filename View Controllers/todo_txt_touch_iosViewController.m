@@ -45,8 +45,7 @@
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
 #import "Color.h"
-#import "FlexiTaskCell.h"
-#import "FlexiTaskCellFactory.h"
+#import "TaskCell.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
@@ -252,9 +251,15 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 // Return cell for the rows in table view
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FlexiTaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
 
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
+    
+    // Set the height of our frame as necessary for the task's text.
+    CGRect frame = cell.frame;
+    frame.size.height = [TaskCell heightForTask:cell.task givenWidth:CGRectGetWidth(tableView.frame)];
+    cell.frame = frame;
+    
 	return cell;
 }
 
@@ -265,8 +270,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-//    return [FlexiTaskCellFactory heightForCellWithTask:task];
-    return 44;
+    return [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
 }
 
 // Load the detail view controller when user taps the row

@@ -12,6 +12,8 @@
 
 @interface TaskCell : UITableViewCell
 
-@property (nonatomic, retain) Task *task;
+@property (nonatomic, strong) Task *task;
+
++ (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width;
 
 @end
