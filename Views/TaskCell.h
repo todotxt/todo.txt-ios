@@ -15,5 +15,6 @@
 @property (nonatomic, strong) Task *task;
 
 + (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width;
++ (NSAttributedString *)attributedTextForTask:(Task *)task;
 
 @end

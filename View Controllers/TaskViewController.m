@@ -49,8 +49,8 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "ActionSheetPicker.h"
+#import "TaskCell.h"
 #import "TaskViewCell.h"
-#import "FlexiTaskCell.h"
 #import "AttributedLabel.h"
 #import <CoreText/CoreText.h>
 
@@ -210,20 +210,9 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 }
 
 - (NSAttributedString*)attributedTaskText:(Task *)task {
-    NSDictionary *taskAttributes = (task.completed) ?
-	[FlexiTaskCell completedTaskAttributes] : [FlexiTaskCell taskStringAttributes];
-	
-    NSString* taskText = [self.task inScreenFormat];
-    NSMutableAttributedString *taskString;
-    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
-                                                         attributes:taskAttributes] autorelease];
-	
-    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
-                                                              forKey:(id)kCTForegroundColorAttributeName];
-    [taskString addAttributesToProjectText:grayAttriubte];
-    [taskString addAttributesToContextText:grayAttriubte];
-	
-    return [[[NSAttributedString alloc] initWithAttributedString:taskString] autorelease];
+    // TODO: refactor +[TaskCell attributedTextForTask] out and call that instead
+    // of using TaskCell here.
+    return [TaskCell attributedTextForTask:task];
 }
 
 

@@ -23,11 +23,6 @@
 		1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907B176B63D10022C9AE /* TaskEditViewController.m */; };
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
 		1B0C9093176B63D10022C9AE /* todo_txt_touch_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* todo_txt_touch_iosViewController.m */; };
-		1B0C9094176B63D10022C9AE /* FlexiIPadLandscapeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9082176B63D10022C9AE /* FlexiIPadLandscapeCell.m */; };
-		1B0C9095176B63D10022C9AE /* FlexiIPadPortraitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9084176B63D10022C9AE /* FlexiIPadPortraitCell.m */; };
-		1B0C9096176B63D10022C9AE /* FlexiIPhoneLandscapeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9086176B63D10022C9AE /* FlexiIPhoneLandscapeCell.m */; };
-		1B0C9097176B63D10022C9AE /* FlexiIPhonePortraitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9088176B63D10022C9AE /* FlexiIPhonePortraitCell.m */; };
-		1B0C9098176B63D10022C9AE /* FlexiTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908A176B63D10022C9AE /* FlexiTaskCell.m */; };
 		1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908E176B63D10022C9AE /* TaskViewCell.m */; };
 		1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909C176B64BB0022C9AE /* SSTextView.m */; };
 		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; };
@@ -96,7 +91,6 @@
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
 		5C187762176E775D00824682 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C187761176E775D00824682 /* TaskCell.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		5C187764176E77AD00824682 /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C187763176E77AD00824682 /* TaskCell.xib */; };
-		5CCA8E1A176E1446005A705F /* FlexiTaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
@@ -185,7 +179,6 @@
 		88F1AB2E1412E20D00AB3D18 /* todotxt_touch_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */; };
 		88F1AB391412EA1700AB3D18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB371412EA1700AB3D18 /* Default.png */; };
 		88F1AB3A1412EA1700AB3D18 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F1AB381412EA1700AB3D18 /* Default@2x.png */; };
-		F4564BF314718A5800DF207C /* FlexiTaskCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4564BEE14718A5800DF207C /* FlexiTaskCellFactory.m */; };
 		F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */; };
 		F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C4F8F145363F300E92C6D /* CoreText.framework */; };
 /* End PBXBuildFile section */
@@ -210,16 +203,6 @@
 		1B0C907D176B63D10022C9AE /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		1B0C907E176B63D10022C9AE /* todo_txt_touch_iosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosViewController.h; sourceTree = "<group>"; };
 		1B0C907F176B63D10022C9AE /* todo_txt_touch_iosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosViewController.m; sourceTree = "<group>"; };
-		1B0C9081176B63D10022C9AE /* FlexiIPadLandscapeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiIPadLandscapeCell.h; sourceTree = "<group>"; };
-		1B0C9082176B63D10022C9AE /* FlexiIPadLandscapeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiIPadLandscapeCell.m; sourceTree = "<group>"; };
-		1B0C9083176B63D10022C9AE /* FlexiIPadPortraitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiIPadPortraitCell.h; sourceTree = "<group>"; };
-		1B0C9084176B63D10022C9AE /* FlexiIPadPortraitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiIPadPortraitCell.m; sourceTree = "<group>"; };
-		1B0C9085176B63D10022C9AE /* FlexiIPhoneLandscapeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiIPhoneLandscapeCell.h; sourceTree = "<group>"; };
-		1B0C9086176B63D10022C9AE /* FlexiIPhoneLandscapeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiIPhoneLandscapeCell.m; sourceTree = "<group>"; };
-		1B0C9087176B63D10022C9AE /* FlexiIPhonePortraitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiIPhonePortraitCell.h; sourceTree = "<group>"; };
-		1B0C9088176B63D10022C9AE /* FlexiIPhonePortraitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiIPhonePortraitCell.m; sourceTree = "<group>"; };
-		1B0C9089176B63D10022C9AE /* FlexiTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiTaskCell.h; sourceTree = "<group>"; };
-		1B0C908A176B63D10022C9AE /* FlexiTaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiTaskCell.m; sourceTree = "<group>"; };
 		1B0C908D176B63D10022C9AE /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewCell.h; sourceTree = "<group>"; };
 		1B0C908E176B63D10022C9AE /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
 		1B0C909B176B64BB0022C9AE /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
@@ -316,7 +299,6 @@
 		5C187760176E775D00824682 /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
 		5C187761176E775D00824682 /* TaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCell.m; sourceTree = "<group>"; };
 		5C187763176E77AD00824682 /* TaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
-		5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlexiTaskCell.xib; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -436,8 +418,6 @@
 		88F1AB371412EA1700AB3D18 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		88F1AB381412EA1700AB3D18 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "todo_txt_touch_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		F4564BED14718A5800DF207C /* FlexiTaskCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexiTaskCellFactory.h; sourceTree = "<group>"; };
-		F4564BEE14718A5800DF207C /* FlexiTaskCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlexiTaskCellFactory.m; sourceTree = "<group>"; };
 		F4595BE41453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+TodoTxt.h"; sourceTree = "<group>"; };
 		F4595BE51453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+TodoTxt.m"; sourceTree = "<group>"; };
 		F45C4F8F145363F300E92C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -489,8 +469,6 @@
 				881CA83F1400825200AEAD20 /* Remote */,
 				59216B7613E64EA800FF07EE /* Task */,
 				59216D3B13EA316100FF07EE /* Util */,
-				F4564BED14718A5800DF207C /* FlexiTaskCellFactory.h */,
-				F4564BEE14718A5800DF207C /* FlexiTaskCellFactory.m */,
 				1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */,
 				1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */,
 			);
@@ -558,17 +536,6 @@
 			children = (
 				1B0C909E176B65240022C9AE /* AttributedLabel.h */,
 				1B0C909F176B65240022C9AE /* AttributedLabel.m */,
-				1B0C9081176B63D10022C9AE /* FlexiIPadLandscapeCell.h */,
-				1B0C9082176B63D10022C9AE /* FlexiIPadLandscapeCell.m */,
-				1B0C9083176B63D10022C9AE /* FlexiIPadPortraitCell.h */,
-				1B0C9084176B63D10022C9AE /* FlexiIPadPortraitCell.m */,
-				1B0C9085176B63D10022C9AE /* FlexiIPhoneLandscapeCell.h */,
-				1B0C9086176B63D10022C9AE /* FlexiIPhoneLandscapeCell.m */,
-				1B0C9087176B63D10022C9AE /* FlexiIPhonePortraitCell.h */,
-				1B0C9088176B63D10022C9AE /* FlexiIPhonePortraitCell.m */,
-				1B0C9089176B63D10022C9AE /* FlexiTaskCell.h */,
-				1B0C908A176B63D10022C9AE /* FlexiTaskCell.m */,
-				5CCA8E19176E1446005A705F /* FlexiTaskCell.xib */,
 				1B0C909B176B64BB0022C9AE /* SSTextView.h */,
 				1B0C909C176B64BB0022C9AE /* SSTextView.m */,
 				5C187760176E775D00824682 /* TaskCell.h */,
@@ -1100,7 +1067,6 @@
 				1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */,
 				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
 				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
-				5CCA8E1A176E1446005A705F /* FlexiTaskCell.xib in Resources */,
 				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1211,7 +1177,6 @@
 				88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */,
 				888065B71401A51C0036DE2A /* Network.m in Sources */,
 				F4595BE61453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.m in Sources */,
-				F4564BF314718A5800DF207C /* FlexiTaskCellFactory.m in Sources */,
 				8878944014954AE4000AC39C /* DropboxFileDownloader.m in Sources */,
 				887894441495AEC7000AC39C /* DropboxFileUploader.m in Sources */,
 				0F75B4311499141800848E27 /* TaskUtil.m in Sources */,
@@ -1222,11 +1187,6 @@
 				1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */,
 				1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */,
 				1B0C9093176B63D10022C9AE /* todo_txt_touch_iosViewController.m in Sources */,
-				1B0C9094176B63D10022C9AE /* FlexiIPadLandscapeCell.m in Sources */,
-				1B0C9095176B63D10022C9AE /* FlexiIPadPortraitCell.m in Sources */,
-				1B0C9096176B63D10022C9AE /* FlexiIPhoneLandscapeCell.m in Sources */,
-				1B0C9097176B63D10022C9AE /* FlexiIPhonePortraitCell.m in Sources */,
-				1B0C9098176B63D10022C9AE /* FlexiTaskCell.m in Sources */,
 				1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */,
 				1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */,
 				1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */,

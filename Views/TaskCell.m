@@ -21,7 +21,6 @@ static const CGFloat kMinHeight = 44;
 
 + (TaskCell *)sizingCell;
 + (UIFont *)taskFont;
-+ (NSAttributedString *)attributedTextForTask:(Task *)task;
 + (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete;
 
 @property (nonatomic, weak) IBOutlet UILabel *priorityLabel;
@@ -117,25 +116,6 @@ static const CGFloat kMinHeight = 44;
     return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
 }
 
-#pragma mark - Private class methods
-
-+ (TaskCell *)sizingCell
-{
-    static dispatch_once_t onceToken = 0;
-    dispatch_once(&onceToken, ^{
-        staticSizingCell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([TaskCell class])
-                                                         owner:nil
-                                                       options:nil][0];
-    });
-    
-    return staticSizingCell;
-}
-
-+ (UIFont *)taskFont
-{
-    return [UIFont systemFontOfSize:14.0];
-}
-
 + (NSAttributedString *)attributedTextForTask:(Task *)task
 {
     NSAssert(task, @"Task cannot be nil");
@@ -157,6 +137,25 @@ static const CGFloat kMinHeight = 44;
     }
     
     return taskString;
+}
+
+#pragma mark - Private class methods
+
++ (TaskCell *)sizingCell
+{
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        staticSizingCell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([TaskCell class])
+                                                         owner:nil
+                                                       options:nil][0];
+    });
+    
+    return staticSizingCell;
+}
+
++ (UIFont *)taskFont
+{
+    return [UIFont systemFontOfSize:14.0];
 }
 
 + (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete
