@@ -42,10 +42,39 @@ static const CGFloat kMinHeight = 44;
     
     if (self) {
         self.shouldShowDate = YES;
-        self.taskLabel.font = [[self class] taskFont];
     }
     
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.taskLabel.font = [[self class] taskFont];
+    
+    // Stop if staticSizingCell is nil, i.e. this is awakeFromNib
+    // for the staticSizingCell.
+    if (!staticSizingCell) {
+        return;
+    }
+    
+    // Move all constraints from the cell's view to the cell's contentView.
+    // See http://stackoverflow.com/a/13893146/1610271
+    for (NSLayoutConstraint *cellConstraint in self.constraints) {
+        [self removeConstraint:cellConstraint];
+        id firstItem = cellConstraint.firstItem == self ? self.contentView : cellConstraint.firstItem;
+        id seccondItem = cellConstraint.secondItem == self ? self.contentView : cellConstraint.secondItem;
+        NSLayoutConstraint* contentViewConstraint =
+        [NSLayoutConstraint constraintWithItem:firstItem
+                                     attribute:cellConstraint.firstAttribute
+                                     relatedBy:cellConstraint.relation
+                                        toItem:seccondItem
+                                     attribute:cellConstraint.secondAttribute
+                                    multiplier:cellConstraint.multiplier
+                                      constant:cellConstraint.constant];
+        [self.contentView addConstraint:contentViewConstraint];
+    }
 }
 
 #pragma mark - Overridden getters/setters
@@ -111,7 +140,9 @@ static const CGFloat kMinHeight = 44;
     CGRect rect = [[self attributedTextForTask:task] boundingRectWithSize:taskLabelSize
                                                                   options:NSStringDrawingUsesLineFragmentOrigin
                                                                   context:nil];
-    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect);
+    
+    // TODO: why is the 3 necessary for some tasks when in a plain table view?
+    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect) + 3;
     
     return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
 }
