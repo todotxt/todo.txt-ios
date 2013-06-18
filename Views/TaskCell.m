@@ -25,11 +25,13 @@ static const CGFloat kMinHeight = 44;
 
 @property (nonatomic, weak) IBOutlet UILabel *priorityLabel;
 @property (nonatomic, weak) IBOutlet UILabel *ageLabel;
-@property (nonatomic, weak) IBOutlet UILabel *taskLabel;
+@property (nonatomic, weak) IBOutlet UITextView *taskTextView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTopSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelBottomSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelLeadingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTrailingSpace;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *ageLabelHeight;
+@property (nonatomic) CGFloat ageLabelInitialHeight;
 @property (nonatomic, readonly) NSAttributedString *attributedTaskText;
 
 @end
@@ -51,7 +53,9 @@ static const CGFloat kMinHeight = 44;
 {
     [super awakeFromNib];
     
-    self.taskLabel.font = [[self class] taskFont];
+    self.taskTextView.font = [[self class] taskFont];
+    self.taskTextView.contentInset = UIEdgeInsetsMake(-8, -8, -8, -8);
+    self.ageLabelInitialHeight = self.ageLabelHeight.constant;
     
     // Stop if staticSizingCell is nil, i.e. this is awakeFromNib
     // for the staticSizingCell.
@@ -111,16 +115,30 @@ static const CGFloat kMinHeight = 44;
 			break;
 	}
     
-    self.taskLabel.attributedText = self.attributedTaskText;
+    self.taskTextView.attributedText = self.attributedTaskText;
     
-    // Show the age of the task, if appropriate
-	if (self.shouldShowDate && ![self.task completed]) {
+    CGFloat newAgeLabelHeight = 0;
+    // Show the age of the task, if appropriate. If not, hide the age label.
+	if (self.shouldShowDate && ![self.task completed] && task.relativeAge) {
 		self.ageLabel.text = self.task.relativeAge;
 		self.ageLabel.hidden = NO;
+        
+        newAgeLabelHeight = self.ageLabelInitialHeight;
 	} else {
 		self.ageLabel.text = @"";
 		self.ageLabel.hidden = YES;
+        
+        newAgeLabelHeight = 0;
 	}
+    
+    // Find the age label's height constraint and set its constant.
+    // We can't just use the IBOutlet because the constraint it connects to
+    // is removed in -awakeFromNib:
+    for (NSLayoutConstraint *constraint in self.ageLabel.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            constraint.constant = newAgeLabelHeight;
+        }
+    }
 }
 
 - (NSAttributedString *)attributedTaskText
@@ -132,17 +150,18 @@ static const CGFloat kMinHeight = 44;
 
 + (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width
 {
-    const CGFloat baseHeight = [self sizingCell].taskLabelTopSpace.constant + [self sizingCell].taskLabelBottomSpace.constant;
+    const CGFloat bottomSpaceReclaimed = task.relativeAge ? 0 : staticSizingCell.ageLabelHeight.constant;
+    
+    const CGFloat baseHeight = [self sizingCell].taskLabelTopSpace.constant + [self sizingCell].taskLabelBottomSpace.constant - bottomSpaceReclaimed;
     const CGFloat takenWidth = [self sizingCell].taskLabelLeadingSpace.constant + [self sizingCell].taskLabelTrailingSpace.constant;
     
     CGSize taskLabelSize = CGSizeMake(width - takenWidth, CGFLOAT_MAX);
     
-    CGRect rect = [[self attributedTextForTask:task] boundingRectWithSize:taskLabelSize
-                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-                                                                  context:nil];
+    staticSizingCell.taskTextView.attributedText = [self attributedTextForTask:task];
+    CGRect rect = CGRectZero;
+    rect.size = [staticSizingCell.taskTextView sizeThatFits:taskLabelSize];
     
-    // TODO: why is the 3 necessary for some tasks when in a plain table view?
-    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect) + 3;
+    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect);
     
     return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
 }
