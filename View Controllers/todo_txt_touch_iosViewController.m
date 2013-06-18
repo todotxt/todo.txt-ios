@@ -252,7 +252,6 @@ contexts and projects.";
 // Return the number of rows in the section of table view
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
 	return [[self taskListForTable:tableView] count];
 }
 
