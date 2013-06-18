@@ -45,8 +45,7 @@
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
 #import "Color.h"
-#import "FlexiTaskCell.h"
-#import "FlexiTaskCellFactory.h"
+#import "TaskCell.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "todo_txt_touch_iosViewController.h"
@@ -64,6 +63,8 @@ Tap the + button to add your first todo.";
 
 static NSString *const kNoFilterResultsMessage = @"No results for chosen \
 contexts and projects.";
+
+static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 @interface todo_txt_touch_iosViewController () <IASKSettingsDelegate>
 
@@ -197,6 +198,8 @@ contexts and projects.";
 	[sortButton release];
 
     self.emptyLabel.text = kEmptyFileMessage;
+    
+    [self.table registerNib:[UINib nibWithNibName:@"TaskCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -258,15 +261,18 @@ contexts and projects.";
 // Return cell for the rows in table view
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Create the cell if cells are available with same cell identifier
-	FlexiTaskCell *cell = (FlexiTaskCell *)[tableView dequeueReusableCellWithIdentifier:[FlexiTaskCellFactory cellIDForDeviceOrientation]];
-
-	// If there are no cells available, allocate a new one with Default style
-	if (cell == nil) {
-        cell = [FlexiTaskCellFactory cellForDeviceOrientation];
-	}
-
+    TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    cell.shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"];
+    
     cell.task = [self taskForTable:tableView atIndex:indexPath.row];
+    
+    // Set the height of our frame as necessary for the task's text.
+    CGRect frame = cell.frame;
+    frame.size.height = [TaskCell heightForTask:cell.task givenWidth:CGRectGetWidth(tableView.frame)];
+    cell.frame = frame;
+    
 	return cell;
 }
 
@@ -277,7 +283,7 @@ contexts and projects.";
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    return [FlexiTaskCellFactory heightForCellWithTask:task];
+    return [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
 }
 
 // Load the detail view controller when user taps the row

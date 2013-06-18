@@ -48,5 +48,6 @@
 
 + (NSArray*) parse:(NSString*)inputText;
 + (NSRegularExpression*)textPattern;
++ (NSArray *)rangesOfProjectsForString:(NSString *)string;
 
 @end
