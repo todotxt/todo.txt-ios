@@ -199,10 +199,6 @@ static Task* find(NSArray *tasks, Task *task) {
 	return 0;
 }
 
-- (NSArray*) tasks {
-    return [self tasksWithFilter:nil withSortOrder:nil];
-}
-
 - (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder {
 	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[_tasks count]];
 	if (filter != nil) {
