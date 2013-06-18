@@ -92,44 +92,13 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     
     self.activeTypes = FilterViewActiveTypesAll;
     
+    // Listen for updates to tasks in the TaskBag, to keep our context and project
+    // lists current.  We never stop 
+    NSObject<TaskBag> *taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+    [taskBag addObserver:self forKeyPath:@"tasks" options:NSKeyValueObservingOptionNew context:nil];
+    
+    // Use ordinary UITableViewCells
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"FilterCell"];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    __weak __typeof(&*self)weakSelf = self;
-	[[NSNotificationCenter defaultCenter] addObserverForName:kTodoChangedNotification
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-                                                      
-                                                      id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-                                                      [taskBag reload];
-                                                      NSArray *tasks = taskBag.tasks;
-                                                      
-                                                      // Get unique contexts and projects by adding all such items
-                                                      // to two sets, then creating arrays from those sets.
-                                                      NSMutableSet *contexts = [NSMutableSet set];
-                                                      NSMutableSet *projects = [NSMutableSet set];
-                                                      for (Task *task in tasks) {
-                                                          [contexts addObjectsFromArray:task.contexts];
-                                                          [projects addObjectsFromArray:task.projects];
-                                                      }
-                                                      
-                                                      NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
-                                                      strongSelf.contexts = [contexts sortedArrayUsingDescriptors:@[ sortDesc ]];
-                                                      strongSelf.projects = [projects sortedArrayUsingDescriptors:@[ sortDesc ]];
-                                                      
-                                                      [strongSelf.tableView reloadData];
-                                                  }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:kTodoChangedNotification
-                                                  object:nil];
 }
 
 #pragma mark - Custom getters/setters
@@ -309,6 +278,21 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
             
         default:
             break;
+    }
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"tasks"]) {
+        self.contexts = [[change[@"new"] valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
+                         sortedArrayUsingSelector:@selector(compare:)];
+        
+        self.projects = [[change[@"new"] valueForKeyPath:@"@distinctUnionOfArrays.projects"]
+                         sortedArrayUsingSelector:@selector(compare:)];
+        
+        [self.tableView reloadData];
     }
 }
 

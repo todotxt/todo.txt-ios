@@ -181,6 +181,13 @@
 	[notificationController show];
 }
 
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.taskBag = [[TaskBagFactory getTaskBag] retain];
+    
+    return YES;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.wasConnected = YES;
    
@@ -194,8 +201,6 @@
     [defaults registerDefaults:appDefaults];
 	
     self.remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
-    self.taskBag = [[TaskBagFactory getTaskBag] retain];
-	[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
 		
 	// Start listening for network status updates.
 	[Network startNotifier];
