@@ -270,6 +270,7 @@
 		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		1B0C9205176B762D0022C9AE /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
+		1B82361C1771F05200908C31 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -323,7 +324,6 @@
 		8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagFactory.m; path = Classes/TaskBagFactory.m; sourceTree = "<group>"; };
 		8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBagImpl.h; path = Classes/TaskBagImpl.h; sourceTree = "<group>"; };
 		8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskBagImpl.m; path = Classes/TaskBagImpl.m; sourceTree = "<group>"; };
-		883E42FC13EB7BDC002FEBCC /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskBag.h; path = Classes/TaskBag.h; sourceTree = "<group>"; };
 		883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalTaskRepository.h; path = Classes/LocalTaskRepository.h; sourceTree = "<group>"; };
 		883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalFileTaskRepository.h; path = Classes/LocalFileTaskRepository.h; sourceTree = "<group>"; };
 		883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalFileTaskRepository.m; path = Classes/LocalFileTaskRepository.m; sourceTree = "<group>"; };
@@ -675,6 +675,7 @@
 		1B0C9207176B7BAA0022C9AE /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				1B82361C1771F05200908C31 /* TaskBag.h */,
 				1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */,
 			);
 			path = Protocols;
@@ -770,7 +771,6 @@
 				882B3E8D13EF47B70085C888 /* ProjectParser.m */,
 				8858D0B813EA89C50083FA44 /* Task.h */,
 				8858D0B913EA89C50083FA44 /* Task.m */,
-				883E42FC13EB7BDC002FEBCC /* TaskBag.h */,
 				8831984813EBC59E00EC5BC3 /* TaskBagFactory.h */,
 				8831984913EBC59E00EC5BC3 /* TaskBagFactory.m */,
 				8831984B13EBC62C00EC5BC3 /* TaskBagImpl.h */,
