@@ -173,13 +173,8 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.title = @"Todo.txt Touch";
-	self.navigationItem.backBarButtonItem =
-		[[[UIBarButtonItem alloc] initWithTitle:@"Todo.txt"
-										  style:UIBarButtonItemStyleBordered
-										 target:nil
-										 action:nil] autorelease];
-	
+	self.title = @"Tasks";
+    
 	self.sort = [self sortOrderPref];
 	self.tasks = nil;
 	
