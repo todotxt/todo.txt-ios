@@ -48,7 +48,7 @@
 #import "TaskCell.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
-#import "todo_txt_touch_iosViewController.h"
+#import "TasksViewController.h"
 #import "todo_txt_touch_iosAppDelegate.h"
 #import "FilterFactory.h"
 #import "IASKAppSettingsViewController.h"
@@ -66,7 +66,7 @@ contexts and projects.";
 
 static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
-@interface todo_txt_touch_iosViewController () <IASKSettingsDelegate>
+@interface TasksViewController () <IASKSettingsDelegate>
 
 @property (nonatomic, retain) IBOutlet UITableView *table;
 @property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
@@ -83,7 +83,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 @end
 
-@implementation todo_txt_touch_iosViewController
+@implementation TasksViewController
 
 #pragma mark -
 #pragma mark Synthesizers

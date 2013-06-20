@@ -47,7 +47,7 @@
 
 #define kTodoChangedNotification @"kTodoChangedNotification"
 
-@class todo_txt_touch_iosViewController;
+@class TasksViewController;
 
 @interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 

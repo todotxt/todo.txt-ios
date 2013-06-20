@@ -22,7 +22,7 @@
 		1B0C9090176B63D10022C9AE /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9079176B63D00022C9AE /* LoginScreenViewController.m */; };
 		1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907B176B63D10022C9AE /* TaskEditViewController.m */; };
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
-		1B0C9093176B63D10022C9AE /* todo_txt_touch_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* todo_txt_touch_iosViewController.m */; };
+		1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* TasksViewController.m */; };
 		1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908E176B63D10022C9AE /* TaskViewCell.m */; };
 		1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909C176B64BB0022C9AE /* SSTextView.m */; };
 		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; };
@@ -64,7 +64,7 @@
 		1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */; };
 		1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */; };
 		1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */; };
-		1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */; };
+		1B0C91FE176B6D2F0022C9AE /* TasksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */; };
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
@@ -201,8 +201,8 @@
 		1B0C907B176B63D10022C9AE /* TaskEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskEditViewController.m; sourceTree = "<group>"; };
 		1B0C907C176B63D10022C9AE /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
 		1B0C907D176B63D10022C9AE /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
-		1B0C907E176B63D10022C9AE /* todo_txt_touch_iosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosViewController.h; sourceTree = "<group>"; };
-		1B0C907F176B63D10022C9AE /* todo_txt_touch_iosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosViewController.m; sourceTree = "<group>"; };
+		1B0C907E176B63D10022C9AE /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
+		1B0C907F176B63D10022C9AE /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
 		1B0C908D176B63D10022C9AE /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewCell.h; sourceTree = "<group>"; };
 		1B0C908E176B63D10022C9AE /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
 		1B0C909B176B64BB0022C9AE /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
@@ -264,7 +264,7 @@
 		1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditViewController.xib; sourceTree = "<group>"; };
-		1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = todo_txt_touch_iosViewController.xib; sourceTree = "<group>"; };
+		1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksViewController.xib; sourceTree = "<group>"; };
 		1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		1B0C9202176B73A60022C9AE /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
@@ -524,9 +524,9 @@
 				1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */,
 				1B0C907C176B63D10022C9AE /* TaskViewController.h */,
 				1B0C907D176B63D10022C9AE /* TaskViewController.m */,
-				1B0C907E176B63D10022C9AE /* todo_txt_touch_iosViewController.h */,
-				1B0C907F176B63D10022C9AE /* todo_txt_touch_iosViewController.m */,
-				1B0C91FA176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib */,
+				1B0C907E176B63D10022C9AE /* TasksViewController.h */,
+				1B0C907F176B63D10022C9AE /* TasksViewController.m */,
+				1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1064,7 +1064,7 @@
 				1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */,
 				1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */,
 				1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */,
-				1B0C91FE176B6D2F0022C9AE /* todo_txt_touch_iosViewController.xib in Resources */,
+				1B0C91FE176B6D2F0022C9AE /* TasksViewController.xib in Resources */,
 				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
 				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
 				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
@@ -1186,7 +1186,7 @@
 				1B0C9090176B63D10022C9AE /* LoginScreenViewController.m in Sources */,
 				1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */,
 				1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */,
-				1B0C9093176B63D10022C9AE /* todo_txt_touch_iosViewController.m in Sources */,
+				1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */,
 				1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */,
 				1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */,
 				1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */,

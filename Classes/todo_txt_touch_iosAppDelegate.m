@@ -43,7 +43,7 @@
  */
 
 #import "todo_txt_touch_iosAppDelegate.h"
-#import "todo_txt_touch_iosViewController.h"
+#import "TasksViewController.h"
 #import "LoginScreenViewController.h"
 #import "iPadLoginScreenViewController.h"
 #import "TaskBag.h"
@@ -57,7 +57,7 @@
 
 @interface todo_txt_touch_iosAppDelegate ()
 
-@property (nonatomic, assign) todo_txt_touch_iosViewController *viewController;
+@property (nonatomic, assign) TasksViewController *viewController;
 @property (nonatomic, assign) UIViewController *loginController;
 @property (nonatomic, retain) RemoteClientManager *remoteClientManager;
 @property (nonatomic, retain) id<TaskBag> taskBag;

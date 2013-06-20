@@ -46,7 +46,7 @@
 #import "TaskBag.h"
 #import "TaskFilterTarget.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <TaskFilterTarget,
+@interface TasksViewController : UIViewController <TaskFilterTarget,
 	UITableViewDelegate, UITableViewDataSource, 
 	UISearchDisplayDelegate, UISearchBarDelegate>
 
