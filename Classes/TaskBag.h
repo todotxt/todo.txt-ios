@@ -60,11 +60,12 @@
 - (void) remove:(Task*)task;
 - (Task*) taskAtIndex:(NSUInteger)index;
 - (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
 - (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
+
+@property (readonly) int size;
+@property (nonatomic, readonly) NSArray *tasks;
+@property (nonatomic, readonly) NSArray *projects;
+@property (nonatomic, readonly) NSArray *contexts;
+@property (nonatomic, readonly) NSArray *priorities;
 
 @end

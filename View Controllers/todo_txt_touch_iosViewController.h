@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -44,32 +44,11 @@
 
 #import <UIKit/UIKit.h>
 #import "TaskBag.h"
-#import "Sort.h"
-#import "IASKAppSettingsViewController.h"
-#import "ActionSheetPicker.h"
+#import "TaskFilterTarget.h"
 
-@interface todo_txt_touch_iosViewController : UIViewController <IASKSettingsDelegate, 
+@interface todo_txt_touch_iosViewController : UIViewController <TaskFilterTarget,
 	UITableViewDelegate, UITableViewDataSource, 
-	UISearchDisplayDelegate, UISearchBarDelegate> {
-	
-	// The instance of the table view
-	UITableView *table; 
-	UITableViewCell *tableCell; 
-	NSArray *tasks;
-	Sort *sort;
-	IASKAppSettingsViewController *appSettingsViewController;
-	NSString *savedSearchTerm;
-	NSArray *searchResults;
-	ActionSheetPicker *actionSheetPicker;
-	}
-
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
-@property (nonatomic, retain) NSArray *tasks;
-@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
-@property (nonatomic, copy) NSString *savedSearchTerm;
-@property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+	UISearchDisplayDelegate, UISearchBarDelegate>
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;

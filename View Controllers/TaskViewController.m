@@ -49,8 +49,8 @@
 #import "AsyncTask.h"
 #import "Color.h"
 #import "ActionSheetPicker.h"
+#import "TaskCell.h"
 #import "TaskViewCell.h"
-#import "FlexiTaskCell.h"
 #import "AttributedLabel.h"
 #import <CoreText/CoreText.h>
 
@@ -69,6 +69,14 @@
 
 char *buttons[] = { "Complete", "Prioritize", "Update", "Delete" };
 char *completed_buttons[] = { "Undo Complete", "Delete" }; 
+
+static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
+
+@interface TaskViewController ()
+
+@property (nonatomic, retain) TaskCell *taskCell;
+
+@end
 
 @implementation TaskViewController
 
@@ -169,23 +177,10 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 		
 }
 
-- (CGFloat)calcTextHeightWithTask:(Task*)task {
-	CGFloat maxWidth = [self textLabelWidth];
-    CGFloat maxHeight = CGFLOAT_MAX;
-    CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
-	
-    CGSize expectedLabelSize = [[task inScreenFormat] 
-			sizeWithFont:[UIFont fontWithName:@"Helvetica" size:14.0f]
-			constrainedToSize:maximumLabelSize 
-		    lineBreakMode:UILineBreakModeWordWrap]; 
-	
-	return expectedLabelSize.height;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
 		Task* task = [self task];
-		CGFloat ret = [self calcTextHeightWithTask:task];
+		CGFloat ret = [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
 		
 		if (![task completed]) {
 			ret += DATE_LABEL_HEIGHT; // height of the date line
@@ -210,98 +205,9 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 }
 
 - (NSAttributedString*)attributedTaskText:(Task *)task {
-    NSDictionary *taskAttributes = (task.completed) ?
-	[FlexiTaskCell completedTaskAttributes] : [FlexiTaskCell taskStringAttributes];
-	
-    NSString* taskText = [self.task inScreenFormat];
-    NSMutableAttributedString *taskString;
-    taskString = [[[NSMutableAttributedString alloc] initWithString:taskText
-                                                         attributes:taskAttributes] autorelease];
-	
-    NSDictionary* grayAttriubte = [NSDictionary dictionaryWithObject:(id)[UIColor grayColor].CGColor
-                                                              forKey:(id)kCTForegroundColorAttributeName];
-    [taskString addAttributesToProjectText:grayAttriubte];
-    [taskString addAttributesToContextText:grayAttriubte];
-	
-    return [[[NSAttributedString alloc] initWithAttributedString:taskString] autorelease];
-}
-
-
-// Return cell for the rows in table view
--(UITableViewCell *) renderTaskCell:(UITableView *)tableView
-{
-	// Create the cell identifier
-	static NSString *CellIdentifier = @"TaskDetailCell";
-	
-	// Create the cell if cells are available with same cell identifier
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	
-	// If there are no cells available, allocate a new one with our nib
-	if (cell == nil) {
-		[[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
-		cell = tableCell;
-		self.tableCell = nil;
-	}
-	
-	// Populate the cell data and format
-	Task *task = [self task];	
-	UILabel *label;
-	
-    label = (UILabel *)[cell viewWithTag:2];
-    label.text = [[task priority] listFormat];
-    label.font = [UIFont boldSystemFontOfSize:14.0];
-	// Set the priority color
-	PriorityName n = [[task priority] name];
-	switch (n) {
-		case PriorityA:
-			//Set color to green #587058
-			label.textColor = [Color green];
-			break;
-		case PriorityB:
-			//Set color to blue #587498
-			label.textColor = [Color blue];
-			break;
-		case PriorityC:
-			//Set color to orange #E86850
-			label.textColor = [Color orange];
-			break;
-		case PriorityD:
-			//Set color to gold #587058
-			label.textColor = [Color gold];
-			break;			
-		default:
-			//Set color to black #000000
-			label.textColor = [Color black];
-			break;
-	}
-	
-	label = (UILabel *)[cell viewWithTag:1];
-	[label setHidden:true];
-	
-	AttributedLabel *al = (AttributedLabel *)[cell viewWithTag:3];
-	al.text = [self attributedTaskText:task];
-	
-	CGRect labelFrame = CGRectMake(46, VERTICAL_PADDING,
-								   [self textLabelWidth], [self calcTextHeightWithTask:task]);
-
-	al.frame = labelFrame;
-	
-	UILabel *dateLabel = (UILabel *)[cell viewWithTag:4];
-    if (![task completed]) {
-		dateLabel.text = [task relativeAge];
-		dateLabel.hidden = NO;
-	} else {
-		dateLabel.text = @"";
-		dateLabel.hidden = YES;
-	}
-	
-	if ([task completed]) {
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	} else {
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	}
-	
-	return cell;
+    // TODO: refactor +[TaskCell attributedTextForTask] out and call that instead
+    // of using TaskCell here.
+    return [TaskCell attributedTextForTask:task];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -310,7 +216,17 @@ char *completed_buttons[] = { "Undo Complete", "Delete" };
 	
     // Set the text in the cell for the section/row.
 	if (indexPath.section == 0) {
-		cell = [self renderTaskCell:tableView];
+        if (!self.taskCell) {
+            [tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TaskCell class])
+                                                  bundle:nil]
+            forCellReuseIdentifier:kTaskCellReuseIdentifier];
+            TaskCell *taskCell = [tableView dequeueReusableCellWithIdentifier:kTaskCellReuseIdentifier];
+            
+            taskCell.task = [self task];
+            self.taskCell = taskCell;
+        }
+        
+        cell = self.taskCell;
 	} else {
 		static NSString *CellIdentifier = @"CellIdentifier";
 		

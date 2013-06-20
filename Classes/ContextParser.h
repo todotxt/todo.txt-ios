@@ -49,5 +49,6 @@
 
 + (NSArray*) parse:(NSString*)inputText;
 + (NSRegularExpression*)textPattern;
++ (NSArray *)rangesOfContextsForString:(NSString *)string;
 
 @end

@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,50 +42,19 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "FlexiIPadLandscapeCell.h"
-#import "FlexiIPadPortraitCell.h"
-#import "FlexiIPhoneLandscapeCell.h"
-#import "FlexiIPhonePortraitCell.h"
-#import "FlexiTaskCellFactory.h"
+#import <Foundation/Foundation.h>
 
-@interface FlexiTaskCellFactory ()
-+ (BOOL)currentDeviceIsIpad;
-+ (BOOL)currentOrientationIsPortrait;
-@end
+/*!
+ A protocol to go between an object with tasks and an object
+ which can filter tasks.
+ */
+@protocol TaskFilterTarget <NSObject>
 
-@implementation FlexiTaskCellFactory
-+ (CGFloat)heightForCellWithTask:(Task*)aTask {
-    return [[[self cellForDeviceOrientation] class] heightForCellWithTask:aTask];
-}
+/*!
+ Filter tasks on contexts and projects.
+ @param contexts An array of contexts on which to filter.
+ @param projects An array of projects on which to filter.
+ */
+- (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects;
 
-+ (FlexiTaskCell*)cellForDeviceOrientation {
-    FlexiTaskCell* taskCell;
-    if ([self currentDeviceIsIpad]) {
-        if ([self currentOrientationIsPortrait]) {
-            taskCell = [[[FlexiIPadPortraitCell alloc] init] autorelease];
-        } else {
-            taskCell = [[[FlexiIPadLandscapeCell alloc] init] autorelease];
-        }
-    } else {
-        if ([self currentOrientationIsPortrait]) {
-            taskCell = [[[FlexiIPhonePortraitCell alloc] init] autorelease];
-        } else {
-            taskCell = [[[FlexiIPhoneLandscapeCell alloc] init] autorelease];
-        }
-    }
-    return taskCell;
-}
-
-+ (NSString*)cellIDForDeviceOrientation {
-    return [[[self cellForDeviceOrientation] class] cellId];
-}
-
-+ (BOOL)currentDeviceIsIpad {
-    return
-    [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
-}
-
-+ (BOOL)currentOrientationIsPortrait {
-    return UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
-}
 @end

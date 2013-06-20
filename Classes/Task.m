@@ -292,4 +292,14 @@
 	}
 }
 
+- (NSArray *)rangesOfContexts
+{
+    return [ContextParser rangesOfContextsForString:self.text];
+}
+
+- (NSArray *)rangesOfProjects
+{
+    return [ProjectParser rangesOfProjectsForString:self.text];
+}
+
 @end

@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,13 +42,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "FlexiTaskCell.h"
+#import <UIKit/UIKit.h>
 
-#import <Foundation/Foundation.h>
+#import "TaskFilterTarget.h"
 
-@interface FlexiTaskCellFactory : NSObject
-+ (CGFloat)heightForCellWithTask:(Task*)aTask;
+@interface FilterViewController : UITableViewController
 
-+ (FlexiTaskCell*)cellForDeviceOrientation;
-+ (NSString*)cellIDForDeviceOrientation;
+@property (assign, nonatomic) IBOutlet id<TaskFilterTarget> filterTarget;
+
 @end
