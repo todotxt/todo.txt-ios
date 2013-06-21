@@ -55,9 +55,7 @@
 		1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */; };
 		1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
 		1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
-		1B0C91F4176B6D250022C9AE /* TaskDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F1176B6D250022C9AE /* TaskDetailCell.xib */; };
 		1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */; };
-		1B0C91F6176B6D250022C9AE /* TaskTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F3176B6D250022C9AE /* TaskTableCell.xib */; };
 		1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */; };
 		1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */; };
 		1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */; };
@@ -292,9 +290,7 @@
 		1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = "<group>"; };
 		1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = "<group>"; };
 		1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
-		1B0C91F1176B6D250022C9AE /* TaskDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskDetailCell.xib; sourceTree = "<group>"; };
 		1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
-		1B0C91F3176B6D250022C9AE /* TaskTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableCell.xib; sourceTree = "<group>"; };
 		1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditViewController.xib; sourceTree = "<group>"; };
@@ -578,8 +574,6 @@
 				5C187761176E775D00824682 /* TaskCell.m */,
 				5C187763176E77AD00824682 /* TaskCell.xib */,
 				1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */,
-				1B0C91F1176B6D250022C9AE /* TaskDetailCell.xib */,
-				1B0C91F3176B6D250022C9AE /* TaskTableCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1170,9 +1164,7 @@
 				1B0C91E2176B6B0E0022C9AE /* IASKSpecifierValuesView.xib in Resources */,
 				1B0C91E5176B6B0E0022C9AE /* README.md in Resources */,
 				1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */,
-				1B0C91F4176B6D250022C9AE /* TaskDetailCell.xib in Resources */,
 				1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */,
-				1B0C91F6176B6D250022C9AE /* TaskTableCell.xib in Resources */,
 				1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */,
 				1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */,
 				1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */,
