@@ -374,7 +374,6 @@
 - (void) syncComplete:(BOOL)success {
 	if (success) {
 		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-		self.lastSync;
 		self.lastSync = [NSDate date];
 	}
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
