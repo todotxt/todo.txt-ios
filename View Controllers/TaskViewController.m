@@ -51,8 +51,6 @@
 #import "ActionSheetPicker.h"
 #import "TaskCell.h"
 #import "TaskCellViewModel.h"
-#import "TaskViewCell.h"
-#import "AttributedLabel.h"
 #import <CoreText/CoreText.h>
 
 #import "NSMutableAttributedString+TodoTxt.h"

@@ -23,8 +23,6 @@
 		1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907B176B63D10022C9AE /* TaskEditViewController.m */; };
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
 		1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* TasksViewController.m */; };
-		1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908E176B63D10022C9AE /* TaskViewCell.m */; };
-		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9197176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; };
 		1B0C9198176B6B040022C9AE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9195176B6B040022C9AE /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -245,10 +243,6 @@
 		1B0C907D176B63D10022C9AE /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		1B0C907E176B63D10022C9AE /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
 		1B0C907F176B63D10022C9AE /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
-		1B0C908D176B63D10022C9AE /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewCell.h; sourceTree = "<group>"; };
-		1B0C908E176B63D10022C9AE /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
-		1B0C909E176B65240022C9AE /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
-		1B0C909F176B65240022C9AE /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		1B0C9191176B6B040022C9AE /* DDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileReader.h; sourceTree = "<group>"; };
 		1B0C9192176B6B040022C9AE /* DDFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileReader.m; sourceTree = "<group>"; };
 		1B0C9194176B6B040022C9AE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -580,16 +574,12 @@
 		1B0C9080176B63D10022C9AE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1B0C909E176B65240022C9AE /* AttributedLabel.h */,
-				1B0C909F176B65240022C9AE /* AttributedLabel.m */,
 				5C187760176E775D00824682 /* TaskCell.h */,
 				5C187761176E775D00824682 /* TaskCell.m */,
 				5C187763176E77AD00824682 /* TaskCell.xib */,
 				1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */,
 				1B0C91F1176B6D250022C9AE /* TaskDetailCell.xib */,
 				1B0C91F3176B6D250022C9AE /* TaskTableCell.xib */,
-				1B0C908D176B63D10022C9AE /* TaskViewCell.h */,
-				1B0C908E176B63D10022C9AE /* TaskViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1310,9 +1300,7 @@
 				1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */,
 				1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */,
 				1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */,
-				1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */,
 				1BAE2A341774D46700DA0A95 /* SSTextView.m in Sources */,
-				1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */,
 				1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */,
 				1B0C9198176B6B040022C9AE /* Reachability.m in Sources */,
 				1B0C91CE176B6B0E0022C9AE /* IASKAppSettingsViewController.m in Sources */,
