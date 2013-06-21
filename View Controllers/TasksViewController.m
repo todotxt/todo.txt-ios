@@ -72,17 +72,17 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 @interface TasksViewController () <IASKSettingsDelegate>
 
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
-@property (retain, nonatomic) IBOutlet UILabel *emptyLabel;
-@property (nonatomic, retain) NSArray *tasks;
-@property (nonatomic, retain) Sort *sort;
+@property (nonatomic, strong) IBOutlet UITableView *table;
+@property (nonatomic, strong) IBOutlet UITableViewCell *tableCell;
+@property (strong, nonatomic) IBOutlet UILabel *emptyLabel;
+@property (nonatomic, strong) NSArray *tasks;
+@property (nonatomic, strong) Sort *sort;
 @property (nonatomic, copy) NSString *savedSearchTerm;
-@property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, readonly) NSArray *filteredTasks;
-@property (nonatomic, retain) id<Filter> filter;
-@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) NSArray *searchResults;
+@property (weak, nonatomic, readonly) NSArray *filteredTasks;
+@property (nonatomic, strong) id<Filter> filter;
+@property (nonatomic, strong) IASKAppSettingsViewController *appSettingsViewController;
+@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
 @property (nonatomic) BOOL needSync;
 
 @end
@@ -171,11 +171,9 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 	
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];          
 	self.navigationItem.rightBarButtonItem = addButton;
-	[addButton release];
 	
 	UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStyleBordered target:self action:@selector(sortButtonPressed:)];          
 	self.navigationItem.leftBarButtonItem = sortButton;
-	[sortButton release];
 
     self.emptyLabel.text = kEmptyFileMessage;
     
@@ -308,7 +306,6 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
     
     // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
-    [detailViewController release];
 }
 
 #pragma mark -
@@ -374,7 +371,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (IBAction)addButtonPressed:(id)sender {
 	NSLog(@"addButtonPressed called");
-    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
+    TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
     [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentModalViewController:taskEditView animated:YES];
 }
@@ -391,7 +388,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
     // But we encourage you not to uncomment. Thank you!
     self.appSettingsViewController.showDoneButton = YES;
     [self presentModalViewController:aNavController animated:YES];
-    [aNavController release];
 }
 
 #pragma mark -
@@ -405,21 +401,21 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark -
 - (void)settingsViewController:(IASKAppSettingsViewController*)sender buttonTappedForKey:(NSString*)key {
 	if ([key isEqualToString:@"logout_button"]) {
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure?" 
 														 message:@"Are you sure you wish to log out of Dropbox?" 
 														delegate:self 
 											   cancelButtonTitle:@"Cancel"
-											   otherButtonTitles:nil] autorelease];
+											   otherButtonTitles:nil];
 		alert.tag = LOGOUT_TAG;
 		[alert addButtonWithTitle:@"Log out"];
 		[alert show];
 	}
 	if ([key isEqualToString:@"archive_button"]) {
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Are you sure?" 
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure?" 
 														 message:@"Are you sure you wish to archive your completed tasks?" 
 														delegate:self 
 											   cancelButtonTitle:@"Cancel"
-											   otherButtonTitles:nil] autorelease];
+											   otherButtonTitles:nil];
 		alert.tag = ARCHIVE_TAG;
 		[alert addButtonWithTitle:@"Archive"];
 		[alert show];
@@ -522,16 +518,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 }
 
 
-- (void)dealloc {
-	self.table = nil;
-	self.tableCell = nil;
-	self.tasks = nil;
-	self.savedSearchTerm = nil;
-	self.searchResults = nil;
-	self.actionSheetPicker = nil;
-    [_emptyLabel release];
-	[super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return YES;

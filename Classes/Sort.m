@@ -56,24 +56,20 @@ static NSArray* sortList = nil;
 	self = [super init];
 	if (self) {
 		name = theName;
-		description = [desc retain];
+		description = desc;
 		comparator = cmp;
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[description release];
-}
 
 + (void) initialize {
-	sortList = [[NSArray arrayWithObjects:
-				 [[[Sort alloc] initWithName:SortPriority withDescription:@"Priority" withSelector:@selector(compareByPriority:)] autorelease],
-				 [[[Sort alloc] initWithName:SortIdAscending withDescription:@"ID Ascending" withSelector:@selector(compareByIdAscending:)] autorelease],
-				 [[[Sort alloc] initWithName:SortIdDescending withDescription:@"ID Descending" withSelector:@selector(compareByIdDescending:)] autorelease],
-				 [[[Sort alloc] initWithName:SortTextAscending withDescription:@"Text (A-Z)" withSelector:@selector(compareByTextAscending:)] autorelease],
-				nil] retain];
+	sortList = [NSArray arrayWithObjects:
+				 [[Sort alloc] initWithName:SortPriority withDescription:@"Priority" withSelector:@selector(compareByPriority:)],
+				 [[Sort alloc] initWithName:SortIdAscending withDescription:@"ID Ascending" withSelector:@selector(compareByIdAscending:)],
+				 [[Sort alloc] initWithName:SortIdDescending withDescription:@"ID Descending" withSelector:@selector(compareByIdDescending:)],
+				 [[Sort alloc] initWithName:SortTextAscending withDescription:@"Text (A-Z)" withSelector:@selector(compareByTextAscending:)],
+				nil];
 }
 
 + (NSArray*) descriptions {

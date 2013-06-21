@@ -48,6 +48,6 @@
 
 @interface FilterViewController : UITableViewController
 
-@property (assign, nonatomic) IBOutlet id<TaskFilterTarget> filterTarget;
+@property (weak, nonatomic) IBOutlet id<TaskFilterTarget> filterTarget;
 
 @end

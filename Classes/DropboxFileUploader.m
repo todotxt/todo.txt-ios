@@ -107,8 +107,7 @@
 }
 
 - (void) pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite {
-	[files release];
-	files = [dropboxFiles retain];
+	files = dropboxFiles;
 	curFile = -1;
 	status = dbStarted;
 	overwrite = doOverwrite;
@@ -182,18 +181,11 @@
 	file.status = dbError;
 	file.error = theError;
 	
-	[error release];
-	error = [theError retain];
+	error = theError;
 	
 	// don't bother uploading any more files after the first error
 	[self reportCompletionWithStatus:dbError];
 }
 
-- (void) dealloc {
-	[error release];
-	[files release];
-	[restClient release];
-	[super dealloc];
-}
 
 @end

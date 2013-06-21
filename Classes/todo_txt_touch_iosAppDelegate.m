@@ -57,11 +57,11 @@
 
 @interface todo_txt_touch_iosAppDelegate ()
 
-@property (nonatomic, assign) TasksViewController *viewController;
-@property (nonatomic, assign) UIViewController *loginController;
-@property (nonatomic, retain) RemoteClientManager *remoteClientManager;
-@property (nonatomic, retain) id<TaskBag> taskBag;
-@property (nonatomic, retain) NSDate *lastSync;
+@property (nonatomic, weak) TasksViewController *viewController;
+@property (nonatomic, weak) UIViewController *loginController;
+@property (nonatomic, strong) RemoteClientManager *remoteClientManager;
+@property (nonatomic, strong) id<TaskBag> taskBag;
+@property (nonatomic, strong) NSDate *lastSync;
 @property (nonatomic) BOOL wasConnected;
 
 @end
@@ -118,14 +118,16 @@
 }
 
 - (void) presentLoginController {
+    UIViewController *loginController = nil;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.loginController = [[iPadLoginScreenViewController alloc] init];
+        loginController = [[iPadLoginScreenViewController alloc] init];
     }
     else
     {
-        self.loginController = [[LoginScreenViewController alloc] init];
+        loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentModalViewController:self.loginController animated:YES];
+    [self.navigationController presentModalViewController:loginController animated:YES];
+    self.loginController = loginController;
 }
 
 - (void) presentMainViewController {
@@ -183,7 +185,7 @@
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.taskBag = [[TaskBagFactory getTaskBag] retain];
+    self.taskBag = [TaskBagFactory getTaskBag];
     
     return YES;
 }
@@ -283,7 +285,6 @@
 							  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
 		dlg.tag = 10;
 		[dlg showInView:self.navigationController.visibleViewController.view];
-		[dlg release];
 	} else if ([todo_txt_touch_iosAppDelegate needToPush]) {
 		[self pushToRemoteOverwrite:NO force:force];
 	} else {
@@ -373,8 +374,8 @@
 - (void) syncComplete:(BOOL)success {
 	if (success) {
 		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-		[self.lastSync release];
-		self.lastSync = [[NSDate date] retain];
+		self.lastSync;
+		self.lastSync = [NSDate date];
 	}
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 }
@@ -413,7 +414,6 @@
 					 cancelButtonTitle: @"OK"
 					 otherButtonTitles: nil];
     [alert show];
-    [alert release];
 }
 
 - (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
@@ -435,7 +435,6 @@
 					 cancelButtonTitle: @"OK"
 					 otherButtonTitles: nil];
     [alert show];
-    [alert release];
 }
 
 - (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath {
@@ -456,7 +455,6 @@
 					 cancelButtonTitle: @"Cancel"
 					 otherButtonTitles: @"Upload changes", @"Download to device", nil];
     [alert show];
-    [alert release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -502,12 +500,6 @@
 - (void)dealloc {
     self.loginController = nil;
     self.viewController = nil;
-	self.navigationController = nil;
-    self.window = nil;
-    self.taskBag = nil;
-	self.remoteClientManager = nil;
-	self.lastSync = nil;
-    [super dealloc];
 }
 
 

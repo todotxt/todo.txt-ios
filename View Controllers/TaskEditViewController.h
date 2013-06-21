@@ -58,10 +58,10 @@
 @end
 
 @interface TaskEditViewController : UIViewController <UITextViewDelegate>{
-	 id <TaskEditViewControllerDelegate> delegate;
+	 id <TaskEditViewControllerDelegate> __weak delegate;
 	UINavigationItem *navItem;
 	SSTextView *textView; 
-	UIView *accessoryView;
+	UIView *__weak accessoryView;
 	NSString *curInput;
 	Task *task;
 	NSRange curSelectedRange;
@@ -72,16 +72,16 @@
 	UIWebView* helpContents;
 }
 
-@property (nonatomic, assign) id <TaskEditViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UINavigationItem *navItem;
-@property (nonatomic, retain) IBOutlet SSTextView *textView;
-@property (nonatomic, assign) IBOutlet UIView *accessoryView;
-@property (nonatomic, retain) Task *task;
-@property (nonatomic, retain) IBOutlet UIView *helpView;
-@property (nonatomic, retain) IBOutlet UIView *helpContents;
-@property (nonatomic, retain) IBOutlet UIButton *helpCloseButton;
-@property (nonatomic, retain) UIPopoverController *popOverController;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, weak) id <TaskEditViewControllerDelegate> delegate;
+@property (nonatomic, strong) IBOutlet UINavigationItem *navItem;
+@property (nonatomic, strong) IBOutlet SSTextView *textView;
+@property (nonatomic, weak) IBOutlet UIView *accessoryView;
+@property (nonatomic, strong) Task *task;
+@property (nonatomic, strong) IBOutlet UIView *helpView;
+@property (nonatomic, strong) IBOutlet UIView *helpContents;
+@property (nonatomic, strong) IBOutlet UIButton *helpCloseButton;
+@property (nonatomic, strong) UIPopoverController *popOverController;
+@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;

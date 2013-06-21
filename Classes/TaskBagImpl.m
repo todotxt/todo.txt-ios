@@ -63,9 +63,9 @@ static Task* find(NSArray *tasks, Task *task) {
 
 @interface TaskBagImpl ()
 
-@property (nonatomic, retain) NSMutableArray *tasks;
-@property (nonatomic, retain) id <LocalTaskRepository> localTaskRepository;
-@property (nonatomic, retain) NSDate *lastReload;
+@property (nonatomic, strong) NSMutableArray *tasks;
+@property (nonatomic, strong) id <LocalTaskRepository> localTaskRepository;
+@property (nonatomic, strong) NSDate *lastReload;
 
 @end
 
@@ -151,7 +151,6 @@ static Task* find(NSArray *tasks, Task *task) {
 							  withRawText:input 
 				 withDefaultPrependedDate:date];
     [self.tasks addObject:task];
-	[task release];
 	[self updateBadge];
     [self store];
 
@@ -224,7 +223,6 @@ static Task* find(NSArray *tasks, Task *task) {
     return [self.tasks count];
 }
 
-
 - (NSArray*) projects {
 	NSMutableSet *set = [NSMutableSet setWithCapacity:32];
 	for (Task* task in self.tasks) {
@@ -247,12 +245,6 @@ static Task* find(NSArray *tasks, Task *task) {
     return [Priority all];
 }
 
-- (void) dealloc {
-    self.localTaskRepository = nil;
-    self.tasks = nil;
-	self.lastReload = nil;
-    [super dealloc];
-}
 
 @end
 

@@ -51,9 +51,9 @@
 + (NSString*) todoFilename {
     static NSString *TODO_TXT_FILE = nil;
     if(!TODO_TXT_FILE) {
-        TODO_TXT_FILE = [[[NSSearchPathForDirectoriesInDomains(
+        TODO_TXT_FILE = [[NSSearchPathForDirectoriesInDomains(
                 NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] 
-                stringByAppendingPathComponent:@"todo.txt"] retain];
+                stringByAppendingPathComponent:@"todo.txt"];
     }
     return TODO_TXT_FILE;
 }
@@ -61,9 +61,9 @@
 + (NSString*) doneFilename {
     static NSString *DONE_TXT_FILE = nil;
     if(!DONE_TXT_FILE) {
-        DONE_TXT_FILE = [[[NSSearchPathForDirectoriesInDomains(
+        DONE_TXT_FILE = [[NSSearchPathForDirectoriesInDomains(
 				NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] 
-				stringByAppendingPathComponent:@"done.txt"] retain];
+				stringByAppendingPathComponent:@"done.txt"];
     }
     return DONE_TXT_FILE;
 }

@@ -13,10 +13,10 @@
 @interface TaskCellViewModel : NSObject
 
 @property (nonatomic, strong) Task *task;
-@property (nonatomic, readonly) NSAttributedString *attributedText;
-@property (nonatomic, readonly) NSString *ageText;
-@property (nonatomic, readonly) NSString *priorityText;
-@property (nonatomic, readonly) UIColor *priorityColor;
+@property (weak, nonatomic, readonly) NSAttributedString *attributedText;
+@property (weak, nonatomic, readonly) NSString *ageText;
+@property (weak, nonatomic, readonly) NSString *priorityText;
+@property (weak, nonatomic, readonly) UIColor *priorityColor;
 @property (nonatomic, readonly) BOOL shouldShowDate;
 
 @end

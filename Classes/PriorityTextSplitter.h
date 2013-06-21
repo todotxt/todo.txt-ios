@@ -47,11 +47,11 @@
 
 
 @interface PriorityTextSplitter : NSObject {
-	Priority *priority;
+	Priority *__weak priority;
 	NSString *text;
 }
 
-@property (nonatomic, readonly) Priority *priority;
+@property (weak, nonatomic, readonly) Priority *priority;
 @property (nonatomic, readonly) NSString *text;
 
 + (PriorityTextSplitter*) split:(NSString*)inputText;

@@ -57,10 +57,8 @@
         NSLog(@"read line %d: %@", i, line);
 		Task *task = [[Task alloc] initWithId:i withRawText:line];
         [items addObject:task];
-		[task release];
         i++;
     }
-    [reader release];    
     
     return items;
 }

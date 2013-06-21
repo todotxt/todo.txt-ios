@@ -181,8 +181,7 @@
 	if (task) {
 		[task update:curInput];
 		Task *newTask = [taskBag update:task];
-		[task release];
-		task = [newTask retain];
+		task = newTask;
 	} else {
 		[taskBag addAsTask:curInput];
 	}
@@ -192,10 +191,10 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-	curInput = [[[[textView text] 
+	curInput = [[[textView text] 
 		componentsSeparatedByCharactersInSet:
 			[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-			   componentsJoinedByString:@" "] retain];
+			   componentsJoinedByString:@" "];
 	
 	if (curInput.length == 0) {
 		[self exitController];
@@ -222,10 +221,10 @@
 		const CGRect rect = (CGRect){CGPointZero,size};		
 		helpView.frame  = rect;
 		//spawn popovercontroller
-		UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+		UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
 		viewController.view = helpView;
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-		self.popOverController = [[[UIPopoverController alloc] initWithContentViewController:viewController] autorelease];
+		self.popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
 		helpCloseButton.hidden = YES;
         [popOverController presentPopoverFromBarButtonItem:sender
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
@@ -377,7 +376,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	[curInput release];
 	curInput = nil;
 	self.navItem = nil;
 	self.task = nil;
@@ -388,16 +386,6 @@
 	self.actionSheetPicker = nil;
 }
 
-- (void)dealloc {
-	[navItem release];
-	[textView release];
-	[helpView release];
-	[helpContents release];
-	[helpCloseButton release];
-	[popOverController release];
-	[actionSheetPicker release];
-    [super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  return YES;

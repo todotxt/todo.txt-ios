@@ -54,10 +54,10 @@ static NSArray* priorityArray = nil;
 	self = [super init];
 	if (self) {
 		name = theName;
-        code = [theCode retain];
-        listFormat = [theListFormat retain];
-        detailFormat = [theDetailFormat retain];
-        fileFormat = [theFileFormat retain];	
+        code = theCode;
+        listFormat = theListFormat;
+        detailFormat = theDetailFormat;
+        fileFormat = theFileFormat;	
 	}
 	return self;
 }
@@ -76,13 +76,13 @@ static NSArray* priorityArray = nil;
 }
 
 +(Priority *)priorityWithName:(PriorityName)theName :(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
-	return [[[Priority alloc] initWithName:theName :theCode :theListFormat :theDetailFormat :theFileFormat] autorelease];
+	return [[Priority alloc] initWithName:theName :theCode :theListFormat :theDetailFormat :theFileFormat];
 }
 
 + (void)initialize {
 	@synchronized(self) {
 		if (!priorityArray) {
-			priorityArray = [[NSArray arrayWithObjects:
+			priorityArray = [NSArray arrayWithObjects:
 							  [Priority priorityWithName:PriorityNone :@"-" :@" " :@"" :@""],
 							  [Priority priorityWithName:PriorityA :@"A" :@"A" :@"A" :@"(A)"],
 							  [Priority priorityWithName:PriorityB :@"B" :@"B" :@"B" :@"(B)"],
@@ -111,7 +111,7 @@ static NSArray* priorityArray = nil;
 							  [Priority priorityWithName:PriorityY :@"Y" :@"Y" :@"Y" :@"(Y)"],
 							  [Priority priorityWithName:PriorityZ :@"Z" :@"Z" :@"Z" :@"(Z)"],
 							  nil
-							 ] retain];
+							 ];
 		}
 	}
 }

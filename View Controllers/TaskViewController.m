@@ -77,7 +77,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 @interface TaskViewController ()
 
-@property (nonatomic, retain) TaskCell *taskCell;
+@property (nonatomic, strong) TaskCell *taskCell;
 
 @end
 
@@ -242,7 +242,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 		
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		}
 		
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -315,9 +315,8 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) deleteTask {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [[self task] retain];
+	Task* task = [self task];
 	[taskBag remove:task];
-	[task release];
 	 
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
 	[todo_txt_touch_iosAppDelegate displayNotification:@"Deleted task"];
@@ -326,10 +325,9 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) undoCompleteTask {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [[self task] retain];
+	Task* task = [self task];
 	[task markIncomplete];
 	[taskBag update:task];
-	[task release];
 	
 	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
@@ -337,10 +335,9 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) completeTask {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [[self task] retain];
+	Task* task = [self task];
 	[task markComplete:[NSDate date]];
 	[taskBag update:task];
-	[task release];
 		
 	BOOL auto_archive = [[NSUserDefaults standardUserDefaults] boolForKey:@"auto_archive_preference"];
 	if (auto_archive) {
@@ -359,10 +356,9 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) prioritizeTask:(Priority*)selectedPriority {
 	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-	Task* task = [[self task] retain];
+	Task* task = [self task];
 	task.priority = selectedPriority;
 	[taskBag update:task];
-	[task release];
 	
 	[todo_txt_touch_iosAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
@@ -406,7 +402,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) didTapUpdateButton {
 	NSLog(@"didTapUpdateButton called");
-    TaskEditViewController *taskEditView = [[[TaskEditViewController alloc] init] autorelease];
+    TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
 	taskEditView.task = [self task];
 	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentModalViewController:taskEditView animated:YES];	
@@ -423,7 +419,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 					  otherButtonTitles:nil];
 	dlg.tag = 10;
 	[dlg showInView:self.view];
-	[dlg release];		
 }
 
 - (void) didTapUndoCompleteButton {
@@ -437,7 +432,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 						  otherButtonTitles:@"Mark Incomplete", nil ];
 	dlg.tag = 20;
 	[dlg showInView:self.view];
-	[dlg release];		
 }
 
 
@@ -452,8 +446,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 }
 
 - (void) dealloc {;
-	[super dealloc];
-	[actionSheetPicker release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

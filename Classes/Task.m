@@ -64,13 +64,13 @@
 	TextSplitter *splitResult = [TextSplitter split:rawText];
 	
 	priority = [splitResult priority];
-	text = [[splitResult text] retain];
-	prependedDate = [[splitResult prependedDate] retain];
+	text = [splitResult text];
+	prependedDate = [splitResult prependedDate];
 	completed = [splitResult completed];
-	completionDate = [[splitResult completedDate] retain];
+	completionDate = [splitResult completedDate];
 	
-	contexts = [[ContextParser parse:text] retain];
-	projects = [[ProjectParser parse:text] retain];
+	contexts = [ContextParser parse:text];
+	projects = [ProjectParser parse:text];
 	deleted = [text length] == 0;
 	
 	if (date && [prependedDate length] == 0) {
@@ -78,9 +78,9 @@
 	}
 	
 	if ([prependedDate length] > 0) {
-		relativeAge = [[RelativeDate 
+		relativeAge = [RelativeDate 
 						stringWithDate:[Util dateFromString:prependedDate 
-										withFormat:TASK_DATE_FORMAT]] retain];
+										withFormat:TASK_DATE_FORMAT]];
 	}
 	
 }
@@ -108,7 +108,7 @@
 - (void)markComplete:(NSDate*)date {
 	if (!completed) {
 		priority = [Priority NONE];
-		completionDate = [[Util stringFromDate:date withFormat:TASK_DATE_FORMAT] retain];
+		completionDate = [Util stringFromDate:date withFormat:TASK_DATE_FORMAT];
 		deleted = NO;
 		completed = YES;		
 	}
@@ -116,8 +116,7 @@
 
 - (void)markIncomplete {
 	if (completed) {
-		[completionDate release];
-		completionDate = [[NSString string] retain];
+		completionDate = [NSString string];
 		completed = NO;
 	}
 }
@@ -141,7 +140,7 @@
 	
 	[ret appendString:text];
 	
-	return [[ret copy] autorelease];
+	return [ret copy];
 }
 
 - (NSString*)inFileFormat{
@@ -165,7 +164,7 @@
 
 	[ret appendString:text];
 	
-	return [[ret copy] autorelease];
+	return [ret copy];
 }
 
 - (void)copyInto:(Task*)destination {

@@ -46,14 +46,14 @@
 
 
 @interface TextSplitter : NSObject {
-	Priority *priority;
+	Priority *__weak priority;
 	NSString *text;
 	NSString *prependedDate;
 	BOOL completed;
 	NSString *completedDate;
 }
 
-@property (nonatomic, readonly) Priority *priority;
+@property (weak, nonatomic, readonly) Priority *priority;
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) NSString *prependedDate;
 @property (nonatomic, readonly) BOOL completed;

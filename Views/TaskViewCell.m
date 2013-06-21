@@ -46,7 +46,7 @@
 #import "AttributedLabel.h"
 
 @interface TaskViewCell ()
-@property (retain, readwrite) AttributedLabel *taskLabel;
+@property (strong, readwrite) AttributedLabel *taskLabel;
 
 @end
 
@@ -69,7 +69,7 @@
 			}
 		}
 		
-		self.taskLabel = [[[AttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
+		self.taskLabel = [[AttributedLabel alloc] initWithFrame:CGRectZero];
         self.taskLabel.backgroundColor = [UIColor clearColor];
 		
 		self.taskLabel.tag = LABELTAG;
@@ -80,10 +80,6 @@
 	return(self);
 }
 
-- (void)dealloc {
-	self.taskLabel = nil;
-	[super dealloc];
-}
 
 - (void)nudge:(UIView *)label numberedxpos:(CGFloat)numberedxpos barexpos:(CGFloat)barexpos ypos:(CGFloat)ypos height:(CGFloat)height
 {

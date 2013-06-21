@@ -53,7 +53,7 @@
 	self = [super init];
 	
 	if (self) {
-		projects = [projectList retain];
+		projects = projectList;
 	}
 	
 	return self;	
@@ -75,9 +75,5 @@
 	return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[projects release];
-}
 
 @end

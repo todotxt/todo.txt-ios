@@ -13,10 +13,10 @@
 
 @interface TaskCellViewModel ()
 
-@property (nonatomic, readonly) NSDictionary *attributesForTask;
-@property (nonatomic, readonly) NSDictionary *attributesForCompletedTask;
-@property (nonatomic, readonly) UIFont *taskFont;
-@property (nonatomic, readonly) UIColor *taskColor;
+@property (weak, nonatomic, readonly) NSDictionary *attributesForTask;
+@property (weak, nonatomic, readonly) NSDictionary *attributesForCompletedTask;
+@property (weak, nonatomic, readonly) UIFont *taskFont;
+@property (weak, nonatomic, readonly) UIColor *taskColor;
 
 @end
 

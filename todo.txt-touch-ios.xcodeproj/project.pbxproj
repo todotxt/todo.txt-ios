@@ -24,37 +24,37 @@
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
 		1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* TasksViewController.m */; };
 		1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908E176B63D10022C9AE /* TaskViewCell.m */; };
-		1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909C176B64BB0022C9AE /* SSTextView.m */; };
-		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; };
-		1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; };
+		1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909C176B64BB0022C9AE /* SSTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9197176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; };
-		1B0C9198176B6B040022C9AE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9195176B6B040022C9AE /* Reachability.m */; };
+		1B0C9198176B6B040022C9AE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9195176B6B040022C9AE /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9199176B6B040022C9AE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9195176B6B040022C9AE /* Reachability.m */; };
-		1B0C91CE176B6B0E0022C9AE /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C919D176B6B0E0022C9AE /* IASKAppSettingsViewController.m */; };
-		1B0C91CF176B6B0E0022C9AE /* IASKAppSettingsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C919F176B6B0E0022C9AE /* IASKAppSettingsWebViewController.m */; };
-		1B0C91D0176B6B0E0022C9AE /* IASKSpecifierValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A1176B6B0E0022C9AE /* IASKSpecifierValuesViewController.m */; };
-		1B0C91D1176B6B0E0022C9AE /* IASKSettingsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A4176B6B0E0022C9AE /* IASKSettingsReader.m */; };
-		1B0C91D2176B6B0E0022C9AE /* IASKSettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A6176B6B0E0022C9AE /* IASKSettingsStore.m */; };
-		1B0C91D3176B6B0E0022C9AE /* IASKSettingsStoreFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A8176B6B0E0022C9AE /* IASKSettingsStoreFile.m */; };
-		1B0C91D4176B6B0E0022C9AE /* IASKSettingsStoreUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AA176B6B0E0022C9AE /* IASKSettingsStoreUserDefaults.m */; };
-		1B0C91D5176B6B0E0022C9AE /* IASKSpecifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AC176B6B0E0022C9AE /* IASKSpecifier.m */; };
-		1B0C91D6176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AF176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.m */; };
-		1B0C91D7176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B1176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.m */; };
-		1B0C91D8176B6B0E0022C9AE /* IASKPSTitleValueSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B3176B6B0E0022C9AE /* IASKPSTitleValueSpecifierViewCell.m */; };
-		1B0C91D9176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B5176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.m */; };
-		1B0C91DA176B6B0E0022C9AE /* IASKSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B7176B6B0E0022C9AE /* IASKSlider.m */; };
-		1B0C91DB176B6B0E0022C9AE /* IASKSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B9176B6B0E0022C9AE /* IASKSwitch.m */; };
-		1B0C91DC176B6B0E0022C9AE /* IASKTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91BB176B6B0E0022C9AE /* IASKTextField.m */; };
+		1B0C91CE176B6B0E0022C9AE /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C919D176B6B0E0022C9AE /* IASKAppSettingsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91CF176B6B0E0022C9AE /* IASKAppSettingsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C919F176B6B0E0022C9AE /* IASKAppSettingsWebViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D0176B6B0E0022C9AE /* IASKSpecifierValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A1176B6B0E0022C9AE /* IASKSpecifierValuesViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D1176B6B0E0022C9AE /* IASKSettingsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A4176B6B0E0022C9AE /* IASKSettingsReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D2176B6B0E0022C9AE /* IASKSettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A6176B6B0E0022C9AE /* IASKSettingsStore.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D3176B6B0E0022C9AE /* IASKSettingsStoreFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91A8176B6B0E0022C9AE /* IASKSettingsStoreFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D4176B6B0E0022C9AE /* IASKSettingsStoreUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AA176B6B0E0022C9AE /* IASKSettingsStoreUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D5176B6B0E0022C9AE /* IASKSpecifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AC176B6B0E0022C9AE /* IASKSpecifier.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D6176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91AF176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D7176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B1176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D8176B6B0E0022C9AE /* IASKPSTitleValueSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B3176B6B0E0022C9AE /* IASKPSTitleValueSpecifierViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91D9176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B5176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91DA176B6B0E0022C9AE /* IASKSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B7176B6B0E0022C9AE /* IASKSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91DB176B6B0E0022C9AE /* IASKSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91B9176B6B0E0022C9AE /* IASKSwitch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91DC176B6B0E0022C9AE /* IASKTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91BB176B6B0E0022C9AE /* IASKTextField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C91DD176B6B0E0022C9AE /* IASKAppSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91BD176B6B0E0022C9AE /* IASKAppSettingsView.xib */; };
 		1B0C91DE176B6B0E0022C9AE /* IASKAppSettingsWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91BE176B6B0E0022C9AE /* IASKAppSettingsWebView.xib */; };
 		1B0C91DF176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91BF176B6B0E0022C9AE /* IASKPSSliderSpecifierViewCell.xib */; };
 		1B0C91E0176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91C0176B6B0E0022C9AE /* IASKPSTextFieldSpecifierViewCell.xib */; };
 		1B0C91E1176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91C1176B6B0E0022C9AE /* IASKPSToggleSwitchSpecifierViewCell.xib */; };
 		1B0C91E2176B6B0E0022C9AE /* IASKSpecifierValuesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91C2176B6B0E0022C9AE /* IASKSpecifierValuesView.xib */; };
-		1B0C91E3176B6B0E0022C9AE /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91C5176B6B0E0022C9AE /* MBProgressHUD.m */; };
-		1B0C91E4176B6B0E0022C9AE /* PGTableViewWithEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91C8176B6B0E0022C9AE /* PGTableViewWithEmptyView.m */; };
+		1B0C91E3176B6B0E0022C9AE /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91C5176B6B0E0022C9AE /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1B0C91E4176B6B0E0022C9AE /* PGTableViewWithEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91C8176B6B0E0022C9AE /* PGTableViewWithEmptyView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C91E5176B6B0E0022C9AE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CA176B6B0E0022C9AE /* README.md */; };
-		1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */; };
+		1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */; };
 		1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
 		1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
@@ -66,7 +66,7 @@
 		1B0C91FD176B6D2F0022C9AE /* TaskEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */; };
 		1B0C91FE176B6D2F0022C9AE /* TasksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */; };
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
-		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
 		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
 		1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
@@ -94,7 +94,7 @@
 		5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */; };
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
-		5C187762176E775D00824682 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C187761176E775D00824682 /* TaskCell.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		5C187762176E775D00824682 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C187761176E775D00824682 /* TaskCell.m */; };
 		5C187764176E77AD00824682 /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C187763176E77AD00824682 /* TaskCell.xib */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
@@ -1452,6 +1452,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1489,6 +1490,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1543,6 +1545,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1601,6 +1604,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (

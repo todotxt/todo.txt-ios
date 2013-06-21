@@ -98,7 +98,6 @@
 									 root:kDBRootDropbox];
 		session.delegate = self; 
 		[DBSession setSharedSession:session];
-		[session release];
     }
 	return self;
 }
@@ -163,7 +162,6 @@
 		}
 	}
     
-    [todoDownloader release];
 }
 
 - (void) pullTodo {
@@ -180,12 +178,12 @@
 	
     DropboxFileDownloader* todoDownloader = [[DropboxFileDownloader alloc] initWithTarget:self
                                                                                onComplete:@selector(pullTodoCompleted:)];
-	[todoDownloader pullFiles:[NSArray arrayWithObjects:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
+	[todoDownloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
 														   localFile:[DropboxRemoteClient todoTxtTmpFile]
-														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]] autorelease],
-							  [[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
+														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]],
+							  [[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
 														   localFile:[DropboxRemoteClient doneTxtTmpFile]
-														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]] autorelease],
+														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]],
 							  nil]];
 }
 
@@ -239,15 +237,15 @@
 	
 	NSMutableArray *files = [NSMutableArray arrayWithCapacity:2];
 	if (todoPath) {
-		[files addObject:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
+		[files addObject:[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
 													  localFile:todoPath
-													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]] autorelease]];
+													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]]];
 	}
 
 	if (donePath) {
-		[files addObject:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
+		[files addObject:[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
 													   localFile:donePath
-													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]] autorelease]];
+													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]]];
 	}
 
     DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] initWithTarget:self
@@ -288,8 +286,5 @@
     return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-}
 
 @end

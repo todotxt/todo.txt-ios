@@ -50,10 +50,9 @@
 @implementation TaskBagFactory
 
 + (id <TaskBag>) getTaskBag {
-    return [[[TaskBagImpl alloc] 
+    return [[TaskBagImpl alloc] 
             initWithRepository:
-            [[[LocalFileTaskRepository alloc] init] autorelease]]
-            autorelease];
+            [[LocalFileTaskRepository alloc] init]];
 }
 
 @end

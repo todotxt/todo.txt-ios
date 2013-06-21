@@ -55,9 +55,9 @@
 	if (self) {
 		caseSensitive = isCaseSensitive;
 		if (caseSensitive) {
-			text = [aText retain];
+			text = aText;
 		} else {
-			text = [[aText uppercaseString] retain];
+			text = [aText uppercaseString];
 		}
 		caseSensitive = isCaseSensitive;
 		
@@ -86,9 +86,5 @@
 	return YES;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[text release];
-}
 
 @end

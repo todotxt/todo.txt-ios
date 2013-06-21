@@ -69,7 +69,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 - (void)filterOnContextsAndProjects;
 - (IBAction)selectedSegment:(UISegmentedControl *)sender;
 
-@property (assign, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
 @property (strong, nonatomic) NSArray *contexts;
 @property (strong, nonatomic) NSArray *projects;
 @property (strong, nonatomic) NSMutableArray *selectedContexts;

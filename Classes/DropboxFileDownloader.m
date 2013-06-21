@@ -104,8 +104,7 @@
 }
 
 - (void) pullFiles:(NSArray*)dropboxFiles {
-	[files release];
-	files = [dropboxFiles retain];
+	files = dropboxFiles;
 	curFile = -1;
 	status = dbStarted;
 	
@@ -160,18 +159,11 @@
 	file.status = dbError;
 	file.error = theError;
 	
-	[error release];
-	error = [theError retain];
+	error = theError;
 
 	// don't bother downloading any more files after the first error
 	[self reportCompletionWithStatus:dbError];
 }
 
-- (void) dealloc {
-	[error release];
-	[files release];
-	[restClient release];
-	[super dealloc];
-}
 
 @end

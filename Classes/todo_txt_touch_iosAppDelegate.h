@@ -51,9 +51,9 @@
 
 @interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) id lastClickedButton; //Anchor holder for the Popover in iPad
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@property (nonatomic, strong) id lastClickedButton; //Anchor holder for the Popover in iPad
 
 - (void)displayNotification:(NSString *)message;
 - (void) clearUserDefaults;

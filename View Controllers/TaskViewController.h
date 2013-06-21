@@ -54,8 +54,8 @@
 }
 
 @property (nonatomic, assign) NSInteger taskIndex;
-@property (nonatomic, retain) IBOutlet UITableViewCell *tableCell;
-@property (nonatomic, retain) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) IBOutlet UITableViewCell *tableCell;
+@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
 
 - (void) didTapCompleteButton;
 - (void) didTapPrioritizeButton;

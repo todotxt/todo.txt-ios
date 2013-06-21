@@ -50,10 +50,10 @@
 	UIImageView *imageView;	
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *todoTxtLabel;
-@property (nonatomic, retain) IBOutlet UILabel *touchLabel;
-@property (nonatomic, retain) IBOutlet UIButton *loginButton;
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UILabel *todoTxtLabel;
+@property (nonatomic, strong) IBOutlet UILabel *touchLabel;
+@property (nonatomic, strong) IBOutlet UIButton *loginButton;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
 - (IBAction)loginButtonPressed:(id)sender;
 
