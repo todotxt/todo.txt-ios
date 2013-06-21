@@ -50,11 +50,14 @@
 #import "Color.h"
 #import "ActionSheetPicker.h"
 #import "TaskCell.h"
+#import "TaskCellViewModel.h"
 #import "TaskViewCell.h"
 #import "AttributedLabel.h"
 #import <CoreText/CoreText.h>
 
 #import "NSMutableAttributedString+TodoTxt.h"
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
 #define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
@@ -204,12 +207,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	}
 }
 
-- (NSAttributedString*)attributedTaskText:(Task *)task {
-    // TODO: refactor +[TaskCell attributedTextForTask] out and call that instead
-    // of using TaskCell here.
-    return [TaskCell attributedTextForTask:task];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	UITableViewCell *cell = nil;
@@ -221,8 +218,21 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
                                                   bundle:nil]
             forCellReuseIdentifier:kTaskCellReuseIdentifier];
             TaskCell *taskCell = [tableView dequeueReusableCellWithIdentifier:kTaskCellReuseIdentifier];
+            Task *task = [self task];
+            TaskCellViewModel *viewModel = [[TaskCellViewModel alloc] init];
+            viewModel.task = task;
             
-            taskCell.task = [self task];
+            taskCell.viewModel = viewModel;
+            
+            // Use RAC(...) as usual here, since this cell is created once and never re-used.
+            RAC(taskCell.taskTextView, attributedText) = [RACAbleWithStart(viewModel, attributedText) distinctUntilChanged];
+            RAC(taskCell.ageLabel, text) = [RACAbleWithStart(viewModel, ageText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, text) = [RACAbleWithStart(viewModel, priorityText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, textColor) = [RACAbleWithStart(viewModel, priorityColor) distinctUntilChanged];
+            RAC(taskCell, shouldShowDate) = RACAbleWithStart(viewModel, shouldShowDate);
+            
+            taskCell.viewModel = viewModel;
+            
             self.taskCell = taskCell;
         }
         

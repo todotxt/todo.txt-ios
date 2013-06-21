@@ -3,14 +3,14 @@
 //  todo.txt-touch-ios
 //
 //  Created by Brendon Justin on 6/16/13.
-//
+//  Copyright (c) 2013, Sierra Bravo Corp., dba The Nerdery 
 //
 
 #import "TaskCell.h"
 
-#import "Color.h"
 #import "Priority.h"
 #import "Task.h"
+#import "TaskCellViewModel.h"
 
 #import <CoreText/CoreText.h>
 
@@ -19,41 +19,23 @@ static const CGFloat kMinHeight = 44;
 
 @interface TaskCell ()
 
-+ (TaskCell *)sizingCell;
-+ (UIFont *)taskFont;
-+ (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete;
-
-@property (nonatomic, weak) IBOutlet UILabel *priorityLabel;
-@property (nonatomic, weak) IBOutlet UILabel *ageLabel;
-@property (nonatomic, weak) IBOutlet UITextView *taskTextView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTopSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelBottomSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelLeadingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTrailingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *ageLabelHeight;
 @property (nonatomic) CGFloat ageLabelInitialHeight;
-@property (nonatomic, readonly) NSAttributedString *attributedTaskText;
+
++ (TaskCell *)sizingCell;
 
 @end
 
 @implementation TaskCell
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        self.shouldShowDate = YES;
-    }
-    
-    return self;
-}
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
-    self.taskTextView.font = [[self class] taskFont];
     self.taskTextView.contentInset = UIEdgeInsetsMake(-8, -8, -8, -8);
     self.ageLabelInitialHeight = self.ageLabelHeight.constant;
     
@@ -83,49 +65,15 @@ static const CGFloat kMinHeight = 44;
 
 #pragma mark - Overridden getters/setters
 
-- (void)setTask:(Task *)task
+- (void)setShouldShowDate:(BOOL)shouldShowDate
 {
-    _task = task;
-    
-    // Setup the priority label
-    self.priorityLabel.text = [[self.task priority] listFormat];
-	
-    // Set the priority label's color
-	PriorityName n = [[self.task priority] name];
-	switch (n) {
-		case PriorityA:
-			//Set color to green #587058
-			self.priorityLabel.textColor = [Color green];
-			break;
-		case PriorityB:
-			//Set color to blue #587498
-			self.priorityLabel.textColor = [Color blue];
-			break;
-		case PriorityC:
-			//Set color to orange #E86850
-			self.priorityLabel.textColor = [Color orange];
-			break;
-		case PriorityD:
-			//Set color to gold #587058
-			self.priorityLabel.textColor = [Color gold];
-			break;
-		default:
-			//Set color to black #000000
-			self.priorityLabel.textColor = [Color black];
-			break;
-	}
-    
-    self.taskTextView.attributedText = self.attributedTaskText;
-    
     CGFloat newAgeLabelHeight = 0;
     // Show the age of the task, if appropriate. If not, hide the age label.
-	if (self.shouldShowDate && ![self.task completed] && task.relativeAge) {
-		self.ageLabel.text = self.task.relativeAge;
+	if (self.shouldShowDate) {
 		self.ageLabel.hidden = NO;
         
         newAgeLabelHeight = self.ageLabelInitialHeight;
 	} else {
-		self.ageLabel.text = @"";
 		self.ageLabel.hidden = YES;
         
         newAgeLabelHeight = 0;
@@ -141,13 +89,9 @@ static const CGFloat kMinHeight = 44;
     }
 }
 
-- (NSAttributedString *)attributedTaskText
-{
-    return [[self class] attributedTextForTask:self.task];
-}
-
 #pragma mark - Public class methods
 
+// TODO: move me to another class, maybe the view model
 + (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width
 {
     const CGFloat bottomSpaceReclaimed = task.relativeAge ? 0 : staticSizingCell.ageLabelHeight.constant;
@@ -157,7 +101,7 @@ static const CGFloat kMinHeight = 44;
     
     CGSize taskLabelSize = CGSizeMake(width - takenWidth, CGFLOAT_MAX);
     
-    staticSizingCell.taskTextView.attributedText = [self attributedTextForTask:task];
+    staticSizingCell.taskTextView.attributedText = [[NSAttributedString alloc] initWithString:task.text];
     CGRect rect = CGRectZero;
     rect.size = [staticSizingCell.taskTextView sizeThatFits:taskLabelSize];
     
@@ -166,28 +110,6 @@ static const CGFloat kMinHeight = 44;
     return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
 }
 
-+ (NSAttributedString *)attributedTextForTask:(Task *)task
-{
-    NSAssert(task, @"Task cannot be nil");
-    
-    NSDictionary *taskAttributes = [[self class] taskStringAttributesForCompleted:task.completed];
-    
-    NSString *taskText = [task inScreenFormat];
-    NSMutableAttributedString *taskString;
-    taskString = [[NSMutableAttributedString alloc] initWithString:taskText
-                                                        attributes:taskAttributes];
-    
-    NSDictionary *grayAttribute = @{ NSForegroundColorAttributeName : [UIColor grayColor] };
-    
-    NSArray *contextsRanges = [task rangesOfContexts];
-    NSArray *projectsRanges = [task rangesOfProjects];
-    for (NSValue *rangeValue in [contextsRanges arrayByAddingObjectsFromArray:projectsRanges]) {
-        NSRange range = rangeValue.rangeValue;
-        [taskString addAttributes:grayAttribute range:range];
-    }
-    
-    return taskString;
-}
 
 #pragma mark - Private class methods
 
@@ -201,31 +123,6 @@ static const CGFloat kMinHeight = 44;
     });
     
     return staticSizingCell;
-}
-
-+ (UIFont *)taskFont
-{
-    return [UIFont systemFontOfSize:14.0];
-}
-
-+ (NSDictionary *)taskStringAttributesForCompleted:(BOOL)isComplete
-{
-    UIFont *taskFont = [[self class] taskFont];
-    UIColor *black = [UIColor blackColor];
-    
-    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-    NSDictionary *baseAttributes = @{
-                                     NSFontAttributeName : taskFont,
-                                     NSForegroundColorAttributeName : black
-                                     };
-    [attributes addEntriesFromDictionary:baseAttributes];
-    
-    if (isComplete) {
-        NSDictionary *completedAttributes = @{ NSStrikethroughStyleAttributeName : @(NSUnderlineStyleSingle) };
-        [attributes addEntriesFromDictionary:completedAttributes];
-    }
-    
-    return [NSDictionary dictionaryWithDictionary:attributes];
 }
 
 @end

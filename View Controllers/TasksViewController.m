@@ -45,7 +45,9 @@
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
 #import "Color.h"
+#import "Task.h"
 #import "TaskCell.h"
+#import "TaskCellViewModel.h"
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "TasksViewController.h"
@@ -53,6 +55,8 @@
 #import "FilterFactory.h"
 #import "IASKAppSettingsViewController.h"
 #import "ActionSheetPicker.h"
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
@@ -237,16 +241,44 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 // Return cell for the rows in table view
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    Task *task = [self taskForTable:tableView atIndex:indexPath.row];
+    TaskCellViewModel *viewModel = [[TaskCellViewModel alloc] init];
+    viewModel.task = task;
+    
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    cell.viewModel = viewModel;
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    cell.shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"];
+    // Dispose of any existing connections
+    if (cell.textDisposable) {
+        [@[
+         cell.textDisposable,
+         cell.ageDisposable,
+         cell.priorityDisposable,
+         cell.priorityColorDisposable,
+         cell.showDateDisposable
+         ] enumerateObjectsUsingBlock:^(RACDisposable *disposable, NSUInteger idx, BOOL *stop) {
+             [disposable dispose];
+         }];
+    }
     
-    cell.task = [self taskForTable:tableView atIndex:indexPath.row];
+    // Avoid RAC(...) so that we can save the RACDisposables, to manually dispose of later.
+    // This is necessary since cells are (usually) re-used, rather than destroyed and recreated.
+    cell.textDisposable = [RACAbleWithStart(viewModel, attributedText) toProperty:@keypath(cell.taskTextView, attributedText)
+                                                                         onObject:cell.taskTextView];
+    cell.ageDisposable = [RACAbleWithStart(viewModel, ageText) toProperty:@keypath(cell.ageLabel, text)
+                                                                 onObject:cell.ageLabel];
+    cell.priorityDisposable = [RACAbleWithStart(viewModel, priorityText) toProperty:@keypath(cell.priorityLabel, text)
+                                                                           onObject:cell.priorityLabel];
+    cell.priorityColorDisposable = [RACAbleWithStart(viewModel, priorityColor) toProperty:@keypath(cell.priorityLabel, textColor)
+                                                                                 onObject:cell.priorityLabel];
+    cell.showDateDisposable = [RACAbleWithStart(viewModel, shouldShowDate) toProperty:@keypath(cell, shouldShowDate)
+                                                                             onObject:cell];
+    
+    cell.viewModel = viewModel;
     
     // Set the height of our frame as necessary for the task's text.
     CGRect frame = cell.frame;
-    frame.size.height = [TaskCell heightForTask:cell.task givenWidth:CGRectGetWidth(tableView.frame)];
+    frame.size.height = [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
     cell.frame = frame;
     
 	return cell;
