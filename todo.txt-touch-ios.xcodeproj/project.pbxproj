@@ -69,6 +69,8 @@
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
 		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
+		1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
+		1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -311,6 +313,8 @@
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
 		1B82361C1771F05200908C31 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = Libraries/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		1BAE2A101774AB5F00DA0A95 /* TaskCellViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCellViewModel.h; sourceTree = "<group>"; };
+		1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCellViewModel.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -733,12 +737,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1BAE2A0F1774AB3100DA0A95 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				1BAE2A101774AB5F00DA0A95 /* TaskCellViewModel.h */,
+				1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
 				33CF5E09144410B90050F60D /* Entitlements.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				1B0C9075176B63D00022C9AE /* View Controllers */,
+				1BAE2A0F1774AB3100DA0A95 /* View Models */,
 				1B0C9080176B63D10022C9AE /* Views */,
 				1B0C9207176B7BAA0022C9AE /* Protocols */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1232,6 +1246,7 @@
 				88E5141414D50C7600177F45 /* TaskBagImplTest.m in Sources */,
 				1B0C9197176B6B040022C9AE /* DDFileReader.m in Sources */,
 				1B0C9199176B6B040022C9AE /* Reachability.m in Sources */,
+				1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1303,6 +1318,7 @@
 				1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */,
 				1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */,
 				5C187762176E775D00824682 /* TaskCell.m in Sources */,
+				1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
