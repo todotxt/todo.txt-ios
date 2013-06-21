@@ -300,9 +300,8 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 	/*
      When a row is selected, create the detail view controller and set its detail item to the item associated with the selected row.
      */
-    TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
-    detailViewController.taskIndex = [[todo_txt_touch_iosAppDelegate sharedTaskBag] indexOfTask:task];	
+    TaskViewController *detailViewController = [[TaskViewController alloc] init];
+    detailViewController.task = task;
     
     // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];

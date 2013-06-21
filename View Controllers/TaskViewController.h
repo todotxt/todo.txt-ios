@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -44,24 +44,11 @@
 
 
 #import <UIKit/UIKit.h>
-#import "Task.h"
-#import "ActionSheetPicker.h"
 
-@interface TaskViewController : UITableViewController <UIActionSheetDelegate> {
-    NSInteger taskIndex;
-	UITableViewCell *tableCell; 
-	ActionSheetPicker *actionSheetPicker;
-}
+@class Task;
 
-@property (nonatomic, assign) NSInteger taskIndex;
-@property (nonatomic, strong) IBOutlet UITableViewCell *tableCell;
-@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@interface TaskViewController : UIViewController <UIActionSheetDelegate>
 
-- (void) didTapCompleteButton;
-- (void) didTapPrioritizeButton;
-- (void) didTapUndoCompleteButton;
-- (void) didTapUpdateButton;
-- (void) didTapDeleteButton;
-- (void) deleteTask;
+@property (nonatomic, strong) Task *task;
 
 @end
