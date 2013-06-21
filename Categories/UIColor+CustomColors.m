@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,22 +42,70 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "UIColor+CustomColors.h"
 
-@interface UIColor(HexValues)
+@implementation UIColor(HexValues)
 
-+ (UIColor*) colorWithHex:(NSUInteger)hexValue;
++ (UIColor*) colorWithHex:(NSUInteger)hexValue {
+	
+	return [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16))/255.0
+						   green:((float)((hexValue & 0xFF00) >> 8))/255.0
+							blue:((float)(hexValue & 0xFF))/255.0
+						   alpha:1.0];
+}
 
 @end
 
-@interface Color : NSObject {
+@implementation UIColor (CustomColors)
+
++ (UIColor *) green {
+	static UIColor *sGreen = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sGreen = [UIColor colorWithHex:0x587058];
+    });
     
+	return (UIColor*)sGreen;
 }
 
-+ (UIColor*) green;
-+ (UIColor*) blue;
-+ (UIColor*) gold;
-+ (UIColor*) orange;
-+ (UIColor*) black;
++ (UIColor *) blue {
+	static UIColor *sBlue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sBlue = [UIColor colorWithHex:0x587498];
+    });
+    
+	return sBlue;
+}
+
++ (UIColor *) gold {
+	static UIColor *sGold = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sGold = [UIColor colorWithHex:0xFFD800];
+    });
+    
+	return sGold;
+}
+
++ (UIColor *) orange {
+	static UIColor *sOrange = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sOrange = [UIColor colorWithHex:0xE86850];
+    });
+    
+	return sOrange;
+}
+
++ (UIColor *) black {
+	static UIColor *sBlack = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sBlack = [UIColor colorWithHex:0x000000];
+    });
+    
+	return sBlack;
+}
 
 @end

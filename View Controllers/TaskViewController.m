@@ -47,7 +47,7 @@
 #import "TaskEditViewController.h"
 #import "TaskBag.h"
 #import "AsyncTask.h"
-#import "Color.h"
+#import "UIColor+CustomColors.h"
 #import "ActionSheetPicker.h"
 #import "TaskCell.h"
 #import "TaskCellViewModel.h"

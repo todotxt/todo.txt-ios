@@ -8,7 +8,7 @@
 
 #import "TaskCellViewModel.h"
 
-#import "Color.h"
+#import "UIColor+CustomColors.h"
 #import "Task.h"
 
 @interface TaskCellViewModel ()
@@ -68,23 +68,23 @@
 	switch (name) {
 		case PriorityA:
 			//Set color to green #587058
-			color = [Color green];
+			color = [UIColor green];
 			break;
 		case PriorityB:
 			//Set color to blue #587498
-			color = [Color blue];
+			color = [UIColor blue];
 			break;
 		case PriorityC:
 			//Set color to orange #E86850
-			color = [Color orange];
+			color = [UIColor orange];
 			break;
 		case PriorityD:
 			//Set color to gold #587058
-			color = [Color gold];
+			color = [UIColor gold];
 			break;
 		default:
 			//Set color to black #000000
-			color = [Color black];
+			color = [UIColor black];
 			break;
 	}
 

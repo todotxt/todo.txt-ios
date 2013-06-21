@@ -2,8 +2,8 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -41,52 +41,15 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import "Color.h"
 
-@implementation UIColor(HexValues)
+#import <UIKit/UIKit.h>
 
-+ (UIColor*) colorWithHex:(NSUInteger)hexValue {
-	
-	return [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16))/255.0
-						   green:((float)((hexValue & 0xFF00) >> 8))/255.0 
-							blue:((float)(hexValue & 0xFF))/255.0 
-						   alpha:1.0];
-}
+@interface UIColor (CustomColors)
 
-@end
-
-@implementation Color
-
-+ (UIColor*) green {
-	static const UIColor *sGreen = nil;
-	if(!sGreen) sGreen = [[UIColor colorWithHex:0x587058] retain];
-	return (UIColor*)sGreen;
-}
-
-+ (UIColor*) blue {
-	static UIColor *sBlue = nil;
-	if(!sBlue) sBlue = [[UIColor colorWithHex:0x587498] retain];
-	return sBlue;
-}
-
-+ (UIColor*) gold {
-	static UIColor *sGold = nil;
-	if(!sGold) sGold = [[UIColor colorWithHex:0xFFD800] retain];
-	return sGold;
-}
-
-+ (UIColor*) orange {
-	static UIColor *sOrange = nil;
-	if(!sOrange) sOrange = [[UIColor colorWithHex:0xE86850] retain];
-	return sOrange;
-}
-
-+ (UIColor*) black {
-	static UIColor *sBlack = nil;
-	if(!sBlack) sBlack = [[UIColor colorWithHex:0x000000] retain];
-	return sBlack;
-}
-
-
++ (UIColor *) green;
++ (UIColor *) blue;
++ (UIColor *) gold;
++ (UIColor *) orange;
++ (UIColor *) black;
 
 @end

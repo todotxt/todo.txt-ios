@@ -71,6 +71,8 @@
 		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
 		1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
 		1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
+		1BAE2A261774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
+		1BAE2A271774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -99,7 +101,6 @@
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
 		7D57054A12F89F1900BB5E8D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054612F89F1900BB5E8D /* Icon.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
-		8817330C13F10A9800B6B9F9 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 8817330B13F10A9800B6B9F9 /* Color.m */; };
 		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
 		882B3E8513EF46750085C888 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
 		882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8713EF46E80085C888 /* TextSplitter.m */; };
@@ -315,6 +316,8 @@
 		1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = Libraries/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		1BAE2A101774AB5F00DA0A95 /* TaskCellViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCellViewModel.h; sourceTree = "<group>"; };
 		1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCellViewModel.m; sourceTree = "<group>"; };
+		1BAE2A241774C9F700DA0A95 /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
+		1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -349,8 +352,6 @@
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		7D57054612F89F1900BB5E8D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8817330A13F10A9800B6B9F9 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		8817330B13F10A9800B6B9F9 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
 		881CA8401400834700AEAD20 /* RemoteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteClient.h; sourceTree = "<group>"; };
 		882B3E5313ECCB240085C888 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
@@ -746,11 +747,21 @@
 			path = "View Models";
 			sourceTree = "<group>";
 		};
+		1BAE2A201774C9CC00DA0A95 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1BAE2A241774C9F700DA0A95 /* UIColor+CustomColors.h */,
+				1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
 				33CF5E09144410B90050F60D /* Entitlements.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
+				1BAE2A201774C9CC00DA0A95 /* Categories */,
 				1B0C9075176B63D00022C9AE /* View Controllers */,
 				1BAE2A0F1774AB3100DA0A95 /* View Models */,
 				1B0C9080176B63D10022C9AE /* Views */,
@@ -879,8 +890,6 @@
 				8831984213EBB55800EC5BC3 /* TaskIo.m */,
 				59216C7313E8C89200FF07EE /* Util.h */,
 				59216C7413E8C89200FF07EE /* Util.m */,
-				8817330A13F10A9800B6B9F9 /* Color.h */,
-				8817330B13F10A9800B6B9F9 /* Color.m */,
 				888065B51401A51C0036DE2A /* Network.h */,
 				888065B61401A51C0036DE2A /* Network.m */,
 				F4595BE41453DC48000FB9F6 /* NSMutableAttributedString+TodoTxt.h */,
@@ -1247,6 +1256,7 @@
 				1B0C9197176B6B040022C9AE /* DDFileReader.m in Sources */,
 				1B0C9199176B6B040022C9AE /* Reachability.m in Sources */,
 				1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */,
+				1BAE2A271774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1276,7 +1286,6 @@
 				882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */,
 				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
 				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
-				8817330C13F10A9800B6B9F9 /* Color.m in Sources */,
 				8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */,
 				88866D3113F794320073944B /* Sort.m in Sources */,
 				888065951401898E0036DE2A /* RemoteClientManager.m in Sources */,
@@ -1319,6 +1328,7 @@
 				1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */,
 				5C187762176E775D00824682 /* TaskCell.m in Sources */,
 				1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */,
+				1BAE2A261774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
