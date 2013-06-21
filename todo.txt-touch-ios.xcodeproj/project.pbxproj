@@ -68,6 +68,7 @@
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
+		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -183,6 +184,44 @@
 		F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C4F8F145363F300E92C6D /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1BAE2A041774A62700DA0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88037F8315056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
+		1BAE2A061774A62700DA0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88F440AB153DAC820097B4C3;
+			remoteInfo = "ReactiveCocoa-iOS";
+		};
+		1BAE2A081774A62700DA0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88CDF7DC15000FCF00163A9F;
+			remoteInfo = ReactiveCocoaTests;
+		};
+		1BAE2A0A1774A62700DA0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5FAF5223174D4C2000CAC810;
+			remoteInfo = "ReactiveCocoaTests-iOS";
+		};
+		1BAE2A0C1774A63500DA0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 88F440AA153DAC820097B4C3;
+			remoteInfo = "ReactiveCocoa-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Todo-txt-unit-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F75B416149912DF00848E27 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -271,6 +310,7 @@
 		1B0C9205176B762D0022C9AE /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
 		1B82361C1771F05200908C31 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
+		1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = Libraries/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -447,6 +487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */,
 				888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */,
 				F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */,
 				5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */,
@@ -681,6 +722,17 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		1BAE29FC1774A62600DA0A95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1BAE2A051774A62700DA0A95 /* ReactiveCocoa.framework */,
+				1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */,
+				1BAE2A091774A62700DA0A95 /* ReactiveCocoaTests.octest */,
+				1BAE2A0B1774A62700DA0A95 /* ReactiveCocoaTests-iOS.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
@@ -695,6 +747,7 @@
 				88E513ED14D128D600177F45 /* Libraries */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -980,6 +1033,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1BAE2A0D1774A63500DA0A95 /* PBXTargetDependency */,
 			);
 			name = "Todo.txt Touch";
 			productName = "todo.txt-touch-ios";
@@ -1007,6 +1061,12 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1BAE29FC1774A62600DA0A95 /* Products */;
+					ProjectRef = 1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Todo.txt Touch */,
@@ -1014,6 +1074,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1BAE2A051774A62700DA0A95 /* ReactiveCocoa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ReactiveCocoa.framework;
+			remoteRef = 1BAE2A041774A62700DA0A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactiveCocoa-iOS.a";
+			remoteRef = 1BAE2A061774A62700DA0A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1BAE2A091774A62700DA0A95 /* ReactiveCocoaTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ReactiveCocoaTests.octest;
+			remoteRef = 1BAE2A081774A62700DA0A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1BAE2A0B1774A62700DA0A95 /* ReactiveCocoaTests-iOS.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ReactiveCocoaTests-iOS.octest";
+			remoteRef = 1BAE2A0A1774A62700DA0A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0F75B412149912DF00848E27 /* Resources */ = {
@@ -1217,6 +1308,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1BAE2A0D1774A63500DA0A95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ReactiveCocoa-iOS";
+			targetProxy = 1BAE2A0C1774A63500DA0A95 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		0F75B41E149912DF00848E27 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -1339,6 +1438,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
+				);
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1348,6 +1450,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Todo.txt Touch";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1370,6 +1473,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
+				);
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1379,6 +1485,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Todo.txt Touch";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1422,6 +1529,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
+				);
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1431,6 +1541,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Todo.txt Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1474,6 +1585,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
+				);
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1483,6 +1597,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Todo.txt Touch";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
