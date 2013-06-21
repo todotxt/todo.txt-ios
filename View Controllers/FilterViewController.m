@@ -48,6 +48,8 @@
 #import "TaskBag.h"
 #import "todo_txt_touch_iosAppDelegate.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 typedef NS_ENUM(NSInteger, FilterViewFilterTypes) {
     FilterViewFilterTypesContexts = 0,
     FilterViewFilterTypesProjects,
@@ -93,9 +95,26 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     self.activeTypes = FilterViewActiveTypesAll;
     
     // Listen for updates to tasks in the TaskBag, to keep our context and project
-    // lists current.  We never stop 
+    // lists current.
     NSObject<TaskBag> *taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
-    [taskBag addObserver:self forKeyPath:@"tasks" options:NSKeyValueObservingOptionNew context:nil];
+    
+    RACSignal *tasksSignal = RACAbleWithStart(taskBag, tasks);
+    
+    RAC(self.contexts) = [tasksSignal map:^NSArray *(NSArray *tasks) {
+        return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
+                sortedArrayUsingSelector:@selector(compare:)];
+    }];
+    
+    RAC(self.projects) = [tasksSignal map:^NSArray *(NSArray *tasks) {
+        return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.projects"]
+                sortedArrayUsingSelector:@selector(compare:)];
+    }];
+    
+    // Whenever our contexts or projects update, tell the table view to reloadData
+    [[RACSignal combineLatest:@[ RACAble(self.contexts), RACAble(self.projects) ]]
+     subscribeNext:^(id _) {
+         [self.tableView reloadData];
+    }];
     
     // Use ordinary UITableViewCells
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"FilterCell"];
@@ -278,21 +297,6 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
             
         default:
             break;
-    }
-}
-
-#pragma mark - KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"tasks"]) {
-        self.contexts = [[change[@"new"] valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
-                         sortedArrayUsingSelector:@selector(compare:)];
-        
-        self.projects = [[change[@"new"] valueForKeyPath:@"@distinctUnionOfArrays.projects"]
-                         sortedArrayUsingSelector:@selector(compare:)];
-        
-        [self.tableView reloadData];
     }
 }
 
