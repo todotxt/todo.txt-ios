@@ -24,7 +24,6 @@
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
 		1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907F176B63D10022C9AE /* TasksViewController.m */; };
 		1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C908E176B63D10022C9AE /* TaskViewCell.m */; };
-		1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909C176B64BB0022C9AE /* SSTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C909F176B65240022C9AE /* AttributedLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C9197176B6B040022C9AE /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9192176B6B040022C9AE /* DDFileReader.m */; };
@@ -73,6 +72,7 @@
 		1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
 		1BAE2A261774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
 		1BAE2A271774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
+		1BAE2A341774D46700DA0A95 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A331774D46700DA0A95 /* SSTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -247,8 +247,6 @@
 		1B0C907F176B63D10022C9AE /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
 		1B0C908D176B63D10022C9AE /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewCell.h; sourceTree = "<group>"; };
 		1B0C908E176B63D10022C9AE /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
-		1B0C909B176B64BB0022C9AE /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
-		1B0C909C176B64BB0022C9AE /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
 		1B0C909E176B65240022C9AE /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
 		1B0C909F176B65240022C9AE /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		1B0C9191176B6B040022C9AE /* DDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileReader.h; sourceTree = "<group>"; };
@@ -318,6 +316,8 @@
 		1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCellViewModel.m; sourceTree = "<group>"; };
 		1BAE2A241774C9F700DA0A95 /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
 		1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
+		1BAE2A321774D46700DA0A95 /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
+		1BAE2A331774D46700DA0A95 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
@@ -582,8 +582,6 @@
 			children = (
 				1B0C909E176B65240022C9AE /* AttributedLabel.h */,
 				1B0C909F176B65240022C9AE /* AttributedLabel.m */,
-				1B0C909B176B64BB0022C9AE /* SSTextView.h */,
-				1B0C909C176B64BB0022C9AE /* SSTextView.m */,
 				5C187760176E775D00824682 /* TaskCell.h */,
 				5C187761176E775D00824682 /* TaskCell.m */,
 				5C187763176E77AD00824682 /* TaskCell.xib */,
@@ -754,6 +752,15 @@
 				1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		1BAE2A311774D46700DA0A95 /* SSToolkit */ = {
+			isa = PBXGroup;
+			children = (
+				1BAE2A321774D46700DA0A95 /* SSTextView.h */,
+				1BAE2A331774D46700DA0A95 /* SSTextView.m */,
+			);
+			path = SSToolkit;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -977,6 +984,7 @@
 				1B0C91C6176B6B0E0022C9AE /* PGTableWithEmptyView */,
 				1B0C9193176B6B040022C9AE /* Reachability */,
 				1B0C91C9176B6B0E0022C9AE /* SJNotificationViewController */,
+				1BAE2A311774D46700DA0A95 /* SSToolkit */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -1303,7 +1311,7 @@
 				1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */,
 				1B0C9093176B63D10022C9AE /* TasksViewController.m in Sources */,
 				1B0C909A176B63D10022C9AE /* TaskViewCell.m in Sources */,
-				1B0C909D176B64BB0022C9AE /* SSTextView.m in Sources */,
+				1BAE2A341774D46700DA0A95 /* SSTextView.m in Sources */,
 				1B0C90A0176B65240022C9AE /* AttributedLabel.m in Sources */,
 				1B0C9196176B6B040022C9AE /* DDFileReader.m in Sources */,
 				1B0C9198176B6B040022C9AE /* Reachability.m in Sources */,
