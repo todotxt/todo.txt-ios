@@ -46,7 +46,7 @@
 #import "TaskBag.h"
 #import "Task.h"
 #import "AsyncTask.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "ActionSheetPicker.h"
 #import "PriorityTextSplitter.h"
 #import "TaskUtil.h"
@@ -73,8 +73,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	if (![todo_txt_touch_iosAppDelegate isManualMode]) {
-		[todo_txt_touch_iosAppDelegate syncClient];
+	if (![TodoTxtAppDelegate isManualMode]) {
+		[TodoTxtAppDelegate syncClient];
 	}
 	
 	curInput = [[NSString alloc] init];	
@@ -175,7 +175,7 @@
 }
 
 - (void) addEditTask {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 	
 	// FIXME: synchronize?
 	if (task) {
@@ -187,7 +187,7 @@
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-	[todo_txt_touch_iosAppDelegate pushToRemote];
+	[TodoTxtAppDelegate pushToRemote];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
@@ -284,7 +284,7 @@
 - (void) projectWasSelected:(NSNumber *)selectedIndex:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
-		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
 		
 		if (! [TaskUtil taskHasProject:textView.text project:item]) {
@@ -301,7 +301,7 @@
 - (void) contextWasSelected:(NSNumber *)selectedIndex:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
-		id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
 		
 		if (! [TaskUtil taskHasContext:textView.text context:item]) {
@@ -317,12 +317,12 @@
 
 - (IBAction) keyboardAccessoryButtonPressed:(id)sender {
 	
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
     
 	[actionSheetPicker actionPickerCancel];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
-        todo_txt_touch_iosAppDelegate *appdelegate = (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
+        TodoTxtAppDelegate *appdelegate = (TodoTxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         appdelegate.lastClickedButton = sender;
 		curSelectedRange = textView.selectedRange;
     } else {

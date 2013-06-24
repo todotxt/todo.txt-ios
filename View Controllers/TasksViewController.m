@@ -51,7 +51,7 @@
 #import "TaskEditViewController.h"
 #import "TaskViewController.h"
 #import "TasksViewController.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "FilterFactory.h"
 #import "IASKAppSettingsViewController.h"
 #import "ActionSheetPicker.h"
@@ -109,17 +109,17 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 - (void) reloadData:(NSNotification *) notification {
 	// reload global tasklist from disk
-	[[todo_txt_touch_iosAppDelegate sharedTaskBag] reload];	
+	[[TodoTxtAppDelegate sharedTaskBag] reload];	
 
 	// reload main tableview data
-	self.tasks = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:self.sort];
+	self.tasks = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:self.sort];
 	[self.table reloadData];
 	
 	// reload searchbar tableview data if necessary
 	if (self.savedSearchTerm)
 	{	
 		id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
-		self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
+		self.searchResults = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
 		[self.searchDisplayController.searchResultsTableView reloadData];
 	}
 }
@@ -199,8 +199,8 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 - (void) viewDidAppear:(BOOL)animated {	
 	if (self.needSync) {
 		self.needSync = NO;
-        if (![todo_txt_touch_iosAppDelegate isManualMode]) {
-			[todo_txt_touch_iosAppDelegate syncClient];
+        if (![TodoTxtAppDelegate isManualMode]) {
+			[TodoTxtAppDelegate syncClient];
         }
 	}	
 }
@@ -210,7 +210,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 - (NSArray *)filteredTasks
 {
-    return [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:self.sort];
+    return [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:self.sort];
 }
 
 - (IASKAppSettingsViewController*)appSettingsViewController {
@@ -313,7 +313,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 - (void)handleSearchForTerm:(NSString *)searchTerm {
 	self.savedSearchTerm = searchTerm;
 	id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
-	self.searchResults = [[todo_txt_touch_iosAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
+	self.searchResults = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller 
@@ -337,7 +337,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+    id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
     Task *task = [self taskForTable:tableView atIndex:indexPath.row];
     
     if (task.completed) {
@@ -353,7 +353,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	}
 	
     [self reloadData:nil];
-    [todo_txt_touch_iosAppDelegate pushToRemote];
+    [TodoTxtAppDelegate pushToRemote];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -377,8 +377,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (IBAction)syncButtonPressed:(id)sender {
 	NSLog(@"syncButtonPressed called");
-	[todo_txt_touch_iosAppDelegate displayNotification:@"Syncing with Dropbox now..."];
-	[todo_txt_touch_iosAppDelegate syncClient];
+	[TodoTxtAppDelegate displayNotification:@"Syncing with Dropbox now..."];
+	[TodoTxtAppDelegate syncClient];
 }
 
 - (IBAction)settingsButtonPressed:(id)sender {
@@ -393,7 +393,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
-    [[todo_txt_touch_iosAppDelegate sharedTaskBag] updateBadge];
+    [[TodoTxtAppDelegate sharedTaskBag] updateBadge];
 	self.needSync = YES;
 }
 
@@ -432,15 +432,15 @@ shouldReloadTableForSearchString:(NSString *)searchString
         switch (alertView.tag) {
 			case LOGOUT_TAG:
                 [self dismissModalViewControllerAnimated:NO];
-				[todo_txt_touch_iosAppDelegate logout];
+				[TodoTxtAppDelegate logout];
 				break;
 			case ARCHIVE_TAG:
                 [self dismissModalViewControllerAnimated:YES];
                 NSLog(@"Archiving...");
-				[todo_txt_touch_iosAppDelegate displayNotification:@"Archiving completed tasks..."];
-				[[todo_txt_touch_iosAppDelegate sharedTaskBag] archive];
+				[TodoTxtAppDelegate displayNotification:@"Archiving completed tasks..."];
+				[[TodoTxtAppDelegate sharedTaskBag] archive];
 				[self reloadData:nil];
-				[todo_txt_touch_iosAppDelegate pushToRemote];
+				[TodoTxtAppDelegate pushToRemote];
 				break;
 			default:
 				break;

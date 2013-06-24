@@ -13,7 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MBProgressHUD.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 
 
 @interface ActionSheetPicker : NSObject <UIPickerViewDelegate, UIPickerViewDataSource, MBProgressHUDDelegate> {

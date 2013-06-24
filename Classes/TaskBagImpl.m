@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "TaskBagImpl.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "RemoteClientManager.h"
 #import "RemoteClient.h"
 #import "LocalFileTaskRepository.h"

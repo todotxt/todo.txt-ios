@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "LoginScreenViewController.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "RemoteClientManager.h"
 
 @implementation LoginScreenViewController
@@ -118,7 +118,7 @@
 }
 
 - (IBAction)loginButtonPressed:(id)sender {
-	RemoteClientManager *remoteClientManager = [todo_txt_touch_iosAppDelegate sharedRemoteClientManager];
+	RemoteClientManager *remoteClientManager = [TodoTxtAppDelegate sharedRemoteClientManager];
 	[remoteClientManager.currentClient presentLoginControllerFromController:self];
 }
 

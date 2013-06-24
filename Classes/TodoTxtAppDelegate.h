@@ -49,7 +49,7 @@
 
 @class TasksViewController;
 
-@interface todo_txt_touch_iosAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface TodoTxtAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
@@ -66,7 +66,7 @@
 - (BOOL) isManualMode;
 - (void) logout;
 
-+ (todo_txt_touch_iosAppDelegate*) sharedDelegate;
++ (TodoTxtAppDelegate*) sharedDelegate;
 + (id<TaskBag>) sharedTaskBag;
 + (RemoteClientManager*) sharedRemoteClientManager;
 + (void)displayNotification:(NSString *)message;

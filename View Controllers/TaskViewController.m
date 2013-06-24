@@ -43,7 +43,7 @@
  */
 
 #import "TaskViewController.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "Task.h"
 #import "TaskBag.h"
 #import "AsyncTask.h"
@@ -134,28 +134,28 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) deleteTask {
     if (self.task) {
-        id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+        id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
         Task* task = self.task;
         [taskBag remove:task];
-        [todo_txt_touch_iosAppDelegate displayNotification:@"Deleted task"];
-        [todo_txt_touch_iosAppDelegate pushToRemote];
+        [TodoTxtAppDelegate displayNotification:@"Deleted task"];
+        [TodoTxtAppDelegate pushToRemote];
     }
 	 
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) undoCompleteTask {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 	Task* task = self.task;
 	[task markIncomplete];
 	[taskBag update:task];
 	
-	[todo_txt_touch_iosAppDelegate pushToRemote];
+	[TodoTxtAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
 - (void) completeTask {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 	Task* task = self.task;
 	[task markComplete:[NSDate date]];
 	[taskBag update:task];
@@ -168,20 +168,20 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	
 	if (auto_archive) {
 		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-		[todo_txt_touch_iosAppDelegate displayNotification:@"Task completed and archived"];
+		[TodoTxtAppDelegate displayNotification:@"Task completed and archived"];
 	} else {
 		[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 	}
-	[todo_txt_touch_iosAppDelegate pushToRemote];
+	[TodoTxtAppDelegate pushToRemote];
 }
 
 - (void) prioritizeTask:(Priority*)selectedPriority {
-	id<TaskBag> taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 	Task* task = self.task;
 	task.priority = selectedPriority;
 	[taskBag update:task];
 	
-	[todo_txt_touch_iosAppDelegate pushToRemote];
+	[TodoTxtAppDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 

@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "TasksViewController.h"
 #import "LoginScreenViewController.h"
 #import "iPadLoginScreenViewController.h"
@@ -57,7 +57,7 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-@interface todo_txt_touch_iosAppDelegate ()
+@interface TodoTxtAppDelegate ()
 
 @property (nonatomic, weak) TasksViewController *viewController;
 @property (nonatomic, weak) UIViewController *loginController;
@@ -68,41 +68,41 @@
 
 @end
 
-@implementation todo_txt_touch_iosAppDelegate
+@implementation TodoTxtAppDelegate
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-+ (todo_txt_touch_iosAppDelegate*) sharedDelegate {
-	return (todo_txt_touch_iosAppDelegate*)[[UIApplication sharedApplication] delegate];
++ (TodoTxtAppDelegate*) sharedDelegate {
+	return (TodoTxtAppDelegate*)[[UIApplication sharedApplication] delegate];
 }
 
 + (id<TaskBag>) sharedTaskBag {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] taskBag];
+	return [[TodoTxtAppDelegate sharedDelegate] taskBag];
 }
 
 + (RemoteClientManager*) sharedRemoteClientManager {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] remoteClientManager];
+	return [[TodoTxtAppDelegate sharedDelegate] remoteClientManager];
 }
 
 + (void) syncClient {	
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
+	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
 }
 
 + (void) pushToRemote {	
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
+	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
 }
 
 + (void) pullFromRemote {
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pullFromRemote) withObject:nil waitUntilDone:NO];
+	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pullFromRemote) withObject:nil waitUntilDone:NO];
 }
 
 + (BOOL) isManualMode {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] isManualMode];
+	return [[TodoTxtAppDelegate sharedDelegate] isManualMode];
 }
 
 + (void) logout {
-	return [[todo_txt_touch_iosAppDelegate sharedDelegate] logout];
+	return [[TodoTxtAppDelegate sharedDelegate] logout];
 }
 
 + (BOOL) needToPush {
@@ -116,7 +116,7 @@
 }
 
 + (void)displayNotification:(NSString *)message {
-	[[todo_txt_touch_iosAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(displayNotification:) withObject:message waitUntilDone:NO];
+	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(displayNotification:) withObject:message waitUntilDone:NO];
 }
 
 - (void) presentLoginController {
@@ -159,11 +159,11 @@
 - (void)reachabilityChanged {
 	if ([self isManualMode]) return;
 	
-	if ([[[todo_txt_touch_iosAppDelegate sharedRemoteClientManager] currentClient] isNetworkAvailable]) {
+	if ([[[TodoTxtAppDelegate sharedRemoteClientManager] currentClient] isNetworkAvailable]) {
 		if (!self.wasConnected) {
 			[self displayNotification:@"Connection reestablished: syncing with Dropbox now..."];
 		}
-		[todo_txt_touch_iosAppDelegate syncClient];
+		[TodoTxtAppDelegate syncClient];
 		self.wasConnected = YES;
 	} else {
 		self.wasConnected = NO;
@@ -256,7 +256,7 @@
      */
 	
 	if (![self isManualMode] && [self.remoteClientManager.currentClient isAuthenticated]) {
-		[todo_txt_touch_iosAppDelegate syncClient];
+		[TodoTxtAppDelegate syncClient];
 	}
 }
 
@@ -299,7 +299,7 @@
 							  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
 		dlg.tag = 10;
 		[dlg showInView:self.navigationController.visibleViewController.view];
-	} else if ([todo_txt_touch_iosAppDelegate needToPush]) {
+	} else if ([TodoTxtAppDelegate needToPush]) {
 		[self pushToRemoteOverwrite:NO force:force];
 	} else {
 		[self pullFromRemoteForce:force];
@@ -317,14 +317,14 @@
 }
 
 - (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force {
-	[todo_txt_touch_iosAppDelegate setNeedToPush:YES];
+	[TodoTxtAppDelegate setNeedToPush:YES];
 
 	if (!force && [self isManualMode]) {
 		return;
 	}
 	
 	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
-		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+		[TodoTxtAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
 	
@@ -345,7 +345,7 @@
           [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
       }]
      subscribeNext:^(id x) {
-         [todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+         [TodoTxtAppDelegate setNeedToPush:NO];
          
          // Push is complete. Let's do a pull now in case the remote done.txt changed
          [self pullFromRemoteForce:YES];
@@ -397,10 +397,10 @@
 		return;
 	}
 	
-	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+	[TodoTxtAppDelegate setNeedToPush:NO];
 
 	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
-		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+		[TodoTxtAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
 	
@@ -467,7 +467,7 @@
 
 - (void) syncComplete:(BOOL)success {
 	if (success) {
-		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+		[TodoTxtAppDelegate setNeedToPush:NO];
 		self.lastSync = [NSDate date];
 	}
 }

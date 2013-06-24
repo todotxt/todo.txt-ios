@@ -43,7 +43,7 @@
  */
 
 #import "iPadLoginScreenViewController.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "RemoteClientManager.h"
 
 
@@ -115,7 +115,7 @@
 
 
 - (IBAction)loginButtonPressed:(id)sender {
-	RemoteClientManager *remoteClientManager = [todo_txt_touch_iosAppDelegate sharedRemoteClientManager];
+	RemoteClientManager *remoteClientManager = [TodoTxtAppDelegate sharedRemoteClientManager];
 	[remoteClientManager.currentClient presentLoginControllerFromController:self];
 }
 

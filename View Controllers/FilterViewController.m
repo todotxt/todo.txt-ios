@@ -46,7 +46,7 @@
 
 #import "Task.h"
 #import "TaskBag.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
@@ -96,7 +96,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     
     // Listen for updates to tasks in the TaskBag, to keep our context and project
     // lists current.
-    NSObject<TaskBag> *taskBag = [todo_txt_touch_iosAppDelegate sharedTaskBag];
+    NSObject<TaskBag> *taskBag = [TodoTxtAppDelegate sharedTaskBag];
     
     RACSignal *tasksSignal = RACAbleWithStart(taskBag, tasks);
     

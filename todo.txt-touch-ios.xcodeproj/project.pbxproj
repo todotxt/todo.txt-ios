@@ -70,7 +70,7 @@
 		1BAE2A271774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
 		1BAE2A341774D46700DA0A95 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A331774D46700DA0A95 /* SSTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1BAE2A441774E5B400DA0A95 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BAE2A431774E5B400DA0A95 /* TaskViewController.xib */; };
-		1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* TodoTxtAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -311,8 +311,8 @@
 		1BAE2A331774D46700DA0A95 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
 		1BAE2A431774E5B400DA0A95 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
+		1D3623240D0F684500981E51 /* TodoTxtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodoTxtAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodoTxtAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo.txt Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -507,8 +507,8 @@
 				881CA83F1400825200AEAD20 /* Remote */,
 				59216B7613E64EA800FF07EE /* Task */,
 				59216D3B13EA316100FF07EE /* Util */,
-				1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */,
-				1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */,
+				1D3623240D0F684500981E51 /* TodoTxtAppDelegate.h */,
+				1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1266,7 +1266,7 @@
 				88DB7C2514B2C786003A96F9 /* AndFilter.m in Sources */,
 				88DB7C2714B2C786003A96F9 /* OrFilter.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* TodoTxtAppDelegate.m in Sources */,
 				59216C7513E8C89200FF07EE /* Util.m in Sources */,
 				59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */,
 				8858D0BA13EA89C50083FA44 /* Priority.m in Sources */,
