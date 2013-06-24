@@ -18,6 +18,7 @@
     SEL selector;
     NSURLConnection* urlConnection;
     NSFileHandle* fileHandle;
+    NSFileManager* fileManager;
 
     SEL failureSelector;
     SEL downloadProgressSelector;

@@ -192,8 +192,11 @@
 - (void)restClient:(DBRestClient*)client copyPathFailedWithError:(NSError*)error;
 // [error userInfo] contains the root and path
 
-- (void)restClient:(DBRestClient*)client createdCopyRef:(NSString *)copyRef;
+- (void)restClient:(DBRestClient*)client createdCopyRef:(NSString *)copyRef forPath:(NSString *)path;
 - (void)restClient:(DBRestClient*)client createCopyRefFailedWithError:(NSError *)error;
+
+// Deprecated copy ref callback
+- (void)restClient:(DBRestClient*)client createdCopyRef:(NSString *)copyRef;
 
 - (void)restClient:(DBRestClient*)client copiedRef:(NSString *)copyRef to:(DBMetadata *)to;
 - (void)restClient:(DBRestClient*)client copyFromRefFailedWithError:(NSError*)error;
