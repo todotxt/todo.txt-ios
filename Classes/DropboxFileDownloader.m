@@ -44,29 +44,27 @@
 
 #import "DropboxFileDownloader.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @interface DropboxFileDownloader () <DBRestClientDelegate>
 
 @property (nonatomic, strong) DBRestClient *restClient;
-
-@property (nonatomic, strong) id target;
-@property (nonatomic) SEL onComplete;
 
 @property (nonatomic) NSInteger curFile;
 
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic, strong) NSError *error;
-@property (nonatomic) DropboxFileStatus status;
+
+@property (nonatomic, strong) RACSubject *subject;
 
 @end
 
 @implementation DropboxFileDownloader
 
-- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
+- (id)init
+{
 	self = [super init];
 	if (self) {
-		self.target = aTarget;
-		self.onComplete = selector;
-		self.status = dbInitialized;
 		self.curFile = -1;
 	}
 	return self;
@@ -78,11 +76,6 @@
 		_restClient.delegate = self;
 	}
 	return _restClient;
-}
-
-- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
-	self.status = aStatus;
-	[self.target performSelectorOnMainThread:self.onComplete withObject:self waitUntilDone:NO];
 }
 
 - (void) loadNextFile {
@@ -97,7 +90,8 @@
 		}
 	} else {
 		// we're done!
-		[self reportCompletionWithStatus:dbSuccess];
+        [self.subject sendNext:self.files];
+        [self.subject sendCompleted];
 	}
 }
 
@@ -113,13 +107,17 @@
 	}
 }
 
-- (void) pullFiles:(NSArray*)dropboxFiles {
+- (RACSignal *)pullFiles:(NSArray *)dropboxFiles {
 	self.files = dropboxFiles;
 	self.curFile = -1;
-	self.status = dbStarted;
-	
+    
 	// first check metadata of each file, starting with the first
-	[self loadNextMetadata];
+    // TODO: these steps will not work due to ordering issues,
+    // i.e. the subject may not be returned until *after* the signal sends complete
+    self.subject = [RACSubject subject];
+    [self loadNextMetadata];
+    
+    return self.subject;
 }
 
 #pragma mark -
@@ -172,7 +170,7 @@
 	self.error = theError;
 
 	// don't bother downloading any more files after the first error
-	[self reportCompletionWithStatus:dbError];
+	[self.subject sendError:theError];
 }
 
 
