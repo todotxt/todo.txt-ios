@@ -63,8 +63,6 @@
 
 @implementation DropboxRemoteClient
 
-@synthesize delegate;
-
 + (NSString*) todoTxtTmpFile {
 	return 	[NSString pathWithComponents:
 			   [NSArray arrayWithObjects:NSTemporaryDirectory(), 

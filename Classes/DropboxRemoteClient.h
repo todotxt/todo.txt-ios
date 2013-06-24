@@ -47,9 +47,7 @@
 #import "DropboxFIleDownloader.h"
 #import "DropboxFileUploader.h"
 
-@interface DropboxRemoteClient : NSObject<RemoteClient> {
-	id<RemoteClientDelegate> __weak delegate;
-}
+@interface DropboxRemoteClient : NSObject<RemoteClient>
 
 @property (nonatomic, weak) id<RemoteClientDelegate> delegate;
 
