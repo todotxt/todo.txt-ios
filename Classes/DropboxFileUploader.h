@@ -46,23 +46,18 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@interface DropboxFileUploader : NSObject {
-	DBRestClient *restClient;
-	BOOL overwrite;
-	id target;
-	SEL onComplete;
-	DropboxFileStatus status;
-	NSError *error;
-	NSArray *files;
-	NSInteger curFile;
-}
+@class RACSignal;
+
+static NSInteger const kUploadConflictErrorCode = 001;
+static NSString * const kUploadConflictFileString = @"__kUploadConflictFileString";
+
+@interface DropboxFileUploader : NSObject
 
 @property (nonatomic, readonly) BOOL overwrite;
 @property (nonatomic, readonly) NSArray *files;
 @property (nonatomic, readonly) DropboxFileStatus status;
 @property (nonatomic, readonly) NSError *error;
 
-- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector;
-- (void) pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite;
+- (RACSignal *)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite;
 
 @end

@@ -47,21 +47,13 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@interface DropboxFileDownloader : NSObject {
-	DBRestClient *restClient;
-	id target;
-	SEL onComplete;
-	DropboxFileStatus status;
-	NSError *error;
-	NSArray *files;
-	NSInteger curFile;
-}
+@class RACSignal;
+
+@interface DropboxFileDownloader : NSObject
 
 @property (nonatomic, readonly) NSArray *files;
-@property (nonatomic, readonly) DropboxFileStatus status;
 @property (nonatomic, readonly) NSError *error;
 
-- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector;
-- (void) pullFiles:(NSArray*)dropboxFiles;
+- (RACSignal *)pullFiles:(NSArray *)dropboxFiles;
 
 @end
