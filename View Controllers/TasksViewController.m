@@ -372,7 +372,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	NSLog(@"addButtonPressed called");
     TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
     [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self presentModalViewController:taskEditView animated:YES];
+    [self presentViewController:taskEditView animated:YES completion:nil];
 }
 
 - (IBAction)syncButtonPressed:(id)sender {
@@ -386,13 +386,13 @@ shouldReloadTableForSearchString:(NSString *)searchString
     //[viewController setShowCreditsFooter:NO];   // Uncomment to not display InAppSettingsKit credits for creators.
     // But we encourage you not to uncomment. Thank you!
     self.appSettingsViewController.showDoneButton = YES;
-    [self presentModalViewController:aNavController animated:YES];
+    [self presentViewController:aNavController animated:YES completion:nil];
 }
 
 #pragma mark -
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [[TodoTxtAppDelegate sharedTaskBag] updateBadge];
 	self.needSync = YES;
 }
@@ -431,11 +431,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
         switch (alertView.tag) {
 			case LOGOUT_TAG:
-                [self dismissModalViewControllerAnimated:NO];
+                [self dismissViewControllerAnimated:NO completion:nil];
 				[TodoTxtAppDelegate logout];
 				break;
 			case ARCHIVE_TAG:
-                [self dismissModalViewControllerAnimated:YES];
+                [self dismissViewControllerAnimated:YES completion:nil];
                 NSLog(@"Archiving...");
 				[TodoTxtAppDelegate displayNotification:@"Archiving completed tasks..."];
 				[[TodoTxtAppDelegate sharedTaskBag] archive];

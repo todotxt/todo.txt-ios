@@ -164,14 +164,14 @@
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];	
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)exitController {
 	if ([delegate respondsToSelector:@selector(taskEditViewController:didUpdateTask:)]) {
         [delegate taskEditViewController:self didUpdateTask:task];
     }
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) addEditTask {

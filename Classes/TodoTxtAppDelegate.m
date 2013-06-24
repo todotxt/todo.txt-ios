@@ -128,13 +128,13 @@
     {
         loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentModalViewController:loginController animated:YES];
+    [self.navigationController presentViewController:loginController animated:YES completion:nil];
     self.loginController = loginController;
 }
 
 - (void) presentMainViewController {
 	if ([[self.loginController parentViewController] respondsToSelector:@selector(dismissModalViewControllerAnimated:)]){
-        [[self.loginController parentViewController] dismissModalViewControllerAnimated:YES];
+        [[self.loginController parentViewController] dismissViewControllerAnimated:YES completion:nil];
     } else {
         [[self.loginController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     }
