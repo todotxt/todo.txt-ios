@@ -53,8 +53,6 @@
 		1B0C91E5176B6B0E0022C9AE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CA176B6B0E0022C9AE /* README.md */; };
 		1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */; };
-		1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
-		1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */; };
 		1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */; };
 		1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */; };
 		1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */; };
@@ -63,6 +61,8 @@
 		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
 		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
+		1B56E00A1778C2760088E206 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E0091778C2760088E206 /* DropboxSDK.framework */; };
+		1B56E00B1778C2760088E206 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E0091778C2760088E206 /* DropboxSDK.framework */; };
 		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
 		1BAE2A121774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
 		1BAE2A131774AB5F00DA0A95 /* TaskCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A111774AB5F00DA0A95 /* TaskCellViewModel.m */; };
@@ -290,7 +290,6 @@
 		1B0C91CB176B6B0E0022C9AE /* SJNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJNotificationViewController.h; sourceTree = "<group>"; };
 		1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = "<group>"; };
 		1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = "<group>"; };
-		1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
 		1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
@@ -301,6 +300,7 @@
 		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		1B0C9205176B762D0022C9AE /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
+		1B56E0091778C2760088E206 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		1B82361C1771F05200908C31 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = Libraries/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		1BAE2A101774AB5F00DA0A95 /* TaskCellViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCellViewModel.h; sourceTree = "<group>"; };
@@ -476,7 +476,7 @@
 				0F75B419149912DF00848E27 /* Foundation.framework in Frameworks */,
 				0F75B41A149912DF00848E27 /* CoreGraphics.framework in Frameworks */,
 				88E513F814D128D600177F45 /* libOCMock.a in Frameworks */,
-				1B0C91F0176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */,
+				1B56E00B1778C2760088E206 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,16 +485,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */,
-				888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */,
-				F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */,
-				5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */,
-				888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */,
+				1B56E00A1778C2760088E206 /* DropboxSDK.framework in Frameworks */,
 				888065AE14019D3C0036DE2A /* CFNetwork.framework in Frameworks */,
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */,
+				888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */,
 				7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */,
-				1B0C91EF176B6C6F0022C9AE /* DropboxSDK.framework in Frameworks */,
+				888065B91401AF7D0036DE2A /* SystemConfiguration.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,17 +812,17 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1B0C91EE176B6C6F0022C9AE /* DropboxSDK.framework */,
-				888286AC146E52C5007DBB16 /* QuartzCore.framework */,
-				F45C4F8F145363F300E92C6D /* CoreText.framework */,
-				5910DBD014216A2300BB2D68 /* MessageUI.framework */,
-				888065B81401AF7D0036DE2A /* SystemConfiguration.framework */,
+				1B56E0091778C2760088E206 /* DropboxSDK.framework */,
 				888065AD14019D3C0036DE2A /* CFNetwork.framework */,
-				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
-				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				F45C4F8F145363F300E92C6D /* CoreText.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				5910DBD014216A2300BB2D68 /* MessageUI.framework */,
+				888286AC146E52C5007DBB16 /* QuartzCore.framework */,
 				7D5705D112F8A07E00BB5E8D /* Security.framework */,
 				0F75B416149912DF00848E27 /* SenTestingKit.framework */,
+				888065B81401AF7D0036DE2A /* SystemConfiguration.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -1451,6 +1451,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.4\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1489,6 +1490,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.4\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
@@ -1546,6 +1548,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.4\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
@@ -1603,6 +1606,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.4\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
