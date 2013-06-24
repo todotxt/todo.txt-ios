@@ -48,19 +48,25 @@ typedef enum {
 	ClientDropBox = 0
 } Client;
 
+static NSInteger const kRCErrorUploadConflict = 001;
+static NSInteger const kRCErrorUploadFailed = 002;
+static NSString * const kRCUploadConflictFileKey = @"__kRCUploadConflictFileKey";
+
+@class RACSignal;
+
 @protocol RemoteClientDelegate;
 
 @protocol RemoteClient <NSObject> 
 
-- (Client) client;
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath; 
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
+- (Client)client;
+- (BOOL)authenticate;
+- (void)deauthenticate;
+- (BOOL)isAuthenticated;
+- (void)presentLoginControllerFromController:(UIViewController*)parentViewController;
+- (RACSignal *)pullTodo;
+- (RACSignal *)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
+- (BOOL)isNetworkAvailable;
+- (BOOL)handleOpenURL:(NSURL *)url;
 
 @required
 @property (nonatomic, assign) id<RemoteClientDelegate> delegate;
@@ -69,12 +75,6 @@ typedef enum {
 
 @protocol RemoteClientDelegate <NSObject>
 
-- (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath;
-- (void)remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError*)error;
-- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError*)error;
-- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath;
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
-
 
 @end

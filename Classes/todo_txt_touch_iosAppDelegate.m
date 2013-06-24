@@ -55,6 +55,8 @@
 #import "Reachability.h"
 #import "SJNotificationViewController.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @interface todo_txt_touch_iosAppDelegate ()
 
 @property (nonatomic, weak) TasksViewController *viewController;
@@ -157,7 +159,7 @@
 - (void)reachabilityChanged {
 	if ([self isManualMode]) return;
 	
-	if ([[[todo_txt_touch_iosAppDelegate sharedRemoteClientManager] currentClient] isAvailable]) {
+	if ([[[todo_txt_touch_iosAppDelegate sharedRemoteClientManager] currentClient] isNetworkAvailable]) {
 		if (!self.wasConnected) {
 			[self displayNotification:@"Connection reestablished: syncing with Dropbox now..."];
 		}
@@ -267,6 +269,18 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([self.remoteClientManager.currentClient handleOpenURL:url]) {
+        if ([self.remoteClientManager.currentClient isAuthenticated]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
+}
+
 #pragma mark -
 #pragma mark Remote functions
 
@@ -309,12 +323,11 @@
 		return;
 	}
 	
-	if (![self.remoteClientManager.currentClient isAvailable]) {
+	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
 		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
 	
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	// We probably shouldn't be assuming LocalFileTaskRepository here, 
 	// but that is what the Android app does, so why not?
 	NSString *todoPath = [LocalFileTaskRepository todoFilename];
@@ -324,13 +337,55 @@
 		donePath = [LocalFileTaskRepository doneFilename];
 	}
 	
-	[self.remoteClientManager.currentClient pushTodoOverwrite:overwrite 
-												withTodo:todoPath 
-												withDone:donePath];
-	
-	// pushTodo is asynchronous. When it returns, it will call
-	// the delegate method 'uploadedFile'
-	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[[[[self.remoteClientManager.currentClient pushTodoOverwrite:overwrite
+                                                        withTodo:todoPath
+                                                        withDone:donePath] deliverOn:RACScheduler.mainThreadScheduler]
+      finally:^{
+          [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+      }]
+     subscribeNext:^(id x) {
+         [todo_txt_touch_iosAppDelegate setNeedToPush:NO];
+         
+         // Push is complete. Let's do a pull now in case the remote done.txt changed
+         [self pullFromRemoteForce:YES];
+     } error:^(NSError *error) {
+         // conflict
+         if (error.code == kRCErrorUploadConflict) {
+             // alert user to the conflict and ask if he wants to force push or pull
+             NSLog(@"Upload conflict");
+             [self syncComplete:NO];
+             
+             NSString *message = [NSString
+                                  stringWithFormat:@"Oops! There is a newer version of your %@ file in Dropbox. "
+                                  "Do you want to upload your local changes, or download the Dropbox version?",
+                                  [error.userInfo[kRCUploadConflictFileKey] lastPathComponent]
+                                  ];
+             
+             UIAlertView *alert =
+             [[UIAlertView alloc] initWithTitle: @"File Conflict"
+                                        message: message
+                                       delegate: self
+                              cancelButtonTitle: @"Cancel"
+                              otherButtonTitles: @"Upload changes", @"Download to device", nil];
+             [alert show];
+             return;
+         }
+         
+         // generic upload error
+         // kRCErrorUploadFailed
+         NSLog(@"Error uploading todo file: %@", error);
+         
+         [self syncComplete:NO];
+         
+         UIAlertView *alert =
+         [[UIAlertView alloc] initWithTitle: @"Error"
+                                    message: @"There was an error uploading your todo.txt file."
+                                   delegate: nil
+                          cancelButtonTitle: @"OK"
+                          otherButtonTitles: nil];
+         [alert show];
+     }];
 }
 
 - (void) pushToRemote {
@@ -344,16 +399,55 @@
 	
 	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 
-	if (![self.remoteClientManager.currentClient isAvailable]) {
+	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
 		[todo_txt_touch_iosAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
 		return;
 	}
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	[self.remoteClientManager.currentClient pullTodo];
-	// pullTodo is asynchronous. When it returns, it will call
-	// the delegate method 'loadedFile'
-
+	[[[[self.remoteClientManager.currentClient pullTodo] deliverOn:RACScheduler.mainThreadScheduler]
+      finally:^{
+          [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+      }]
+     subscribeNext:^(NSArray *files) {
+         NSString *todoPath = nil;
+         NSString *donePath = nil;
+         if (files.count > 0) {
+             todoPath = files[0];
+         }
+         
+         if (files.count > 1) {
+             donePath = files[1];
+         }
+         
+         if (todoPath) {
+             [self.taskBag reloadWithFile:todoPath];
+             // Send notification so that whichever screen is active can refresh itself
+             [[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
+         }
+         
+         if (donePath) {
+             [self.taskBag loadDoneTasksWithFile:donePath];
+         }
+         
+         [self syncComplete:YES];
+     } error:^(NSError *error) {
+         NSLog(@"Error downloading todo.txt file: %@", error);
+         
+         if (error.code == 404) {
+             // ignore missing file. They may not have created one yet.
+             [self syncComplete:YES];
+             return;
+         }
+         
+         [self syncComplete:NO];
+         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:@"There was an error downloading your todo.txt file."
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+         [alert show];
+     }];
 }
 
 - (void) pullFromRemote {
@@ -376,93 +470,10 @@
 		[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
 		self.lastSync = [NSDate date];
 	}
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 }
 
 #pragma mark -
 #pragma mark RemoteClientDelegate methods
-
-- (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath{
-	if (todoPath) {
-		[self.taskBag reloadWithFile:todoPath];
-		// Send notification so that whichever screen is active can refresh itself
-		[[NSNotificationCenter defaultCenter] postNotificationName: kTodoChangedNotification object: nil];
-	}
-	
-	if (donePath) {
-		[self.taskBag loadDoneTasksWithFile:donePath];
-	}
-
-	[self syncComplete:YES];
-}
-
-- (void) remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError *)error {
-	NSLog(@"Error downloading todo.txt file: %@", error);
-	
-	if (error.code == 404) {
-		// ignore missing file. They may not have created one yet.
-		[self syncComplete:YES];
-		return;
-	}
-	
-	[self syncComplete:NO];
-	UIAlertView *alert =
-	[[UIAlertView alloc] initWithTitle: @"Error"
-							   message: @"There was an error downloading your todo.txt file."
-							  delegate: nil
-					 cancelButtonTitle: @"OK"
-					 otherButtonTitles: nil];
-    [alert show];
-}
-
-- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath {
-	[todo_txt_touch_iosAppDelegate setNeedToPush:NO];
-
-    // Push is complete. Let's do a pull now in case the remote done.txt changed
-	[self pullFromRemoteForce:YES];
-}
-
-- (void) remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError *)error {
-	NSLog(@"Error uploading todo file: %@", error);
-	
-	[self syncComplete:NO];
-	
-	UIAlertView *alert =
-	[[UIAlertView alloc] initWithTitle: @"Error"
-							   message: @"There was an error uploading your todo.txt file."
-							  delegate: nil
-					 cancelButtonTitle: @"OK"
-					 otherButtonTitles: nil];
-    [alert show];
-}
-
-- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath {
-	// alert user to the conflict and ask if he wants to force push or pull
-	NSLog(@"Upload conflict");
-	[self syncComplete:NO];
-	
-	NSString *message = [NSString 
-		stringWithFormat:@"Oops! There is a newer version of your %@ file in Dropbox. "
-						 "Do you want to upload your local changes, or download the Dropbox version?",
-						 [destPath lastPathComponent]
-						 ];
-	
-	UIAlertView *alert =
-	[[UIAlertView alloc] initWithTitle: @"File Conflict"
-							   message: message
-							  delegate: self
-					 cancelButtonTitle: @"Cancel"
-					 otherButtonTitles: @"Upload changes", @"Download to device", nil];
-    [alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == [alertView firstOtherButtonIndex]) {
-		[self pushToRemoteOverwrite:YES force:YES];
-	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
-		[self pullFromRemoteForce:YES];
-	}
-}
 
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success {
 	if (success) {
@@ -475,16 +486,15 @@
 	}
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([self.remoteClientManager.currentClient handleOpenURL:url]) {
-        if ([self.remoteClientManager.currentClient isAuthenticated]) {
-            NSLog(@"App linked successfully!");
-            // At this point you can start making API calls
-        }
-        return YES;
-    }
-    // Add whatever other url handling code your app requires here
-    return NO;
+#pragma mark -
+#pragma mark Alert view delegate methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == [alertView firstOtherButtonIndex]) {
+		[self pushToRemoteOverwrite:YES force:YES];
+	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
+		[self pullFromRemoteForce:YES];
+	}
 }
 
 #pragma mark -

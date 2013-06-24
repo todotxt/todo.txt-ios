@@ -51,15 +51,6 @@
 
 @property (nonatomic, weak) id<RemoteClientDelegate> delegate;
 
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
-
 + (NSString*) todoTxtTmpFile;
 + (NSString*) todoTxtRemoteFile;
 + (NSString*) doneTxtTmpFile;
