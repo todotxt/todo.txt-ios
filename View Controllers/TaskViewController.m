@@ -185,7 +185,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
-- (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	//TODO: progress dialog
 	if (selectedIndex.intValue >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];

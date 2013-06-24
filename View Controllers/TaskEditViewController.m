@@ -262,7 +262,7 @@
 	[textView becomeFirstResponder];
 }
 
-- (void) priorityWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
@@ -281,7 +281,7 @@
 	[textView becomeFirstResponder];
 }
 
-- (void) projectWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) projectWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
@@ -298,7 +298,7 @@
 	[textView becomeFirstResponder];
 }
 
-- (void) contextWasSelected:(NSNumber *)selectedIndex:(id)element {
+- (void) contextWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
 		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
@@ -336,7 +336,7 @@
 													  data:[taskBag contexts]
 											 selectedIndex:0
 													target:self 
-													action:@selector(contextWasSelected::) 
+													action:@selector(contextWasSelected:element:)
 													 title:@"Select Context"
 													  rect:CGRectZero
 											 barButtonItem:button];			
@@ -346,7 +346,7 @@
                                                   data:[Priority allCodes]
                                          selectedIndex:curPriority
                                                 target:self 
-                                                action:@selector(priorityWasSelected::) 
+                                                action:@selector(priorityWasSelected:element:)
 												 title:@"Select Priority"
 												  rect:CGRectZero
 										 barButtonItem:button];
@@ -356,7 +356,7 @@
                                               data:[taskBag projects]
                                      selectedIndex:0
                                             target:self 
-                                            action:@selector(projectWasSelected::) 
+                                            action:@selector(projectWasSelected:element:)
 											 title:@"Select Project"
 											  rect:CGRectZero
 									 barButtonItem:button];			

@@ -50,7 +50,7 @@ static NSArray* priorityArray = nil;
 
 @synthesize name, code, listFormat, detailFormat, fileFormat;
 
-- (id)initWithName:(PriorityName)theName :(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
+- (id)initWithName:(PriorityName)theName withCode:(NSString*)theCode withListFormat:(NSString*)theListFormat withDetailFormat:(NSString*)theDetailFormat withFileFormat:(NSString*)theFileFormat {
 	self = [super init];
 	if (self) {
 		name = theName;
@@ -75,43 +75,43 @@ static NSArray* priorityArray = nil;
 	return [code hash];
 }
 
-+(Priority *)priorityWithName:(PriorityName)theName :(NSString*)theCode:(NSString*)theListFormat:(NSString*)theDetailFormat:(NSString*)theFileFormat {
-	return [[Priority alloc] initWithName:theName :theCode :theListFormat :theDetailFormat :theFileFormat];
++(Priority *)priorityWithName:(PriorityName)theName withCode:(NSString*)theCode withListFormat:(NSString*)theListFormat withDetailFormat:(NSString*)theDetailFormat withFileFormat:(NSString*)theFileFormat {
+	return [[Priority alloc] initWithName:theName withCode:theCode withListFormat:theListFormat withDetailFormat:theDetailFormat withFileFormat:theFileFormat];
 }
 
 + (void)initialize {
 	@synchronized(self) {
 		if (!priorityArray) {
 			priorityArray = [NSArray arrayWithObjects:
-							  [Priority priorityWithName:PriorityNone :@"-" :@" " :@"" :@""],
-							  [Priority priorityWithName:PriorityA :@"A" :@"A" :@"A" :@"(A)"],
-							  [Priority priorityWithName:PriorityB :@"B" :@"B" :@"B" :@"(B)"],
-							  [Priority priorityWithName:PriorityC :@"C" :@"C" :@"C" :@"(C)"],
-							  [Priority priorityWithName:PriorityD :@"D" :@"D" :@"D" :@"(D)"],
-							  [Priority priorityWithName:PriorityE :@"E" :@"E" :@"E" :@"(E)"],
-							  [Priority priorityWithName:PriorityF :@"F" :@"F" :@"F" :@"(F)"],
-							  [Priority priorityWithName:PriorityG :@"G" :@"G" :@"G" :@"(G)"],
-							  [Priority priorityWithName:PriorityH :@"H" :@"H" :@"H" :@"(H)"],
-							  [Priority priorityWithName:PriorityI :@"I" :@"I" :@"I" :@"(I)"],
-							  [Priority priorityWithName:PriorityJ :@"J" :@"J" :@"J" :@"(J)"],
-							  [Priority priorityWithName:PriorityK :@"K" :@"K" :@"K" :@"(K)"],
-							  [Priority priorityWithName:PriorityL :@"L" :@"L" :@"L" :@"(L)"],
-							  [Priority priorityWithName:PriorityM :@"M" :@"M" :@"M" :@"(M)"],
-							  [Priority priorityWithName:PriorityN :@"N" :@"N" :@"N" :@"(N)"],
-							  [Priority priorityWithName:PriorityO :@"O" :@"O" :@"O" :@"(O)"],
-							  [Priority priorityWithName:PriorityP :@"P" :@"P" :@"P" :@"(P)"],
-							  [Priority priorityWithName:PriorityQ :@"Q" :@"Q" :@"Q" :@"(Q)"],
-							  [Priority priorityWithName:PriorityR :@"R" :@"R" :@"R" :@"(R)"],
-							  [Priority priorityWithName:PriorityS :@"S" :@"S" :@"S" :@"(S)"],
-							  [Priority priorityWithName:PriorityT :@"T" :@"T" :@"T" :@"(T)"],
-							  [Priority priorityWithName:PriorityU :@"U" :@"U" :@"U" :@"(U)"],
-							  [Priority priorityWithName:PriorityV :@"V" :@"V" :@"V" :@"(V)"],
-							  [Priority priorityWithName:PriorityW :@"W" :@"W" :@"W" :@"(W)"],
-							  [Priority priorityWithName:PriorityX :@"X" :@"X" :@"X" :@"(X)"],
-							  [Priority priorityWithName:PriorityY :@"Y" :@"Y" :@"Y" :@"(Y)"],
-							  [Priority priorityWithName:PriorityZ :@"Z" :@"Z" :@"Z" :@"(Z)"],
-							  nil
-							 ];
+                             [Priority priorityWithName:PriorityNone withCode:@"-" withListFormat:@" " withDetailFormat:@"" withFileFormat:@""],
+                             [Priority priorityWithName:PriorityA withCode:@"A" withListFormat:@"A" withDetailFormat:@"A" withFileFormat:@"(A)"],
+                             [Priority priorityWithName:PriorityB withCode:@"B" withListFormat:@"B" withDetailFormat:@"B" withFileFormat:@"(B)"],
+                             [Priority priorityWithName:PriorityC withCode:@"C" withListFormat:@"C" withDetailFormat:@"C" withFileFormat:@"(C)"],
+                             [Priority priorityWithName:PriorityD withCode:@"D" withListFormat:@"D" withDetailFormat:@"D" withFileFormat:@"(D)"],
+                             [Priority priorityWithName:PriorityE withCode:@"E" withListFormat:@"E" withDetailFormat:@"E" withFileFormat:@"(E)"],
+                             [Priority priorityWithName:PriorityF withCode:@"F" withListFormat:@"F" withDetailFormat:@"F" withFileFormat:@"(F)"],
+                             [Priority priorityWithName:PriorityG withCode:@"G" withListFormat:@"G" withDetailFormat:@"G" withFileFormat:@"(G)"],
+                             [Priority priorityWithName:PriorityH withCode:@"H" withListFormat:@"H" withDetailFormat:@"H" withFileFormat:@"(H)"],
+                             [Priority priorityWithName:PriorityI withCode:@"I" withListFormat:@"I" withDetailFormat:@"I" withFileFormat:@"(I)"],
+                             [Priority priorityWithName:PriorityJ withCode:@"J" withListFormat:@"J" withDetailFormat:@"J" withFileFormat:@"(J)"],
+                             [Priority priorityWithName:PriorityK withCode:@"K" withListFormat:@"K" withDetailFormat:@"K" withFileFormat:@"(K)"],
+                             [Priority priorityWithName:PriorityL withCode:@"L" withListFormat:@"L" withDetailFormat:@"L" withFileFormat:@"(L)"],
+                             [Priority priorityWithName:PriorityM withCode:@"M" withListFormat:@"M" withDetailFormat:@"M" withFileFormat:@"(M)"],
+                             [Priority priorityWithName:PriorityN withCode:@"N" withListFormat:@"N" withDetailFormat:@"N" withFileFormat:@"(N)"],
+                             [Priority priorityWithName:PriorityO withCode:@"O" withListFormat:@"O" withDetailFormat:@"O" withFileFormat:@"(O)"],
+                             [Priority priorityWithName:PriorityP withCode:@"P" withListFormat:@"P" withDetailFormat:@"P" withFileFormat:@"(P)"],
+                             [Priority priorityWithName:PriorityQ withCode:@"Q" withListFormat:@"Q" withDetailFormat:@"Q" withFileFormat:@"(Q)"],
+                             [Priority priorityWithName:PriorityR withCode:@"R" withListFormat:@"R" withDetailFormat:@"R" withFileFormat:@"(R)"],
+                             [Priority priorityWithName:PriorityS withCode:@"S" withListFormat:@"S" withDetailFormat:@"S" withFileFormat:@"(S)"],
+                             [Priority priorityWithName:PriorityT withCode:@"T" withListFormat:@"T" withDetailFormat:@"T" withFileFormat:@"(T)"],
+                             [Priority priorityWithName:PriorityU withCode:@"U" withListFormat:@"U" withDetailFormat:@"U" withFileFormat:@"(U)"],
+                             [Priority priorityWithName:PriorityV withCode:@"V" withListFormat:@"V" withDetailFormat:@"V" withFileFormat:@"(V)"],
+                             [Priority priorityWithName:PriorityW withCode:@"W" withListFormat:@"W" withDetailFormat:@"W" withFileFormat:@"(W)"],
+                             [Priority priorityWithName:PriorityX withCode:@"X" withListFormat:@"X" withDetailFormat:@"X" withFileFormat:@"(X)"],
+                             [Priority priorityWithName:PriorityY withCode:@"Y" withListFormat:@"Y" withDetailFormat:@"Y" withFileFormat:@"(Y)"],
+                             [Priority priorityWithName:PriorityZ withCode:@"Z" withListFormat:@"Z" withDetailFormat:@"Z" withFileFormat:@"(Z)"],
+                             nil
+                             ];
 		}
 	}
 }
