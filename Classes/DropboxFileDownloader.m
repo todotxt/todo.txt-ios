@@ -45,39 +45,49 @@
 #import "DropboxFileDownloader.h"
 
 @interface DropboxFileDownloader () <DBRestClientDelegate>
+
+@property (nonatomic, strong) DBRestClient *restClient;
+
+@property (nonatomic, strong) id target;
+@property (nonatomic) SEL onComplete;
+
+@property (nonatomic) NSInteger curFile;
+
+@property (nonatomic, strong) NSArray *files;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic) DropboxFileStatus status;
+
 @end
 
-@implementation DropboxFileDownloader 
-
-@synthesize files, status, error;
+@implementation DropboxFileDownloader
 
 - (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
 	self = [super init];
 	if (self) {
-		target = aTarget;
-		onComplete = selector;
-		status = dbInitialized;
-		curFile = -1;
+		self.target = aTarget;
+		self.onComplete = selector;
+		self.status = dbInitialized;
+		self.curFile = -1;
 	}
 	return self;
 }
 
 - (DBRestClient*)restClient {
-	if (restClient == nil) {
-		restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-		restClient.delegate = self;
+	if (_restClient == nil) {
+		_restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+		_restClient.delegate = self;
 	}
-	return restClient;
+	return _restClient;
 }
 
 - (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
-	status = aStatus;
-	[target performSelectorOnMainThread:onComplete withObject:self waitUntilDone:NO];
+	self.status = aStatus;
+	[self.target performSelectorOnMainThread:self.onComplete withObject:self waitUntilDone:NO];
 }
 
 - (void) loadNextFile {
-	if (++curFile < files.count) {
-		DropboxFile *file = [files objectAtIndex:curFile];
+	if (++self.curFile < self.files.count) {
+		DropboxFile *file = [self.files objectAtIndex:self.curFile];
 		if (file.status == dbFound) {
 			[self.restClient loadFile:file.remoteFile
 								atRev:file.loadedMetadata.rev 
@@ -92,21 +102,21 @@
 }
 
 - (void) loadNextMetadata {
-	if (++curFile < files.count) {
-		DropboxFile *file = [files objectAtIndex:curFile];
+	if (++self.curFile < self.files.count) {
+		DropboxFile *file = [self.files objectAtIndex:self.curFile];
 		file.status = dbStarted;
 		[self.restClient loadMetadata:file.remoteFile];
 	} else {
 		// we got all of the metadata, now get the files
-		curFile = -1;
+		self.curFile = -1;
 		[self loadNextFile];
 	}
 }
 
 - (void) pullFiles:(NSArray*)dropboxFiles {
-	files = dropboxFiles;
-	curFile = -1;
-	status = dbStarted;
+	self.files = dropboxFiles;
+	self.curFile = -1;
+	self.status = dbStarted;
 	
 	// first check metadata of each file, starting with the first
 	[self loadNextMetadata];
@@ -116,7 +126,7 @@
 #pragma mark DBRestClientDelegate methods
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	// save off the returned metadata
 	file.loadedMetadata = metadata;	
@@ -135,7 +145,7 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	// there was no metadata for the todo file, meaning it does not exist
 	// so there is nothing to load
@@ -146,7 +156,7 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 
 	file.status = dbSuccess;
 
@@ -154,12 +164,12 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)theError {
-	DropboxFile *file = [files objectAtIndex:curFile];
+	DropboxFile *file = [self.files objectAtIndex:self.curFile];
 	
 	file.status = dbError;
 	file.error = theError;
 	
-	error = theError;
+	self.error = theError;
 
 	// don't bother downloading any more files after the first error
 	[self reportCompletionWithStatus:dbError];
