@@ -57,6 +57,7 @@
 @interface DropboxRemoteClient () <DBSessionDelegate>
 
 @property (nonatomic, strong) DropboxFileDownloader *downloader;
+@property (nonatomic, strong) DropboxFileUploader *uploader;
 
 @end
 
@@ -189,42 +190,6 @@
     self.downloader = todoDownloader;
 }
 
-- (void) pushTodoCompleted:(DropboxFileUploader*)todoUploader {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	DropboxFile *todoFile = [todoUploader.files objectAtIndex:0];
-	DropboxFile *doneFile = nil;
-	if (todoUploader.files.count > 1) {
-		doneFile = [todoUploader.files objectAtIndex:1];
-	}
-	
-	if (todoUploader.status == dbSuccess) {
-		// save revs
-		[defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
-		if (doneFile) [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
-	}
-	
-	if (todoUploader.status == dbError) {
-		// call remote client delegate function
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
-			[self.delegate remoteClient:self uploadFileFailedWithError:todoUploader.error];
-		}
-	} else if (todoUploader.status == dbConflict) {
-		NSString *conflictFile = nil;
-		if (todoFile.status == dbConflict) {
-			conflictFile = todoFile.remoteFile;
-		} else if (doneFile && doneFile.status == dbConflict) {
-			conflictFile = doneFile.remoteFile;
-		}
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithConflict:)]) {
-			[self.delegate remoteClient:self uploadFileFailedWithConflict:conflictFile];
-		}
-	} else {
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
-			[self.delegate remoteClient:self uploadedFile:todoFile.remoteFile];
-		}
-	}
-}
-
 - (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath {
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -250,9 +215,42 @@
 													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]]];
 	}
 
-    DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] initWithTarget:self
-                                                    onComplete:@selector(pushTodoCompleted:)];
-    [todoUploader pushFiles:files overwrite:doOverwrite];	
+    DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] init];
+    
+    [[todoUploader pushFiles:files overwrite:doOverwrite]
+     subscribeNext:^(NSArray *files) {
+         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+         DropboxFile *todoFile = files[0];
+         DropboxFile *doneFile = nil;
+         if (files.count > 1) {
+             doneFile = files[1];
+         }
+         
+         // save revs
+         [defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
+         if (doneFile) {
+             [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
+         }
+         
+         if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
+             [self.delegate remoteClient:self uploadedFile:todoFile.remoteFile];
+         }
+     } error:^(NSError *error) {
+         if (error.code == kUploadConflictErrorCode) {
+             NSString *conflictFile = error.userInfo[kUploadConflictFileString];
+             if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithConflict:)]) {
+                 [self.delegate remoteClient:self uploadFileFailedWithConflict:conflictFile];
+             }
+         } else {
+             // call remote client delegate function
+             if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
+                 [self.delegate remoteClient:self uploadFileFailedWithError:error];
+             }
+         }
+     }];
+    
+    // hang onto todoUploader so it doesn't get dealloc'ed
+    self.uploader = todoUploader;
 }
 
 - (BOOL) isAvailable {
