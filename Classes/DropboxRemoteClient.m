@@ -176,7 +176,16 @@
              }
              
              // report status upstream
-             [self.pullSubject sendNext:@[ loadedTodoFile, loadedDoneFile ]];
+             NSArray *loadedFiles = @[];
+             if (loadedTodoFile) {
+                 loadedFiles = [loadedFiles arrayByAddingObject:loadedTodoFile];
+             }
+             
+             if (loadedDoneFile) {
+                 loadedFiles = [loadedFiles arrayByAddingObject:loadedDoneFile];
+             }
+             
+             [self.pullSubject sendNext:loadedFiles];
              [self.pullSubject sendCompleted];
          } error:^(NSError *error) {
              // report error upstream
