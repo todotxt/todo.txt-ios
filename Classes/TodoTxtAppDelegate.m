@@ -43,7 +43,8 @@
  */
 
 #import "TodoTxtAppDelegate.h"
-#import "TasksViewController.h"
+#import "FilterViewController.h"
+#import "TaskFilterTarget.h"
 #import "LoginScreenViewController.h"
 #import "iPadLoginScreenViewController.h"
 #import "TaskBag.h"
@@ -217,7 +218,14 @@
 		[self presentLoginController];
 	}
 	
-	[self.window makeKeyAndVisible];
+    // Connect the FilterViewController to its filtering target.
+    // The FilterViewController and its target are the two VCs in a split VC;
+    // the FilterViewController is the master view controller, and its target is the detail view controller.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSArray *viewControllers = [(UISplitViewController *)self.window.rootViewController viewControllers];
+        [(FilterViewController *)[(UINavigationController *)viewControllers[0] topViewController]
+         setFilterTarget:(id<TaskFilterTarget>)[(UINavigationController *)viewControllers[1] topViewController]];
+    }
     
     return YES;
 }

@@ -70,6 +70,7 @@
 #define DETAIL_CELL_PADDING 10
 
 static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
+static NSString * const kTaskEditSegueIdentifier = @"TaskEditSegue";
 
 @interface TaskViewController ()
 
@@ -98,16 +99,10 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 #pragma mark -
 #pragma mark View lifecycle
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)viewDidLoad
 {
-    self = [super initWithStyle:style];
-    
-    if (self) {
-        self.buttonNames = @[ @"Complete", @"Prioritize", @"Update", @"Delete" ];
-        self.completedButtonNames = @[ @"Undo Complete", @"Delete" ];
-    }
-    
-    return self;
+    self.buttonNames = @[ @"Complete", @"Prioritize", @"Update", @"Delete" ];
+    self.completedButtonNames = @[ @"Undo Complete", @"Delete" ];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -409,10 +404,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) didTapUpdateButton {
 	NSLog(@"didTapUpdateButton called");
-    TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
-	taskEditView.task = [self task];
-	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self presentViewController:taskEditView animated:YES completion:nil];
+    [self performSegueWithIdentifier:kTaskEditSegueIdentifier sender:self];
 }
 
 - (void) didTapDeleteButton {
@@ -452,9 +444,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	}
 }
 
-- (void) dealloc {;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
@@ -462,6 +451,16 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
+}
+
+#pragma mark - Segue methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:kTaskEditSegueIdentifier]) {
+        TaskEditViewController *taskEditView = (TaskEditViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
+        taskEditView.task = self.task;
+    }
 }
 
 

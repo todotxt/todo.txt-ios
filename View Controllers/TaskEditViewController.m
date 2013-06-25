@@ -101,12 +101,10 @@
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (task) {
-		self.navItem.title = @"Edit Task";	
-		self.navItem.rightBarButtonItem.title = @"Done";
+		self.navItem.title = @"Edit Task";
 		textView.text = [task inFileFormat];
 	} else {
 		self.navItem.title = @"Add Task";
-		self.navItem.rightBarButtonItem.title = @"Add";
 	}
 	curSelectedRange = textView.selectedRange;
 	[textView becomeFirstResponder];

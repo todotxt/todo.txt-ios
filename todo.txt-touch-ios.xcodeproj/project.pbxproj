@@ -56,9 +56,9 @@
 		1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */; };
 		1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */; };
 		1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */; };
-		1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */; };
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
-		1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C9205176B762D0022C9AE /* FilterViewController.xib */; };
+		1B257D4E1779E511006F57C7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B257D4D1779E511006F57C7 /* MainStoryboard_iPhone.storyboard */; };
+		1B257D6B1779FC01006F57C7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B257D6A1779FC01006F57C7 /* MainStoryboard_iPad.storyboard */; };
 		1B56E00A1778C2760088E206 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E0091778C2760088E206 /* DropboxSDK.framework */; };
 		1B56E00B1778C2760088E206 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E0091778C2760088E206 /* DropboxSDK.framework */; };
 		1BAE2A0E1774A63D00DA0A95 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BAE2A071774A62700DA0A95 /* libReactiveCocoa-iOS.a */; };
@@ -67,13 +67,11 @@
 		1BAE2A261774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
 		1BAE2A271774C9F700DA0A95 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */; };
 		1BAE2A341774D46700DA0A95 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE2A331774D46700DA0A95 /* SSTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1BAE2A441774E5B400DA0A95 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BAE2A431774E5B400DA0A95 /* TaskViewController.xib */; };
 		1D3623260D0F684500981E51 /* TodoTxtAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		33714DB015D45F4B002F1BED /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 33714DAF15D45F4B002F1BED /* Icon-144.png */; };
 		33766B93160129E6000C25B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33766B92160129E6000C25B0 /* Default-568h@2x.png */; };
 		33B7512715F6EDE90072D8F9 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B7512615F6EDE90072D8F9 /* icon_57.png */; };
@@ -291,11 +289,11 @@
 		1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
 		1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
-		1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		1B0C9202176B73A60022C9AE /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
-		1B0C9205176B762D0022C9AE /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
+		1B257D4D1779E511006F57C7 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		1B257D6A1779FC01006F57C7 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		1B56E0091778C2760088E206 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		1B82361C1771F05200908C31 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		1BAE29FB1774A62600DA0A95 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = Libraries/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 		1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo.txt Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
 		33714DAF15D45F4B002F1BED /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
@@ -545,7 +542,6 @@
 			children = (
 				1B0C9202176B73A60022C9AE /* FilterViewController.h */,
 				1B0C9203176B73A60022C9AE /* FilterViewController.m */,
-				1B0C9205176B762D0022C9AE /* FilterViewController.xib */,
 				1B0C9076176B63D00022C9AE /* iPadLoginScreenViewController.h */,
 				1B0C9077176B63D00022C9AE /* iPadLoginScreenViewController.m */,
 				1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */,
@@ -558,7 +554,6 @@
 				1B0C907D176B63D10022C9AE /* TaskViewController.m */,
 				1B0C907E176B63D10022C9AE /* TasksViewController.h */,
 				1B0C907F176B63D10022C9AE /* TasksViewController.m */,
-				1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -747,6 +742,8 @@
 			isa = PBXGroup;
 			children = (
 				33CF5E09144410B90050F60D /* Entitlements.entitlements */,
+				1B257D4D1779E511006F57C7 /* MainStoryboard_iPhone.storyboard */,
+				1B257D6A1779FC01006F57C7 /* MainStoryboard_iPad.storyboard */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				1BAE2A201774C9CC00DA0A95 /* Categories */,
 				1B0C9075176B63D00022C9AE /* View Controllers */,
@@ -794,8 +791,6 @@
 				7D57054512F89F1900BB5E8D /* Icon-Small.png */,
 				33B7512615F6EDE90072D8F9 /* icon_57.png */,
 				33B7512815F6EDEE0072D8F9 /* icon_114.png */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				1B0C91FF176B6E280022C9AE /* MainWindow-iPad.xib */,
 				5910DBD61424014800BB2D68 /* InAppSettings.bundle */,
 				8D1107310486CEB800E47090 /* todo_txt_touch_ios-Info.plist */,
 			);
@@ -1131,7 +1126,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */,
 				7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */,
 				7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */,
@@ -1163,9 +1157,9 @@
 				1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */,
 				1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */,
 				1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */,
-				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
-				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
 				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
+				1B257D4E1779E511006F57C7 /* MainStoryboard_iPhone.storyboard in Resources */,
+				1B257D6B1779FC01006F57C7 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

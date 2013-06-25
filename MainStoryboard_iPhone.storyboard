@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qhX-d2-2Zl">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--Tasks View Controller - Tasks-->
+        <scene sceneID="hEa-Ai-Hkk">
+            <objects>
+                <tableViewController id="yWi-bb-L3m" customClass="TasksViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="C2e-rl-6C1">
+                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="nbM-XI-PVk">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="yWi-bb-L3m" id="E1p-5j-Lbo"/>
+                            </connections>
+                        </searchBar>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="refresh" id="J19-aL-GoJ">
+                            <connections>
+                                <action selector="syncButtonPressed:" destination="yWi-bb-L3m" id="Suf-vY-fWd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="W3B-DR-ebS"/>
+                        <barButtonItem image="19-gear.png" style="plain" id="IAu-7p-FV3">
+                            <connections>
+                                <action selector="settingsButtonPressed:" destination="yWi-bb-L3m" id="MNu-5b-A7a"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Tasks" id="1Lp-5z-5Cg">
+                        <barButtonItem key="leftBarButtonItem" title="Sort" id="zDX-AB-di9">
+                            <connections>
+                                <action selector="sortButtonPressed:" destination="yWi-bb-L3m" id="dXE-3D-5cr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="3Fn-OV-ZhD">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="yWi-bb-L3m" id="DTr-aW-nXt"/>
+                                <segue destination="RPp-ft-Qyc" kind="modal" identifier="TaskAddSegue" modalTransitionStyle="coverVertical" id="pCm-z6-2l4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="5WZ-Ye-4bI" id="tzt-NZ-6SH"/>
+                        <segue destination="Wuv-Mh-X98" kind="push" identifier="TaskViewSegue" id="WHO-pR-Gfk"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P7n-WB-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="5WZ-Ye-4bI">
+                    <connections>
+                        <outlet property="delegate" destination="yWi-bb-L3m" id="8Bt-oc-x8h"/>
+                        <outlet property="searchBar" destination="nbM-XI-PVk" id="iVP-e6-Df1"/>
+                        <outlet property="searchContentsController" destination="yWi-bb-L3m" id="azH-Fj-Chl"/>
+                        <outlet property="searchResultsDataSource" destination="yWi-bb-L3m" id="Qe6-VV-6E9"/>
+                        <outlet property="searchResultsDelegate" destination="yWi-bb-L3m" id="JYU-zV-AdF"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="468" y="142"/>
+        </scene>
+        <!--Task View Controller-->
+        <scene sceneID="o7U-Ak-7U6">
+            <objects>
+                <tableViewController id="Wuv-Mh-X98" customClass="TaskViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dHM-Cd-elh">
+                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Wuv-Mh-X98" id="K7B-P7-5tO"/>
+                            <outlet property="delegate" destination="Wuv-Mh-X98" id="IjM-FS-tNP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="IcF-Wq-jqb"/>
+                    <connections>
+                        <segue destination="RPp-ft-Qyc" kind="modal" identifier="TaskEditSegue" modalTransitionStyle="coverVertical" id="RNh-9n-K08"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Ji-u3-fNv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="875" y="841"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OSl-2d-rhE">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="RPp-ft-Qyc" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BZt-qo-Qm6">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4dc-Gb-cfj" kind="relationship" relationship="rootViewController" id="gqi-Q8-Pp3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vwg-RX-CoK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="875" y="142"/>
+        </scene>
+        <!--Task Edit View Controller-->
+        <scene sceneID="DFg-2g-6DS">
+            <objects>
+                <viewController id="4dc-Gb-cfj" customClass="TaskEditViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dL4-LZ-GNA">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK2-0X-9fN" customClass="SSTextView">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="4dc-Gb-cfj" id="oTl-7b-vpG"/>
+                                </connections>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wK2-0X-9fN" firstAttribute="top" secondItem="dL4-LZ-GNA" secondAttribute="top" type="default" id="Mxr-5S-ZpH"/>
+                            <constraint firstItem="wK2-0X-9fN" firstAttribute="bottom" secondItem="dL4-LZ-GNA" secondAttribute="bottom" type="default" id="Toq-uo-UJZ"/>
+                            <constraint firstItem="wK2-0X-9fN" firstAttribute="trailing" secondItem="dL4-LZ-GNA" secondAttribute="trailing" type="default" id="avj-3N-ioF"/>
+                            <constraint firstItem="wK2-0X-9fN" firstAttribute="leading" secondItem="dL4-LZ-GNA" secondAttribute="leading" type="default" id="fgU-jF-NVv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="b25-47-8m9">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="rxZ-VM-gh1">
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="4dc-Gb-cfj" id="0P3-0z-ISr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="lb4-2S-wB4">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="4dc-Gb-cfj" id="Lnu-5S-LMv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textView" destination="wK2-0X-9fN" id="jeg-wG-wqb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Dh-Eh-47N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1235" y="142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wQF-xA-cys">
+            <objects>
+                <navigationController definesPresentationContext="YES" toolbarHidden="NO" id="qhX-d2-2Zl" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ohO-Dh-qaI">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="WsV-ef-qRH">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="yWi-bb-L3m" kind="relationship" relationship="rootViewController" id="Jpc-cP-1lu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UUg-lD-lrW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="43" y="142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="19-gear.png" width="22" height="22"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="pCm-z6-2l4"/>
+    </inferredMetricsTieBreakers>
+</document>

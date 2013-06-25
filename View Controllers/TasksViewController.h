@@ -46,8 +46,7 @@
 #import "TaskBag.h"
 #import "TaskFilterTarget.h"
 
-@interface TasksViewController : UIViewController <TaskFilterTarget,
-	UITableViewDelegate, UITableViewDataSource, 
+@interface TasksViewController : UITableViewController <TaskFilterTarget,
 	UISearchDisplayDelegate, UISearchBarDelegate>
 
 - (IBAction)addButtonPressed:(id)sender;

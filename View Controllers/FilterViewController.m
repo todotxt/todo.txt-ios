@@ -69,7 +69,6 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 - (void)filterOnContextsAndProjects;
 - (IBAction)selectedSegment:(UISegmentedControl *)sender;
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
 @property (strong, nonatomic) NSArray *contexts;
 @property (strong, nonatomic) NSArray *projects;
 @property (strong, nonatomic) NSMutableArray *selectedContexts;
@@ -87,7 +86,6 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     [super viewDidLoad];
     
     self.title = @"Filter";
-    self.navigationItem.titleView = self.typeSegmentedControl;
     
     self.selectedContexts = [NSMutableArray array];
     self.selectedProjects = [NSMutableArray array];

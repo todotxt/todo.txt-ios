@@ -69,11 +69,11 @@ static NSString *const kNoFilterResultsMessage = @"No results for chosen \
 contexts and projects.";
 
 static NSString *const kCellIdentifier = @"FlexiTaskCell";
+static NSString *const kViewTaskSegueIdentifier = @"TaskViewSegue";
+static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 
 @interface TasksViewController () <IASKSettingsDelegate>
 
-@property (nonatomic, strong) IBOutlet UITableView *table;
-@property (nonatomic, strong) IBOutlet UITableViewCell *tableCell;
 @property (strong, nonatomic) IBOutlet UILabel *emptyLabel;
 @property (nonatomic, strong) NSArray *tasks;
 @property (nonatomic, strong) Sort *sort;
@@ -113,7 +113,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
 	// reload main tableview data
 	self.tasks = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:self.sort];
-	[self.table reloadData];
+	[self.tableView reloadData];
 	
 	// reload searchbar tableview data if necessary
 	if (self.savedSearchTerm)
@@ -148,7 +148,7 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 		[UIView setAnimationBeginsFromCurrentState:YES];
 	}
 	
-	self.table.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
+	self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
 	
 	if (animated) {
 		[UIView commitAnimations];
@@ -177,7 +177,9 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 
     self.emptyLabel.text = kEmptyFileMessage;
     
-    [self.table registerNib:[UINib nibWithNibName:@"TaskCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"TaskCell"
+                                               bundle:[NSBundle mainBundle]]
+         forCellReuseIdentifier:kCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -295,17 +297,8 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 // Load the detail view controller when user taps the row
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	Task *task = [self taskForTable:tableView atIndex:indexPath.row];
-	
-	/*
-     When a row is selected, create the detail view controller and set its detail item to the item associated with the selected row.
-     */
-    TaskViewController *detailViewController = [[TaskViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
-    detailViewController.taskIndex = [[TodoTxtAppDelegate sharedTaskBag] indexOfTask:task];
-    
-    // Push the detail view controller.
-    [[self navigationController] pushViewController:detailViewController animated:YES];
+    // Segue to the detail view for a task
+    [self performSegueWithIdentifier:kViewTaskSegueIdentifier sender:self];
 }
 
 #pragma mark -
@@ -371,9 +364,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (IBAction)addButtonPressed:(id)sender {
 	NSLog(@"addButtonPressed called");
-    TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
-    [taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self presentViewController:taskEditView animated:YES completion:nil];
+    [self performSegueWithIdentifier:kAddTaskSegueIdentifier sender:self];
 }
 
 - (IBAction)syncButtonPressed:(id)sender {
@@ -396,6 +387,17 @@ shouldReloadTableForSearchString:(NSString *)searchString
     [self dismissViewControllerAnimated:YES completion:nil];
     [[TodoTxtAppDelegate sharedTaskBag] updateBadge];
 	self.needSync = YES;
+}
+
+#pragma mark -
+#pragma mark Search display results controller delegate methods
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+{
+    // Register the desired cell type for a search display controller's table view
+    [controller.searchResultsTableView registerNib:[UINib nibWithNibName:@"TaskCell"
+                                                                  bundle:[NSBundle mainBundle]]
+                            forCellReuseIdentifier:kCellIdentifier];
 }
 
 #pragma mark -
@@ -512,8 +514,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.table = nil;
-	self.tableCell = nil;
 	self.actionSheetPicker = nil;
 }
 
@@ -530,6 +530,19 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	self.actionSheetPicker = nil;
 }
 
+#pragma mark - Segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:kViewTaskSegueIdentifier]) {
+        Task *task = [self taskForTable:self.tableView atIndex:self.tableView.indexPathForSelectedRow.row];
+        
+        TaskViewController *detailViewController = (TaskViewController *)segue.destinationViewController;
+        detailViewController.taskIndex = [[TodoTxtAppDelegate sharedTaskBag] indexOfTask:task];
+    }
+    // nothing to be done for kAddTaskSegueIdentifier
+}
+
 #pragma mark - TaskFilterable methods
 
 - (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
@@ -543,7 +556,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
     }
     
 	// reload main tableview data to use the filter
-    [self.table reloadData];
+    [self.tableView reloadData];
 }
 
 @end
