@@ -309,7 +309,6 @@
 		1BAE2A251774C9F700DA0A95 /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
 		1BAE2A321774D46700DA0A95 /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
 		1BAE2A331774D46700DA0A95 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
-		1BAE2A431774E5B400DA0A95 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* TodoTxtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodoTxtAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodoTxtAppDelegate.m; sourceTree = "<group>"; };
@@ -562,7 +561,6 @@
 				1B0C91F9176B6D2F0022C9AE /* TaskEditViewController.xib */,
 				1B0C907C176B63D10022C9AE /* TaskViewController.h */,
 				1B0C907D176B63D10022C9AE /* TaskViewController.m */,
-				1BAE2A431774E5B400DA0A95 /* TaskViewController.xib */,
 				1B0C907E176B63D10022C9AE /* TasksViewController.h */,
 				1B0C907F176B63D10022C9AE /* TasksViewController.m */,
 				1B0C91FA176B6D2F0022C9AE /* TasksViewController.xib */,
@@ -1175,7 +1173,6 @@
 				1B0C9200176B6E280022C9AE /* MainWindow-iPad.xib in Resources */,
 				1B0C9206176B762D0022C9AE /* FilterViewController.xib in Resources */,
 				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
-				1BAE2A441774E5B400DA0A95 /* TaskViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

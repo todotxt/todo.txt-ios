@@ -45,15 +45,29 @@
 #import "TaskViewController.h"
 #import "TodoTxtAppDelegate.h"
 #import "Task.h"
+#import "TaskEditViewController.h"
 #import "TaskBag.h"
 #import "AsyncTask.h"
 #import "UIColor+CustomColors.h"
 #import "ActionSheetPicker.h"
+#import "TaskCell.h"
+#import "TaskCellViewModel.h"
 #import <CoreText/CoreText.h>
 
 #import "NSMutableAttributedString+TodoTxt.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
+
+#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
+#define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
+#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    635
+#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   895
+#define VERTICAL_PADDING        5
+
+#define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
+#define MIN_ROW_HEIGHT 50
+#define ACTION_ROW_HEIGHT 50
+#define DETAIL_CELL_PADDING 10
 
 char *buttons[] = { "Complete", "Prioritize", "Update", "Delete" };
 char *completed_buttons[] = { "Undo Complete", "Delete" }; 
@@ -62,51 +76,42 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 @interface TaskViewController ()
 
-@property (nonatomic, weak) IBOutlet UITextView *textView;
-
-- (void)undo;
-- (void)chooseContexts;
-- (void)chooseProjects;
-- (void)deleteTask;
-- (void)didTapCompleteButton;
-- (void)didTapPrioritizeButton;
-- (void)didTapUndoCompleteButton;
-- (void)didTapUpdateButton;
-- (void)didTapDeleteButton;
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
+@property (nonatomic, strong) TaskCell *taskCell;
 
 @end
 
 @implementation TaskViewController
 
-#pragma mark - View lifecycle
+@synthesize taskIndex, tableCell, actionSheetPicker;
 
-- (void)viewDidLoad
-{
-    UIBarButtonItem *contextsButton = [[UIBarButtonItem alloc] initWithTitle:@"Ctx" style:UIBarButtonItemStylePlain target:self action:@selector(chooseContexts)];
-    UIBarButtonItem *projectsButton = [[UIBarButtonItem alloc] initWithTitle:@"Pjcts" style:UIBarButtonItemStylePlain target:self action:@selector(chooseProjects)];
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteTask)];
-    
-    self.navigationItem.rightBarButtonItems = @[ contextsButton, projectsButton, deleteButton ];
+- (Task*) task {
+	return [[TodoTxtAppDelegate sharedTaskBag] taskAtIndex:taskIndex];
 }
+
+- (void) reloadViewData {
+	// Scroll the table view to the top before it appears
+	[[TodoTxtAppDelegate sharedTaskBag] reload];
+	
+    [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero animated:NO];
+
+}
+
+#pragma mark -
+#pragma mark View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
 	
-    [[NSNotificationCenter defaultCenter] addObserverForName:kTodoChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        // TODO
-    }];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+ 	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reloadViewData) 
+												 name:kTodoChangedNotification 
+											   object:nil];
+   
+	[self reloadViewData];
+	
+    self.title = @"Task Details";
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -114,22 +119,197 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	[[NSNotificationCenter defaultCenter] removeObserver:self];	
 }
 
-#pragma mark - Autorotation
+#pragma mark -
+#pragma mark Table view data source
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // There are 2 sections, one for the text, the other for the buttons
+    return 2;
 }
 
-#pragma mark - Private methods
 
-- (void)chooseContexts
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+	Task* task = [self task];
+	
+	/*
+	 The number of rows varies by section.
+	 */
+    NSInteger rows = 0;
+    switch (section) {
+        case 0:        
+            // For the text, there is one row.
+            rows = 1;
+            break;
+        case 1:
+            if([task completed]) {
+				// For completed tasks there are 2 buttons: Undo Complete and Delete. 
+				rows = sizeof(completed_buttons) / sizeof(char*);
+			} else {
+				// Otherwise, there are 5 buttons: Update, Prioritize, Complete, Delete, and Share. 
+				rows = sizeof(buttons) / sizeof(char*);
+			}
+            break;
+        default:
+            break;
+    }
+    return rows;
 }
 
-- (void)chooseProjects
-{
+- (CGFloat)textLabelWidth {
+	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
+	
+	CGFloat offset = 0;
+
+	if (isiPad)
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT - offset;
+		else
+			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE - offset;
+	}
+	else
+	{
+		if (isPortrait)
+			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT - offset;
+		else
+			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE - offset;
+	}
+		
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.section == 0) {
+		Task* task = [self task];
+		CGFloat ret = [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
+		
+		if (![task completed]) {
+			ret += DATE_LABEL_HEIGHT; // height of the date line
+		}
+		
+		// padding
+		ret += DETAIL_CELL_PADDING;
+		
+		return MAX(ret, MIN_ROW_HEIGHT);
+	} else {
+		return ACTION_ROW_HEIGHT;
+	}
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	
+	if(section == 0) {
+		return [NSString stringWithFormat:@""];
+	} else {
+		return @"Actions";
+	}
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+	UITableViewCell *cell = nil;
+	
+    // Set the text in the cell for the section/row.
+	if (indexPath.section == 0) {
+        if (!self.taskCell) {
+            [tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TaskCell class])
+                                                  bundle:nil]
+            forCellReuseIdentifier:kTaskCellReuseIdentifier];
+            TaskCell *taskCell = [tableView dequeueReusableCellWithIdentifier:kTaskCellReuseIdentifier];
+            Task *task = [self task];
+            TaskCellViewModel *viewModel = [[TaskCellViewModel alloc] init];
+            viewModel.task = task;
+            
+            taskCell.viewModel = viewModel;
+            
+            // Use RAC(...) as usual here, since this cell is created once and never re-used.
+            RAC(taskCell.taskTextView, attributedText) = [RACAbleWithStart(viewModel, attributedText) distinctUntilChanged];
+            RAC(taskCell.ageLabel, text) = [RACAbleWithStart(viewModel, ageText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, text) = [RACAbleWithStart(viewModel, priorityText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, textColor) = [RACAbleWithStart(viewModel, priorityColor) distinctUntilChanged];
+            RAC(taskCell, shouldShowDate) = RACAbleWithStart(viewModel, shouldShowDate);
+            
+            taskCell.viewModel = viewModel;
+            
+            self.taskCell = taskCell;
+        }
+        
+        cell = self.taskCell;
+	} else {
+		static NSString *CellIdentifier = @"CellIdentifier";
+		
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		}
+		
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+
+		if([[self task] completed]) {
+			cell.textLabel.text = [NSString stringWithUTF8String:completed_buttons[indexPath.row]];
+		} else {
+			cell.textLabel.text = [NSString stringWithUTF8String:buttons[indexPath.row]];			
+		}
+    }
+
+    return cell;
+}
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[self.tableView reloadData];
+}
+
+// Load the detail view controller when user taps the row
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:NO];
+	Task * task = [self task];
+	
+	// Tapping the detail view triggers the update option
+	if (indexPath.section == 0) {
+		if (![task completed]) {
+			[self didTapUpdateButton];
+		}
+		return;
+	}
+	
+	// Handle other button taps
+	if ([task completed]) {
+		switch (indexPath.row) {
+			case 0: //Undo Complete
+				[self didTapUndoCompleteButton];
+				break;
+			case 1: //Delete
+				[self didTapDeleteButton];
+				break;
+				
+			default:
+				break;
+		}
+	} else {
+		switch (indexPath.row) {
+			case 0: // Complete
+				[self didTapCompleteButton];
+				break;
+			case 1: // Prioritize
+				[self didTapPrioritizeButton];
+				break;
+			case 2: // Update
+				[self didTapUpdateButton];
+				break;
+			case 3: // Delete
+				[self didTapDeleteButton];
+				break;
+				
+			default:
+				break;
+		}
+	}
+}
+
+-(void)exitController {
+	[[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void) deleteTask {
@@ -140,8 +320,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
         [TodoTxtAppDelegate displayNotification:@"Deleted task"];
         [TodoTxtAppDelegate pushToRemote];
     }
-	 
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) undoCompleteTask {
@@ -195,7 +373,8 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) didTapCompleteButton {
 	NSLog(@"didTapCompleteButton called");
-	if (self.task.completed) {
+	Task* task = [self task];
+	if ([task completed]) {
 		//TODO: make toast "Task already complete"
 		// Really, this should never happen since
 		// the complete option is not available for completed tasks.
@@ -206,9 +385,26 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 }
 
 - (void) didTapPrioritizeButton {
+	NSLog(@"didTapPrioritizeButton called");
+	[actionSheetPicker actionPickerCancel];
+	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
+	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]]; //FIXME: don't hardcode this
+	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
+						data:[Priority allCodes]
+						selectedIndex:curPriority 
+						target:self 
+						action:@selector(priorityWasSelected::) 
+						title:@"Select Priority"
+						 rect:cell.frame
+				barButtonItem:nil];
 }
 
-- (void) didTapUpdateButton {	
+- (void) didTapUpdateButton {
+	NSLog(@"didTapUpdateButton called");
+    TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
+	taskEditView.task = [self task];
+	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentModalViewController:taskEditView animated:YES];	
 }
 
 - (void) didTapDeleteButton {
@@ -237,22 +433,6 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 	[dlg showInView:self.view];
 }
 
-#pragma mark - Notification handlers
-
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    CGRect keyboardFrameEnd = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.textView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(keyboardFrameEnd), 0);
-    self.textView.scrollIndicatorInsets = self.textView.contentInset;
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    self.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.textView.scrollIndicatorInsets = self.textView.contentInset;
-}
-
-#pragma mark - Action sheet delegate methods
 
 -(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 10 && buttonIndex == [actionSheet destructiveButtonIndex]) {
@@ -263,5 +443,18 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 		[AsyncTask runTask:@selector(undoCompleteTask) onTarget:self];		
 	}
 }
+
+- (void) dealloc {;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[actionSheetPicker actionPickerCancel];
+	self.actionSheetPicker = nil;
+}
+
 
 @end
