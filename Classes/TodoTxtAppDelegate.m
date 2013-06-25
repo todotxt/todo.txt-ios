@@ -62,6 +62,7 @@
 
 @property (nonatomic, weak) TasksViewController *viewController;
 @property (nonatomic, weak) UIViewController *loginController;
+@property (nonatomic, weak) UINavigationController *contentNavController;
 @property (nonatomic, strong) RemoteClientManager *remoteClientManager;
 @property (nonatomic, strong) id<TaskBag> taskBag;
 @property (nonatomic, strong) NSDate *lastSync;
@@ -129,7 +130,7 @@
     {
         loginController = [[LoginScreenViewController alloc] init];
     }
-    [self.navigationController presentViewController:loginController animated:YES completion:nil];
+    [self.contentNavController presentViewController:loginController animated:YES completion:nil];
     self.loginController = loginController;
 }
 
@@ -173,11 +174,10 @@
 
 - (void)displayNotification:(NSString *)message {
 	SJNotificationViewController *notificationController = [[SJNotificationViewController alloc] initWithNibName:@"SJNotificationViewController" bundle:nil];
-	[notificationController setParentView:self.navigationController.topViewController.view];
+	[notificationController setParentView:self.contentNavController.view];
 	[notificationController setNotificationTitle:message];
 	
 	[notificationController setNotificationDuration:2000];
-	[notificationController setNotificationPosition:SJNotificationPositionTop];
 	[notificationController setBackgroundColor:[UIColor colorWithRed:0
 															   green:0
 																blue:0 
@@ -218,13 +218,21 @@
 		[self presentLoginController];
 	}
 	
+
+    UIViewController *rootViewController = self.window.rootViewController;
+    
+    // Get the nav controller on whose active view notification toasts should show
+    self.contentNavController = (UINavigationController *)rootViewController;
+    
     // Connect the FilterViewController to its filtering target.
     // The FilterViewController and its target are the two VCs in a split VC;
     // the FilterViewController is the master view controller, and its target is the detail view controller.
+    // The detail nav controller is the one on which toasts should show, at index 1 on iPad.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        NSArray *viewControllers = [(UISplitViewController *)self.window.rootViewController viewControllers];
+        NSArray *viewControllers = [(UISplitViewController *)rootViewController viewControllers];
         [(FilterViewController *)[(UINavigationController *)viewControllers[0] topViewController]
          setFilterTarget:(id<TaskFilterTarget>)[(UINavigationController *)viewControllers[1] topViewController]];
+        self.contentNavController = viewControllers[1];
     }
     
     return YES;
@@ -306,7 +314,7 @@
 							  destructiveButtonTitle:nil 
 							  otherButtonTitles:@"Upload changes", @"Download to device", nil ];
 		dlg.tag = 10;
-		[dlg showInView:self.navigationController.visibleViewController.view];
+		[dlg showInView:self.contentNavController.visibleViewController.view];
 	} else if ([TodoTxtAppDelegate needToPush]) {
 		[self pushToRemoteOverwrite:NO force:force];
 	} else {

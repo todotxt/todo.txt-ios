@@ -51,8 +51,6 @@
 
 @interface TodoTxtAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, strong) id lastClickedButton; //Anchor holder for the Popover in iPad
 
 - (void)displayNotification:(NSString *)message;
