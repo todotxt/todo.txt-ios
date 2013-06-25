@@ -53,23 +53,15 @@
 #import "Strings.h"
 #import <QuartzCore/QuartzCore.h>
 
+@interface TaskEditViewController ()
+
+@property (nonatomic, strong) NSString *curInput;
+@property (nonatomic) NSRange curSelectedRange;
+
+@end
+
 @implementation TaskEditViewController
 
-@synthesize delegate, navItem, textView, accessoryView, task, helpView, helpContents, helpCloseButton, popOverController, actionSheetPicker;
-
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization.
-    }
-    return self;
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
@@ -77,37 +69,37 @@
 		[TodoTxtAppDelegate syncClient];
 	}
 	
-	curInput = [[NSString alloc] init];	
+	self.curInput = [[NSString alloc] init];	
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:)
 												 name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)
 												 name:UIKeyboardWillHideNotification object:nil];
 	
-	textView.placeholder = @"Call Mom @phone +FamilialPeace";
+	self.textView.placeholder = @"Call Mom @phone +FamilialPeace";
 	
-	[helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
+	[self.helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
 	 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
 	 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
 	 "<p>A task can include any number of projects or contexts.</p>"
 	 "</body></html>"
-						 baseURL:nil];
-	helpCloseButton.layer.cornerRadius = 8.0f;
-	helpCloseButton.layer.masksToBounds = YES;
-	helpCloseButton.layer.borderWidth = 1.0f;
-	helpCloseButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+                              baseURL:nil];
+	self.helpCloseButton.layer.cornerRadius = 8.0f;
+	self.helpCloseButton.layer.masksToBounds = YES;
+	self.helpCloseButton.layer.borderWidth = 1.0f;
+	self.helpCloseButton.layer.borderColor = [[UIColor whiteColor] CGColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	if (task) {
-		self.navItem.title = @"Edit Task";
-		textView.text = [task inFileFormat];
+	if (self.task) {
+        self.title = @"Edit Task";
+		self.textView.text = [self.task inFileFormat];
 	} else {
-		self.navItem.title = @"Add Task";
+		self.title = @"Add Task";
 	}
-	curSelectedRange = textView.selectedRange;
-	[textView becomeFirstResponder];
+	self.curSelectedRange = self.textView.selectedRange;
+	[self.textView becomeFirstResponder];
 	
 }
 
@@ -117,8 +109,8 @@
     CGRect kbRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
 	kbRect = [self.view convertRect:kbRect toView:nil];
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
-    textView.contentInset = contentInsets;
-    textView.scrollIndicatorInsets = contentInsets;
+    self.textView.contentInset = contentInsets;
+    self.textView.scrollIndicatorInsets = contentInsets;
 	
     CGRect aRect = self.view.frame;
     aRect.size.height -= kbRect.size.height;
@@ -126,15 +118,15 @@
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
 	UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-	textView.contentInset = contentInsets;
-	textView.scrollIndicatorInsets = contentInsets;
+	self.textView.contentInset = contentInsets;
+	self.textView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark -
 #pragma mark Text view delegate methods
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView {
-	textView.selectedRange = curSelectedRange;
+	self.textView.selectedRange = self.curSelectedRange;
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)aTextView {
@@ -143,20 +135,20 @@
      You can create the accessory view programmatically (in code), in the same nib file as the view controller's main view, or from a separate nib file. This example illustrates the latter; it means the accessory view is loaded lazily -- only if it is required.
      */
     
-    if (textView.inputAccessoryView == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"TaskEditAccessoryView" owner:self options:nil];
-        // Loading the AccessoryView nib file sets the accessoryView outlet.
-        textView.inputAccessoryView = accessoryView;    
-        // After setting the accessory view for the text view, we no longer need a reference to the accessory view.
-        self.accessoryView = nil;
+    if (self.textView.inputAccessoryView == nil) {
+        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TaskEditAccessoryView"
+                                                       owner:self
+                                                     options:nil];
+        UIView *accessoryView = views[0];
+        self.textView.inputAccessoryView = accessoryView;
     }
 
-    textView.keyboardType = UIKeyboardTypeDefault;
+    self.textView.keyboardType = UIKeyboardTypeDefault;
     return YES;
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)aTextView {
-	curSelectedRange = textView.selectedRange;
+	self.curSelectedRange = self.textView.selectedRange;
     [aTextView resignFirstResponder];
     return YES;
 }
@@ -166,8 +158,8 @@
 }
 
 -(void)exitController {
-	if ([delegate respondsToSelector:@selector(taskEditViewController:didUpdateTask:)]) {
-        [delegate taskEditViewController:self didUpdateTask:task];
+	if ([self.delegate respondsToSelector:@selector(taskEditViewController:didUpdateTask:)]) {
+        [self.delegate taskEditViewController:self didUpdateTask:self.task];
     }
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -176,12 +168,12 @@
 	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 	
 	// FIXME: synchronize?
-	if (task) {
-		[task update:curInput];
-		Task *newTask = [taskBag update:task];
-		task = newTask;
+	if (self.task) {
+		[self.task update:self.curInput];
+		Task *newTask = [taskBag update:self.task];
+		self.task = newTask;
 	} else {
-		[taskBag addAsTask:curInput];
+		[taskBag addAsTask:self.curInput];
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
@@ -189,12 +181,12 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-	curInput = [[[textView text] 
+	self.curInput = [[[self.textView text]
 		componentsSeparatedByCharactersInSet:
 			[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 			   componentsJoinedByString:@" "];
 	
-	if (curInput.length == 0) {
+	if (self.curInput.length == 0) {
 		[self exitController];
 		return;
 	}
@@ -206,7 +198,7 @@
 
 - (IBAction)helpButtonPressed:(id)sender {
 	// Close help view if necessary
-	[self.popOverController dismissPopoverAnimated:NO];
+	[self.helpPopoverController dismissPopoverAnimated:NO];
 	
 	// Display help text
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -217,17 +209,17 @@
 			size = CGSizeMake(460, 300);			
 		}
 		const CGRect rect = (CGRect){CGPointZero,size};		
-		helpView.frame  = rect;
+		self.helpView.frame  = rect;
 		//spawn popovercontroller
 		UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-		viewController.view = helpView;
+		viewController.view = self.helpView;
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-		self.popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-		helpCloseButton.hidden = YES;
-        [popOverController presentPopoverFromBarButtonItem:sender
+		self.helpPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+		self.helpCloseButton.hidden = YES;
+        [self.helpPopoverController presentPopoverFromBarButtonItem:sender
                                        permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 	} else {
-		[textView resignFirstResponder];
+		[self.textView resignFirstResponder];
 		
 		CATransition *animation = [CATransition animation];
 		[animation setDuration:0.25];
@@ -242,9 +234,9 @@
 			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);			
 		}
 		const CGRect rect = (CGRect){CGPointZero,size};		
-		helpView.frame  = rect;
-		helpCloseButton.hidden = NO;
-		[self.view addSubview:helpView];
+		self.helpView.frame  = rect;
+		self.helpCloseButton.hidden = NO;
+		[self.view addSubview:self.helpView];
 	}
 }
 
@@ -255,9 +247,9 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [[self.view layer] addAnimation:animation forKey:kCATransitionReveal];
 	
-	[helpView removeFromSuperview];
+	[self.helpView removeFromSuperview];
 
-	[textView becomeFirstResponder];
+	[self.textView becomeFirstResponder];
 }
 
 - (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
@@ -266,17 +258,17 @@
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
 		NSString *newText = nil;
 		if (selectedPriority == [Priority NONE]) {
-			newText = [NSString stringWithString:[[PriorityTextSplitter split:textView.text] text]];
+			newText = [NSString stringWithString:[[PriorityTextSplitter split:self.textView.text] text]];
 		} else {
 			newText = [NSString stringWithFormat:@"%@ %@",
 								 [selectedPriority fileFormat],
-								 [[PriorityTextSplitter split:textView.text] text]];
+								 [[PriorityTextSplitter split:self.textView.text] text]];
 		}
-		curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
-		textView.text = newText;
-		textView.selectedRange = curSelectedRange;
+		self.curSelectedRange = [Strings calculateSelectedRange:self.curSelectedRange oldText:self.textView.text newText:newText];
+		self.textView.text = newText;
+		self.textView.selectedRange = self.curSelectedRange;
 	}
-	[textView becomeFirstResponder];
+	[self.textView becomeFirstResponder];
 }
 
 - (void) projectWasSelected:(NSNumber *)selectedIndex element:(id)element {
@@ -285,15 +277,15 @@
 		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
 		
-		if (! [TaskUtil taskHasProject:textView.text project:item]) {
+		if (! [TaskUtil taskHasProject:self.textView.text project:item]) {
 			item = [NSString stringWithFormat:@"+%@", item];
-			NSString *newText = [Strings insertPaddedString:textView.text atRange:curSelectedRange withString:item];
-			curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
-			textView.text = newText;
-			textView.selectedRange = curSelectedRange;
+			NSString *newText = [Strings insertPaddedString:self.textView.text atRange:self.curSelectedRange withString:item];
+			self.curSelectedRange = [Strings calculateSelectedRange:self.curSelectedRange oldText:self.textView.text newText:newText];
+			self.textView.text = newText;
+			self.textView.selectedRange = self.curSelectedRange;
 		}
 	}	
-	[textView becomeFirstResponder];
+	[self.textView becomeFirstResponder];
 }
 
 - (void) contextWasSelected:(NSNumber *)selectedIndex element:(id)element {
@@ -302,29 +294,29 @@
 		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
 		
-		if (! [TaskUtil taskHasContext:textView.text context:item]) {
+		if (! [TaskUtil taskHasContext:self.textView.text context:item]) {
 			item = [NSString stringWithFormat:@"@%@", item];
-			NSString *newText = [Strings insertPaddedString:textView.text atRange:curSelectedRange withString:item];
-			curSelectedRange = [Strings calculateSelectedRange:curSelectedRange oldText:textView.text newText:newText];
-			textView.text = newText;
-			textView.selectedRange = curSelectedRange;
+			NSString *newText = [Strings insertPaddedString:self.textView.text atRange:self.curSelectedRange withString:item];
+			self.curSelectedRange = [Strings calculateSelectedRange:self.curSelectedRange oldText:self.textView.text newText:newText];
+			self.textView.text = newText;
+			self.textView.selectedRange = self.curSelectedRange;
 		}
 	}	
-	[textView becomeFirstResponder];
+	[self.textView becomeFirstResponder];
 }
 
 - (IBAction) keyboardAccessoryButtonPressed:(id)sender {
 	
 	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
     
-	[actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker actionPickerCancel];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
         TodoTxtAppDelegate *appdelegate = (TodoTxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         appdelegate.lastClickedButton = sender;
-		curSelectedRange = textView.selectedRange;
+		self.curSelectedRange = self.textView.selectedRange;
     } else {
-        [textView resignFirstResponder];
+        [self.textView resignFirstResponder];
     }
     
     UIBarButtonItem *button = (UIBarButtonItem*)sender;
@@ -339,7 +331,7 @@
 													  rect:CGRectZero
 											 barButtonItem:button];			
 	} else if([button.title isEqualToString:@"Priority"]) { // Priority 
-		NSInteger curPriority = (NSInteger)[[[PriorityTextSplitter split:textView.text] priority] name];
+		NSInteger curPriority = (NSInteger)[[[PriorityTextSplitter split:self.textView.text] priority] name];
 		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
                                                   data:[Priority allCodes]
                                          selectedIndex:curPriority
@@ -369,29 +361,19 @@
     // Release any cached data, images, etc. that aren't in use.
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-	curInput = nil;
-	self.navItem = nil;
-	self.task = nil;
-	self.helpView = nil;
-	self.helpContents = nil;
-	self.helpCloseButton = nil;
-	self.popOverController = nil;
-	self.actionSheetPicker = nil;
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  return YES;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[popOverController dismissPopoverAnimated:NO];
-	[actionSheetPicker actionPickerCancel];
+	[self.helpPopoverController dismissPopoverAnimated:NO];
+	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
 }
 
