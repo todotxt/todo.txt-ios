@@ -240,7 +240,16 @@
                  [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
              }
              
-             [self.pushSubject sendNext:@[ todoFile.remoteFile, doneFile.remoteFile ]];
+             NSArray *pushArray = @[];
+             if (todoFile.remoteFile) {
+                 pushArray = [pushArray arrayByAddingObject:todoFile.remoteFile];
+             }
+             
+             if (doneFile.remoteFile) {
+                 pushArray = [pushArray arrayByAddingObject:doneFile.remoteFile];
+             }
+             
+             [self.pushSubject sendNext:pushArray];
          } error:^(NSError *error) {
              NSError *err = nil;
              if (error.code == kUploadConflictErrorCode) {
