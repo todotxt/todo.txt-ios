@@ -46,43 +46,6 @@
 #import "RemoteClientManager.h"
 
 @implementation LoginScreenViewController
-@synthesize todoTxtLabel, touchLabel, loginButton, imageView;
-
-- (void) layoutSubviews:(UIInterfaceOrientation)interfaceOrientation {
-	// Even though we only want portrait mode for this screen, it sometimes shows in landscape, and
-	// there doesn't seem to be a way to stop it. So, we need to rearrange the widgets on the screen
-	// when it happens.
-	
-	if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-		self.todoTxtLabel.frame = CGRectMake(112, 4, 173, 41);
-		self.touchLabel.frame = CGRectMake(283, 0, 99, 42);
-		self.imageView.frame = CGRectMake(112, 44, 256, 256);		
-		self.loginButton.frame = CGRectMake(163, 108, 155, 35);
-	} else {
-		self.todoTxtLabel.frame = CGRectMake(22, 24, 173, 41);
-		self.touchLabel.frame = CGRectMake(199, 20, 99, 42);
-		self.imageView.frame = CGRectMake(32, 160, 256, 256);
-		self.loginButton.frame = CGRectMake(82, 73, 155, 35);
-	}
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
 
 #pragma mark - View lifecycle
 
@@ -92,36 +55,9 @@
 	self.title = @"Todo.txt Touch";
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-	self.todoTxtLabel = nil;
-	self.touchLabel = nil;
-	self.loginButton = nil;
-	self.imageView = nil;
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-	[self layoutSubviews:[[UIApplication sharedApplication] statusBarOrientation]];	
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
-	[self layoutSubviews:interfaceOrientation];
-}
-
 - (IBAction)loginButtonPressed:(id)sender {
 	RemoteClientManager *remoteClientManager = [TodoTxtAppDelegate sharedRemoteClientManager];
 	[remoteClientManager.currentClient presentLoginControllerFromController:self];
 }
-
-
 
 @end

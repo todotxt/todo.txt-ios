@@ -44,18 +44,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LoginScreenViewController : UIViewController {
-    UILabel *todoTxtLabel;
-	UILabel *touchLabel;
-	UIButton *loginButton;
-	UIImageView *imageView;	
-}
-
-@property (nonatomic, strong) IBOutlet UILabel *todoTxtLabel;
-@property (nonatomic, strong) IBOutlet UILabel *touchLabel;
-@property (nonatomic, strong) IBOutlet UIButton *loginButton;
-@property (nonatomic, strong) IBOutlet UIImageView *imageView;
-
+@interface LoginScreenViewController : UIViewController
 
 - (IBAction)loginButtonPressed:(id)sender;
 

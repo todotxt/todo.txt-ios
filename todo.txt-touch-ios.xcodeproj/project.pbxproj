@@ -18,7 +18,6 @@
 		0F75B4321499141800848E27 /* TaskUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F75B4301499141800848E27 /* TaskUtil.m */; };
 		0F75B433149916D900848E27 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
 		0F75B434149923E700848E27 /* ProjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8D13EF47B70085C888 /* ProjectParser.m */; };
-		1B0C908F176B63D10022C9AE /* iPadLoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9077176B63D00022C9AE /* iPadLoginScreenViewController.m */; };
 		1B0C9090176B63D10022C9AE /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9079176B63D00022C9AE /* LoginScreenViewController.m */; };
 		1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907B176B63D10022C9AE /* TaskEditViewController.m */; };
 		1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C907D176B63D10022C9AE /* TaskViewController.m */; };
@@ -54,8 +53,6 @@
 		1B0C91E6176B6B0E0022C9AE /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */; };
 		1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */; };
-		1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */; };
-		1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */; };
 		1B0C9204176B73A60022C9AE /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C9203176B73A60022C9AE /* FilterViewController.m */; };
 		1B257D4E1779E511006F57C7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B257D4D1779E511006F57C7 /* MainStoryboard_iPhone.storyboard */; };
 		1B257D6B1779FC01006F57C7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B257D6A1779FC01006F57C7 /* MainStoryboard_iPad.storyboard */; };
@@ -228,8 +225,6 @@
 		0F75B425149912DF00848E27 /* Todo-txt-unit-tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Todo-txt-unit-tests-Prefix.pch"; sourceTree = "<group>"; };
 		0F75B42F1499141800848E27 /* TaskUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskUtil.h; sourceTree = "<group>"; };
 		0F75B4301499141800848E27 /* TaskUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskUtil.m; sourceTree = "<group>"; };
-		1B0C9076176B63D00022C9AE /* iPadLoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadLoginScreenViewController.h; sourceTree = "<group>"; };
-		1B0C9077176B63D00022C9AE /* iPadLoginScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadLoginScreenViewController.m; sourceTree = "<group>"; };
 		1B0C9078176B63D00022C9AE /* LoginScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScreenViewController.h; sourceTree = "<group>"; };
 		1B0C9079176B63D00022C9AE /* LoginScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginScreenViewController.m; sourceTree = "<group>"; };
 		1B0C907A176B63D00022C9AE /* TaskEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskEditViewController.h; sourceTree = "<group>"; };
@@ -287,8 +282,6 @@
 		1B0C91CC176B6B0E0022C9AE /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = "<group>"; };
 		1B0C91CD176B6B0E0022C9AE /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = "<group>"; };
 		1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskEditAccessoryView.xib; sourceTree = "<group>"; };
-		1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iPadLoginScreenViewController.xib; sourceTree = "<group>"; };
-		1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
 		1B0C9202176B73A60022C9AE /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		1B0C9203176B73A60022C9AE /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		1B0C9208176B7BFC0022C9AE /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
@@ -542,12 +535,8 @@
 			children = (
 				1B0C9202176B73A60022C9AE /* FilterViewController.h */,
 				1B0C9203176B73A60022C9AE /* FilterViewController.m */,
-				1B0C9076176B63D00022C9AE /* iPadLoginScreenViewController.h */,
-				1B0C9077176B63D00022C9AE /* iPadLoginScreenViewController.m */,
-				1B0C91F7176B6D2F0022C9AE /* iPadLoginScreenViewController.xib */,
 				1B0C9078176B63D00022C9AE /* LoginScreenViewController.h */,
 				1B0C9079176B63D00022C9AE /* LoginScreenViewController.m */,
-				1B0C91F8176B6D2F0022C9AE /* LoginScreenViewController.xib */,
 				1B0C907A176B63D00022C9AE /* TaskEditViewController.h */,
 				1B0C907B176B63D10022C9AE /* TaskEditViewController.m */,
 				1B0C907C176B63D10022C9AE /* TaskViewController.h */,
@@ -1155,8 +1144,6 @@
 				1B0C91E5176B6B0E0022C9AE /* README.md in Resources */,
 				1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */,
 				1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */,
-				1B0C91FB176B6D2F0022C9AE /* iPadLoginScreenViewController.xib in Resources */,
-				1B0C91FC176B6D2F0022C9AE /* LoginScreenViewController.xib in Resources */,
 				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
 				1B257D4E1779E511006F57C7 /* MainStoryboard_iPhone.storyboard in Resources */,
 				1B257D6B1779FC01006F57C7 /* MainStoryboard_iPad.storyboard in Resources */,
@@ -1275,7 +1262,6 @@
 				0F75B4311499141800848E27 /* TaskUtil.m in Sources */,
 				8876EF5B14AD79EE00F28C3C /* Strings.m in Sources */,
 				8885EC5814D657F200C3CA10 /* DropboxFile.m in Sources */,
-				1B0C908F176B63D10022C9AE /* iPadLoginScreenViewController.m in Sources */,
 				1B0C9090176B63D10022C9AE /* LoginScreenViewController.m in Sources */,
 				1B0C9091176B63D10022C9AE /* TaskEditViewController.m in Sources */,
 				1B0C9092176B63D10022C9AE /* TaskViewController.m in Sources */,

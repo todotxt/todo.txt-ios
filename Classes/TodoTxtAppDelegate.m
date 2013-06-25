@@ -45,8 +45,6 @@
 #import "TodoTxtAppDelegate.h"
 #import "FilterViewController.h"
 #import "TaskFilterTarget.h"
-#import "LoginScreenViewController.h"
-#import "iPadLoginScreenViewController.h"
 #import "TaskBag.h"
 #import "TaskBagFactory.h"
 #import "AsyncTask.h"
@@ -57,6 +55,8 @@
 #import "SJNotificationViewController.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
+
+static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 
 @interface TodoTxtAppDelegate ()
 
@@ -122,26 +122,11 @@
 }
 
 - (void) presentLoginController {
-    UIViewController *loginController = nil;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        loginController = [[iPadLoginScreenViewController alloc] init];
-    }
-    else
-    {
-        loginController = [[LoginScreenViewController alloc] init];
-    }
-    [self.contentNavController presentViewController:loginController animated:YES completion:nil];
-    self.loginController = loginController;
+    [self.window.rootViewController performSegueWithIdentifier:kLoginScreenSegueIdentifier sender:self];
 }
 
 - (void) presentMainViewController {
-	if ([[self.loginController parentViewController] respondsToSelector:@selector(dismissModalViewControllerAnimated:)]){
-        [[self.loginController parentViewController] dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [[self.loginController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-    }
-    
-    self.loginController = nil;
+    [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 // http://stackoverflow.com/questions/9679163/why-does-clearing-nsuserdefaults-cause-exc-crash-later-when-creating-a-uiwebview
