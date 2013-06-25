@@ -69,7 +69,7 @@
         <!--Task View Controller-->
         <scene sceneID="o7U-Ak-7U6">
             <objects>
-                <tableViewController id="Wuv-Mh-X98" customClass="TaskViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="Wuv-Mh-X98" customClass="TaskViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dHM-Cd-elh">
                         <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -91,7 +91,7 @@
         <!--Navigation Controller-->
         <scene sceneID="OSl-2d-rhE">
             <objects>
-                <navigationController definesPresentationContext="YES" id="RPp-ft-Qyc" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" hidesBottomBarWhenPushed="YES" id="RPp-ft-Qyc" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BZt-qo-Qm6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -177,6 +177,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pCm-z6-2l4"/>
+        <segue reference="RNh-9n-K08"/>
     </inferredMetricsTieBreakers>
 </document>
