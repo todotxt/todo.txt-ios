@@ -69,23 +69,21 @@
 #define ACTION_ROW_HEIGHT 50
 #define DETAIL_CELL_PADDING 10
 
-char *buttons[] = { "Complete", "Prioritize", "Update", "Delete" };
-char *completed_buttons[] = { "Undo Complete", "Delete" }; 
-
 static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 @interface TaskViewController ()
 
 @property (nonatomic, strong) TaskCell *taskCell;
+@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) NSArray *buttonNames;
+@property (nonatomic, strong) NSArray *completedButtonNames;
 
 @end
 
 @implementation TaskViewController
 
-@synthesize taskIndex, tableCell, actionSheetPicker;
-
 - (Task*) task {
-	return [[TodoTxtAppDelegate sharedTaskBag] taskAtIndex:taskIndex];
+	return [[TodoTxtAppDelegate sharedTaskBag] taskAtIndex:self.taskIndex];
 }
 
 - (void) reloadViewData {
@@ -99,6 +97,18 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    
+    if (self) {
+        self.buttonNames = @[ @"Complete", @"Prioritize", @"Update", @"Delete" ];
+        self.completedButtonNames = @[ @"Undo Complete", @"Delete" ];
+    }
+    
+    return self;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     // Update the view with current data before it is displayed.
@@ -142,12 +152,10 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
             rows = 1;
             break;
         case 1:
-            if([task completed]) {
-				// For completed tasks there are 2 buttons: Undo Complete and Delete. 
-				rows = sizeof(completed_buttons) / sizeof(char*);
-			} else {
-				// Otherwise, there are 5 buttons: Update, Prioritize, Complete, Delete, and Share. 
-				rows = sizeof(buttons) / sizeof(char*);
+            if ([task completed]) {
+				rows = self.completedButtonNames.count;
+			} else { 
+				rows = self.buttonNames.count;
 			}
             break;
         default:
@@ -247,9 +255,9 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 
 		if([[self task] completed]) {
-			cell.textLabel.text = [NSString stringWithUTF8String:completed_buttons[indexPath.row]];
+			cell.textLabel.text = self.completedButtonNames[indexPath.row];
 		} else {
-			cell.textLabel.text = [NSString stringWithUTF8String:buttons[indexPath.row]];			
+			cell.textLabel.text = self.buttonNames[indexPath.row];
 		}
     }
 
@@ -386,7 +394,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 
 - (void) didTapPrioritizeButton {
 	NSLog(@"didTapPrioritizeButton called");
-	[actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker actionPickerCancel];
 	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]]; //FIXME: don't hardcode this
 	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
@@ -404,7 +412,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
     TaskEditViewController *taskEditView = [[TaskEditViewController alloc] init];
 	taskEditView.task = [self task];
 	[taskEditView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self presentModalViewController:taskEditView animated:YES];	
+    [self presentViewController:taskEditView animated:YES completion:nil];
 }
 
 - (void) didTapDeleteButton {
@@ -452,7 +460,7 @@ static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
 }
 
