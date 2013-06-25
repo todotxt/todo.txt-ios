@@ -63,7 +63,7 @@
 
 static NSString *const kEmptyFileMessage = @"Your todo.txt file is empty. \
 \n\n\
-Tap the + button to add your first todo.";
+Tap the + button to add a todo.";
 
 static NSString *const kNoFilterResultsMessage = @"No results for chosen \
 contexts and projects.";

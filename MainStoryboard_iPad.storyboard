@@ -41,7 +41,7 @@
         <scene sceneID="EUl-cx-wIN">
             <objects>
                 <tableViewController id="HNI-em-gnU" customClass="TasksViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qDN-97-LEn">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qDN-97-LEn" customClass="PGTableViewWithEmptyView">
                         <rect key="frame" x="0.0" y="64" width="768" height="916"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,6 +53,9 @@
                                 <outlet property="delegate" destination="HNI-em-gnU" id="fjk-QH-RrD"/>
                             </connections>
                         </searchBar>
+                        <connections>
+                            <outlet property="emptyView" destination="6ej-HE-d4g" id="0Tr-tQ-emG"/>
+                        </connections>
                     </tableView>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="refresh" id="KWQ-M9-sps">
@@ -81,12 +84,33 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="emptyLabel" destination="T6N-S6-a9J" id="XYM-d5-xaZ"/>
                         <outlet property="searchDisplayController" destination="ERI-sh-0UM" id="F2L-KH-Rg8"/>
                         <segue destination="kdV-Nh-Ir7" kind="modal" identifier="TaskAddSegue" modalTransitionStyle="coverVertical" id="Fka-eT-1jp"/>
                         <segue destination="Z53-s2-uc1" kind="push" identifier="TaskViewSegue" id="ccH-4q-0cq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tvS-hM-NZx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view alpha="0.69999999999999996" contentMode="scaleToFill" id="6ej-HE-d4g">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A message to show." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="T6N-S6-a9J">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="294" type="user" id="Jq1-HF-Zf1"/>
+                                <constraint firstAttribute="height" constant="70" type="user" id="b1J-NU-Vaw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="T6N-S6-a9J" firstAttribute="centerX" secondItem="6ej-HE-d4g" secondAttribute="centerX" type="user" id="XBI-1f-BgR"/>
+                        <constraint firstItem="T6N-S6-a9J" firstAttribute="top" secondItem="6ej-HE-d4g" secondAttribute="top" constant="408" type="user" id="ZT6-Ts-76T"/>
+                    </constraints>
+                </view>
                 <searchDisplayController id="ERI-sh-0UM">
                     <connections>
                         <outlet property="delegate" destination="HNI-em-gnU" id="wGU-DJ-uJt"/>

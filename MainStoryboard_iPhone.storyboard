@@ -8,7 +8,7 @@
         <scene sceneID="hEa-Ai-Hkk">
             <objects>
                 <tableViewController id="yWi-bb-L3m" customClass="TasksViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="C2e-rl-6C1">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="C2e-rl-6C1" customClass="PGTableViewWithEmptyView">
                         <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -20,6 +20,9 @@
                                 <outlet property="delegate" destination="yWi-bb-L3m" id="E1p-5j-Lbo"/>
                             </connections>
                         </searchBar>
+                        <connections>
+                            <outlet property="emptyView" destination="HcP-t0-btj" id="flc-Ie-JBx"/>
+                        </connections>
                     </tableView>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="refresh" id="J19-aL-GoJ">
@@ -49,11 +52,32 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="emptyLabel" destination="XTZ-Db-rgB" id="ARZ-nA-y6k"/>
                         <outlet property="searchDisplayController" destination="5WZ-Ye-4bI" id="tzt-NZ-6SH"/>
                         <segue destination="Wuv-Mh-X98" kind="push" identifier="TaskViewSegue" id="WHO-pR-Gfk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P7n-WB-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view alpha="0.69999999999999996" contentMode="scaleToFill" id="HcP-t0-btj">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A message to show." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="XTZ-Db-rgB">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" type="user" id="6nB-8W-PEw"/>
+                                <constraint firstAttribute="width" constant="294" type="user" id="iov-rO-b6z"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="XTZ-Db-rgB" firstAttribute="centerX" secondItem="HcP-t0-btj" secondAttribute="centerX" type="user" id="3iH-lr-e6k"/>
+                        <constraint firstItem="XTZ-Db-rgB" firstAttribute="top" secondItem="HcP-t0-btj" secondAttribute="top" constant="68" type="user" id="wMX-vl-o1t"/>
+                    </constraints>
+                </view>
                 <searchDisplayController id="5WZ-Ye-4bI">
                     <connections>
                         <outlet property="delegate" destination="yWi-bb-L3m" id="8Bt-oc-x8h"/>
@@ -234,6 +258,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="RNh-9n-K08"/>
+        <segue reference="pCm-z6-2l4"/>
     </inferredMetricsTieBreakers>
 </document>
