@@ -76,6 +76,14 @@
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">helpButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="664041669"/>
+					</object>
+					<int key="connectionID">19</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">helpButtonPressed:</string>
 						<reference key="source" ref="664041669"/>
@@ -182,7 +190,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">18</int>
+			<int key="maxID">19</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -227,28 +235,33 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="helpButton">UIBarButtonItem</string>
 						<string key="helpCloseButton">UIButton</string>
-						<string key="helpContents">UIView</string>
+						<string key="helpContents">UIWebView</string>
 						<string key="helpView">UIView</string>
-						<string key="navItem">UINavigationItem</string>
+						<string key="helpViewController">UIViewController</string>
 						<string key="textView">SSTextView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="helpButton">
+							<string key="name">helpButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="helpCloseButton">
 							<string key="name">helpCloseButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="helpContents">
 							<string key="name">helpContents</string>
-							<string key="candidateClassName">UIView</string>
+							<string key="candidateClassName">UIWebView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="helpView">
 							<string key="name">helpView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="navItem">
-							<string key="name">navItem</string>
-							<string key="candidateClassName">UINavigationItem</string>
+						<object class="IBToOneOutletInfo" key="helpViewController">
+							<string key="name">helpViewController</string>
+							<string key="candidateClassName">UIViewController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="textView">
 							<string key="name">textView</string>

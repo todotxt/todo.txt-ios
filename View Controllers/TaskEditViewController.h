@@ -60,19 +60,14 @@
 @interface TaskEditViewController : UIViewController <UITextViewDelegate>
 
 @property (nonatomic, weak) id <TaskEditViewControllerDelegate> delegate;
-@property (nonatomic, weak) IBOutlet SSTextView *textView;
 @property (nonatomic, strong) Task *task;
-@property (nonatomic, strong) IBOutlet UIView *helpView;
-@property (nonatomic, strong) IBOutlet UIWebView *helpContents;
-@property (nonatomic, strong) IBOutlet UIButton *helpCloseButton;
-@property (nonatomic, strong) UIPopoverController *helpPopoverController;
-@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *helpButton;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;
 - (IBAction)helpButtonPressed:(id)sender;
-- (IBAction)helpCloseButtonPressed:(id)sender;
-- (IBAction) keyboardAccessoryButtonPressed:(id)sender; 
+//- (IBAction)helpCloseButtonPressed:(id)sender;
+- (IBAction) keyboardAccessoryButtonPressed:(id)sender;
 - (void) addEditTask;
 
 @end

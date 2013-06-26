@@ -51,12 +51,29 @@
 #import "PriorityTextSplitter.h"
 #import "TaskUtil.h"
 #import "Strings.h"
+
 #import <QuartzCore/QuartzCore.h>
 
-@interface TaskEditViewController ()
+static NSString * const kHelpPopoverSegueIdentifier = @"TaskEditHelpPopoverSegue";
+static NSInteger const kHelpPopoverWebviewTag = 1;
+static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
+"<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
+"<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
+"<p>A task can include any number of projects or contexts.</p>"
+"</body></html>";
 
+@interface TaskEditViewController () <UIPopoverControllerDelegate>
+
+@property (nonatomic, weak) IBOutlet SSTextView *textView;
+// helpView must be strong because it will not always be in a view hierarchy
+@property (nonatomic, strong) IBOutlet UIView *helpView;
+@property (nonatomic, weak) IBOutlet UIWebView *helpContents;
+@property (nonatomic, weak) IBOutlet UIButton *helpCloseButton;
+@property (nonatomic, strong) UIPopoverController *helpPopoverController;
+@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
 @property (nonatomic, strong) NSString *curInput;
 @property (nonatomic) NSRange curSelectedRange;
+@property (nonatomic) BOOL shouldShowPopover;
 
 @end
 
@@ -77,17 +94,96 @@
 												 name:UIKeyboardWillHideNotification object:nil];
 	
 	self.textView.placeholder = @"Call Mom @phone +FamilialPeace";
-	
-	[self.helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
-	 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
-	 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
-	 "<p>A task can include any number of projects or contexts.</p>"
-	 "</body></html>"
-                              baseURL:nil];
-	self.helpCloseButton.layer.cornerRadius = 8.0f;
-	self.helpCloseButton.layer.masksToBounds = YES;
-	self.helpCloseButton.layer.borderWidth = 1.0f;
-	self.helpCloseButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    
+    // Setup specific to the iPhone.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        // Create the help view for iPhone, a transparent view the same size as
+        // the view controller's view, with a web view and a close button.
+        CGRect frame = CGRectMake(0, 0, 0, 0);
+        frame.size = self.view.frame.size;
+        
+        UIView *helpView = [[UIView alloc] initWithFrame:frame];
+        helpView.alpha = 0.9;
+        helpView.backgroundColor = [UIColor blackColor];
+        self.helpView = helpView;
+        
+        // Create the web view for the help view
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:helpView.frame];
+        webView.backgroundColor = [UIColor clearColor];
+        webView.opaque = NO;
+        self.helpContents = webView;
+        
+        [helpView addSubview:webView];
+        
+        // Create the close button for the help view
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        closeButton.frame = frame;
+        [closeButton setTitle:@"Close" forState:UIControlStateNormal];
+        [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        closeButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [closeButton addTarget:self
+                        action:@selector(helpCloseButtonPressed:)
+              forControlEvents:UIControlEventTouchUpInside];
+        closeButton.hidden = NO;
+        self.helpCloseButton = closeButton;
+        
+        // Add the button to the view
+        [helpView addSubview:closeButton];
+        
+        // Create Auto Layout constraints for the close button:
+        // Center it horizontally in its superview, set its width,
+        // and place it with the default spacing relative to the bottom of its superview.
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(closeButton);
+        NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[closeButton(==44)]-|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:bindings];
+
+        NSLayoutConstraint *c1 = [NSLayoutConstraint constraintWithItem:closeButton
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:helpView
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0];
+        NSLayoutConstraint *c2 = [NSLayoutConstraint constraintWithItem:closeButton
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:84];
+        
+        constraints = [constraints arrayByAddingObjectsFromArray:@[ c1, c2 ]];
+        [helpView addConstraints:constraints];
+        
+        // Set the contents of the web view and style the close button
+        [self.helpContents loadHTMLString:kHelpString
+                                  baseURL:nil];
+        self.helpCloseButton.layer.cornerRadius = 8.0f;
+        self.helpCloseButton.layer.masksToBounds = YES;
+        self.helpCloseButton.layer.borderWidth = 1.0f;
+        self.helpCloseButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    } else {
+        // Create the help popover for iPad, a square-ish popover containing a web view.
+        CGRect frame = CGRectMake(0, 0, 320, 300);
+        
+        UIViewController *vc = [[UIViewController alloc] init];
+        vc.contentSizeForViewInPopover = frame.size;
+        vc.view.frame = frame;
+        vc.view.backgroundColor = [UIColor blackColor];
+        
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
+        webView.opaque = NO;
+        [webView loadHTMLString:kHelpString baseURL:nil];
+        [vc.view addSubview:webView];
+        
+        UIPopoverController *popoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+        popoverController.delegate = self;
+        self.helpPopoverController = popoverController;
+    }
+    
+    self.shouldShowPopover = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -140,6 +236,7 @@
                                                        owner:self
                                                      options:nil];
         UIView *accessoryView = views[0];
+        
         self.textView.inputAccessoryView = accessoryView;
     }
 
@@ -202,22 +299,18 @@
 	
 	// Display help text
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		CGSize size;
-		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
-			size = CGSizeMake(320, 380);
-		} else {
-			size = CGSizeMake(460, 300);			
-		}
-		const CGRect rect = (CGRect){CGPointZero,size};		
-		self.helpView.frame  = rect;
-		//spawn popovercontroller
-		UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-		viewController.view = self.helpView;
-		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
-		self.helpPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-		self.helpCloseButton.hidden = YES;
-        [self.helpPopoverController presentPopoverFromBarButtonItem:sender
-                                       permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        // Show/hide the help popover on iPad
+        if (self.shouldShowPopover) {
+            [self.helpPopoverController presentPopoverFromBarButtonItem:self.helpButton
+                                               permittedArrowDirections:UIPopoverArrowDirectionDown
+                                                               animated:YES];
+            
+            self.shouldShowPopover = NO;
+        } else {
+            [self.helpPopoverController dismissPopoverAnimated:YES];
+            
+            self.shouldShowPopover = YES;
+        }
 	} else {
 		[self.textView resignFirstResponder];
 		
@@ -231,11 +324,16 @@
 		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
 			size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
 		} else {
-			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);			
+			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);
 		}
-		const CGRect rect = (CGRect){CGPointZero,size};		
+		const CGRect rect = (CGRect){CGPointZero,size};
 		self.helpView.frame  = rect;
 		self.helpCloseButton.hidden = NO;
+        
+        // Disable the nav buttons while the help view is visible
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        
 		[self.view addSubview:self.helpView];
 	}
 }
@@ -248,7 +346,10 @@
     [[self.view layer] addAnimation:animation forKey:kCATransitionReveal];
 	
 	[self.helpView removeFromSuperview];
-
+    
+    // Re-enable the nav buttons
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 	[self.textView becomeFirstResponder];
 }
 
@@ -377,5 +478,11 @@
 	self.actionSheetPicker = nil;
 }
 
+#pragma mark - Popover controller delegate methods
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.shouldShowPopover = YES;
+}
 
 @end
