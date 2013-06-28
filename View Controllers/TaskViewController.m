@@ -58,19 +58,15 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-#define TEXT_LABEL_WIDTH_IPHONE_PORTRAIT  255
-#define TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE 420
-#define TEXT_LABEL_WIDTH_IPAD_PORTRAIT    635
-#define TEXT_LABEL_WIDTH_IPAD_LANDSCAPE   895
-#define VERTICAL_PADDING        5
-
-#define DATE_LABEL_HEIGHT 16 // 13 + 3 for padding
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
 #define DETAIL_CELL_PADDING 10
 
 static NSString * const kTaskCellReuseIdentifier = @"kTaskCellReuseIdentifier";
 static NSString * const kTaskEditSegueIdentifier = @"TaskEditSegue";
+
+static CGFloat const kIphoneGroupedTableViewSideInset = 10;
+static CGFloat const kIpadGroupedTableViewSideInset = 40;
 
 @interface TaskViewController ()
 
@@ -132,7 +128,6 @@ static NSString * const kTaskEditSegueIdentifier = @"TaskEditSegue";
     return 2;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
 	Task* task = [self task];
@@ -159,42 +154,24 @@ static NSString * const kTaskEditSegueIdentifier = @"TaskEditSegue";
     return rows;
 }
 
-- (CGFloat)textLabelWidth {
-	BOOL isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
-	BOOL isPortrait = (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation));
-	
-	CGFloat offset = 0;
-
-	if (isiPad)
-	{
-		if (isPortrait)
-			return TEXT_LABEL_WIDTH_IPAD_PORTRAIT - offset;
-		else
-			return TEXT_LABEL_WIDTH_IPAD_LANDSCAPE - offset;
-	}
-	else
-	{
-		if (isPortrait)
-			return TEXT_LABEL_WIDTH_IPHONE_PORTRAIT - offset;
-		else
-			return TEXT_LABEL_WIDTH_IPHONE_LANDSCAPE - offset;
-	}
-		
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
 		Task* task = [self task];
-		CGFloat ret = [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        BOOL shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"] && !task.completed && task.relativeAge != nil;
+        
+        CGFloat sideInset = kIphoneGroupedTableViewSideInset;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            sideInset = kIpadGroupedTableViewSideInset;
+        }
+        
+        CGFloat height = [TaskCell heightForText:task.text
+                                        withFont:[UIFont systemFontOfSize:14]
+                                     showingDate:shouldShowDate
+                                           width:CGRectGetWidth(tableView.frame) - 2 * sideInset];
 		
-		if (![task completed]) {
-			ret += DATE_LABEL_HEIGHT; // height of the date line
-		}
-		
-		// padding
-		ret += DETAIL_CELL_PADDING;
-		
-		return MAX(ret, MIN_ROW_HEIGHT);
+		return MAX(height, MIN_ROW_HEIGHT);
 	} else {
 		return ACTION_ROW_HEIGHT;
 	}
@@ -216,9 +193,8 @@ static NSString * const kTaskEditSegueIdentifier = @"TaskEditSegue";
     // Set the text in the cell for the section/row.
 	if (indexPath.section == 0) {
         if (!self.taskCell) {
-            [tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TaskCell class])
-                                                  bundle:nil]
-            forCellReuseIdentifier:kTaskCellReuseIdentifier];
+            [tableView registerClass:[TaskCell class]
+              forCellReuseIdentifier:kTaskCellReuseIdentifier];
             TaskCell *taskCell = [tableView dequeueReusableCellWithIdentifier:kTaskCellReuseIdentifier];
             Task *task = [self task];
             TaskCellViewModel *viewModel = [[TaskCellViewModel alloc] init];

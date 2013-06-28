@@ -51,9 +51,12 @@
 @interface TaskCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *priorityLabel;
-@property (nonatomic, weak) IBOutlet UILabel *ageLabel;
 @property (nonatomic, weak) IBOutlet UITextView *taskTextView;
+// ageLabel must be a strong property because it will not always
+// be in the view hierarchy
+@property (nonatomic, strong) IBOutlet UILabel *ageLabel;
 
+// Toggles showing the age of the task, i.e. showing ageLabel
 @property (nonatomic) BOOL shouldShowDate;
 
 // Hang on to the view model, so the managing table view need not
@@ -67,6 +70,6 @@
 @property (nonatomic, strong) RACDisposable *priorityColorDisposable;
 @property (nonatomic, strong) RACDisposable *showDateDisposable;
 
-+ (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width;
++ (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font showingDate:(BOOL)shouldShowDate width:(CGFloat)width;
 
 @end

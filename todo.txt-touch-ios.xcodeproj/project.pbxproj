@@ -85,7 +85,6 @@
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
 		5C187762176E775D00824682 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C187761176E775D00824682 /* TaskCell.m */; };
-		5C187764176E77AD00824682 /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C187763176E77AD00824682 /* TaskCell.xib */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
@@ -323,7 +322,6 @@
 		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
 		5C187760176E775D00824682 /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
 		5C187761176E775D00824682 /* TaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCell.m; sourceTree = "<group>"; };
-		5C187763176E77AD00824682 /* TaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -552,7 +550,6 @@
 			children = (
 				5C187760176E775D00824682 /* TaskCell.h */,
 				5C187761176E775D00824682 /* TaskCell.m */,
-				5C187763176E77AD00824682 /* TaskCell.xib */,
 				1B0C91F2176B6D250022C9AE /* TaskEditAccessoryView.xib */,
 			);
 			path = Views;
@@ -1144,7 +1141,6 @@
 				1B0C91E5176B6B0E0022C9AE /* README.md in Resources */,
 				1B0C91E7176B6B0E0022C9AE /* SJNotificationViewController.xib in Resources */,
 				1B0C91F5176B6D250022C9AE /* TaskEditAccessoryView.xib in Resources */,
-				5C187764176E77AD00824682 /* TaskCell.xib in Resources */,
 				1B257D4E1779E511006F57C7 /* MainStoryboard_iPhone.storyboard in Resources */,
 				1B257D6B1779FC01006F57C7 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
@@ -1427,9 +1423,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)";
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1463,9 +1457,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)";
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1520,9 +1512,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)";
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -1577,9 +1567,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = todo_txt_touch_ios_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\" $(inherited)";
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;

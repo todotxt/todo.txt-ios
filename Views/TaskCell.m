@@ -50,8 +50,14 @@
 
 #import <CoreText/CoreText.h>
 
-static TaskCell *staticSizingCell;
-static const CGFloat kMinHeight = 44;
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+static TaskCell *_staticSizingCell;
+static const CGFloat kBigSpacing = 30;
+static const CGFloat kSmallBoundsSpacing = 7;
+static const CGFloat kSmallSpacing = 4;
+static const CGFloat kAgeLabelWidth = 180;
+static const CGFloat kAccessoryWidthEstimate = 20;
 
 @interface TaskCell ()
 
@@ -60,105 +66,179 @@ static const CGFloat kMinHeight = 44;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelLeadingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTrailingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *ageLabelHeight;
-@property (nonatomic) CGFloat ageLabelInitialHeight;
+@property (nonatomic, readonly) CGFloat labelHeight;
 
-+ (TaskCell *)sizingCell;
++ (TaskCell *)staticSizingCell;
 
 @end
 
 @implementation TaskCell
 
-- (void)awakeFromNib
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    [super awakeFromNib];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self.taskTextView.contentInset = UIEdgeInsetsMake(-8, -8, -8, -8);
-    self.ageLabelInitialHeight = self.ageLabelHeight.constant;
-    
-    // Stop if staticSizingCell is nil, i.e. this is awakeFromNib
-    // for the staticSizingCell.
-    if (!staticSizingCell) {
-        return;
+    if (self) {
+        _shouldShowDate = YES;
+        
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        // Setup the content view
+        UILabel *priorityLabel = [[UILabel alloc] init];
+        UILabel *ageLabel = [[UILabel alloc] init];
+        UITextView *textView = [[UITextView alloc] init];
+        
+        ageLabel.textColor = [UIColor blackColor];
+        
+        textView.contentInset = UIEdgeInsetsMake(0, -4, 0, -4);
+        textView.userInteractionEnabled = NO;
+        
+        self.priorityLabel = priorityLabel;
+        self.ageLabel = ageLabel;
+        self.taskTextView = textView;
+        
+        [@[ priorityLabel, ageLabel, textView ] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            view.backgroundColor = [UIColor clearColor];
+            view.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.contentView addSubview:view];
+        }];
+        
+        NSDictionary *metrics = @{ @"bigSpacing" : @(kBigSpacing),
+                                   @"boundsSpacing" : @(kSmallBoundsSpacing),
+                                   @"spacing" : @(kSmallSpacing),
+                                   @"ageLabelWidth" : @(kAgeLabelWidth) };
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(priorityLabel, ageLabel, textView);
+        NSArray *constraintArrays =
+        @[
+          [NSLayoutConstraint constraintsWithVisualFormat:@"|-(bigSpacing)-[textView]|"
+                                                  options:0
+                                                  metrics:metrics
+                                                    views:bindings],
+          [NSLayoutConstraint constraintsWithVisualFormat:@"[priorityLabel]-(spacing)-[textView]"
+                                                  options:0
+                                                  metrics:metrics
+                                                    views:bindings],
+          [NSLayoutConstraint constraintsWithVisualFormat:@"[ageLabel(==ageLabelWidth)]"
+                                                  options:0
+                                                  metrics:metrics
+                                                    views:bindings],
+          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(boundsSpacing)-[priorityLabel]"
+                                                  options:0
+                                                  metrics:metrics
+                                                    views:bindings],
+          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(boundsSpacing)-[textView]-(spacing)-[ageLabel]-(boundsSpacing)-|"
+                                                  options:NSLayoutFormatAlignAllLeft
+                                                  metrics:metrics
+                                                    views:bindings],
+          ];
+        
+        
+        NSLayoutConstraint *priorityHeight = [NSLayoutConstraint constraintWithItem:priorityLabel
+                                                                          attribute:NSLayoutAttributeHeight
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:nil
+                                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                                         multiplier:1.0
+                                                                           constant:self.labelHeight];
+        NSLayoutConstraint *ageHeight = [NSLayoutConstraint constraintWithItem:ageLabel
+                                                                     attribute:NSLayoutAttributeHeight
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:nil
+                                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                                    multiplier:1.0
+                                                                      constant:self.labelHeight];
+        self.ageLabelHeight = ageHeight;
+        
+        // Add an array of the individual constraints to the array of constraint arrays,
+        // then flatten all of the arrays to get just one array of constraints.
+        constraintArrays = [constraintArrays arrayByAddingObjectsFromArray:@[ @[ priorityHeight, ageHeight ] ]];
+        
+        NSArray *constraints = [constraintArrays valueForKeyPath:@"@unionOfArrays.self"];
+        [self.contentView addConstraints:constraints];
+        
+        NSArray *constraintsWithAgeLabel = constraintArrays[3];
+        NSArray *constraintsWithoutAgeLabel =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(boundsSpacing)-[textView]-(boundsSpacing)-|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
+        
+        // Adjust constraints and add or remove the age label if shouldShowDate changes
+        RACSignal *showDateSignal = [RACAble(self.shouldShowDate) distinctUntilChanged];
+        
+        [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
+            return [boolNumber isEqual:@YES];
+        }] subscribeNext:^(id _) {
+            [self.contentView removeConstraints:constraintsWithoutAgeLabel];
+            [self.contentView addSubview:self.ageLabel];
+            [self.contentView addConstraints:constraintsWithAgeLabel];
+        }];
+        
+        [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
+            return [boolNumber isEqual:@NO];
+        }] subscribeNext:^(id _) {
+            [self.contentView removeConstraints:constraintsWithAgeLabel];
+            [self.ageLabel removeFromSuperview];
+            [self.contentView addConstraints:constraintsWithoutAgeLabel];
+        }];
+        
+        // tell the view that constraints changed if showDateSignal fires
+        [showDateSignal subscribeNext:^(id _) {
+            [self setNeedsUpdateConstraints];
+            [self layoutIfNeeded];
+        }];
     }
     
-    // Move all constraints from the cell's view to the cell's contentView.
-    // See http://stackoverflow.com/a/13893146/1610271
-    for (NSLayoutConstraint *cellConstraint in self.constraints) {
-        [self removeConstraint:cellConstraint];
-        id firstItem = cellConstraint.firstItem == self ? self.contentView : cellConstraint.firstItem;
-        id seccondItem = cellConstraint.secondItem == self ? self.contentView : cellConstraint.secondItem;
-        NSLayoutConstraint* contentViewConstraint =
-        [NSLayoutConstraint constraintWithItem:firstItem
-                                     attribute:cellConstraint.firstAttribute
-                                     relatedBy:cellConstraint.relation
-                                        toItem:seccondItem
-                                     attribute:cellConstraint.secondAttribute
-                                    multiplier:cellConstraint.multiplier
-                                      constant:cellConstraint.constant];
-        [self.contentView addConstraint:contentViewConstraint];
-    }
+    return self;
 }
 
 #pragma mark - Overridden getters/setters
 
-- (void)setShouldShowDate:(BOOL)shouldShowDate
+- (CGFloat)labelHeight
 {
-    CGFloat newAgeLabelHeight = 0;
-    // Show the age of the task, if appropriate. If not, hide the age label.
-	if (self.shouldShowDate) {
-		self.ageLabel.hidden = NO;
-        
-        newAgeLabelHeight = self.ageLabelInitialHeight;
-	} else {
-		self.ageLabel.hidden = YES;
-        
-        newAgeLabelHeight = 0;
-	}
-    
-    // Find the age label's height constraint and set its constant.
-    // We can't just use the IBOutlet because the constraint it connects to
-    // is removed in -awakeFromNib:
-    for (NSLayoutConstraint *constraint in self.ageLabel.constraints) {
-        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            constraint.constant = newAgeLabelHeight;
-        }
-    }
+    static CGFloat const labelHeight = 20;
+    return labelHeight;
 }
 
 #pragma mark - Public class methods
 
-// TODO: move me to another class, maybe the view model
-+ (CGFloat)heightForTask:(Task *)task givenWidth:(CGFloat)width
+// TODO: consider moving me to another class, maybe the view model
++ (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font showingDate:(BOOL)shouldShowDate width:(CGFloat)width;
 {
-    const CGFloat bottomSpaceReclaimed = task.relativeAge ? 0 : staticSizingCell.ageLabelHeight.constant;
+    TaskCell *cell = self.staticSizingCell;
     
-    const CGFloat baseHeight = [self sizingCell].taskLabelTopSpace.constant + [self sizingCell].taskLabelBottomSpace.constant - bottomSpaceReclaimed;
-    const CGFloat takenWidth = [self sizingCell].taskLabelLeadingSpace.constant + [self sizingCell].taskLabelTrailingSpace.constant;
+    CGFloat bottomSpace = kSmallSpacing;
+    if (shouldShowDate) {
+        bottomSpace += kSmallSpacing + cell.labelHeight;
+    }
+    
+    CGFloat const baseHeight = kSmallSpacing + bottomSpace;
+    CGFloat const takenWidth = kBigSpacing + kAccessoryWidthEstimate;
     
     CGSize taskLabelSize = CGSizeMake(width - takenWidth, CGFLOAT_MAX);
     
-    staticSizingCell.taskTextView.attributedText = [[NSAttributedString alloc] initWithString:task.text];
+    cell.taskTextView.attributedText = [[NSAttributedString alloc] initWithString:text
+                                                                       attributes:@{
+                                                                                    NSFontAttributeName : font
+                                                                                    } ];
     CGRect rect = CGRectZero;
-    rect.size = [staticSizingCell.taskTextView sizeThatFits:taskLabelSize];
+    rect.size = [cell.taskTextView sizeThatFits:taskLabelSize];
     
-    const CGFloat calculatedHeight = baseHeight + CGRectGetHeight(rect);
+    CGFloat const height = baseHeight + CGRectGetHeight(rect);
     
-    return calculatedHeight > kMinHeight ? calculatedHeight : kMinHeight;
+    return height;
 }
-
 
 #pragma mark - Private class methods
 
-+ (TaskCell *)sizingCell
++ (TaskCell *)staticSizingCell
 {
-    static dispatch_once_t onceToken = 0;
+    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        staticSizingCell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([TaskCell class])
-                                                         owner:nil
-                                                       options:nil][0];
+        _staticSizingCell = [[TaskCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
     });
     
-    return staticSizingCell;
+    return _staticSizingCell;
 }
 
 @end

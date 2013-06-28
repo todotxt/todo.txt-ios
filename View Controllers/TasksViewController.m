@@ -72,6 +72,8 @@ static NSString *const kCellIdentifier = @"FlexiTaskCell";
 static NSString *const kViewTaskSegueIdentifier = @"TaskViewSegue";
 static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 
+static CGFloat const kMinCellHeight = 44;
+
 @interface TasksViewController () <IASKSettingsDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *emptyLabel;
@@ -83,6 +85,7 @@ static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 @property (nonatomic, strong) id<Filter> filter;
 @property (nonatomic, strong) IASKAppSettingsViewController *appSettingsViewController;
 @property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, readonly) UIFont *mainTextFont;
 @property (nonatomic) BOOL needSync;
 
 @end
@@ -177,9 +180,7 @@ static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 
     self.emptyLabel.text = kEmptyFileMessage;
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"TaskCell"
-                                               bundle:[NSBundle mainBundle]]
-         forCellReuseIdentifier:kCellIdentifier];
+    [self.tableView registerClass:[TaskCell class] forCellReuseIdentifier:kCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -221,6 +222,11 @@ static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 		_appSettingsViewController.delegate = self;
 	}
 	return _appSettingsViewController;
+}
+
+- (UIFont *)mainTextFont
+{
+    return [UIFont systemFontOfSize:14];
 }
 
 #pragma mark -
@@ -276,11 +282,6 @@ static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
     
     cell.viewModel = viewModel;
     
-    // Set the height of our frame as necessary for the task's text.
-    CGRect frame = cell.frame;
-    frame.size.height = [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
-    cell.frame = frame;
-    
 	return cell;
 }
 
@@ -291,7 +292,13 @@ static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    return [TaskCell heightForTask:task givenWidth:CGRectGetWidth(tableView.frame)];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"] && !task.completed && task.relativeAge != nil;
+    CGFloat height = [TaskCell heightForText:task.text
+                                    withFont:self.mainTextFont
+                                 showingDate:shouldShowDate
+                                       width:CGRectGetWidth(tableView.frame)];
+    return MAX(height, kMinCellHeight);
 }
 
 // Load the detail view controller when user taps the row
@@ -395,9 +402,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
 {
     // Register the desired cell type for a search display controller's table view
-    [controller.searchResultsTableView registerNib:[UINib nibWithNibName:@"TaskCell"
-                                                                  bundle:[NSBundle mainBundle]]
-                            forCellReuseIdentifier:kCellIdentifier];
+    [controller.searchResultsTableView registerClass:[TaskCell class]
+                              forCellReuseIdentifier:kCellIdentifier];
 }
 
 #pragma mark -
