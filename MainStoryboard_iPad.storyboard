@@ -58,24 +58,25 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
+                        <barButtonItem title="Sort" id="zmD-dM-QFr">
+                            <connections>
+                                <action selector="sortButtonPressed:" destination="HNI-em-gnU" id="dx8-Ui-AJD"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="FIO-Rt-8MV"/>
                         <barButtonItem style="plain" systemItem="refresh" id="KWQ-M9-sps">
                             <connections>
                                 <action selector="syncButtonPressed:" destination="HNI-em-gnU" id="PEY-VX-mal"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="FIO-Rt-8MV"/>
                         <barButtonItem image="19-gear.png" style="plain" id="C9D-rF-8g2">
+                            <inset key="imageInsets" minX="0.0" minY="2" maxX="0.0" maxY="-2"/>
                             <connections>
                                 <action selector="settingsButtonPressed:" destination="HNI-em-gnU" id="Ryt-P3-GnH"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Tasks" id="wN0-Gu-MKs">
-                        <barButtonItem key="leftBarButtonItem" title="Sort" id="zmD-dM-QFr">
-                            <connections>
-                                <action selector="sortButtonPressed:" destination="HNI-em-gnU" id="dx8-Ui-AJD"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="UI8-0O-eGp">
                             <connections>
                                 <action selector="addButtonPressed:" destination="HNI-em-gnU" id="grg-Hv-NLI"/>
@@ -331,6 +332,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="I3C-Wc-7PQ"/>
+        <segue reference="Fka-eT-1jp"/>
     </inferredMetricsTieBreakers>
 </document>

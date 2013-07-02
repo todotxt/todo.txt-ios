@@ -47,7 +47,7 @@
 #import "TaskFilterTarget.h"
 
 @interface TasksViewController : UITableViewController <TaskFilterTarget,
-	UISearchDisplayDelegate, UISearchBarDelegate>
+	UISearchDisplayDelegate, UISearchBarDelegate, UISplitViewControllerDelegate>
 
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)syncButtonPressed:(id)sender;

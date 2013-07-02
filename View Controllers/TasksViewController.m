@@ -44,7 +44,8 @@
 
 #import "ActionSheetPicker.h"
 #import "AsyncTask.h"
-#import "UIColor+CustomColors.h"
+#import "FilterFactory.h"
+#import "FilterViewController.h"
 #import "Task.h"
 #import "TaskCell.h"
 #import "TaskCellViewModel.h"
@@ -52,9 +53,9 @@
 #import "TaskViewController.h"
 #import "TasksViewController.h"
 #import "TodoTxtAppDelegate.h"
-#import "FilterFactory.h"
+#import "UIColor+CustomColors.h"
+
 #import "IASKAppSettingsViewController.h"
-#import "ActionSheetPicker.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
@@ -71,6 +72,7 @@ contexts and projects.";
 static NSString *const kCellIdentifier = @"FlexiTaskCell";
 static NSString *const kViewTaskSegueIdentifier = @"TaskViewSegue";
 static NSString *const kAddTaskSegueIdentifier = @"TaskAddSegue";
+static NSString *const kFilterSegueIdentifier = @"FilterSegue";
 
 static CGFloat const kMinCellHeight = 44;
 
@@ -85,7 +87,14 @@ static CGFloat const kMinCellHeight = 44;
 @property (nonatomic, strong) id<Filter> filter;
 @property (nonatomic, strong) IASKAppSettingsViewController *appSettingsViewController;
 @property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) UIPopoverController *masterPopoverController;
 @property (nonatomic, readonly) UIFont *mainTextFont;
+
+// Store the last contexts and projects that were filtered on when on iPhone,
+// so they can be shown as selected in the filter view if it is shown again.
+@property (nonatomic, strong) NSArray *lastFilteredContexts;
+@property (nonatomic, strong) NSArray *lastFilteredProjects;
+
 @property (nonatomic) BOOL needSync;
 
 @end
@@ -401,6 +410,27 @@ shouldReloadTableForSearchString:(NSString *)searchString
 }
 
 #pragma mark -
+#pragma mark Split view controller delegate methods
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc
+{
+    barButtonItem.title = @"Filter";
+    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    self.masterPopoverController = pc;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willShowViewController:(UIViewController *)aViewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    self.masterPopoverController = nil;
+}
+
+#pragma mark -
 - (void)settingsViewController:(IASKAppSettingsViewController*)sender buttonTappedForKey:(NSString*)key {
 	if ([key isEqualToString:@"logout_button"]) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure?" 
@@ -539,6 +569,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
         
         TaskViewController *detailViewController = (TaskViewController *)segue.destinationViewController;
         detailViewController.taskIndex = [[TodoTxtAppDelegate sharedTaskBag] indexOfTask:task];
+    } else if ([segue.identifier isEqualToString:kFilterSegueIdentifier]) {
+        FilterViewController *vc = (FilterViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
+        vc.filterTarget = self;
+        vc.initialSelectedContexts = self.lastFilteredContexts;
+        vc.initialSelectedProjects = self.lastFilteredProjects;
+        vc.shouldWaitForDone = YES;
     }
     // nothing to be done for kAddTaskSegueIdentifier
 }
@@ -547,6 +583,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)filterForContexts:(NSArray *)contexts projects:(NSArray *)projects
 {
+    self.lastFilteredContexts = [NSArray arrayWithArray:contexts];
+    self.lastFilteredProjects = [NSArray arrayWithArray:projects];
+    
     self.filter = [FilterFactory getAndFilterWithPriorities:nil contexts:contexts projects:projects text:nil caseSensitive:NO];
     
     if (contexts.count || projects.count) {

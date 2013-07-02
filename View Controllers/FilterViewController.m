@@ -68,6 +68,8 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 - (FilterViewFilterTypes)typeOfFilterForSection:(NSInteger)section;
 - (void)filterOnContextsAndProjects;
 - (IBAction)selectedSegment:(UISegmentedControl *)sender;
+- (IBAction)done:(id)sender;
+- (IBAction)cancel:(id)sender;
 
 @property (strong, nonatomic) NSArray *contexts;
 @property (strong, nonatomic) NSArray *projects;
@@ -81,14 +83,23 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 
 @implementation FilterViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        self.title = @"Filter";
+        
+        self.selectedContexts = [NSMutableArray array];
+        self.selectedProjects = [NSMutableArray array];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title = @"Filter";
-    
-    self.selectedContexts = [NSMutableArray array];
-    self.selectedProjects = [NSMutableArray array];
     
     self.activeTypes = FilterViewActiveTypesAll;
     
@@ -119,6 +130,16 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 }
 
 #pragma mark - Custom getters/setters
+
+- (void)setInitialSelectedContexts:(NSArray *)initialSelectedContexts
+{
+    self.selectedContexts = [NSMutableArray arrayWithArray:initialSelectedContexts];
+}
+
+- (void)setInitialSelectedProjects:(NSArray *)initialSelectedProjects
+{
+    self.selectedProjects = [NSMutableArray arrayWithArray:initialSelectedProjects];
+}
 
 - (BOOL)haveContexts
 {
@@ -154,7 +175,9 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
         filterProjects = self.selectedProjects;
     }
     
-    [self.filterTarget filterForContexts:filterContexts projects:filterProjects];
+    if (!self.shouldWaitForDone) {
+        [self.filterTarget filterForContexts:filterContexts projects:filterProjects];
+    }
 }
 
 #pragma mark - Table view data source
@@ -296,6 +319,31 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
         default:
             break;
     }
+}
+
+- (void)done:(id)sender
+{
+    NSArray *filterContexts = nil;
+    NSArray *filterProjects = nil;
+    
+    if (self.haveContexts) {
+        filterContexts = self.selectedContexts;
+    }
+    
+    if (self.haveProjects) {
+        filterProjects = self.selectedProjects;
+    }
+    
+    if (self.shouldWaitForDone) {
+        [self.filterTarget filterForContexts:filterContexts projects:filterProjects];
+    }
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)cancel:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

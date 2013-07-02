@@ -48,6 +48,9 @@
 
 @interface FilterViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet id<TaskFilterTarget> filterTarget;
+@property (weak, nonatomic) id<TaskFilterTarget> filterTarget;
+@property (strong, nonatomic) NSArray *initialSelectedContexts;
+@property (strong, nonatomic) NSArray *initialSelectedProjects;
+@property (nonatomic) BOOL shouldWaitForDone;
 
 @end

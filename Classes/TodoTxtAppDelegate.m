@@ -214,7 +214,10 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
     // the FilterViewController is the master view controller, and its target is the detail view controller.
     // The detail nav controller is the one on which toasts should show, at index 1 on iPad.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        NSArray *viewControllers = [(UISplitViewController *)rootViewController viewControllers];
+        UISplitViewController *splitViewController = (UISplitViewController *)rootViewController;
+        NSArray *viewControllers = [splitViewController viewControllers];
+        splitViewController.delegate = (id<UISplitViewControllerDelegate>)[(UINavigationController *)viewControllers[1] topViewController];
+        
         [(FilterViewController *)[(UINavigationController *)viewControllers[0] topViewController]
          setFilterTarget:(id<TaskFilterTarget>)[(UINavigationController *)viewControllers[1] topViewController]];
         self.contentNavController = viewControllers[1];

@@ -25,12 +25,17 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
+                        <barButtonItem title="Sort" id="zDX-AB-di9">
+                            <connections>
+                                <action selector="sortButtonPressed:" destination="yWi-bb-L3m" id="dXE-3D-5cr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="W3B-DR-ebS"/>
                         <barButtonItem style="plain" systemItem="refresh" id="J19-aL-GoJ">
                             <connections>
                                 <action selector="syncButtonPressed:" destination="yWi-bb-L3m" id="Suf-vY-fWd"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="W3B-DR-ebS"/>
                         <barButtonItem image="19-gear.png" style="plain" id="IAu-7p-FV3">
                             <connections>
                                 <action selector="settingsButtonPressed:" destination="yWi-bb-L3m" id="MNu-5b-A7a"/>
@@ -38,9 +43,9 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Tasks" id="1Lp-5z-5Cg">
-                        <barButtonItem key="leftBarButtonItem" title="Sort" id="zDX-AB-di9">
+                        <barButtonItem key="leftBarButtonItem" title="Filter" id="8X9-xc-Y13">
                             <connections>
-                                <action selector="sortButtonPressed:" destination="yWi-bb-L3m" id="dXE-3D-5cr"/>
+                                <segue destination="ljP-8d-Aeg" kind="modal" identifier="FilterSegue" id="fxg-i0-c0D"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="3Fn-OV-ZhD">
@@ -110,7 +115,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ji-u3-fNv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="889" y="839"/>
+            <point key="canvasLocation" x="921" y="837"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OSl-2d-rhE">
@@ -125,7 +130,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vwg-RX-CoK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1303" y="142"/>
+            <point key="canvasLocation" x="1359" y="142"/>
         </scene>
         <!--Task Edit View Controller-->
         <scene sceneID="DFg-2g-6DS">
@@ -170,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Dh-Eh-47N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="142"/>
+            <point key="canvasLocation" x="1719" y="142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wQF-xA-cys">
@@ -247,6 +252,60 @@
             </objects>
             <point key="canvasLocation" x="468" y="-553"/>
         </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="YgE-0f-scy">
+            <objects>
+                <tableViewController id="ZMT-wH-wbl" customClass="FilterViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="k99-Yx-ghR">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Vgd-rG-aQM">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cn3-XT-uuL">
+                            <connections>
+                                <action selector="cancel:" destination="ZMT-wH-wbl" id="Ga7-bX-EWG"/>
+                            </connections>
+                        </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="oa1-Vs-TxR">
+                            <rect key="frame" x="96" y="7" width="128" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="All"/>
+                                <segment title="@"/>
+                                <segment title="+"/>
+                            </segments>
+                            <connections>
+                                <action selector="selectedSegment:" destination="ZMT-wH-wbl" eventType="valueChanged" id="44D-vI-OwZ"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="crP-lw-O9W">
+                            <connections>
+                                <action selector="done:" destination="ZMT-wH-wbl" id="Bq7-f9-azR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oqQ-dq-nWN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1359" y="-553"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QUm-lo-bSV">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="ljP-8d-Aeg" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yMu-f2-x6Q">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZMT-wH-wbl" kind="relationship" relationship="rootViewController" id="uUd-1B-fwG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z7I-Il-1wB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="921" y="-553"/>
+        </scene>
     </scenes>
     <resources>
         <image name="19-gear.png" width="22" height="22"/>
@@ -258,6 +317,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="RNh-9n-K08"/>
+        <segue reference="pCm-z6-2l4"/>
     </inferredMetricsTieBreakers>
 </document>
