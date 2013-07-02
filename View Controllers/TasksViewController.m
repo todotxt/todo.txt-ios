@@ -171,12 +171,6 @@ static CGFloat const kMinCellHeight = 44;
 	{
 		self.searchDisplayController.searchBar.text = self.savedSearchTerm;
 	}
-	
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];          
-	self.navigationItem.rightBarButtonItem = addButton;
-	
-	UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStyleBordered target:self action:@selector(sortButtonPressed:)];          
-	self.navigationItem.leftBarButtonItem = sortButton;
 
     self.emptyLabel.text = kEmptyFileMessage;
     
