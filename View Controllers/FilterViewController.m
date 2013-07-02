@@ -294,11 +294,6 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 
 - (void)selectedSegment:(UISegmentedControl *)sender
 {
-    // Clear selections whenever a different section is selected.
-    [self.selectedContexts removeAllObjects];
-    [self.selectedProjects removeAllObjects];
-    [self filterOnContextsAndProjects];
-    
     // Set the filter types to show based on the selected segment.
     switch (sender.selectedSegmentIndex) {
         case 0:
