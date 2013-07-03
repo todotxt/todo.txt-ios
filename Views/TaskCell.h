@@ -62,14 +62,6 @@
 // Hang on to the view model, so the managing table view need not
 @property (nonatomic, strong) TaskCellViewModel *viewModel;
 
-// Hang on to some RACDisposables, so they may be manually
-// disposed of later.
-@property (nonatomic, strong) RACDisposable *textDisposable;
-@property (nonatomic, strong) RACDisposable *ageDisposable;
-@property (nonatomic, strong) RACDisposable *priorityDisposable;
-@property (nonatomic, strong) RACDisposable *priorityColorDisposable;
-@property (nonatomic, strong) RACDisposable *showDateDisposable;
-
 + (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font showingDate:(BOOL)shouldShowDate width:(CGFloat)width;
 
 @end

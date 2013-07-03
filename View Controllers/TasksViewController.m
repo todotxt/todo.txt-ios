@@ -257,33 +257,11 @@ static CGFloat const kMinCellHeight = 44;
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     cell.viewModel = viewModel;
     
-    // Dispose of any existing connections
-    if (cell.textDisposable) {
-        [@[
-         cell.textDisposable,
-         cell.ageDisposable,
-         cell.priorityDisposable,
-         cell.priorityColorDisposable,
-         cell.showDateDisposable
-         ] enumerateObjectsUsingBlock:^(RACDisposable *disposable, NSUInteger idx, BOOL *stop) {
-             [disposable dispose];
-         }];
-    }
-    
-    // Avoid RAC(...) so that we can save the RACDisposables, to manually dispose of later.
-    // This is necessary since cells are (usually) re-used, rather than destroyed and recreated.
-    cell.textDisposable = [RACAbleWithStart(viewModel, attributedText) toProperty:@keypath(cell.taskTextView, attributedText)
-                                                                         onObject:cell.taskTextView];
-    cell.ageDisposable = [RACAbleWithStart(viewModel, ageText) toProperty:@keypath(cell.ageLabel, text)
-                                                                 onObject:cell.ageLabel];
-    cell.priorityDisposable = [RACAbleWithStart(viewModel, priorityText) toProperty:@keypath(cell.priorityLabel, text)
-                                                                           onObject:cell.priorityLabel];
-    cell.priorityColorDisposable = [RACAbleWithStart(viewModel, priorityColor) toProperty:@keypath(cell.priorityLabel, textColor)
-                                                                                 onObject:cell.priorityLabel];
-    cell.showDateDisposable = [RACAbleWithStart(viewModel, shouldShowDate) toProperty:@keypath(cell, shouldShowDate)
-                                                                             onObject:cell];
-    
-    cell.viewModel = viewModel;
+    RAC(cell.taskTextView, attributedText) = [RACAbleWithStart(viewModel, attributedText) distinctUntilChanged];
+    RAC(cell.ageLabel, text) = [RACAbleWithStart(viewModel, ageText) distinctUntilChanged];
+    RAC(cell.priorityLabel, text) = [RACAbleWithStart(viewModel, priorityText) distinctUntilChanged];
+    RAC(cell.priorityLabel, textColor) = [RACAbleWithStart(viewModel, priorityColor) distinctUntilChanged];
+    RAC(cell, shouldShowDate) = [RACAbleWithStart(viewModel, shouldShowDate) distinctUntilChanged];
     
 	return cell;
 }
