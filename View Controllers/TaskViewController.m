@@ -223,7 +223,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		}
 		
-		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.textAlignment = NSTextAlignmentCenter;
 
 		if([[self task] completed]) {
 			cell.textLabel.text = self.completedButtonNames[indexPath.row];
