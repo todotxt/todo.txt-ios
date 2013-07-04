@@ -51,6 +51,7 @@
 #import "PriorityTextSplitter.h"
 #import "TaskUtil.h"
 #import "Strings.h"
+#import "PlaceholderGenerator.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation TaskEditViewController
@@ -84,7 +85,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)
 												 name:UIKeyboardWillHideNotification object:nil];
 	
-	textView.placeholder = @"Call Mom @phone +FamilialPeace";
+	textView.placeholder = [[PlaceholderGenerator sharedGenerator] randomPlaceholder];
 	
 	[helpContents loadHTMLString:@"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
 	 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
