@@ -53,7 +53,7 @@
 	self = [super init];
 	
 	if (self) {
-		priorities = [priorityList retain];
+		priorities = priorityList;
 	}
 	
 	return self;	
@@ -73,9 +73,5 @@
 	return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[priorities release];
-}
 
 @end

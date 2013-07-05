@@ -57,22 +57,22 @@
 									  text:(NSString*)text 
 							 caseSensitive:(BOOL)caseSensitive {
 
-	AndFilter *filter = [[[AndFilter alloc] init] autorelease];
+	AndFilter *filter = [[AndFilter alloc] init];
 	
 	if (priorities.count > 0) {
-		[filter addFilter:[[[ByPriorityFilter alloc] initWithPriorities:priorities] autorelease]];
+		[filter addFilter:[[ByPriorityFilter alloc] initWithPriorities:priorities]];
 	}
 	
 	if (contexts.count > 0) {
-		[filter addFilter:[[[ByContextFilter alloc] initWithContexts:contexts] autorelease]];
+		[filter addFilter:[[ByContextFilter alloc] initWithContexts:contexts]];
 	}
 	
 	if (projects.count > 0) {
-		[filter addFilter:[[[ByProjectFilter alloc] initWithProjects:projects] autorelease]];
+		[filter addFilter:[[ByProjectFilter alloc] initWithProjects:projects]];
 	}
 	
 	if (text.length > 0) {
-		[filter addFilter:[[[ByTextFilter alloc] initWithText:text caseSensitive:caseSensitive] autorelease]];
+		[filter addFilter:[[ByTextFilter alloc] initWithText:text caseSensitive:caseSensitive]];
 	}
 	return filter;
 }

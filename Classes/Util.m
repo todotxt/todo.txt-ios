@@ -48,14 +48,14 @@
 @implementation Util
 
 + (NSString *)stringFromDate:(NSDate*)date withFormat:(NSString*)format {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease]; 
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init]; 
 	[dateFormatter setDateFormat:format];	
 	return [dateFormatter stringFromDate:date];
 }
 
 + (NSDate *)dateFromString:(NSString*)date withFormat:(NSString*)format {
-	NSDateFormatter * parser = [[[NSDateFormatter alloc] init] autorelease];
-	NSLocale *enUSPOSIXLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease];
+	NSDateFormatter * parser = [[NSDateFormatter alloc] init];
+	NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
 	[parser setLocale:enUSPOSIXLocale];
     [parser setDateFormat:format];
     return [parser dateFromString:date];

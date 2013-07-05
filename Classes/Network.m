@@ -65,10 +65,10 @@ static Network* sharedInstance = nil;
 						selector:@selector(checkNetworkStatus:) 
 						name:kReachabilityChangedNotification object:nil];
 		
-		internetReachable = [[Reachability reachabilityForInternetConnection] retain];
+		internetReachable = [Reachability reachabilityForInternetConnection];
         [internetReachable startNotifier];
 		
-        hostReachable = [[Reachability reachabilityWithHostName: @"api-content.dropbox.com"] retain];
+        hostReachable = [Reachability reachabilityWithHostName: @"api-content.dropbox.com"];
         [hostReachable startNotifier];
 	}
 	 return self;
@@ -79,10 +79,7 @@ static Network* sharedInstance = nil;
 }
 
 - (void) dealloc {
-	[super dealloc];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[internetReachable release];
-	[hostReachable release];
 }
 	 
 + (void) initialize {

@@ -2,7 +2,7 @@
  * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -47,20 +47,9 @@
 #import "DropboxFIleDownloader.h"
 #import "DropboxFileUploader.h"
 
-@interface DropboxRemoteClient : NSObject<RemoteClient> {
-	id<RemoteClientDelegate> delegate;
-}
+@interface DropboxRemoteClient : NSObject<RemoteClient>
 
-@property (nonatomic, assign) id<RemoteClientDelegate> delegate;
-
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
+@property (nonatomic, weak) id<RemoteClientDelegate> delegate;
 
 + (NSString*) todoTxtTmpFile;
 + (NSString*) todoTxtRemoteFile;

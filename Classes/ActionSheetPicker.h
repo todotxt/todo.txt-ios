@@ -13,7 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MBProgressHUD.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 
 
 @interface ActionSheetPicker : NSObject <UIPickerViewDelegate, UIPickerViewDataSource, MBProgressHUDDelegate> {
@@ -41,28 +41,28 @@
 	UIBarButtonItem *_barButtonItem;
 }
 
-@property (nonatomic, retain) UIView *view;
+@property (nonatomic, strong) UIView *view;
 
-@property (nonatomic, retain) NSArray *data;
+@property (nonatomic, strong) NSArray *data;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, copy) NSString *title;
 
 @property (nonatomic, assign) UIDatePickerMode datePickerMode;
-@property (nonatomic, retain) NSDate *selectedDate;
+@property (nonatomic, strong) NSDate *selectedDate;
 
-@property (nonatomic, retain) id target;
+@property (nonatomic, strong) id target;
 @property (nonatomic, assign) SEL action;
 
-@property (nonatomic, retain) UIActionSheet *actionSheet;
-@property (nonatomic, retain) UIPopoverController *popOverController;
-@property (nonatomic, retain) UIPickerView *pickerView;
-@property (nonatomic, retain) UIDatePicker *datePickerView;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) UIPopoverController *popOverController;
+@property (nonatomic, strong) UIPickerView *pickerView;
+@property (nonatomic, strong) UIDatePicker *datePickerView;
 @property (nonatomic, assign) NSInteger pickerPosition;
 
 @property (nonatomic, readonly) CGSize viewSize;
 
 @property (nonatomic, assign) CGRect rect;
-@property (nonatomic, retain) UIBarButtonItem *barButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *barButtonItem;
 
 //no memory management required for convenience methods
 

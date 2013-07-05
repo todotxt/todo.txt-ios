@@ -68,9 +68,9 @@ typedef enum {
 @property (nonatomic, readonly) NSString *remoteFile;
 @property (nonatomic, readonly) NSString *localFile;
 @property (nonatomic, readonly) NSString *originalRev;
-@property (nonatomic, retain) DBMetadata *loadedMetadata;
+@property (nonatomic, strong) DBMetadata *loadedMetadata;
 @property (nonatomic, assign) DropboxFileStatus status;
-@property (nonatomic, retain) NSError *error;
+@property (nonatomic, strong) NSError *error;
 
 - (id) initWithRemoteFile:(NSString*)aRemoteFile 
 				localFile:(NSString*)aLocalFile 
