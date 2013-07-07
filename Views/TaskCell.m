@@ -132,6 +132,12 @@ static const CGFloat kAccessoryWidthEstimate = 20;
                                                     views:bindings],
           ];
         
+        NSArray *constraintsWithAgeLabel = constraintArrays.lastObject;
+        NSArray *constraintsWithoutAgeLabel =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(boundsSpacing)-[textView]-(boundsSpacing)-|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
         
         NSLayoutConstraint *priorityHeight = [NSLayoutConstraint constraintWithItem:priorityLabel
                                                                           attribute:NSLayoutAttributeHeight
@@ -148,20 +154,13 @@ static const CGFloat kAccessoryWidthEstimate = 20;
                                                                     multiplier:1.0
                                                                       constant:self.labelHeight];
         self.ageLabelHeight = ageHeight;
-        
+
         // Add an array of the individual constraints to the array of constraint arrays,
         // then flatten all of the arrays to get just one array of constraints.
         constraintArrays = [constraintArrays arrayByAddingObjectsFromArray:@[ @[ priorityHeight, ageHeight ] ]];
         
         NSArray *constraints = [constraintArrays valueForKeyPath:@"@unionOfArrays.self"];
         [self.contentView addConstraints:constraints];
-        
-        NSArray *constraintsWithAgeLabel = constraintArrays[3];
-        NSArray *constraintsWithoutAgeLabel =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(boundsSpacing)-[textView]-(boundsSpacing)-|"
-                                                options:0
-                                                metrics:metrics
-                                                  views:bindings];
         
         // Adjust constraints and add or remove the age label if shouldShowDate changes
         RACSignal *showDateSignal = [RACAble(self.shouldShowDate) distinctUntilChanged];
