@@ -192,25 +192,25 @@ static const CGFloat kAgeLabelTopOffset = -15;
         // Adjust constraints and add or remove the age label if shouldShowDate changes
         RACSignal *showDateSignal = [RACAble(self.shouldShowDate) distinctUntilChanged];
         
-        [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
+        // Add/remove the age label based on showDateSignal, and tell the view
+        // to layout afterwards.
+        [[RACSignal merge:@[
+          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
             return [boolNumber isEqual:@YES];
-        }] subscribeNext:^(id _) {
+        }] doNext:^(id _) {
             [self.contentView addSubview:self.ageLabel];
             [self.contentView addConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
-        }];
-        
-        [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
+        }],
+          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
             return [boolNumber isEqual:@NO];
-        }] subscribeNext:^(id _) {
+        }] doNext:^(id _) {
             [self.contentView removeConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
             [self.ageLabel removeFromSuperview];
-        }];
-        
-        // tell the view that constraints changed if showDateSignal fires
-        [showDateSignal subscribeNext:^(id _) {
-            [self setNeedsUpdateConstraints];
-            [self layoutIfNeeded];
-        }];
+        }],
+          ]]
+         subscribeNext:^(id _) {
+             [self setNeedsDisplay];
+         }];
     }
     
     return self;
