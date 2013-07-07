@@ -273,11 +273,8 @@ static CGFloat const kMinCellHeight = 44;
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"] && !task.completed && task.relativeAge != nil;
     CGFloat height = [TaskCell heightForText:task.text
                                     withFont:self.mainTextFont
-                                 showingDate:shouldShowDate
                                        width:CGRectGetWidth(tableView.frame)];
     return MAX(height, kMinCellHeight);
 }

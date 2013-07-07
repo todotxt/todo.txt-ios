@@ -62,6 +62,6 @@
 // Hang on to the view model, so the managing table view need not
 @property (nonatomic, strong) TaskCellViewModel *viewModel;
 
-+ (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font showingDate:(BOOL)shouldShowDate width:(CGFloat)width;
++ (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font width:(CGFloat)width;
 
 @end

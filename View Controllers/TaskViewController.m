@@ -158,9 +158,6 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	if (indexPath.section == 0) {
 		Task* task = [self task];
         
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        BOOL shouldShowDate = [defaults boolForKey:@"date_new_tasks_preference"] && !task.completed && task.relativeAge != nil;
-        
         CGFloat sideInset = kIphoneGroupedTableViewSideInset;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             sideInset = kIpadGroupedTableViewSideInset;
@@ -168,7 +165,6 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
         
         CGFloat height = [TaskCell heightForText:task.text
                                         withFont:[UIFont systemFontOfSize:14]
-                                     showingDate:shouldShowDate
                                            width:CGRectGetWidth(tableView.frame) - 2 * sideInset];
 		
 		return MAX(height, MIN_ROW_HEIGHT);
