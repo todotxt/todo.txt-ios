@@ -12,6 +12,6 @@ Interested in joining the project? Fork the repository and talk to us on the [To
 
 After checking out the repository:
 
-* Initialize submodules with `git submodule init`
+* Initialize submodules with `git submodule init` followed by `git submodule update`
 * Run the `bootstrap` script in `Libraries/ReactiveCocoa/script/`
 * Open the Xcode project `todo.txt-touch-ios.xcodeproj`
