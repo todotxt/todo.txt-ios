@@ -137,7 +137,7 @@
 			<key>Key</key>
 			<string>about_todo</string>
 			<key>Title</key>
-			<string>About Todo.txt Touch</string>
+			<string>About Todo.txt</string>
 			<key>Type</key>
 			<string>IASKButtonSpecifier</string>
 		</dict>

@@ -202,7 +202,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* todo_txt_touch_iosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_iosAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* todo_txt_touch_iosAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = todo_txt_touch_iosAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo.txt Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Todo.txt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.txt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* todo_txt_touch_iosViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = todo_txt_touch_iosViewController.xib; sourceTree = "<group>"; };
@@ -539,7 +539,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */,
+				1D6058910D05DD3D006BFB54 /* Todo.txt.app */,
 				0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */,
 			);
 			name = Products;
@@ -963,7 +963,7 @@
 			);
 			name = "Todo.txt Touch";
 			productName = "todo.txt-touch-ios";
-			productReference = 1D6058910D05DD3D006BFB54 /* Todo.txt Touch.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Todo.txt.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1328,7 +1328,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1358,7 +1358,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1409,7 +1409,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1460,7 +1460,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				PRODUCT_NAME = "Todo.txt Touch";
+				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

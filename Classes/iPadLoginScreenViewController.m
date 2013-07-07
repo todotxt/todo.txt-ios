@@ -1,5 +1,5 @@
 /**
- * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
+ * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
  * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
@@ -8,15 +8,15 @@
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
  *
- * Todo.txt Touch is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * Todo.txt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any
  * later version.
  *
- * Todo.txt Touch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * Todo.txt is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
+ * You should have received a copy of the GNU General Public License along with Todo.txt.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
  *
@@ -88,7 +88,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Todo.txt Touch";
+    self.title = @"Todo.txt";
     // Do any additional setup after loading the view from its nib.
 }
 
