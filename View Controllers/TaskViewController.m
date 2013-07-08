@@ -368,7 +368,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 						data:[Priority allCodes]
 						selectedIndex:curPriority 
 						target:self 
-						action:@selector(priorityWasSelected::) 
+						action:@selector(priorityWasSelected:element:)
 						title:@"Select Priority"
 						 rect:cell.frame
 				barButtonItem:nil];
