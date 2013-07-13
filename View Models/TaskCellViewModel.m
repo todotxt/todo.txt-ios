@@ -101,6 +101,11 @@
     return taskString;
 }
 
+- (NSString *)accessibleText
+{
+    return self.attributedText.string;
+}
+
 - (NSString *)ageText
 {
     return self.task.relativeAge;

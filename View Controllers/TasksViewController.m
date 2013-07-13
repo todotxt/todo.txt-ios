@@ -258,6 +258,7 @@ static CGFloat const kMinCellHeight = 44;
     cell.viewModel = viewModel;
     
     RAC(cell.taskTextView, attributedText) = [RACAbleWithStart(viewModel, attributedText) distinctUntilChanged];
+    RAC(cell.taskTextView, accessibilityLabel) = [RACAbleWithStart(viewModel, accessibleText) distinctUntilChanged];
     RAC(cell.ageLabel, text) = [RACAbleWithStart(viewModel, ageText) distinctUntilChanged];
     RAC(cell.priorityLabel, text) = [RACAbleWithStart(viewModel, priorityText) distinctUntilChanged];
     RAC(cell.priorityLabel, textColor) = [RACAbleWithStart(viewModel, priorityColor) distinctUntilChanged];

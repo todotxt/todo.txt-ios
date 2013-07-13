@@ -50,6 +50,7 @@
 
 @property (nonatomic, strong) Task *task;
 @property (weak, nonatomic, readonly) NSAttributedString *attributedText;
+@property (weak, nonatomic, readonly) NSString *accessibleText;
 @property (weak, nonatomic, readonly) NSString *ageText;
 @property (weak, nonatomic, readonly) NSString *priorityText;
 @property (weak, nonatomic, readonly) UIColor *priorityColor;
