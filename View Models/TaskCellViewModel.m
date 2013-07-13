@@ -60,6 +60,13 @@
 
 #pragma mark - Custom getters/setters
 
+/*!
+ * Get the attributed text to display for a task. Note that a white
+ * non-printing character (bell, or \a, or ASCII code 7) is added at
+ * the end of the attributed string to work around odd layout behavior of
+ * UITextView when an attributed string has uniform attributes.
+ * \return An attributed string for the view model's associated task.
+ */
 - (NSAttributedString *)attributedText
 {
     NSDictionary *taskAttributes = self.attributesForTask;
@@ -69,6 +76,10 @@
     }
     
     NSString *taskText = [self.task inScreenFormat];
+    
+    // append the non-printing bell character, for the UITextView workaround
+    taskText = [taskText stringByAppendingString:[NSString stringWithFormat:@"%c", 7]];
+    
     NSMutableAttributedString *taskString;
     taskString = [[NSMutableAttributedString alloc] initWithString:taskText
                                                         attributes:taskAttributes];
@@ -81,6 +92,11 @@
         NSRange range = rangeValue.rangeValue;
         [taskString addAttributes:grayAttribute range:range];
     }
+    
+    // make the bell character a different color than the other text,
+    // for the UITextView layout workaround.
+    NSDictionary *whiteAttribute = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
+    [taskString addAttributes:whiteAttribute range:NSMakeRange(taskText.length - 1, 1)];
     
     return taskString;
 }
