@@ -55,6 +55,10 @@
     int i = 0;
     while ((line = [reader readTrimmedLine])) {
         NSLog(@"read line %d: %@", i, line);
+        if ( ![line length] ) {
+            NSLog(@"Ignoring blank line at line number %d", i);
+            continue;
+        }
 		Task *task = [[Task alloc] initWithId:i withRawText:line];
         [items addObject:task];
 		[task release];
