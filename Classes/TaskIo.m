@@ -49,19 +49,28 @@
 @implementation TaskIo
 
 + (NSMutableArray*) loadTasksFromFile:(NSString*)filename {
+    DDFileReader *reader = [[DDFileReader alloc] initWithFilePath:filename];
+    NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
+    [reader release];
+    return items;
+}
+
++ (NSMutableArray*) loadTasksFromReader:(DDFileReader*)reader {
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:32];
-    DDFileReader * reader = [[DDFileReader alloc] initWithFilePath:filename];
     NSString * line = nil;
     int i = 0;
     while ((line = [reader readTrimmedLine])) {
         NSLog(@"read line %d: %@", i, line);
+        if ( ![line length] ) {
+            NSLog(@"Ignoring blank line at line number %d", i);
+            continue;
+        }
 		Task *task = [[Task alloc] initWithId:i withRawText:line];
         [items addObject:task];
 		[task release];
         i++;
     }
-    [reader release];    
-    
+
     return items;
 }
 

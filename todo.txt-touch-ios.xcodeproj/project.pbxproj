@@ -64,6 +64,7 @@
 		59216BFF13E7804700FF07EE /* TaskEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216BFD13E7804700FF07EE /* TaskEditViewController.m */; };
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
+		7B06BDC917A320880001CCB6 /* TaskIoTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B06BDC817A320880001CCB6 /* TaskIoTest.m */; };
 		7D57054712F89F1900BB5E8D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054312F89F1900BB5E8D /* Icon-72.png */; };
 		7D57054812F89F1900BB5E8D /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054412F89F1900BB5E8D /* Icon-Small-50.png */; };
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
@@ -266,6 +267,8 @@
 		59216C7413E8C89200FF07EE /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		59216D3C13EA318100FF07EE /* RelativeDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDate.h; sourceTree = "<group>"; };
 		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
+		7B06BDC717A320880001CCB6 /* TaskIoTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskIoTest.h; sourceTree = "<group>"; };
+		7B06BDC817A320880001CCB6 /* TaskIoTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskIoTest.m; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -818,6 +821,8 @@
 				8876EF5F14AD7D3E00F28C3C /* StringsTest.m */,
 				0F75B421149912DF00848E27 /* TaskUtilTest.h */,
 				0F75B423149912DF00848E27 /* TaskUtilTest.m */,
+				7B06BDC717A320880001CCB6 /* TaskIoTest.h */,
+				7B06BDC817A320880001CCB6 /* TaskIoTest.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1120,6 +1125,7 @@
 				88E5140E14D3948F00177F45 /* DropboxFileUploaderTest.m in Sources */,
 				88E5141114D3969D00177F45 /* AsyncWaiter.m in Sources */,
 				88E5141414D50C7600177F45 /* TaskBagImplTest.m in Sources */,
+				7B06BDC917A320880001CCB6 /* TaskIoTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
