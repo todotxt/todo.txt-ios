@@ -2,8 +2,8 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,16 +42,66 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
-#import <Foundation/Foundation.h>
+#import "TaskIo.h"
+#import "TaskIoTest.h"
 #import "DDFileReader.h"
 
-@interface TaskIo : NSObject {
-    
+@interface MockDDReader : DDFileReader
+@property int counter;
+@property (assign) NSArray *lines;
+
+- (id)initWithStrings:(NSArray *) lines;
+@end
+
+@implementation MockDDReader
+
+- (id)initWithStrings: (NSArray *) lines {
+    self = [super init];
+    if (self) {
+        _counter = 0;
+        _lines = lines;
+    }
+    return self;
 }
 
-+ (NSMutableArray*) loadTasksFromFile:(NSString*)file;
-+ (NSMutableArray*) loadTasksFromReader:(DDFileReader*)reader;
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite withWindowsBreaks:(BOOL)useWindowsBreaks;
+-(NSString *)readTrimmedLine {
+
+    if( _counter >= [_lines count] )
+    {
+        return nil;
+    }
+
+    NSString *val = [_lines objectAtIndex: _counter];
+    _counter++;
+
+    return val;
+}
+@end
+
+@implementation TaskIoTest
+
+- (void)testNoLines
+{
+    MockDDReader *reader = [[MockDDReader alloc] initWithStrings:[[NSArray alloc] init]];
+    NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
+
+    STAssertEquals([items count], 0u, @"Expecting 2 items");
+
+    [reader release];
+}
+
+- (void)testIgnoreBlankLines
+{
+    NSArray *lines = [[NSArray alloc] initWithObjects:@"First line", @"", @"Second line", @"", nil];
+    MockDDReader *reader = [[MockDDReader alloc] initWithStrings:lines];
+    NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
+
+    STAssertEquals([items count], 2u, @"Expecting 2 items");
+    STAssertEqualObjects([[items objectAtIndex:0u] text], @"First line", @"Expecting 'First line'");
+    STAssertEqualObjects([[items objectAtIndex:1u] text], @"Second line", @"Expecting 'Second line'");
+
+    [reader release];
+    [lines release];
+}
 
 @end

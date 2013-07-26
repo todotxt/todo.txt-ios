@@ -2,8 +2,8 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
- *  
+ * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -42,16 +42,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import <SenTestingKit/SenTestingKit.h>
 
-#import <Foundation/Foundation.h>
-#import "DDFileReader.h"
-
-@interface TaskIo : NSObject {
-    
-}
-
-+ (NSMutableArray*) loadTasksFromFile:(NSString*)file;
-+ (NSMutableArray*) loadTasksFromReader:(DDFileReader*)reader;
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite withWindowsBreaks:(BOOL)useWindowsBreaks;
+@interface TaskIoTest : SenTestCase
 
 @end
