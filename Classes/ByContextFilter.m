@@ -53,7 +53,7 @@
 	self = [super init];
 	
 	if (self) {
-		contexts = [contextList retain];
+		contexts = contextList;
 	}
 	
 	return self;	
@@ -75,9 +75,5 @@
 	return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[contexts release];
-}
 
 @end

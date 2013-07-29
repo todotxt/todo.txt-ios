@@ -47,11 +47,11 @@
 
 
 @interface Task : NSObject {
-	NSString *originalText;
-	Priority *originalPriority;
+	NSString *__weak originalText;
+	Priority *__weak originalPriority;
 	
 	NSUInteger taskId;
-	Priority *priority;
+	Priority *__weak priority;
 	BOOL deleted;
 	BOOL completed;
 	NSString *text;
@@ -62,8 +62,8 @@
 	NSArray *projects;	
 }
 
-@property (nonatomic, readonly) NSString *originalText;
-@property (nonatomic, readonly) Priority *originalPriority;
+@property (weak, nonatomic, readonly) NSString *originalText;
+@property (weak, nonatomic, readonly) Priority *originalPriority;
 @property (nonatomic, readonly) NSUInteger taskId;
 @property (nonatomic, readonly) BOOL deleted;
 @property (nonatomic, readonly) BOOL completed;
@@ -74,7 +74,7 @@
 @property (nonatomic, readonly) NSArray *contexts;
 @property (nonatomic, readonly) NSArray *projects;
 
-@property (nonatomic, assign) Priority *priority;
+@property (nonatomic, weak) Priority *priority;
 
 - (id)initWithId:(NSUInteger)newID withRawText:(NSString*)rawText withDefaultPrependedDate:(NSDate*)date;
 - (id)initWithId:(NSUInteger)taskID withRawText:(NSString*)rawText;
@@ -91,5 +91,7 @@
 - (NSComparisonResult) compareByIdDescending:(Task*)other;
 - (NSComparisonResult) compareByPriority:(Task*)other;
 - (NSComparisonResult) compareByTextAscending:(Task*)other;
+- (NSArray *)rangesOfContexts;
+- (NSArray *)rangesOfProjects;
 
 @end

@@ -74,5 +74,25 @@ static NSRegularExpression* projectPattern = nil;
 	return projects;
 }
 
++ (NSArray *)rangesOfProjectsForString:(NSString *)string
+{
+	if (!string) {
+		return @[ ];
+	}
+	
+	NSArray *projectMatches =
+	[projectPattern matchesInString:string
+							options:0
+							  range:NSMakeRange(0, string.length)];
+    
+    NSMutableArray *ranges = [NSMutableArray array];
+    [projectMatches enumerateObjectsUsingBlock:^(NSTextCheckingResult *result, NSUInteger idx, BOOL *stop) {
+        if (result.range.location != NSNotFound) {
+            [ranges addObject:[NSValue valueWithRange:[result range]]];
+        }
+    }];
+    
+    return ranges;
+}
 
 @end

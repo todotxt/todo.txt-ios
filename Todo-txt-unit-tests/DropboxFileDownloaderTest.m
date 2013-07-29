@@ -45,30 +45,18 @@
 #import "DropboxFileDownloaderTest.h"
 #import "DropboxFileDownloader.h"
 #import "DropboxFile.h"
-#import <objc/runtime.h>
 #import <OCMock/OCMock.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+static CGFloat const kDownloaderTestTimeout = 15;
 
 @implementation DropboxFileDownloaderTest
-
-- (void)completed {
-	waiter.complete = YES;
-}
-
-- (void) setUp {
-	waiter = [[AsyncWaiter alloc] init];
-}
-
-- (void) tearDown {
-	[waiter release];
-}
 
 - (void)testRemoteFileMissing
 {
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-					initWithTarget:self		
-						onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadMetadataFailedWithError:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock loadMetadataFailedWithError:nil];
@@ -76,17 +64,31 @@
 	} ] loadMetadata:[OCMArg any]];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-
-	[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:@"/somepath/somefile.txt"
-																				 localFile:@"thelocalfile.txt"
-																			   originalRev:@"origrev"]]];
-
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 1U, @"Should have 1 file");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:@"/somepath/somefile.txt"
+                                                                                    localFile:@"thelocalfile.txt"
+                                                                                  originalRev:@"origrev"]]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 1U, @"Should have 1 file");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -96,10 +98,8 @@
 	NSString *rev = @"remoterev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -115,15 +115,29 @@
 	} ] loadFile:remoteFile atRev:rev intoPath:localFile];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																				 localFile:localFile
-																			   originalRev:@"origrev"]]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                    localFile:localFile
+                                                                                  originalRev:@"origrev"]]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -133,10 +147,8 @@
 	NSString *rev = @"remoterev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-    object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+    [downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -145,19 +157,33 @@
 															dictionaryWithObjectsAndKeys:rev, @"rev", nil]] autorelease]];
 		}
 	} ] loadMetadata:remoteFile];
-		
+    
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																				 localFile:localFile
-																			   originalRev:rev]]];
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 1U, @"Should have 1 file");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+	[[[[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                    localFile:localFile
+                                                                                  originalRev:rev]]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 1U, @"Should have 1 file");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -167,10 +193,8 @@
 	NSString *rev = @"remoterev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -186,16 +210,28 @@
 	} ] loadFile:remoteFile atRev:rev intoPath:localFile];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																				 localFile:localFile
-																			   originalRev:@"origrev"]]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbError, @"Status should be ERROR");
-	STAssertEqualObjects(downloader.error.domain, @"errorDomain", @"NSError not set correctly");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                    localFile:localFile
+                                                                                  originalRev:@"origrev"]]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEqualObjects(downloader.error.domain, @"errorDomain", @"NSError not set correctly");
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -205,10 +241,8 @@
 - (void)testBothRemoteFilesMissing
 {
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadMetadataFailedWithError:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock loadMetadataFailedWithError:nil];
@@ -216,23 +250,36 @@
 	} ] loadMetadata:[OCMArg any]];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:@"/somepath/somefile.txt"
-																				 localFile:@"thelocalfile.txt"
-																			   originalRev:@"origrev"],
-						   [[DropboxFile alloc] initWithRemoteFile:@"/somepath/anotherfile.txt"
-														 localFile:@"anotherlocalfile.txt"
-													   originalRev:@"anotherrev"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:@"/somepath/somefile.txt"
+                                                                                     localFile:@"thelocalfile.txt"
+                                                                                   originalRev:@"origrev"],
+                              [[DropboxFile alloc] initWithRemoteFile:@"/somepath/anotherfile.txt"
+                                                            localFile:@"anotherlocalfile.txt"
+                                                          originalRev:@"anotherrev"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -244,10 +291,8 @@
 	NSString *rev1 = @"remoterev1";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadMetadataFailedWithError:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock loadMetadataFailedWithError:nil];
@@ -268,24 +313,37 @@
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -297,10 +355,8 @@
 	NSString *rev2 = @"remoterev2";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadMetadataFailedWithError:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock loadMetadataFailedWithError:nil];
@@ -321,24 +377,37 @@
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -351,10 +420,8 @@
 	NSString *rev2 = @"remoterev2";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -383,25 +450,38 @@
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -414,10 +494,8 @@
 	NSString *rev2 = @"remoterev2";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -441,25 +519,38 @@
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:rev1],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:rev1],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -472,10 +563,8 @@
 	NSString *rev2 = @"remoterev2";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -499,25 +588,38 @@
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:rev2],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:rev2],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -530,10 +632,8 @@
 	NSString *rev2 = @"remoterev2";
 	NSString *localFile2 = @"thelocalfile2.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -552,25 +652,38 @@
 	} ] loadMetadata:remoteFile2];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:rev1],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:rev2],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:rev1],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:rev2],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -584,10 +697,8 @@
 	NSString *localFile2 = @"thelocalfile2.txt";
 	NSString *errordomain = @"the_error_domain";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -611,26 +722,37 @@
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbError, @"Status should be ERROR");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbError, @"Status should be ERROR");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbFound, @"Status should be FOUND");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbError, @"Status should be ERROR");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbFound, @"Status should be FOUND");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 
@@ -644,10 +766,8 @@
 	NSString *localFile2 = @"thelocalfile2.txt";
 	NSString *errordomain = @"the_error_domain";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] 
-										 initWithTarget:self		
-										 onComplete:@selector(completed)];
-	object_setInstanceVariable(downloader, "restClient", mock);
+	DropboxFileDownloader *downloader = [[DropboxFileDownloader alloc] init];
+	[downloader performSelector:@selector(setRestClient:) withObject:mock];
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([downloader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
 			[(id<DBRestClientDelegate>)downloader restClient:mock 
@@ -676,26 +796,37 @@
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
 	STAssertNotNil(downloader, @"downloader should not be nil");
-	
-	[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
-																				  localFile:localFile1
-																				originalRev:@"origrev1"],
-						   [[DropboxFile alloc] initWithRemoteFile:remoteFile2
-														 localFile:localFile2
-													   originalRev:@"origrev2"],
-						   nil]];
-	
-	//STAssertEquals(downloader.status, dlStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(downloader.status, dbError, @"Status should be ERROR");
-	STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
-	STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-	STAssertEquals([[downloader.files objectAtIndex:1] status], dbError, @"Status should be ERROR");
-	STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-	STAssertEqualObjects([[[downloader.files objectAtIndex:1] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
-	
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[downloader pullFiles:[NSArray arrayWithObjects:[[DropboxFile alloc] initWithRemoteFile:remoteFile1
+                                                                                     localFile:localFile1
+                                                                                   originalRev:@"origrev1"],
+                              [[DropboxFile alloc] initWithRemoteFile:remoteFile2
+                                                            localFile:localFile2
+                                                          originalRev:@"origrev2"],
+                              nil]]
+       timeout:kDownloaderTestTimeout]
+      finally:^{
+          STAssertEquals(downloader.files.count, 2U, @"Should have 2 files");
+          STAssertEquals([[downloader.files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+          STAssertEquals([[downloader.files objectAtIndex:1] status], dbError, @"Status should be ERROR");
+          STAssertEqualObjects([[[downloader.files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+          STAssertEqualObjects([[[downloader.files objectAtIndex:1] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[downloader release];
 }
 

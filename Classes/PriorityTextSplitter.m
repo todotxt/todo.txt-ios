@@ -69,14 +69,14 @@ static NSRegularExpression* priorityPattern = nil;
 	self = [super init];
 	if (self) {
 		priority = thePriority;
-		text = [theText retain];
+		text = theText;
 	}
 	return self;
 }
 
 + (PriorityTextSplitter*) split:(NSString*)inputText {
 	if (!inputText) {
-		return [[[PriorityTextSplitter alloc] init] autorelease];
+		return [[PriorityTextSplitter alloc] init];
 	}
 	
 	NSTextCheckingResult *priorityMatch = [priorityPattern firstMatchInString:inputText
@@ -89,12 +89,8 @@ static NSRegularExpression* priorityPattern = nil;
 		text = [inputText substringWithRange:[priorityMatch rangeAtIndex:2]];
 	}	
 	
-	return [[[PriorityTextSplitter alloc] initWithPriority:priority withText:text] autorelease];
+	return [[PriorityTextSplitter alloc] initWithPriority:priority withText:text];
 }
 
-- (void)dealloc {
-	[text release];
-    [super dealloc];
-}
 
 @end

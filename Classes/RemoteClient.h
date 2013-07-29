@@ -2,7 +2,7 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -48,19 +48,26 @@ typedef enum {
 	ClientDropBox = 0
 } Client;
 
+static NSString * const kRCErrorDomain = @"com.todotxt.todo.txt.remoteclient";
+static NSString * const kRCUploadConflictFileKey = @"__kRCUploadConflictFileKey";
+static NSInteger const kRCErrorUploadConflict = 001;
+static NSInteger const kRCErrorUploadFailed = 002;
+
+@class RACSignal;
+
 @protocol RemoteClientDelegate;
 
 @protocol RemoteClient <NSObject> 
 
-- (Client) client;
-- (BOOL) authenticate;
-- (void) deauthenticate;
-- (BOOL) isAuthenticated;
-- (void) presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (void) pullTodo;
-- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath; 
-- (BOOL) isAvailable;
-- (BOOL) handleOpenURL:(NSURL *)url;
+- (Client)client;
+- (BOOL)authenticate;
+- (void)deauthenticate;
+- (BOOL)isAuthenticated;
+- (void)presentLoginControllerFromController:(UIViewController*)parentViewController;
+- (RACSignal *)pullTodo;
+- (RACSignal *)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
+- (BOOL)isNetworkAvailable;
+- (BOOL)handleOpenURL:(NSURL *)url;
 
 @required
 @property (nonatomic, assign) id<RemoteClientDelegate> delegate;
@@ -69,12 +76,6 @@ typedef enum {
 
 @protocol RemoteClientDelegate <NSObject>
 
-- (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath;
-- (void)remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError*)error;
-- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
-- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError*)error;
-- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath;
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
-
 
 @end

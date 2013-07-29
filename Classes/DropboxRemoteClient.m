@@ -2,7 +2,7 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -49,15 +49,22 @@
 #import "Util.h"
 #import "DropboxFile.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 #define TODO_TXT @"todo.txt"
 #define DONE_TXT @"done.txt"
 
 @interface DropboxRemoteClient () <DBSessionDelegate>
+
+@property (nonatomic, strong) RACSubject *pullSubject;
+@property (atomic, strong) RACSubject *pushSubject;
+
+@property (nonatomic, strong) DropboxFileDownloader *downloader;
+@property (nonatomic, strong) DropboxFileUploader *uploader;
+
 @end
 
 @implementation DropboxRemoteClient
-
-@synthesize delegate;
 
 + (NSString*) todoTxtTmpFile {
 	return 	[NSString pathWithComponents:
@@ -98,7 +105,6 @@
 									 root:kDBRootDropbox];
 		session.delegate = self; 
 		[DBSession setSharedSession:session];
-		[session release];
     }
 	return self;
 }
@@ -127,135 +133,149 @@
 	[[DBSession sharedSession] linkFromController:(UIViewController*)parentViewController];
 }
 
-- (void) pullTodoCompleted:(DropboxFileDownloader*)todoDownloader {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	DropboxFile *todoFile = [todoDownloader.files objectAtIndex:0];
-	DropboxFile *doneFile = [todoDownloader.files objectAtIndex:1];
-	
-	if (todoDownloader.status == dbSuccess) {
-		// save revs
-		if (todoFile.status == dbSuccess) {
-			[defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
-		}
-		if (doneFile.status == dbSuccess) {
-			[defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
-		}
-	}
-	
-	if (todoDownloader.status != dbError) {
-		NSString *loadedTodoFile = nil;
-		if (todoFile.status == dbSuccess) {
-			loadedTodoFile = todoFile.localFile;
-		}
-		NSString *loadedDoneFile = nil;
-		if (doneFile.status == dbSuccess) {
-			loadedDoneFile = doneFile.localFile;
-		}
-		
-		// report status upstream
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loadedTodoFile:loadedDoneFile:)]) {
-			[self.delegate remoteClient:self loadedTodoFile:loadedTodoFile loadedDoneFile:loadedDoneFile];
-		}
-	} else {
-		// report error upstream
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:loadFileFailedWithError:)]) {
-			[self.delegate remoteClient:self loadFileFailedWithError:todoDownloader.error];
-		}
-	}
+- (RACSignal *)pullTodo {
+    self.pullSubject = [RACSubject subject];
     
-    [todoDownloader release];
+    // Always run on the main thread
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // Quit without taking any action if the network is not available
+        if (![self isNetworkAvailable]) {
+            [self.pullSubject sendCompleted];
+            return;
+        }
+        
+        DropboxFileDownloader* todoDownloader = [[DropboxFileDownloader alloc] init];
+        [[todoDownloader pullFiles:@[
+                                     [[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
+                                                                   localFile:[DropboxRemoteClient todoTxtTmpFile]
+                                                                 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]],
+                                     [[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
+                                                                   localFile:[DropboxRemoteClient doneTxtTmpFile]
+                                                                 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]],
+                                     ]]
+         subscribeNext:^(NSArray *files) {
+             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+             DropboxFile *todoFile = files[0];
+             DropboxFile *doneFile = files[1];
+             
+             // save revs
+             if (todoFile.status == dbSuccess) {
+                 [defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
+             }
+             if (doneFile.status == dbSuccess) {
+                 [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
+             }
+             
+             NSString *loadedTodoFile = nil;
+             if (todoFile.status == dbSuccess) {
+                 loadedTodoFile = todoFile.localFile;
+             }
+             NSString *loadedDoneFile = nil;
+             if (doneFile.status == dbSuccess) {
+                 loadedDoneFile = doneFile.localFile;
+             }
+             
+             // report status upstream
+             NSArray *loadedFiles = @[];
+             if (loadedTodoFile) {
+                 loadedFiles = [loadedFiles arrayByAddingObject:loadedTodoFile];
+             }
+             
+             if (loadedDoneFile) {
+                 loadedFiles = [loadedFiles arrayByAddingObject:loadedDoneFile];
+             }
+             
+             [self.pullSubject sendNext:loadedFiles];
+             [self.pullSubject sendCompleted];
+         } error:^(NSError *error) {
+             // report error upstream
+             [self.pullSubject sendError:error];
+         }];
+        
+        // hang onto todoDownloader so it doesn't get dealloc'ed
+        self.downloader = todoDownloader;
+    }];
+    
+    return self.pullSubject;
 }
 
-- (void) pullTodo {
-	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self pullTodo];
-		});
-		return;
-	}
-
-	if (![self isAvailable]) {
-		return;
-	}
-	
-    DropboxFileDownloader* todoDownloader = [[DropboxFileDownloader alloc] initWithTarget:self
-                                                                               onComplete:@selector(pullTodoCompleted:)];
-	[todoDownloader pullFiles:[NSArray arrayWithObjects:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
-														   localFile:[DropboxRemoteClient todoTxtTmpFile]
-														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]] autorelease],
-							  [[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
-														   localFile:[DropboxRemoteClient doneTxtTmpFile]
-														originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]] autorelease],
-							  nil]];
+- (RACSignal *)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath {
+    self.pushSubject = [RACSubject subject];
+    
+    // Always run on the main thread
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // Quit without taking any action if the network is not available
+        if (![self isNetworkAvailable]) {
+            [self.pushSubject sendCompleted];
+            return;
+        }
+        
+        NSMutableArray *files = [NSMutableArray arrayWithCapacity:2];
+        if (todoPath) {
+            [files addObject:[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
+                                                           localFile:todoPath
+                                                         originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]]];
+        }
+        
+        if (donePath) {
+            [files addObject:[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
+                                                           localFile:donePath
+                                                         originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]]];
+        }
+        
+        DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] init];
+        
+        [[todoUploader pushFiles:files overwrite:doOverwrite]
+         subscribeNext:^(NSArray *files) {
+             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+             DropboxFile *todoFile = files[0];
+             DropboxFile *doneFile = nil;
+             if (files.count > 1) {
+                 doneFile = files[1];
+             }
+             
+             // save revs
+             [defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
+             if (doneFile) {
+                 [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
+             }
+             
+             NSArray *pushArray = @[];
+             if (todoFile.remoteFile) {
+                 pushArray = [pushArray arrayByAddingObject:todoFile.remoteFile];
+             }
+             
+             if (doneFile.remoteFile) {
+                 pushArray = [pushArray arrayByAddingObject:doneFile.remoteFile];
+             }
+             
+             [self.pushSubject sendNext:pushArray];
+         } error:^(NSError *error) {
+             NSError *err = nil;
+             if (error.code == kUploadConflictErrorCode) {
+                 NSString *conflictFile = error.userInfo[kUploadConflictFileString];
+                 err = [NSError errorWithDomain:kRCErrorDomain
+                                           code:kRCErrorUploadConflict
+                                       userInfo:@{ kRCUploadConflictFileKey : conflictFile }];
+                 [self.pushSubject sendError:err];
+             } else {
+                 // call remote client delegate function
+                 
+                 err = [NSError errorWithDomain:kRCErrorDomain
+                                           code:kRCErrorUploadFailed
+                                       userInfo:nil];
+                 [self.pushSubject sendError:err];
+             }
+         }];
+        
+        // hang onto todoUploader so it doesn't get dealloc'ed
+        self.uploader = todoUploader;
+    }];
+    
+    return self.pushSubject;
 }
 
-- (void) pushTodoCompleted:(DropboxFileUploader*)todoUploader {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	DropboxFile *todoFile = [todoUploader.files objectAtIndex:0];
-	DropboxFile *doneFile = nil;
-	if (todoUploader.files.count > 1) {
-		doneFile = [todoUploader.files objectAtIndex:1];
-	}
-	
-	if (todoUploader.status == dbSuccess) {
-		// save revs
-		[defaults setValue:todoFile.loadedMetadata.rev forKey:@"dropbox_last_rev"];
-		if (doneFile) [defaults setValue:doneFile.loadedMetadata.rev forKey:@"dropbox_last_rev_done"];
-	}
-	
-	if (todoUploader.status == dbError) {
-		// call remote client delegate function
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithError:)]) {
-			[self.delegate remoteClient:self uploadFileFailedWithError:todoUploader.error];
-		}
-	} else if (todoUploader.status == dbConflict) {
-		NSString *conflictFile = nil;
-		if (todoFile.status == dbConflict) {
-			conflictFile = todoFile.remoteFile;
-		} else if (doneFile && doneFile.status == dbConflict) {
-			conflictFile = doneFile.remoteFile;
-		}
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadFileFailedWithConflict:)]) {
-			[self.delegate remoteClient:self uploadFileFailedWithConflict:conflictFile];
-		}
-	} else {
-		if (self.delegate && [self.delegate respondsToSelector:@selector(remoteClient:uploadedFile:)]) {
-			[self.delegate remoteClient:self uploadedFile:todoFile.remoteFile];
-		}
-	}
-}
-
-- (void) pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath {
-	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self pushTodoOverwrite:doOverwrite withTodo:todoPath withDone:donePath];
-		});
-		return;
-	}
-
-	if (![self isAvailable]) {
-		return;
-	}
-	
-	NSMutableArray *files = [NSMutableArray arrayWithCapacity:2];
-	if (todoPath) {
-		[files addObject:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient todoTxtRemoteFile]
-													  localFile:todoPath
-													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev"]] autorelease]];
-	}
-
-	if (donePath) {
-		[files addObject:[[[DropboxFile alloc] initWithRemoteFile:[DropboxRemoteClient doneTxtRemoteFile]
-													   localFile:donePath
-													 originalRev:[[NSUserDefaults standardUserDefaults] stringForKey:@"dropbox_last_rev_done"]] autorelease]];
-	}
-
-    DropboxFileUploader* todoUploader = [[DropboxFileUploader alloc] initWithTarget:self
-                                                    onComplete:@selector(pushTodoCompleted:)];
-    [todoUploader pushFiles:files overwrite:doOverwrite];	
-}
-
-- (BOOL) isAvailable {
+- (BOOL) isNetworkAvailable {
 	return [Network isAvailable];
 }
 
@@ -288,8 +308,5 @@
     return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-}
 
 @end

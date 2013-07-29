@@ -46,20 +46,17 @@
 #import "DropboxFileUploader.h"
 #import <objc/runtime.h>
 #import <OCMock/OCMock.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+static CGFloat const kUploaderTestTimeout = 15;
+
+@interface DropboxFileUploaderTest ()
+
+@property (nonatomic, strong) RACDisposable *timeout;
+
+@end
 
 @implementation DropboxFileUploaderTest
-
-- (void)completed {
-	waiter.complete = YES;
-}
-
-- (void) setUp {
-	waiter = [[AsyncWaiter alloc] init];
-}
-
-- (void) tearDown {
-	[waiter release];
-}
 
 - (void)testRemoteFileMissing
 {
@@ -67,10 +64,8 @@
 	NSString *rev = @"origrev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] 
-									 initWithTarget:self		
-									 onComplete:@selector(completed)];
-	object_setInstanceVariable(uploader, "restClient", mock);
+	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
+	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 
 	STAssertNotNil(uploader, @"uploader should not be nil");
 	
@@ -92,15 +87,29 @@
 		toPath:[remoteFile stringByDeletingLastPathComponent] 
 		withParentRev:nil 
 		fromPath:localFile];
-	
-	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																				 localFile:localFile
-																			 originalRev:rev]] overwrite:NO];
-
-	//STAssertEquals(uploader.status, ulStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(uploader.status, dbSuccess, @"Status should be SUCCESS");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                  localFile:localFile
+                                                                                originalRev:rev]] overwrite:NO]
+       timeout:kUploaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[uploader release];
 }
 
@@ -110,10 +119,8 @@
 	NSString *rev = @"origrev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] 
-									 initWithTarget:self		
-									 onComplete:@selector(completed)];
-	object_setInstanceVariable(uploader, "restClient", mock);
+	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
+	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
 	STAssertNotNil(uploader, @"uploader should not be nil");
 	
@@ -137,15 +144,29 @@
 	 toPath:[remoteFile stringByDeletingLastPathComponent] 
 	 withParentRev:rev 
 	 fromPath:localFile];
-	
-	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																			   localFile:localFile
-																			 originalRev:rev]] overwrite:NO];
-	
-	//STAssertEquals(uploader.status, ulStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(uploader.status, dbSuccess, @"Status should be SUCCESS");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                  localFile:localFile
+                                                                                originalRev:rev]] overwrite:NO]
+       timeout:kUploaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[uploader release];
 }
 
@@ -156,10 +177,8 @@
 	NSString *their_rev = @"their_rev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] 
-									 initWithTarget:self		
-									 onComplete:@selector(completed)];
-	object_setInstanceVariable(uploader, "restClient", mock);
+	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
+	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
 	STAssertNotNil(uploader, @"uploader should not be nil");
 	
@@ -170,15 +189,29 @@
 																dictionaryWithObjectsAndKeys:their_rev, @"rev", nil]] autorelease]];
 		}
 	} ] loadMetadata:remoteFile];
-	
-	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																			   localFile:localFile
-																			 originalRev:our_rev]] overwrite:NO];
-	
-	//STAssertEquals(uploader.status, ulStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(uploader.status, dbConflict, @"Status should be CONFLICT");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                  localFile:localFile
+                                                                                originalRev:our_rev]] overwrite:NO]
+       timeout:kUploaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STAssertEquals(error.code, kUploadConflictErrorCode, @"Error code should be kUploadConflictErrorCode");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[uploader release];
 }
 
@@ -189,10 +222,8 @@
 	NSString *their_rev = @"their_rev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] 
-									 initWithTarget:self		
-									 onComplete:@selector(completed)];
-	object_setInstanceVariable(uploader, "restClient", mock);
+	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
+	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
 	STAssertNotNil(uploader, @"uploader should not be nil");
 	
@@ -216,15 +247,29 @@
 	 toPath:[remoteFile stringByDeletingLastPathComponent] 
 	 withParentRev:their_rev 
 	 fromPath:localFile];
-	
-	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																			   localFile:localFile
-																			 originalRev:our_rev]] overwrite:YES];
-	
-	//STAssertEquals(uploader.status, ulStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(uploader.status, dbSuccess, @"Status should be SUCCESS");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                  localFile:localFile
+                                                                                originalRev:our_rev]] overwrite:YES]
+       timeout:kUploaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STFail(@"Failed to complete without error");
+         }
+     }];
+    
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[uploader release];
 }
 
@@ -234,10 +279,8 @@
 	NSString *rev = @"origrev";
 	NSString *localFile = @"thelocalfile.txt";
 	id mock = [OCMockObject mockForClass:DBRestClient.class];
-	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] 
-									 initWithTarget:self		
-									 onComplete:@selector(completed)];
-	object_setInstanceVariable(uploader, "restClient", mock);
+	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
+	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
 	STAssertNotNil(uploader, @"uploader should not be nil");
 	
@@ -257,16 +300,29 @@
 	 toPath:[remoteFile stringByDeletingLastPathComponent] 
 	 withParentRev:rev 
 	 fromPath:localFile];
-	
-	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-																			   localFile:localFile
-																			 originalRev:rev]] overwrite:NO];
-	
-	//STAssertEquals(uploader.status, ulStarted, @"Status should be STARTED");
-	
-	STAssertTrue([waiter waitForCompletion:15.0], @"Failed to complete in time");
-	STAssertEquals(uploader.status, dbError, @"Status should be ERROR");
-	STAssertEqualObjects(uploader.error.domain, @"errorDomain", @"NSError not set correctly");
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                                  localFile:localFile
+                                                                                originalRev:rev]] overwrite:NO]
+       timeout:kUploaderTestTimeout]
+      finally:^{
+          dispatch_semaphore_signal(semaphore);
+      }]
+     subscribeError:^(NSError *error) {
+         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
+             STFail(@"Failed to complete in time");
+         } else {
+             STAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
+         }
+     }];
+          
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    }
+    
 	[uploader release];
 }
 

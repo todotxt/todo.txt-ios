@@ -88,10 +88,10 @@ static NSRegularExpression* singleDatePattern = nil;
 	self = [super init];
 	if (self) {
 		priority = thePriority;
-		text = [theText retain];
-		prependedDate = [thePrependedDate retain];
+		text = theText;
+		prependedDate = thePrependedDate;
 		completed = isCompleted;
-		completedDate = [theCompletionDate retain];
+		completedDate = theCompletionDate;
 	}
 	return self;
 }
@@ -99,7 +99,7 @@ static NSRegularExpression* singleDatePattern = nil;
 
 + (TextSplitter*) split:(NSString*)inputText {
 	if (!inputText) {
-		return [[[TextSplitter alloc] init] autorelease];
+		return [[TextSplitter alloc] init];
 	}
 	
 	NSTextCheckingResult *completedMatch = 
@@ -155,18 +155,12 @@ static NSRegularExpression* singleDatePattern = nil;
 		}
 	}		
 	
-	return [[[TextSplitter alloc] initWithPriority:priority 
+	return [[TextSplitter alloc] initWithPriority:priority 
 										  withText:text 
 								 withPrependedDate:prependedDate 
 									 withCompleted:completed 
-								withCompletionDate:completedDate] autorelease];
+								withCompletionDate:completedDate];
 }
 
-- (void)dealloc {
-	[text release];
-	[prependedDate release];
-	[completedDate release];
-    [super dealloc];
-}
 
 @end

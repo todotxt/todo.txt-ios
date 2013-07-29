@@ -44,7 +44,7 @@
 		[target performSelector:action withObject:[NSNumber numberWithInt:-1] withObject:aView];
 		return nil;
     } else {
-		ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title rect:rect barButtonItem:barButtonItem] autorelease];
+		ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDataWithContainingView:aView data:data selectedIndex:selectedIndex target:target action:action title:title rect:rect barButtonItem:barButtonItem];
 		[actionSheetPicker showActionPicker];
 		return actionSheetPicker;
     }
@@ -57,7 +57,7 @@
     
     // The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
     // Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-    HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_white.png"]] autorelease];
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_white.png"]];
     
     // Set custom view mode
     HUD.mode = MBProgressHUDModeCustomView;
@@ -67,13 +67,12 @@
 	
     [HUD show:YES];
     [HUD hide:YES afterDelay:1];
-	[HUD release];
 }
 
 
 
 + (ActionSheetPicker*)displayActionPickerWithView:(UIView *)aView datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action title:(NSString *)title rect:(CGRect)rect barButtonItem:(UIBarButtonItem*)barButtonItem {
-	ActionSheetPicker *actionSheetPicker = [[[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title rect:rect barButtonItem:barButtonItem] autorelease];
+	ActionSheetPicker *actionSheetPicker = [[ActionSheetPicker alloc] initForDateWithContainingView:aView datePickerMode:datePickerMode selectedDate:selectedDate target:target action:action title:title rect:rect barButtonItem:barButtonItem];
 	[actionSheetPicker showActionPicker];
 	return actionSheetPicker;
 }
@@ -111,10 +110,9 @@
 #pragma mark Implementation
 
 - (void)showActionPicker {
-	[self retain];
 	
 	//create the new view
-	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 260)] autorelease];
+	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 260)];
 	
 	if (nil != self.data) {
 		//show data picker
@@ -134,9 +132,8 @@
 	
 	UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(actionPickerCancel)];
 	[barItems addObject:cancelBtn];
-	[cancelBtn release];
 	
-	UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
+	UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 	[barItems addObject:flexSpace];
 	
 	//Add tool bar title label
@@ -150,9 +147,7 @@
 		toolBarItemlabel.text = self.title;	
 		
 		UIBarButtonItem *buttonLabel =[[UIBarButtonItem alloc]initWithCustomView:toolBarItemlabel];
-		[toolBarItemlabel release];	
 		[barItems addObject:buttonLabel];	
-		[buttonLabel release];	
 		
 		[barItems addObject:flexSpace];
 	}
@@ -160,17 +155,14 @@
 	//add "Done" button
 	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(actionPickerDone)];
 	[barItems addObject:barButton];
-	[barButton release];
 	
 	[pickerDateToolbar setItems:barItems animated:YES];
-	[barItems release];
 	
 	[view addSubview:pickerDateToolbar];
-	[pickerDateToolbar release];
 	
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		//spawn popovercontroller
-		UIViewController *viewController = [[[UIViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+		UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
 		viewController.view = view;
 		viewController.contentSizeForViewInPopover = viewController.view.frame.size;
 		_popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
@@ -298,22 +290,13 @@
 
 - (void)dealloc {
 	//	NSLog(@"ActionSheet Dealloc");
-	self.actionSheet = nil;
-	self.popOverController = nil;
 
-	self.data = nil;
 	self.pickerView.delegate = nil;
 	self.pickerView.dataSource = nil;
-	self.pickerView = nil;
 
 	[self.datePickerView removeTarget:self action:@selector(eventForDatePicker:) forControlEvents:UIControlEventValueChanged];
-	self.datePickerView = nil;
-	self.selectedDate = nil;
 
-	self.view = nil;
-	self.target = nil;
 
-	[super dealloc];
 }
 
 @end
