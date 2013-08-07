@@ -45,7 +45,6 @@
 #import "TaskBagImplTest.h"
 #import "LocalTaskRepository.h"
 #import "TaskBagImpl.h"
-#import <objc/runtime.h>
 #import <OCMock/OCMock.h>
 
 @implementation TaskBagImplTest
@@ -91,7 +90,7 @@
 	[ (id <LocalTaskRepository>)[[mock expect] andReturn:tasks2] load];
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
-	object_setInstanceVariable(taskBag, "tasks", [tasks1 retain]);
+    [taskBag performSelector:@selector(setTasks:) withObject:[tasks1 retain]];
 	
 	STAssertEquals(taskBag.size, 1, @"Should have one task");
 	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
@@ -120,7 +119,7 @@
 	[ (id <LocalTaskRepository>)[[mock expect] andReturnValue:OCMOCK_VALUE(notModified)] todoFileModifiedSince:nil];
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
-	object_setInstanceVariable(taskBag, "tasks", [tasks retain]);
+    [taskBag performSelector:@selector(setTasks:) withObject:[tasks retain]];
 	
 	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
 	

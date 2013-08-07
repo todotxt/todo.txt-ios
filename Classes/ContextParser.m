@@ -74,5 +74,25 @@ static NSRegularExpression* contextPattern = nil;
 	return contexts;
 }
 
++ (NSArray *)rangesOfContextsForString:(NSString *)string
+{
+	if (!string) {
+		return @[ ];
+	}
+	
+	NSArray *contextMatches =
+	[contextPattern matchesInString:string
+							options:0
+							  range:NSMakeRange(0, string.length)];
+    
+    NSMutableArray *ranges = [NSMutableArray array];
+    [contextMatches enumerateObjectsUsingBlock:^(NSTextCheckingResult *result, NSUInteger idx, BOOL *stop) {
+        if (result.range.location != NSNotFound) {
+            [ranges addObject:[NSValue valueWithRange:[result range]]];
+        }
+    }];
+    
+    return ranges;
+}
 
 @end

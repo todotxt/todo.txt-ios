@@ -50,12 +50,12 @@
 @synthesize currentClient;
 
 - (id<RemoteClient>) getRemoteClient:(Client)clientToken {
-	return [[[DropboxRemoteClient alloc] init] autorelease];
+	return [[DropboxRemoteClient alloc] init];
 }
 
 - (void) calculateRemoteClient {
 	currentClientToken = ClientDropBox;
-	currentClient = [[self getRemoteClient:currentClientToken] retain];
+	currentClient = [self getRemoteClient:currentClientToken];
 }
 
 - (id) initWithDelegate:(id<RemoteClientDelegate>)delegate {
@@ -68,9 +68,5 @@
 	return self;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[currentClient release];
-}
 
 @end

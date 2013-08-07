@@ -2,7 +2,7 @@
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
- * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
+ * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
  *  
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -47,21 +47,13 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@interface DropboxFileDownloader : NSObject {
-	DBRestClient *restClient;
-	id target;
-	SEL onComplete;
-	DropboxFileStatus status;
-	NSError *error;
-	NSArray *files;
-	NSInteger curFile;
-}
+@class RACSignal;
+
+@interface DropboxFileDownloader : NSObject
 
 @property (nonatomic, readonly) NSArray *files;
-@property (nonatomic, readonly) DropboxFileStatus status;
 @property (nonatomic, readonly) NSError *error;
 
-- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector;
-- (void) pullFiles:(NSArray*)dropboxFiles;
+- (RACSignal *)pullFiles:(NSArray *)dropboxFiles;
 
 @end

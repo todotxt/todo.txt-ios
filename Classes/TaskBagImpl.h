@@ -45,30 +45,8 @@
 #import "LocalTaskRepository.h"
 #import "Filter.h"
 
-@interface TaskBagImpl : NSObject <TaskBag> {
-    id <LocalTaskRepository> localTaskRepository;
-    NSMutableArray *tasks;
-	NSDate *lastReload;
-}
+@interface TaskBagImpl : NSObject <TaskBag>
 
 - (id) initWithRepository:(id <LocalTaskRepository>)repo;
-- (BOOL) todoFileModifiedSince:(NSDate*)date;
-- (BOOL) doneFileModifiedSince:(NSDate*)date;
-- (void) archive;
-- (void) reload;
-- (void) updateBadge;
-- (void) reloadWithFile:(NSString*)file;
-- (void) loadDoneTasksWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
-- (Task*) update:(Task*)task;
-- (void) remove:(Task*)task;
-- (Task*) taskAtIndex:(NSUInteger)index;
-- (NSUInteger) indexOfTask:(Task*)task;
-- (NSArray*) tasks;
-- (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
-- (int) size;
-- (NSArray*) projects;
-- (NSArray*) contexts;
-- (NSArray*) priorities;
 
 @end
