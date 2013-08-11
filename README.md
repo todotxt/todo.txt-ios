@@ -7,3 +7,13 @@ An open source iOS application by [the Todo.txt community](http://groups.yahoo.c
 Dual-licensed under the GPL and the MIT license.
 
 Interested in joining the project? Fork the repository and talk to us on the [Todo.txt apps mailing list](http://groups.yahoo.com/group/todotxt/).
+
+## Getting Started
+
+After checking out the repository:
+
+* Initialize submodules with `git submodule init` followed by `git submodule update`
+* Run the `bootstrap` script in `Libraries/ReactiveCocoa/script/`
+* Setup a developer account with Dropbox, get an API key,
+and create a `DropboxApiKey.h` file based on `sample-DropboxApiKey.h`
+* Open the Xcode project `todo.txt-touch-ios.xcodeproj`

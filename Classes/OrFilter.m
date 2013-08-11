@@ -79,9 +79,5 @@
 	return NO;
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[filters release];
-}
 
 @end

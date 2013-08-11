@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "TaskBagImpl.h"
-#import "todo_txt_touch_iosAppDelegate.h"
+#import "TodoTxtAppDelegate.h"
 #import "RemoteClientManager.h"
 #import "RemoteClient.h"
 #import "LocalFileTaskRepository.h"
@@ -61,14 +61,21 @@ static Task* find(NSArray *tasks, Task *task) {
     return nil;
 }
 
+@interface TaskBagImpl ()
+
+@property (nonatomic, strong) NSMutableArray *tasks;
+@property (nonatomic, strong) id <LocalTaskRepository> localTaskRepository;
+@property (nonatomic, strong) NSDate *lastReload;
+
+@end
+
 @implementation TaskBagImpl
 
 - (id) initWithRepository:(id <LocalTaskRepository>)repo {
     self = [super init];
     
 	if (self) {
-        localTaskRepository = [repo retain];
-        tasks = nil;
+        self.localTaskRepository = repo;
 	}
 	
 	return self;
@@ -80,43 +87,39 @@ static Task* find(NSArray *tasks, Task *task) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *showWhich = [defaults stringForKey:@"badgeCount_preference"];
 
-	NSInteger count = [TaskUtil badgeCount:tasks which:showWhich];
+	NSInteger count = [TaskUtil badgeCount:self.tasks which:showWhich];
 
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
 }
 
 - (BOOL) todoFileModifiedSince:(NSDate*)date {
-	return [localTaskRepository todoFileModifiedSince:date];
+	return [self.localTaskRepository todoFileModifiedSince:date];
 }
 
 - (BOOL) doneFileModifiedSince:(NSDate*)date {
-	return [localTaskRepository doneFileModifiedSince:date];
+	return [self.localTaskRepository doneFileModifiedSince:date];
 }
 
 - (void) store:(NSArray*)theTasks {
-    [localTaskRepository store:theTasks];
-    [lastReload release];
-    lastReload = nil;
+    [self.localTaskRepository store:theTasks];
+    self.lastReload = nil;
 }
 
 - (void) store {
-    [self store:tasks];
+    [self store:self.tasks];
 }
 
 - (void) archive {
 	[self reload];
-	[localTaskRepository archive:tasks];
-    [lastReload release];
-    lastReload = nil;
+	[self.localTaskRepository archive:self.tasks];
+    self.lastReload = nil;
 }
 
 - (void) reload {
-	if (!tasks || [self todoFileModifiedSince:lastReload]) {
-		[localTaskRepository create];
-		[tasks release];
-		tasks = [[localTaskRepository load] retain];
-		[lastReload release];
-		lastReload = [[NSDate date] retain];
+	if (!self.tasks || [self todoFileModifiedSince:self.lastReload]) {
+		[self.localTaskRepository create];
+		self.tasks = [self.localTaskRepository load];
+		self.lastReload = [NSDate date];
 		[self updateBadge];
 	}
 }
@@ -131,7 +134,7 @@ static Task* find(NSArray *tasks, Task *task) {
 
 - (void) loadDoneTasksWithFile:(NSString*)file {
 	if (file) {
-		[localTaskRepository loadDoneTasksWithFile:file];
+		[self.localTaskRepository loadDoneTasksWithFile:file];
 	}
 }
 
@@ -144,11 +147,10 @@ static Task* find(NSArray *tasks, Task *task) {
 		date = [NSDate date];
 	}
 	
-    Task *task = [[Task alloc] initWithId:[tasks count] 
+    Task *task = [[Task alloc] initWithId:[self.tasks count]
 							  withRawText:input 
 				 withDefaultPrependedDate:date];
-    [tasks addObject:task];
-	[task release];
+    [self.tasks addObject:task];
 	[self updateBadge];
     [self store];
 
@@ -157,7 +159,7 @@ static Task* find(NSArray *tasks, Task *task) {
 
 - (Task*) update:(Task*)task {
     [self reload];
-    Task *found = find(tasks, task);
+    Task *found = find(self.tasks, task);
     if (found) {
         if (found != task) [task copyInto:found];
 
@@ -172,44 +174,40 @@ static Task* find(NSArray *tasks, Task *task) {
 
 - (void) remove:(Task*)task {
     [self reload];
-    Task *found = find(tasks, task);
+    Task *found = find(self.tasks, task);
     if (found) {
-        [tasks removeObject:found];
+        [self.tasks removeObject:found];
 		[self updateBadge];
         [self store];
     }    
 }
 
 - (Task*) taskAtIndex:(NSUInteger)index {
-	if (index >= [tasks count]) {
+	if (index >= [self.tasks count]) {
 		return nil;
 	}
-	return [tasks objectAtIndex:index];
+	return [self.tasks objectAtIndex:index];
 }
 
 - (NSUInteger) indexOfTask:(Task*)task {
-	for (int i = 0; i < [tasks count]; i++) {
-		if ([tasks objectAtIndex:i] == task) {
+	for (int i = 0; i < [self.tasks count]; i++) {
+		if ([self.tasks objectAtIndex:i] == task) {
 			return i;
 		}
 	}
 	return 0;
 }
 
-- (NSArray*) tasks {
-    return [self tasksWithFilter:nil withSortOrder:nil];
-}
-
 - (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder {
-	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[tasks count]];
+	NSMutableArray *localTasks = [NSMutableArray arrayWithCapacity:[_tasks count]];
 	if (filter != nil) {
-		for (Task* task in tasks) {
+		for (Task* task in _tasks) {
 			if ([filter apply:task]) {
 				[localTasks addObject:task];
 			}
 		}
 	} else {	
-		[localTasks setArray:tasks];
+		[localTasks setArray:_tasks];
 	}
 		
 	if (!sortOrder) {
@@ -222,13 +220,12 @@ static Task* find(NSArray *tasks, Task *task) {
 }
 
 - (int) size {
-    return [tasks count];
+    return [self.tasks count];
 }
-
 
 - (NSArray*) projects {
 	NSMutableSet *set = [NSMutableSet setWithCapacity:32];
-	for (Task* task in tasks) {
+	for (Task* task in self.tasks) {
 		[set addObjectsFromArray:[task projects]];
 	}
     return [[set allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -237,7 +234,7 @@ static Task* find(NSArray *tasks, Task *task) {
 
 - (NSArray*) contexts {
 	NSMutableSet *set = [NSMutableSet setWithCapacity:32];
-	for (Task* task in tasks) {
+	for (Task* task in self.tasks) {
 		[set addObjectsFromArray:[task contexts]];
 	}
     return [[set allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -248,12 +245,6 @@ static Task* find(NSArray *tasks, Task *task) {
     return [Priority all];
 }
 
-- (void) dealloc {
-    [localTaskRepository release];
-    [tasks release];
-	[lastReload release];
-    [super dealloc];
-}
 
 @end
 

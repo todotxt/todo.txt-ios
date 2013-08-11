@@ -1,5 +1,5 @@
 /**
- * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
+ * This file is part of Todo.txt Touch, an iOS app for managing your todo.txt file.
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
  * @copyright 2011-2012 Todo.txt contributors (http://todotxt.com)
@@ -8,15 +8,15 @@
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
  *
- * Todo.txt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * Todo.txt Touch is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any
  * later version.
  *
- * Todo.txt is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * Todo.txt Touch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with Todo.txt.  If not, see
+ * You should have received a copy of the GNU General Public License along with Todo.txt Touch.  If not, see
  * <http://www.gnu.org/licenses/>.
  *
  *
@@ -44,10 +44,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TodoTxtAppDelegate.h"
+
 int main(int argc, char *argv[]) {
     
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
-    return retVal;
+    @autoreleasepool {
+        int retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([TodoTxtAppDelegate class]));
+        return retVal;
+    }
 }

@@ -43,10 +43,7 @@
  */
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "AsyncWaiter.h"
 
-@interface DropboxFileDownloaderTest : SenTestCase {
-	AsyncWaiter *waiter;
-}
+@interface DropboxFileDownloaderTest : SenTestCase
 
 @end
