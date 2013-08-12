@@ -170,7 +170,7 @@ static CGFloat const kMinCellHeight = 44;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.title = @"Tasks";
+	self.title = @"Todo.txt";
     
 	self.sort = [self sortOrderPref];
 	self.tasks = nil;
