@@ -86,8 +86,6 @@
     NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
 
     STAssertEquals([items count], 0u, @"Expecting 2 items");
-
-    [reader release];
 }
 
 - (void)testIgnoreBlankLines
@@ -99,9 +97,6 @@
     STAssertEquals([items count], 2u, @"Expecting 2 items");
     STAssertEqualObjects([[items objectAtIndex:0u] text], @"First line", @"Expecting 'First line'");
     STAssertEqualObjects([[items objectAtIndex:1u] text], @"Second line", @"Expecting 'Second line'");
-
-    [reader release];
-    [lines release];
 }
 
 @end
