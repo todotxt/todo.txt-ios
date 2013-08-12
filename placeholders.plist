@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-	<string>Set phasers to stun @bridge +RedShirting</string>
-	<string>Return ring to Mt. Doom ASAP @mordor +Fellowship</string>
-	<string>Take one giant leap for mankind @moon +Apollo</string>
+	<string>Draft chapter 1 +Novel @typewriter</string>
+	<string>Learn to code +SelfEducation</string>
+	<string>Schedule chain mail fitting @Castle</string>
+	<string>Achieve mind like water +GTD</string>
+	<string>Take the road less traveled @Woods</string>
 </array>
 </plist>
