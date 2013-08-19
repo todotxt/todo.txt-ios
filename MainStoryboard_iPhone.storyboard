@@ -31,11 +31,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="W3B-DR-ebS"/>
-                        <barButtonItem style="plain" systemItem="refresh" id="J19-aL-GoJ">
-                            <connections>
-                                <action selector="syncButtonPressed:" destination="yWi-bb-L3m" id="Suf-vY-fWd"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem image="19-gear.png" style="plain" id="IAu-7p-FV3">
                             <connections>
                                 <action selector="settingsButtonPressed:" destination="yWi-bb-L3m" id="MNu-5b-A7a"/>
@@ -311,61 +306,6 @@
         <image name="19-gear.png" width="22" height="22"/>
         <image name="todotxt_touch_256.png" width="256" height="256"/>
     </resources>
-    <classes>
-        <class className="FilterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FilterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="action" name="selectedSegment:" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="LoginScreenViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginScreenViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="loginButtonPressed:"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PGTableViewWithEmptyView" superclassName="UITableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGTableViewWithEmptyView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="emptyView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SSTextView" superclassName="UITextView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SSTextView.h"/>
-        </class>
-        <class className="TaskEditViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskEditViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelButtonPressed:"/>
-                <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="action" name="helpButtonPressed:"/>
-                <relationship kind="action" name="keyboardAccessoryButtonPressed:"/>
-                <relationship kind="outlet" name="helpButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="helpCloseButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="helpContents" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="helpView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="textView" candidateClass="SSTextView"/>
-            </relationships>
-        </class>
-        <class className="TaskViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskViewController.h"/>
-        </class>
-        <class className="TasksViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TasksViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addButtonPressed:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="action" name="sortButtonPressed:"/>
-                <relationship kind="action" name="syncButtonPressed:"/>
-                <relationship kind="outlet" name="emptyLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -105,7 +105,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     
     // Listen for updates to tasks in the TaskBag, to keep our context and project
     // lists current.
-    NSObject<TaskBag> *taskBag = [TodoTxtAppDelegate sharedTaskBag];
+    NSObject<TaskBag> *taskBag = ((TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate]).taskBag;
     
     RACSignal *tasksSignal = RACAbleWithStart(taskBag, tasks);
     

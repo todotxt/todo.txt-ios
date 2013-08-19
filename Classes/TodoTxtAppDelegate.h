@@ -47,6 +47,12 @@
 
 #define kTodoChangedNotification @"kTodoChangedNotification"
 
+static NSString * const kTODOErrorDomain = @"com.todotxt.Todo-txt";
+static NSInteger const kTODOErrorCodeNoInternet = 101;
+static NSInteger const kTODOErrorCodeDownloadError = 201;
+static NSInteger const kTODOErrorCodeUploadError = 202;
+
+@class RACSignal, RACSubject;
 @class TasksViewController;
 
 @interface TodoTxtAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
@@ -54,26 +60,19 @@
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) id lastClickedButton; //Anchor holder for the Popover in iPad
 
-- (void)displayNotification:(NSString *)message;
-- (void) clearUserDefaults;
-- (void) syncClient;
-- (void) syncClientForce:(BOOL)force;
-- (void) pushToRemote;
-- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
-- (void) pullFromRemoteForce:(BOOL)force;
-- (void) pullFromRemote;
-- (BOOL) isManualMode;
-- (void) logout;
+@property (nonatomic, readonly) id<TaskBag> taskBag;
+@property (nonatomic, readonly) RemoteClientManager *remoteClientManager;
 
-+ (TodoTxtAppDelegate*) sharedDelegate;
-+ (id<TaskBag>) sharedTaskBag;
-+ (RemoteClientManager*) sharedRemoteClientManager;
-+ (void)displayNotification:(NSString *)message;
-+ (void) syncClient;
-+ (void) pushToRemote;
-+ (void) pullFromRemote;
-+ (BOOL) isManualMode;
-+ (void) logout;
+- (void)displayNotification:(NSString *)message;
+- (void)clearUserDefaults;
+- (RACSignal *)syncClient;
+- (void)syncClientForce:(BOOL)force subject:(RACSubject *)subject;
+- (RACSignal *)pushToRemote;
+- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force subject:(RACSubject *)subject;
+- (void)pullFromRemoteForce:(BOOL)force subject:(RACSubject *)subject;
+- (RACSignal *)pullFromRemote;
+- (BOOL)isManualMode;
+- (void)logout;
 
 @end
 

@@ -56,7 +56,8 @@
 }
 
 - (IBAction)loginButtonPressed:(id)sender {
-	RemoteClientManager *remoteClientManager = [TodoTxtAppDelegate sharedRemoteClientManager];
+    TodoTxtAppDelegate *appDelegate = (TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+	RemoteClientManager *remoteClientManager = appDelegate.remoteClientManager;
 	[remoteClientManager.currentClient presentLoginControllerFromController:self];
 }
 

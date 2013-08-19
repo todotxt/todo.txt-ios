@@ -66,7 +66,10 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 @property (nonatomic, strong) RemoteClientManager *remoteClientManager;
 @property (nonatomic, strong) id<TaskBag> taskBag;
 @property (nonatomic, strong) NSDate *lastSync;
+@property (nonatomic, strong) RACSubject *useAfterAlertSubject;
 @property (nonatomic) BOOL wasConnected;
+
++ (NSError *)noInternetError;
 
 @end
 
@@ -74,38 +77,6 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 
 #pragma mark -
 #pragma mark Application lifecycle
-
-+ (TodoTxtAppDelegate*) sharedDelegate {
-	return (TodoTxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-}
-
-+ (id<TaskBag>) sharedTaskBag {
-	return [[TodoTxtAppDelegate sharedDelegate] taskBag];
-}
-
-+ (RemoteClientManager*) sharedRemoteClientManager {
-	return [[TodoTxtAppDelegate sharedDelegate] remoteClientManager];
-}
-
-+ (void) syncClient {	
-	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(syncClient) withObject:nil waitUntilDone:NO];
-}
-
-+ (void) pushToRemote {	
-	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pushToRemote) withObject:nil waitUntilDone:NO];
-}
-
-+ (void) pullFromRemote {
-	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(pullFromRemote) withObject:nil waitUntilDone:NO];
-}
-
-+ (BOOL) isManualMode {
-	return [[TodoTxtAppDelegate sharedDelegate] isManualMode];
-}
-
-+ (void) logout {
-	return [[TodoTxtAppDelegate sharedDelegate] logout];
-}
 
 + (BOOL) needToPush {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -117,8 +88,10 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
     [defaults setBool:needToPush forKey:@"need_to_push"];
 }
 
-+ (void)displayNotification:(NSString *)message {
-	[[TodoTxtAppDelegate sharedDelegate] performSelectorOnMainThread:@selector(displayNotification:) withObject:message waitUntilDone:NO];
++ (NSError *)noInternetError {
+    return [NSError errorWithDomain:kTODOErrorDomain
+                               code:kTODOErrorCodeNoInternet
+                           userInfo:@{ NSLocalizedDescriptionKey : @"No internet connection: Cannot sync with Dropbox right now." }];
 }
 
 - (void) presentLoginController {
@@ -146,11 +119,11 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 - (void)reachabilityChanged {
 	if ([self isManualMode]) return;
 	
-	if ([[[TodoTxtAppDelegate sharedRemoteClientManager] currentClient] isNetworkAvailable]) {
+	if ([self.remoteClientManager.currentClient isNetworkAvailable]) {
 		if (!self.wasConnected) {
 			[self displayNotification:@"Connection reestablished: syncing with Dropbox now..."];
 		}
-		[TodoTxtAppDelegate syncClient];
+		[self syncClient];
 		self.wasConnected = YES;
 	} else {
 		self.wasConnected = NO;
@@ -260,7 +233,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
      */
 	
 	if (![self isManualMode] && [self.remoteClientManager.currentClient isAuthenticated]) {
-		[TodoTxtAppDelegate syncClient];
+		[self syncClient];
 	}
 }
 
@@ -288,13 +261,19 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 #pragma mark -
 #pragma mark Remote functions
 
-- (void) syncClient {
-	[self syncClientForce:NO];
+- (RACSignal *)syncClient {
+    RACSubject *subject = [RACSubject subject];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self syncClientForce:NO subject:subject];
+    }];
+
+    return subject;
 }
 
-- (void) syncClientForce:(BOOL)force {
-	
+- (void)syncClientForce:(BOOL)force subject:(RACSubject *)subject {
 	if ([self isManualMode]) {
+        self.useAfterAlertSubject = subject;
 		UIActionSheet* dlg = [[UIActionSheet alloc] 
 							  initWithTitle:@"Manual Sync: Do you want to upload or download your todo.txt file?"
 							  delegate:self 
@@ -304,31 +283,23 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 		dlg.tag = 10;
 		[dlg showInView:self.contentNavController.visibleViewController.view];
 	} else if ([TodoTxtAppDelegate needToPush]) {
-		[self pushToRemoteOverwrite:NO force:force];
+		[self pushToRemoteOverwrite:NO force:force subject:subject];
 	} else {
-		[self pullFromRemoteForce:force];
+		[self pullFromRemoteForce:force subject:subject];
 	}
 }
 
--(void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (actionSheet.tag == 10) {
-        if (buttonIndex == [actionSheet firstOtherButtonIndex]) {
-            [self pushToRemoteOverwrite:NO force:YES];
-        } else if (buttonIndex == [actionSheet firstOtherButtonIndex] + 1){
-            [self pullFromRemoteForce:YES];
-        }
-	} 
-}
-
-- (void) pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force {
+- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force subject:(RACSubject *)subject {
 	[TodoTxtAppDelegate setNeedToPush:YES];
 
 	if (!force && [self isManualMode]) {
+        [subject sendCompleted];
 		return;
 	}
 	
 	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
-		[TodoTxtAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+        NSError *err = [TodoTxtAppDelegate noInternetError];
+        [subject sendError:err];
 		return;
 	}
 	
@@ -352,7 +323,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
          [TodoTxtAppDelegate setNeedToPush:NO];
          
          // Push is complete. Let's do a pull now in case the remote done.txt changed
-         [self pullFromRemoteForce:YES];
+         [self pullFromRemoteForce:YES subject:subject];
      } error:^(NSError *error) {
          // conflict
          if (error.code == kRCErrorUploadConflict) {
@@ -373,6 +344,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
                               cancelButtonTitle: @"Cancel"
                               otherButtonTitles: @"Upload changes", @"Download to device", nil];
              [alert show];
+             self.useAfterAlertSubject = subject;
              return;
          }
          
@@ -382,6 +354,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
          
          [self syncComplete:NO];
          
+         // TODO: move alert out of the the app delegate
          UIAlertView *alert =
          [[UIAlertView alloc] initWithTitle: @"Error"
                                     message: @"There was an error uploading your todo.txt file."
@@ -389,22 +362,34 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
                           cancelButtonTitle: @"OK"
                           otherButtonTitles: nil];
          [alert show];
+         
+         NSError *err = [NSError errorWithDomain:kTODOErrorDomain
+                                            code:kTODOErrorCodeUploadError
+                                        userInfo:@{ NSLocalizedDescriptionKey : @"There was an error uploading your todo.txt file."}];
+         [subject sendError:err];
      }];
 }
 
-- (void) pushToRemote {
-	[self pushToRemoteOverwrite:NO force:NO];
+- (RACSignal *)pushToRemote {
+    RACSubject *subject = [RACSubject subject];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self pushToRemoteOverwrite:NO force:NO subject:subject];
+    }];
+    
+    return subject;
 }
 
-- (void) pullFromRemoteForce:(BOOL)force {
+- (void)pullFromRemoteForce:(BOOL)force subject:(RACSubject *)subject {
 	if (!force && [self isManualMode]) {
+        [subject sendCompleted];
 		return;
 	}
 	
 	[TodoTxtAppDelegate setNeedToPush:NO];
 
 	if (![self.remoteClientManager.currentClient isNetworkAvailable]) {
-		[TodoTxtAppDelegate displayNotification:@"No internet connection: Cannot sync with Dropbox right now."];
+        [subject sendError:[TodoTxtAppDelegate noInternetError]];
 		return;
 	}
 	
@@ -435,27 +420,42 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
          }
          
          [self syncComplete:YES];
+         [subject sendCompleted];
      } error:^(NSError *error) {
          NSLog(@"Error downloading todo.txt file: %@", error);
          
          if (error.code == 404) {
              // ignore missing file. They may not have created one yet.
              [self syncComplete:YES];
+             [subject sendCompleted];
              return;
          }
          
          [self syncComplete:NO];
+         
+         // TODO: move alert out of the the app delegate
          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                          message:@"There was an error downloading your todo.txt file."
                                                         delegate:nil
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil];
          [alert show];
+         
+         NSError *err = [NSError errorWithDomain:kTODOErrorDomain
+                                            code:kTODOErrorCodeDownloadError
+                                        userInfo:@{ NSLocalizedDescriptionKey : @"There was an error downloading your todo.txt file." }];
+         [subject sendError:err];
      }];
 }
 
-- (void) pullFromRemote {
-	[self pullFromRemoteForce:NO];
+- (RACSignal *)pullFromRemote {
+    RACSubject *subject = [RACSubject subject];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self pullFromRemoteForce:NO subject:subject];
+    }];
+    
+    return subject;
 }
 
 - (BOOL) isManualMode {
@@ -469,7 +469,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 	[self presentLoginController];
 }
 
-- (void) syncComplete:(BOOL)success {
+- (void)syncComplete:(BOOL)success {
 	if (success) {
 		[TodoTxtAppDelegate setNeedToPush:NO];
 		self.lastSync = [NSDate date];
@@ -495,9 +495,22 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == [alertView firstOtherButtonIndex]) {
-		[self pushToRemoteOverwrite:YES force:YES];
+		[self pushToRemoteOverwrite:YES force:YES subject:self.useAfterAlertSubject];
 	} else if (buttonIndex == [alertView firstOtherButtonIndex] + 1){
-		[self pullFromRemoteForce:YES];
+		[self pullFromRemoteForce:YES subject:self.useAfterAlertSubject];
+	}
+}
+
+#pragma mark -
+#pragma mark Action sheet delegate methods
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (actionSheet.tag == 10) {
+        if (buttonIndex == [actionSheet firstOtherButtonIndex]) {
+            [self pushToRemoteOverwrite:NO force:YES subject:self.useAfterAlertSubject];
+        } else if (buttonIndex == [actionSheet firstOtherButtonIndex] + 1){
+            [self pullFromRemoteForce:YES subject:self.useAfterAlertSubject];
+        }
 	}
 }
 
