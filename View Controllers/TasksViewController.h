@@ -50,7 +50,6 @@
 	UISearchDisplayDelegate, UISearchBarDelegate, UISplitViewControllerDelegate>
 
 - (IBAction)addButtonPressed:(id)sender;
-- (IBAction)sync:(id)sender;
 //- (IBAction)segmentControlPressed:(id)sender;
 - (IBAction)sortButtonPressed:(id)sender;
 - (IBAction)settingsButtonPressed:(id)sender;

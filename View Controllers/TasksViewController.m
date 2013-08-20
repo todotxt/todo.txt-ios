@@ -100,6 +100,8 @@ static CGFloat const kMinCellHeight = 44;
 // TODO: refactor app delegate and remove me
 @property (nonatomic, weak) TodoTxtAppDelegate *appDelegate;
 
+- (void)sync:(id)sender;
+
 @end
 
 @implementation TasksViewController
@@ -108,21 +110,17 @@ static NSString * const kTODOTasksRefreshText = @"Pull down to sync with Dropbox
 static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox now...";
 
 #pragma mark -
-#pragma mark Synthesizers
+#pragma mark Private methods
 
-- (Sort*) sortOrderPref {
-	SortName name = SortPriority;
-	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-	if (def) name = [def integerForKey:@"sortOrder"];
-	return [Sort byName:name];
-}
-
-- (void) setSortOrderPref {
-	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-	if (def) {
-		[def setInteger:[self.sort name] forKey:@"sortOrder"];
-		[AsyncTask runTask:@selector(synchronize) onTarget:def];
-	}
+- (void)sync:(id)sender {
+	NSLog(@"sync: called");
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksSyncingRefreshText];
+    [[[self.appDelegate syncClient] finally:^{
+        [self.refreshControl endRefreshing];
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
+    }] subscribeCompleted:^{
+        //nothing, but required for the finally: block
+    }];
 }
 
 - (void) reloadData:(NSNotification *) notification {
@@ -173,6 +171,27 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 	}
 }
 
+#pragma mark -
+#pragma mark Synthesizers
+
+- (Sort*) sortOrderPref {
+	SortName name = SortPriority;
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) name = [def integerForKey:@"sortOrder"];
+	return [Sort byName:name];
+}
+
+- (void) setSortOrderPref {
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) {
+		[def setInteger:[self.sort name] forKey:@"sortOrder"];
+		[AsyncTask runTask:@selector(synchronize) onTarget:def];
+	}
+}
+
+#pragma mark -
+#pragma mark Lifecycle methods
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.appDelegate = (TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -181,7 +200,6 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = @"Todo.txt";
@@ -216,11 +234,6 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 											   object:nil];
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void) viewDidAppear:(BOOL)animated {	
 	if (self.needSync) {
 		self.needSync = NO;
@@ -228,6 +241,31 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 			[self.appDelegate syncClient];
         }
 	}	
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidUnload {
+	[super viewDidUnload];
+	
+	// Save the state of the search UI so that it can be restored if the view is re-created.
+	self.savedSearchTerm = self.searchDisplayController.searchBar.text;
+	self.searchResults = nil;
+	
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+	self.actionSheetPicker = nil;
+}
+
+- (void)didReceiveMemoryWarning {
+	NSLog(@"Memory warning!");
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark -
@@ -370,17 +408,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (IBAction)addButtonPressed:(id)sender {
 	NSLog(@"addButtonPressed called");
     [self performSegueWithIdentifier:kAddTaskSegueIdentifier sender:self];
-}
-
-- (void)sync:(id)sender {
-	NSLog(@"sync: called");
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksSyncingRefreshText];
-    [[[self.appDelegate syncClient] finally:^{
-        [self.refreshControl endRefreshing];
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
-    }] subscribeCompleted:^{
-        //nothing, but required for the finally: block
-    }];
 }
 
 - (IBAction)settingsButtonPressed:(id)sender {
@@ -526,28 +553,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 																	   rect:CGRectZero
 															  barButtonItem:sender];			
 }
-
-- (void)didReceiveMemoryWarning {
-	NSLog(@"Memory warning!");
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	[super viewDidUnload];
-	
-	// Save the state of the search UI so that it can be restored if the view is re-created.
-	self.savedSearchTerm = self.searchDisplayController.searchBar.text;
-	self.searchResults = nil;
-	
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-	self.actionSheetPicker = nil;
-}
-
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return YES;
