@@ -97,41 +97,45 @@ static CGFloat const kMinCellHeight = 44;
 
 @property (nonatomic) BOOL needSync;
 
+// TODO: refactor app delegate and remove me
+@property (nonatomic, weak) TodoTxtAppDelegate *appDelegate;
+
+- (void)sync:(id)sender;
+
 @end
 
 @implementation TasksViewController
 
+static NSString * const kTODOTasksRefreshText = @"Pull down to sync with Dropbox";
+static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox now...";
+
 #pragma mark -
-#pragma mark Synthesizers
+#pragma mark Private methods
 
-- (Sort*) sortOrderPref {
-	SortName name = SortPriority;
-	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-	if (def) name = [def integerForKey:@"sortOrder"];
-	return [Sort byName:name];
-}
-
-- (void) setSortOrderPref {
-	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-	if (def) {
-		[def setInteger:[self.sort name] forKey:@"sortOrder"];
-		[AsyncTask runTask:@selector(synchronize) onTarget:def];
-	}
+- (void)sync:(id)sender {
+	NSLog(@"sync: called");
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksSyncingRefreshText];
+    [[[self.appDelegate syncClient] finally:^{
+        [self.refreshControl endRefreshing];
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
+    }] subscribeCompleted:^{
+        //nothing, but required for the finally: block
+    }];
 }
 
 - (void) reloadData:(NSNotification *) notification {
 	// reload global tasklist from disk
-	[[TodoTxtAppDelegate sharedTaskBag] reload];	
+	[self.appDelegate.taskBag reload];	
 
 	// reload main tableview data
-	self.tasks = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:nil withSortOrder:self.sort];
+	self.tasks = [self.appDelegate.taskBag tasksWithFilter:nil withSortOrder:self.sort];
 	[self.tableView reloadData];
 	
 	// reload searchbar tableview data if necessary
 	if (self.savedSearchTerm)
 	{	
 		id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
-		self.searchResults = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
+		self.searchResults = [self.appDelegate.taskBag tasksWithFilter:filter withSortOrder:self.sort];
 		[self.searchDisplayController.searchResultsTableView reloadData];
 	}
 }
@@ -167,12 +171,45 @@ static CGFloat const kMinCellHeight = 44;
 	}
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+#pragma mark -
+#pragma mark Synthesizers
+
+- (Sort*) sortOrderPref {
+	SortName name = SortPriority;
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) name = [def integerForKey:@"sortOrder"];
+	return [Sort byName:name];
+}
+
+- (void) setSortOrderPref {
+	NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+	if (def) {
+		[def setInteger:[self.sort name] forKey:@"sortOrder"];
+		[AsyncTask runTask:@selector(synchronize) onTarget:def];
+	}
+}
+
+#pragma mark -
+#pragma mark Lifecycle methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        self.appDelegate = (TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = @"Todo.txt";
     
-	self.sort = [self sortOrderPref];
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
+    [refreshControl addTarget:self action:@selector(sync:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+	
+    self.sort = [self sortOrderPref];
 	self.tasks = nil;
 	
 	// Restore search term
@@ -197,18 +234,38 @@ static CGFloat const kMinCellHeight = 44;
 											   object:nil];
 }
 
+- (void) viewDidAppear:(BOOL)animated {	
+	if (self.needSync) {
+		self.needSync = NO;
+        if (![self.appDelegate isManualMode]) {
+			[self.appDelegate syncClient];
+        }
+	}	
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) viewDidAppear:(BOOL)animated {	
-	if (self.needSync) {
-		self.needSync = NO;
-        if (![TodoTxtAppDelegate isManualMode]) {
-			[TodoTxtAppDelegate syncClient];
-        }
-	}	
+- (void)viewDidUnload {
+	[super viewDidUnload];
+	
+	// Save the state of the search UI so that it can be restored if the view is re-created.
+	self.savedSearchTerm = self.searchDisplayController.searchBar.text;
+	self.searchResults = nil;
+	
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+	self.actionSheetPicker = nil;
+}
+
+- (void)didReceiveMemoryWarning {
+	NSLog(@"Memory warning!");
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark -
@@ -216,7 +273,7 @@ static CGFloat const kMinCellHeight = 44;
 
 - (NSArray *)filteredTasks
 {
-    return [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:self.filter withSortOrder:self.sort];
+    return [self.appDelegate.taskBag tasksWithFilter:self.filter withSortOrder:self.sort];
 }
 
 - (IASKAppSettingsViewController*)appSettingsViewController {
@@ -293,7 +350,7 @@ static CGFloat const kMinCellHeight = 44;
 - (void)handleSearchForTerm:(NSString *)searchTerm {
 	self.savedSearchTerm = searchTerm;
 	id<Filter> filter = [FilterFactory getAndFilterWithPriorities:nil contexts:nil projects:nil text:self.savedSearchTerm caseSensitive:NO];
-	self.searchResults = [[TodoTxtAppDelegate sharedTaskBag] tasksWithFilter:filter withSortOrder:self.sort];
+	self.searchResults = [self.appDelegate.taskBag tasksWithFilter:filter withSortOrder:self.sort];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller 
@@ -317,7 +374,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+    id<TaskBag> taskBag = self.appDelegate.taskBag;
     Task *task = [self taskForTable:tableView atIndex:indexPath.row];
     
     if (task.completed) {
@@ -333,7 +390,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	}
 	
     [self reloadData:nil];
-    [TodoTxtAppDelegate pushToRemote];
+    [self.appDelegate pushToRemote];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -353,12 +410,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
     [self performSegueWithIdentifier:kAddTaskSegueIdentifier sender:self];
 }
 
-- (IBAction)syncButtonPressed:(id)sender {
-	NSLog(@"syncButtonPressed called");
-	[TodoTxtAppDelegate displayNotification:@"Syncing with Dropbox now..."];
-	[TodoTxtAppDelegate syncClient];
-}
-
 - (IBAction)settingsButtonPressed:(id)sender {
     UINavigationController *aNavController = [[UINavigationController alloc] initWithRootViewController:self.appSettingsViewController];
     //[viewController setShowCreditsFooter:NO];   // Uncomment to not display InAppSettingsKit credits for creators.
@@ -371,7 +422,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-    [[TodoTxtAppDelegate sharedTaskBag] updateBadge];
+    [self.appDelegate.taskBag updateBadge];
 	self.needSync = YES;
 }
 
@@ -441,15 +492,15 @@ shouldReloadTableForSearchString:(NSString *)searchString
         switch (alertView.tag) {
 			case LOGOUT_TAG:
                 [self dismissViewControllerAnimated:NO completion:nil];
-				[TodoTxtAppDelegate logout];
+				[self.appDelegate logout];
 				break;
 			case ARCHIVE_TAG:
                 [self dismissViewControllerAnimated:YES completion:nil];
                 NSLog(@"Archiving...");
-				[TodoTxtAppDelegate displayNotification:@"Archiving completed tasks..."];
-				[[TodoTxtAppDelegate sharedTaskBag] archive];
+				[self.appDelegate displayNotification:@"Archiving completed tasks..."];
+				[self.appDelegate.taskBag archive];
 				[self reloadData:nil];
-				[TodoTxtAppDelegate pushToRemote];
+				[self.appDelegate pushToRemote];
 				break;
 			default:
 				break;
@@ -503,28 +554,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 															  barButtonItem:sender];			
 }
 
-- (void)didReceiveMemoryWarning {
-	NSLog(@"Memory warning!");
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	[super viewDidUnload];
-	
-	// Save the state of the search UI so that it can be restored if the view is re-created.
-	self.savedSearchTerm = self.searchDisplayController.searchBar.text;
-	self.searchResults = nil;
-	
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-	self.actionSheetPicker = nil;
-}
-
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return YES;
 }
@@ -544,7 +573,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
         Task *task = [self taskForTable:self.tableView atIndex:self.tableView.indexPathForSelectedRow.row];
         
         TaskViewController *detailViewController = (TaskViewController *)segue.destinationViewController;
-        detailViewController.taskIndex = [[TodoTxtAppDelegate sharedTaskBag] indexOfTask:task];
+        detailViewController.taskIndex = [self.appDelegate.taskBag indexOfTask:task];
     } else if ([segue.identifier isEqualToString:kFilterSegueIdentifier]) {
         FilterViewController *vc = (FilterViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
         vc.filterTarget = self;

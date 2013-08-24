@@ -64,11 +64,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="FIO-Rt-8MV"/>
-                        <barButtonItem style="plain" systemItem="refresh" id="KWQ-M9-sps">
-                            <connections>
-                                <action selector="syncButtonPressed:" destination="HNI-em-gnU" id="PEY-VX-mal"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem image="19-gear.png" style="plain" id="C9D-rF-8g2">
                             <inset key="imageInsets" minX="0.0" minY="2" maxX="0.0" maxY="-2"/>
                             <connections>

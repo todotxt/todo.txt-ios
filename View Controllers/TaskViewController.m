@@ -75,17 +75,20 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 @property (nonatomic, strong) NSArray *buttonNames;
 @property (nonatomic, strong) NSArray *completedButtonNames;
 
+// TODO: refactor app delegate and remove me
+@property (nonatomic, weak) TodoTxtAppDelegate *appDelegate;
+
 @end
 
 @implementation TaskViewController
 
-- (Task*) task {
-	return [[TodoTxtAppDelegate sharedTaskBag] taskAtIndex:self.taskIndex];
+- (Task *)task {
+	return [self.appDelegate.taskBag taskAtIndex:self.taskIndex];
 }
 
-- (void) reloadViewData {
+- (void)reloadViewData {
 	// Scroll the table view to the top before it appears
-	[[TodoTxtAppDelegate sharedTaskBag] reload];
+	[self.appDelegate.taskBag reload];
 	
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:NO];
@@ -94,6 +97,14 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        self.appDelegate = (TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -290,26 +301,26 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 
 - (void) deleteTask {
     if (self.task) {
-        id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+        id<TaskBag> taskBag = self.appDelegate.taskBag;
         Task* task = self.task;
         [taskBag remove:task];
-        [TodoTxtAppDelegate displayNotification:@"Deleted task"];
-        [TodoTxtAppDelegate pushToRemote];
+        [self.appDelegate displayNotification:@"Deleted task"];
+        [self.appDelegate pushToRemote];
     }
 }
 
 - (void) undoCompleteTask {
-	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = self.appDelegate.taskBag;
 	Task* task = self.task;
 	[task markIncomplete];
 	[taskBag update:task];
 	
-	[TodoTxtAppDelegate pushToRemote];
+	[self.appDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
 - (void) completeTask {
-	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = self.appDelegate.taskBag;
 	Task* task = self.task;
 	[task markComplete:[NSDate date]];
 	[taskBag update:task];
@@ -322,20 +333,20 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	
 	if (auto_archive) {
 		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-		[TodoTxtAppDelegate displayNotification:@"Task completed and archived"];
+		[self.appDelegate displayNotification:@"Task completed and archived"];
 	} else {
 		[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 	}
-	[TodoTxtAppDelegate pushToRemote];
+	[self.appDelegate pushToRemote];
 }
 
 - (void) prioritizeTask:(Priority*)selectedPriority {
-	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = self.appDelegate.taskBag;
 	Task* task = self.task;
 	task.priority = selectedPriority;
 	[taskBag update:task];
 	
-	[TodoTxtAppDelegate pushToRemote];
+	[self.appDelegate pushToRemote];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
