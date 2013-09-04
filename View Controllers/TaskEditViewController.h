@@ -61,6 +61,8 @@
 
 @property (nonatomic, weak) id <TaskEditViewControllerDelegate> delegate;
 @property (nonatomic, strong) Task *task;
+@property(nonatomic, copy) NSString *textual;
+
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *helpButton;
 
 - (IBAction)cancelButtonPressed:(id)sender;
