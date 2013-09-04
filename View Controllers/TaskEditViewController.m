@@ -62,6 +62,7 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
 "<p>A task can include any number of projects or contexts.</p>"
 "</body></html>";
+static NSString *accessability = @"Task Details";
 
 @interface TaskEditViewController () <UIPopoverControllerDelegate>
 
@@ -105,7 +106,11 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)
 												 name:UIKeyboardWillHideNotification object:nil];
 	
+    // Fill in placeholder & 
 	self.textView.placeholder = [[PlaceholderGenerator sharedGenerator] randomPlaceholder];
+    
+    self.textView.isAccessibilityElement = YES;
+    self.textView.accessibilityLabel = accessability;
     
     // Setup specific to the iPhone.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
