@@ -228,6 +228,32 @@ static const CGFloat kAgeLabelTopOffset = -15;
     return kAgeLabelHeight;
 }
 
+- (BOOL)isAccessibilityElement
+{
+    return YES;
+}
+
+- (NSString *)accessibilityLabel
+{
+    NSString *priorityLabel = [self.priorityLabel accessibilityLabel];
+    NSString *taskLabel = [self.taskTextView accessibilityLabel];
+    NSString *ageLabel = [self.ageLabel accessibilityLabel];
+    
+    NSMutableArray *labels = [NSMutableArray array];
+    
+    if (([priorityLabel length] != 0) && !([priorityLabel isEqualToString:@" "])){
+        [labels addObject: [NSString stringWithFormat:@"Priority %@", priorityLabel]];
+    }
+    
+    if (taskLabel != nil)
+        [labels addObject: taskLabel];
+    
+    if (ageLabel != nil)
+        [labels addObject: [NSString stringWithFormat:@"due %@", ageLabel]];
+    
+    return [ labels componentsJoinedByString:@", "];
+}
+
 #pragma mark - Public class methods
 
 // TODO: consider moving me to another class, maybe the view model
