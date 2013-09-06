@@ -76,15 +76,26 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 @property (nonatomic) NSRange curSelectedRange;
 @property (nonatomic) BOOL shouldShowPopover;
 
+// TODO: refactor app delegate and remove me
+@property (nonatomic, weak) TodoTxtAppDelegate *appDelegate;
+
 @end
 
 @implementation TaskEditViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        self.appDelegate = (TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	if (![TodoTxtAppDelegate isManualMode]) {
-		[TodoTxtAppDelegate syncClient];
+	if (![self.appDelegate isManualMode]) {
+		[self.appDelegate syncClient];
 	}
 	
 	self.curInput = [[NSString alloc] init];	
@@ -263,7 +274,7 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 }
 
 - (void) addEditTask {
-	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = self.appDelegate.taskBag;
 	
 	// FIXME: synchronize?
 	if (self.task) {
@@ -275,7 +286,7 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-	[TodoTxtAppDelegate pushToRemote];
+	[self.appDelegate pushToRemote];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
@@ -376,7 +387,7 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 - (void) projectWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
-		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+		id<TaskBag> taskBag = self.appDelegate.taskBag;
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
 		
 		if (! [TaskUtil taskHasProject:self.textView.text project:item]) {
@@ -393,7 +404,7 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 - (void) contextWasSelected:(NSNumber *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex.intValue >= 0) {
-		id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+		id<TaskBag> taskBag = self.appDelegate.taskBag;
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
 		
 		if (! [TaskUtil taskHasContext:self.textView.text context:item]) {
@@ -409,13 +420,12 @@ static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-s
 
 - (IBAction) keyboardAccessoryButtonPressed:(id)sender {
 	
-	id<TaskBag> taskBag = [TodoTxtAppDelegate sharedTaskBag];
+	id<TaskBag> taskBag = self.appDelegate.taskBag;
     
 	[self.actionSheetPicker actionPickerCancel];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
-        TodoTxtAppDelegate *appdelegate = (TodoTxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-        appdelegate.lastClickedButton = sender;
+        self.appDelegate.lastClickedButton = sender;
 		self.curSelectedRange = self.textView.selectedRange;
     } else {
         [self.textView resignFirstResponder];
