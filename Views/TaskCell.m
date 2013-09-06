@@ -1,8 +1,8 @@
 /**
  * This file is part of Todo.txt, an iOS app for managing your todo.txt file.
  *
- * @author Brendon Justin <bjustin@nerdery.com>
- * @copyright 2013 Sierra Bravo Corp., dba The Nerdery (http://nerdery.com)
+ * @author Todo.txt contributors <todotxt@yahoogroups.com>
+ * @copyright 2013 Todo.txt contributors (http://todotxt.com)
  *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
@@ -61,14 +61,17 @@ static const CGFloat kSmallBoundsSpacing = 6;
 static const CGFloat kSmallSpacing = 4;
 static const CGFloat kTaskAndAgeVerticalSpacing = 0;
 
-static const CGFloat kAccessoryWidthEstimate = 20;
+static const CGFloat kAccessoryWidthEstimate = 35;
+static const CGFloat kAccessoryWidthEstimateLessThan7 = 20;
 static const CGFloat kAgeLabelWidth = 180;
 
 static const CGFloat kAgeLabelHeight = 14;
 static const CGFloat kPriorityLabelHeight = 20;
 
-static const CGFloat kAgeLabelLeftOffset = 2;
-static const CGFloat kAgeLabelTopOffset = -15;
+static const CGFloat kAgeLabelLeftOffset = 3;
+static const CGFloat kAgeLabelLeftOffsetLessThan7 = 2;
+static const CGFloat kAgeLabelTopOffset = -12;
+static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
 
 @interface TaskCell ()
 
@@ -107,7 +110,12 @@ static const CGFloat kAgeLabelTopOffset = -15;
         
         ageLabel.textColor = [UIColor lightGrayColor];
         
-        textView.contentInset = UIEdgeInsetsMake(-1, -6, 0, -4);
+        UIEdgeInsets contentInset = UIEdgeInsetsMake(-8, -2, 0, -4);
+        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+            contentInset = UIEdgeInsetsMake(-1, -6, 0, -4);
+        }
+        
+        textView.contentInset = contentInset;
         textView.userInteractionEnabled = NO;
         
         self.priorityLabel = priorityLabel;
@@ -172,6 +180,12 @@ static const CGFloat kAgeLabelTopOffset = -15;
                                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                                          multiplier:1.0
                                                                            constant:self.ageLabelHeight];
+        
+        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+            ageLabelTop.constant = kAgeLabelTopOffsetLessThan7;
+            ageLabelLeft.constant = kAgeLabelLeftOffsetLessThan7;
+        }
+        
         self.ageLabelHeightConstraint = ageLabelHeight;
         
         NSLayoutConstraint *priorityLabelHeight = [NSLayoutConstraint constraintWithItem:priorityLabel
@@ -230,14 +244,13 @@ static const CGFloat kAgeLabelTopOffset = -15;
 
 #pragma mark - Public class methods
 
-// TODO: consider moving me to another class, maybe the view model
 + (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font width:(CGFloat)width;
 {
     TaskCell *cell = self.staticSizingCell;
     
     CGFloat const bottomSpace = kSmallSpacing;
     CGFloat const baseHeight = kSmallSpacing + bottomSpace;
-    CGFloat const takenWidth = kBigSpacing + kAccessoryWidthEstimate;
+    CGFloat const takenWidth = kBigSpacing + (SYSTEM_VERSION_LESS_THAN(@"7.0") ? kAccessoryWidthEstimateLessThan7 : kAccessoryWidthEstimate);
     
     CGSize taskLabelSize = CGSizeMake(width - takenWidth, CGFLOAT_MAX);
     
