@@ -138,7 +138,7 @@ static Task* find(NSArray *tasks, Task *task) {
 	}
 }
 
-- (void) addAsTask:(NSString*)input {
+- (void) addAsTasks:(NSArray *)strings {
     [self reload];
     
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -147,10 +147,13 @@ static Task* find(NSArray *tasks, Task *task) {
 		date = [NSDate date];
 	}
 	
-    Task *task = [[Task alloc] initWithId:[self.tasks count]
-							  withRawText:input 
-				 withDefaultPrependedDate:date];
-    [self.tasks addObject:task];
+    [strings enumerateObjectsUsingBlock:^(NSString *string, NSUInteger idx, BOOL *stop) {
+        Task *task = [[Task alloc] initWithId:[self.tasks count]
+                                  withRawText:string
+                     withDefaultPrependedDate:date];
+        [self.tasks addObject:task];
+    }];
+    
 	[self updateBadge];
     [self store];
 

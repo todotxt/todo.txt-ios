@@ -55,6 +55,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+static NSString * const kTaskDelimiter = @"\n";
 static NSString * const kHelpPopoverSegueIdentifier = @"TaskEditHelpPopoverSegue";
 static NSInteger const kHelpPopoverWebviewTag = 1;
 static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
@@ -283,11 +286,29 @@ static NSString *accessability = @"Task Details";
 	
 	// FIXME: synchronize?
 	if (self.task) {
+        self.curInput = [[self.curInput componentsSeparatedByCharactersInSet:
+                          [NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                         componentsJoinedByString:@" "];
 		[self.task update:self.curInput];
 		Task *newTask = [taskBag update:self.task];
 		self.task = newTask;
 	} else {
-		[taskBag addAsTask:self.curInput];
+        NSArray *tasks = [[[self.curInput componentsSeparatedByString:kTaskDelimiter].rac_sequence
+                           filter:^BOOL(NSString *string) {
+                               return (string.length > 0) ? YES : NO;
+                           }]
+                          map:^NSString *(NSString *string) {
+                              return [[string componentsSeparatedByCharactersInSet:
+                                       [NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                      componentsJoinedByString:@" "];
+                          }].array;
+        
+        if (tasks.count == 0) {
+            [self exitController];
+            return;
+        }
+        
+		[taskBag addAsTasks:tasks];
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
@@ -295,10 +316,7 @@ static NSString *accessability = @"Task Details";
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-	self.curInput = [[[self.textView text]
-		componentsSeparatedByCharactersInSet:
-			[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-			   componentsJoinedByString:@" "];
+	self.curInput = self.textView.text;
 	
 	if (self.curInput.length == 0) {
 		[self exitController];
