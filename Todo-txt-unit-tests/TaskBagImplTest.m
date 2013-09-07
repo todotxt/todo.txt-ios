@@ -152,7 +152,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag addAsTask:text];
+	[taskBag addAsTasks:@[ text ]];
 	
 	STAssertEquals(taskBag.size, 1, @"Should have one task");
 	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
@@ -175,7 +175,7 @@
 	
 	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
 	
-	[taskBag addAsTask:text];
+	[taskBag addAsTasks:@[ text ]];
 	
 	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
 	STAssertEquals([[taskBag.tasks objectAtIndex:1] taskId], 1U, @"Task ID should be 1");

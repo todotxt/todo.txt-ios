@@ -55,7 +55,7 @@
 - (void) updateBadge;
 - (void) reloadWithFile:(NSString*)file;
 - (void) loadDoneTasksWithFile:(NSString*)file;
-- (void) addAsTask:(NSString*)input;
+- (void) addAsTasks:(NSArray*)strings;
 - (Task*) update:(Task*)task;
 - (void) remove:(Task*)task;
 - (Task*) taskAtIndex:(NSUInteger)index;
