@@ -212,7 +212,7 @@ static NSString *accessability = @"Task Details";
         self.title = @"Edit Task";
 		self.textView.text = [self.task inFileFormat];
 	} else {
-		self.title = @"Add Task";
+		self.title = @"Add Tasks";
 	}
 	self.curSelectedRange = self.textView.selectedRange;
 	[self.textView becomeFirstResponder];

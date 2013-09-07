@@ -2,10 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-	<string>Draft chapter 1 +Novel @typewriter</string>
-	<string>Learn to code +SelfEducation</string>
-	<string>Schedule chain mail fitting @Castle</string>
-	<string>Achieve mind like water +GTD</string>
-	<string>Take the road less traveled @Woods</string>
+	<string>Draft chapter 1 +Novel @typewriter
+Call literary agent @phone</string>
+	<string>Learn to code +SelfEducation
+Build a killer app @computer
+</string>
+	<string>Schedule chain mail fitting @Castle
+Sharpen sword +SelfPreservation</string>
+	<string>Complete weekly review +GTD
+Achieve mind like water +GTD</string>
+	<string>Take the road less traveled @Woods
+Make all the difference +Life</string>
 </array>
 </plist>
