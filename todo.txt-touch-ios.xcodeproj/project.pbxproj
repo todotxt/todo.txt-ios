@@ -1045,9 +1045,9 @@
 			productReference = 0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		1D6058900D05DD3D006BFB54 /* Todo.txt Touch */ = {
+		1D6058900D05DD3D006BFB54 /* Todo.txt */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt Touch" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -1058,7 +1058,7 @@
 			dependencies = (
 				5CC3F47B17A610740096A989 /* PBXTargetDependency */,
 			);
-			name = "Todo.txt Touch";
+			name = Todo.txt;
 			productName = "todo.txt-touch-ios";
 			productReference = 1D6058910D05DD3D006BFB54 /* Todo.txt.app */;
 			productType = "com.apple.product-type.application";
@@ -1092,7 +1092,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* Todo.txt Touch */,
+				1D6058900D05DD3D006BFB54 /* Todo.txt */,
 				0F75B414149912DF00848E27 /* Todo-txt-unit-tests */,
 			);
 		};
@@ -1722,7 +1722,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt Touch" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Todo.txt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
