@@ -23,6 +23,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		33675FAD17E635AD002EBDF6 /* green2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33675FAC17E635AD002EBDF6 /* green2.png */; };
 		33714DB015D45F4B002F1BED /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 33714DAF15D45F4B002F1BED /* Icon-144.png */; };
 		33766B93160129E6000C25B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33766B92160129E6000C25B0 /* Default-568h@2x.png */; };
 		33B7512715F6EDE90072D8F9 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B7512615F6EDE90072D8F9 /* icon_57.png */; };
@@ -249,6 +250,7 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
+		33675FAC17E635AD002EBDF6 /* green2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green2.png; sourceTree = "<group>"; };
 		33714DAF15D45F4B002F1BED /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
 		33766B92160129E6000C25B0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		33B7512615F6EDE90072D8F9 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 				33B7513015F6F2660072D8F9 /* Default-Landscape@2x~ipad.png */,
 				33B7512E15F6F0C50072D8F9 /* Default-Portrait@2x~ipad.png */,
 				33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */,
+				33675FAC17E635AD002EBDF6 /* green2.png */,
 				33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */,
 				5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */,
 				5910DBD8142406BD00BB2D68 /* 19-gear.png */,
@@ -1176,6 +1179,7 @@
 				5CE4236E17A602A4009C6D25 /* IASKPSTextFieldSpecifierViewCell.xib in Resources */,
 				5CE4237017A602A4009C6D25 /* IASKPSToggleSwitchSpecifierViewCell.xib in Resources */,
 				5CE4237217A602A4009C6D25 /* IASKSpecifierValuesView.xib in Resources */,
+				33675FAD17E635AD002EBDF6 /* green2.png in Resources */,
 				5CE4237D17A6036B009C6D25 /* README.md in Resources */,
 				5CE4237F17A6036B009C6D25 /* SJNotificationViewController.xib in Resources */,
 				5CE423C917A60560009C6D25 /* TaskEditAccessoryView.xib in Resources */,
