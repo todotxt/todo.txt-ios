@@ -39,6 +39,7 @@
 		5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */; };
 		59216C7513E8C89200FF07EE /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
 		59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
+		5C402B6417EE981300DB3F84 /* dropbox_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C402B6217EE981300DB3F84 /* dropbox_logo.png */; };
 		5C8E05B517AD8A4700F238E2 /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4238A17A603EF009C6D25 /* DDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5C8E05B617AD8A6B00F238E2 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC3F47517A6105C0096A989 /* libReactiveCocoa-iOS.a */; };
 		5C8E05B917AD8A8D00F238E2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4238617A60396009C6D25 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -268,6 +269,7 @@
 		59216C7413E8C89200FF07EE /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		59216D3C13EA318100FF07EE /* RelativeDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDate.h; sourceTree = "<group>"; };
 		59216D3D13EA318100FF07EE /* RelativeDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDate.m; sourceTree = "<group>"; };
+		5C402B6217EE981300DB3F84 /* dropbox_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_logo.png; sourceTree = "<group>"; };
 		5CA3274B17A6198F0089F9A1 /* DropboxApiKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxApiKey.h; sourceTree = "<group>"; };
 		5CC3F46117A60EC70096A989 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		5CC3F46217A60EC70096A989 /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 				33B7513015F6F2660072D8F9 /* Default-Landscape@2x~ipad.png */,
 				33B7512E15F6F0C50072D8F9 /* Default-Portrait@2x~ipad.png */,
 				33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */,
+				5C402B6217EE981300DB3F84 /* dropbox_logo.png */,
 				33675FAC17E635AD002EBDF6 /* green2.png */,
 				33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */,
 				5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */,
@@ -1163,6 +1166,7 @@
 				5910DBD71424014800BB2D68 /* InAppSettings.bundle in Resources */,
 				5910DBD9142406BD00BB2D68 /* 19-gear.png in Resources */,
 				5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */,
+				5C402B6417EE981300DB3F84 /* dropbox_logo.png in Resources */,
 				33CF5E0A144410B90050F60D /* Entitlements.entitlements in Resources */,
 				33CF22D51499A42E00034E43 /* Default-Portrait~ipad.png in Resources */,
 				33CF22D71499A43600034E43 /* Default-Landscape~ipad.png in Resources */,
