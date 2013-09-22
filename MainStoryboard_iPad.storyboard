@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="q98-oM-s57">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="q98-oM-s57">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -272,12 +272,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S2T-wp-V1i" userLabel="Centered View">
                                 <rect key="frame" x="192" y="261" width="384" height="502"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcW-v8-Z9S">
-                                        <rect key="frame" x="117" y="125" width="150" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcW-v8-Z9S">
+                                        <rect key="frame" x="12" y="241" width="360" height="90"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="36" id="I8t-VI-eFq"/>
+                                            <constraint firstAttribute="height" constant="90" id="e8B-4T-mkb"/>
+                                            <constraint firstAttribute="width" constant="360" id="vC3-cQ-GGO"/>
                                         </constraints>
-                                        <state key="normal" title="   Log in to Dropbox   " backgroundImage="green2.png">
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <inset key="imageEdgeInsets" minX="-30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Log in to Dropbox" image="dropbox_logo.png" backgroundImage="green.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -286,35 +289,30 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Todo.txt" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="f15-lF-g0U">
-                                        <rect key="frame" x="50" y="62" width="173" height="41"/>
+                                        <rect key="frame" x="12" y="178" width="173" height="41"/>
                                         <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="36"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Touch" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="NX2-xG-CIy">
-                                        <rect key="frame" x="236" y="58" width="99" height="42"/>
-                                        <fontDescription key="fontDescription" name="Georgia-Italic" family="Georgia" pointSize="36"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME TO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gu3-9H-8W1">
+                                        <rect key="frame" x="12" y="152" width="173" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Kailasa" family="Kailasa" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="todotxt_touch_256.png" translatesAutoresizingMaskIntoConstraints="NO" id="x38-hw-f5D">
-                                        <rect key="frame" x="64" y="188" width="256" height="256"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="NX2-xG-CIy" firstAttribute="top" secondItem="S2T-wp-V1i" secondAttribute="top" constant="58" id="333-09-HiL"/>
-                                    <constraint firstAttribute="trailing" secondItem="NX2-xG-CIy" secondAttribute="trailing" constant="49" id="3jt-yQ-ef0"/>
-                                    <constraint firstItem="NX2-xG-CIy" firstAttribute="leading" secondItem="f15-lF-g0U" secondAttribute="trailing" constant="13" id="7aW-XM-dLM"/>
-                                    <constraint firstItem="f15-lF-g0U" firstAttribute="baseline" secondItem="NX2-xG-CIy" secondAttribute="baseline" id="827-RF-R1E"/>
-                                    <constraint firstItem="f15-lF-g0U" firstAttribute="leading" secondItem="S2T-wp-V1i" secondAttribute="leading" constant="50" id="8GK-bS-3RO"/>
-                                    <constraint firstAttribute="centerX" secondItem="x38-hw-f5D" secondAttribute="centerX" id="Dol-rf-Bfq"/>
                                     <constraint firstAttribute="height" constant="502" id="FVt-HY-JQ5"/>
+                                    <constraint firstAttribute="centerY" secondItem="mcW-v8-Z9S" secondAttribute="centerY" constant="-35" id="HCm-bN-hgU"/>
                                     <constraint firstItem="mcW-v8-Z9S" firstAttribute="top" secondItem="f15-lF-g0U" secondAttribute="bottom" constant="22" id="ITX-XQ-nYy"/>
+                                    <constraint firstItem="mcW-v8-Z9S" firstAttribute="top" secondItem="Gu3-9H-8W1" secondAttribute="bottom" constant="61" id="NjM-cb-8db"/>
+                                    <constraint firstItem="f15-lF-g0U" firstAttribute="width" secondItem="Gu3-9H-8W1" secondAttribute="width" id="OfB-L6-SqS"/>
+                                    <constraint firstAttribute="centerX" secondItem="mcW-v8-Z9S" secondAttribute="centerX" id="TLI-XK-kWf"/>
                                     <constraint firstAttribute="width" constant="384" id="Yde-Kb-pPc"/>
-                                    <constraint firstItem="mcW-v8-Z9S" firstAttribute="top" secondItem="S2T-wp-V1i" secondAttribute="top" constant="125" id="cJF-os-J3a"/>
-                                    <constraint firstItem="x38-hw-f5D" firstAttribute="centerX" secondItem="mcW-v8-Z9S" secondAttribute="centerX" id="pnm-T5-wXw"/>
-                                    <constraint firstItem="x38-hw-f5D" firstAttribute="top" secondItem="S2T-wp-V1i" secondAttribute="top" constant="188" id="wBO-av-Dcy"/>
+                                    <constraint firstItem="f15-lF-g0U" firstAttribute="leading" secondItem="Gu3-9H-8W1" secondAttribute="leading" id="gHd-9f-KQI"/>
+                                    <constraint firstItem="f15-lF-g0U" firstAttribute="leading" secondItem="mcW-v8-Z9S" secondAttribute="leading" id="nj5-mu-5Fd"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -332,8 +330,8 @@
     </scenes>
     <resources>
         <image name="19-gear.png" width="22" height="22"/>
-        <image name="green2.png" width="1" height="1"/>
-        <image name="todotxt_touch_256.png" width="256" height="256"/>
+        <image name="dropbox_logo.png" width="50" height="50"/>
+        <image name="green.png" width="1" height="1"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
