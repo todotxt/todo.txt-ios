@@ -138,11 +138,11 @@
                         <viewControllerLayoutGuide type="bottom" id="slH-Ei-121"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dL4-LZ-GNA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK2-0X-9fN" customClass="SSTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wK2-0X-9fN" customClass="SSTextView">
+                                <rect key="frame" x="0.0" y="-32" width="320" height="568"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -159,6 +159,7 @@
                             <constraint firstItem="wK2-0X-9fN" firstAttribute="leading" secondItem="dL4-LZ-GNA" secondAttribute="leading" id="fgU-jF-NVv"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="b25-47-8m9">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="rxZ-VM-gh1">
                             <connections>
@@ -213,6 +214,25 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkj-Ms-wIS">
                                 <rect key="frame" x="20" y="284" width="280" height="70"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Todo.txt" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIp-HE-W71">
+                                <rect key="frame" x="21" y="79" width="173" height="41"/>
+                                <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Touch" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-TY-uvp">
+                                <rect key="frame" x="200" y="76" width="99" height="41"/>
+                                <fontDescription key="fontDescription" name="Georgia-Italic" family="Georgia" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="center" image="todotxt_touch_256.png" translatesAutoresizingMaskIntoConstraints="NO" id="iON-QN-eo2" userLabel="Image View - Icon-72.png">
+                                <rect key="frame" x="32" y="215" width="256" height="256"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZNY-MN-5jV">
+                                <rect key="frame" x="83" y="128" width="155" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="KbW-jt-O01"/>
                                     <constraint firstAttribute="width" constant="280" id="aTL-qH-Jf7"/>

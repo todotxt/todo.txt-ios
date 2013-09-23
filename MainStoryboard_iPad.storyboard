@@ -167,11 +167,11 @@
                         <viewControllerLayoutGuide type="bottom" id="qUP-M2-BN8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2gY-wz-ue0">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZX-Jy-oVR" customClass="SSTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZX-Jy-oVR" customClass="SSTextView">
+                                <rect key="frame" x="0.0" y="-32" width="768" height="1024"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -188,6 +188,7 @@
                             <constraint firstItem="eZX-Jy-oVR" firstAttribute="trailing" secondItem="2gY-wz-ue0" secondAttribute="trailing" id="wfr-Dc-8A4"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="ARV-2Q-6Cx">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SMB-dY-eyd">
                             <connections>
