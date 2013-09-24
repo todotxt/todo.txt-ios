@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qhX-d2-2Zl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qhX-d2-2Zl">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -211,48 +211,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Todo.txt" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIp-HE-W71">
-                                <rect key="frame" x="21" y="79" width="173" height="41"/>
-                                <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Touch" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-TY-uvp">
-                                <rect key="frame" x="200" y="76" width="99" height="41"/>
-                                <fontDescription key="fontDescription" name="Georgia-Italic" family="Georgia" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="center" image="todotxt_touch_256.png" translatesAutoresizingMaskIntoConstraints="NO" id="iON-QN-eo2" userLabel="Image View - Icon-72.png">
-                                <rect key="frame" x="32" y="215" width="256" height="256"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZNY-MN-5jV">
-                                <rect key="frame" x="83" y="127.99999999999999" width="155" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkj-Ms-wIS">
+                                <rect key="frame" x="20" y="284" width="280" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="TVR-CW-Yel"/>
-                                    <constraint firstAttribute="width" constant="155" id="arX-vu-Klu"/>
+                                    <constraint firstAttribute="height" constant="70" id="KbW-jt-O01"/>
+                                    <constraint firstAttribute="width" constant="280" id="aTL-qH-Jf7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                                <state key="normal" title="Log in to Dropbox" backgroundImage="green2.png">
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <inset key="imageEdgeInsets" minX="-15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Log in to Dropbox" image="dropbox_logo.png" backgroundImage="green.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="loginButtonPressed:" destination="zny-pe-jlQ" eventType="touchUpInside" id="p9W-yk-6Vu"/>
+                                    <action selector="loginButtonPressed:" destination="zny-pe-jlQ" eventType="touchUpInside" id="XMD-45-Jy1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Todo.txt" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vhs-1D-9kK">
+                                <rect key="frame" x="20" y="221" width="173" height="41"/>
+                                <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME TO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPc-3Q-q7s">
+                                <rect key="frame" x="20" y="195" width="173" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Kailasa" family="Kailasa" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="iON-QN-eo2" firstAttribute="centerX" secondItem="ZNY-MN-5jV" secondAttribute="centerX" id="03Z-tV-DGf"/>
-                            <constraint firstItem="ZNY-MN-5jV" firstAttribute="top" secondItem="eIp-HE-W71" secondAttribute="bottom" constant="8" symbolic="YES" id="0ls-7U-HSL"/>
-                            <constraint firstItem="eIp-HE-W71" firstAttribute="baseline" secondItem="eMz-TY-uvp" secondAttribute="baseline" id="ObC-Tk-Gar"/>
-                            <constraint firstItem="eMz-TY-uvp" firstAttribute="top" secondItem="khh-Ly-5Oq" secondAttribute="top" constant="76" id="U7o-7H-rdp"/>
-                            <constraint firstAttribute="trailing" secondItem="eMz-TY-uvp" secondAttribute="trailing" constant="21" id="dBr-4H-gVQ"/>
-                            <constraint firstAttribute="centerX" secondItem="iON-QN-eo2" secondAttribute="centerX" id="e6w-EQ-7V6"/>
-                            <constraint firstItem="iON-QN-eo2" firstAttribute="top" secondItem="ZNY-MN-5jV" secondAttribute="bottom" constant="53" id="n38-yr-aMr"/>
-                            <constraint firstItem="eIp-HE-W71" firstAttribute="leading" secondItem="khh-Ly-5Oq" secondAttribute="leading" constant="21" id="uJs-cc-btr"/>
+                            <constraint firstItem="pkj-Ms-wIS" firstAttribute="top" secondItem="nPc-3Q-q7s" secondAttribute="bottom" constant="61" id="9oM-2k-uCb"/>
+                            <constraint firstAttribute="centerY" secondItem="pkj-Ms-wIS" secondAttribute="centerY" constant="-35" id="EuS-oy-3z8"/>
+                            <constraint firstItem="Vhs-1D-9kK" firstAttribute="width" secondItem="nPc-3Q-q7s" secondAttribute="width" id="Fg9-Di-4CS"/>
+                            <constraint firstItem="pkj-Ms-wIS" firstAttribute="top" secondItem="Vhs-1D-9kK" secondAttribute="bottom" constant="22" id="MN2-Si-yyP"/>
+                            <constraint firstAttribute="centerX" secondItem="pkj-Ms-wIS" secondAttribute="centerX" id="ZS6-aI-3vu"/>
+                            <constraint firstItem="Vhs-1D-9kK" firstAttribute="leading" secondItem="pkj-Ms-wIS" secondAttribute="leading" id="rYV-9i-Eu9"/>
+                            <constraint firstItem="Vhs-1D-9kK" firstAttribute="leading" secondItem="nPc-3Q-q7s" secondAttribute="leading" id="wT0-TN-Xw7"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -317,8 +314,8 @@
     </scenes>
     <resources>
         <image name="19-gear.png" width="22" height="22"/>
-        <image name="green2.png" width="1" height="1"/>
-        <image name="todotxt_touch_256.png" width="256" height="256"/>
+        <image name="dropbox_logo.png" width="50" height="50"/>
+        <image name="green.png" width="1" height="1"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
