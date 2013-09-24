@@ -23,7 +23,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		33675FAD17E635AD002EBDF6 /* green2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33675FAC17E635AD002EBDF6 /* green2.png */; };
 		33714DB015D45F4B002F1BED /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 33714DAF15D45F4B002F1BED /* Icon-144.png */; };
 		33766B93160129E6000C25B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33766B92160129E6000C25B0 /* Default-568h@2x.png */; };
 		33B7512715F6EDE90072D8F9 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B7512615F6EDE90072D8F9 /* icon_57.png */; };
@@ -33,6 +32,9 @@
 		33CF22D51499A42E00034E43 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */; };
 		33CF22D71499A43600034E43 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */; };
 		33CF5E0A144410B90050F60D /* Entitlements.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 33CF5E09144410B90050F60D /* Entitlements.entitlements */; };
+		33F8F18C17F1E0D80065548B /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F8F18B17F1E0D80065548B /* icon_120.png */; };
+		33F8F19117F1E0F10065548B /* icon_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F8F19017F1E0F10065548B /* icon_76.png */; };
+		33F8F19317F1E1100065548B /* icon_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F8F19217F1E1100065548B /* icon_152.png */; };
 		5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5910DBD014216A2300BB2D68 /* MessageUI.framework */; };
 		5910DBD71424014800BB2D68 /* InAppSettings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5910DBD61424014800BB2D68 /* InAppSettings.bundle */; };
 		5910DBD9142406BD00BB2D68 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 5910DBD8142406BD00BB2D68 /* 19-gear.png */; };
@@ -252,7 +254,6 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* todo_txt_touch_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = todo_txt_touch_ios_Prefix.pch; sourceTree = "<group>"; };
-		33675FAC17E635AD002EBDF6 /* green2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green2.png; sourceTree = "<group>"; };
 		33714DAF15D45F4B002F1BED /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
 		33766B92160129E6000C25B0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		33B7512615F6EDE90072D8F9 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
@@ -262,6 +263,9 @@
 		33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		33CF5E09144410B90050F60D /* Entitlements.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Entitlements.entitlements; sourceTree = "<group>"; };
+		33F8F18B17F1E0D80065548B /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
+		33F8F19017F1E0F10065548B /* icon_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_76.png; sourceTree = "<group>"; };
+		33F8F19217F1E1100065548B /* icon_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_152.png; sourceTree = "<group>"; };
 		5910DBD014216A2300BB2D68 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5910DBD61424014800BB2D68 /* InAppSettings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = InAppSettings.bundle; sourceTree = "<group>"; };
 		5910DBD8142406BD00BB2D68 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -595,12 +599,11 @@
 			isa = PBXGroup;
 			children = (
 				33766B92160129E6000C25B0 /* Default-568h@2x.png */,
-				33B7513015F6F2660072D8F9 /* Default-Landscape@2x~ipad.png */,
 				33B7512E15F6F0C50072D8F9 /* Default-Portrait@2x~ipad.png */,
 				33CF22D61499A43600034E43 /* Default-Landscape~ipad.png */,
 				5C402B6217EE981300DB3F84 /* dropbox_logo.png */,
 				5C402B6917EE9EB600DB3F84 /* green.png */,
-				33675FAC17E635AD002EBDF6 /* green2.png */,
+				33F8F19017F1E0F10065548B /* icon_76.png */,
 				33CF22D41499A42E00034E43 /* Default-Portrait~ipad.png */,
 				5910DBDA1424078D00BB2D68 /* 19-gear@2x.png */,
 				5910DBD8142406BD00BB2D68 /* 19-gear.png */,
@@ -610,9 +613,12 @@
 				88F1AB2D1412E20D00AB3D18 /* todotxt_touch_256.png */,
 				7D57054612F89F1900BB5E8D /* Icon.png */,
 				33B7512615F6EDE90072D8F9 /* icon_57.png */,
+				33B7513015F6F2660072D8F9 /* Default-Landscape@2x~ipad.png */,
 				33B7512815F6EDEE0072D8F9 /* icon_114.png */,
+				33F8F18B17F1E0D80065548B /* icon_120.png */,
 				7D57054312F89F1900BB5E8D /* Icon-72.png */,
 				33714DAF15D45F4B002F1BED /* Icon-144.png */,
+				33F8F19217F1E1100065548B /* icon_152.png */,
 				7D57054412F89F1900BB5E8D /* Icon-Small-50.png */,
 				7D57054512F89F1900BB5E8D /* Icon-Small.png */,
 				5CA3274B17A6198F0089F9A1 /* DropboxApiKey.h */,
@@ -1168,6 +1174,7 @@
 				5C402B6A17EE9EB600DB3F84 /* green.png in Resources */,
 				88AAFC631419CB960062BBF6 /* Icon@2x.png in Resources */,
 				5910DBD71424014800BB2D68 /* InAppSettings.bundle in Resources */,
+				33F8F18C17F1E0D80065548B /* icon_120.png in Resources */,
 				5910DBD9142406BD00BB2D68 /* 19-gear.png in Resources */,
 				5910DBDB1424078D00BB2D68 /* 19-gear@2x.png in Resources */,
 				5C402B6417EE981300DB3F84 /* dropbox_logo.png in Resources */,
@@ -1187,10 +1194,11 @@
 				5CE4236E17A602A4009C6D25 /* IASKPSTextFieldSpecifierViewCell.xib in Resources */,
 				5CE4237017A602A4009C6D25 /* IASKPSToggleSwitchSpecifierViewCell.xib in Resources */,
 				5CE4237217A602A4009C6D25 /* IASKSpecifierValuesView.xib in Resources */,
-				33675FAD17E635AD002EBDF6 /* green2.png in Resources */,
 				5CE4237D17A6036B009C6D25 /* README.md in Resources */,
 				5CE4237F17A6036B009C6D25 /* SJNotificationViewController.xib in Resources */,
 				5CE423C917A60560009C6D25 /* TaskEditAccessoryView.xib in Resources */,
+				33F8F19117F1E0F10065548B /* icon_76.png in Resources */,
+				33F8F19317F1E1100065548B /* icon_152.png in Resources */,
 				5CE423D817A60BE7009C6D25 /* MainStoryboard_iPad.storyboard in Resources */,
 				5CE423D917A60BE7009C6D25 /* MainStoryboard_iPhone.storyboard in Resources */,
 			);
