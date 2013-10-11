@@ -3,7 +3,7 @@
  *
  * @author Todo.txt contributors <todotxt@yahoogroups.com>
  * @copyright 2011-2013 Todo.txt contributors (http://todotxt.com)
- *  
+ *
  * Dual-licensed under the GNU General Public License and the MIT License
  *
  * @license GNU General Public License http://www.gnu.org/licenses/gpl.html
@@ -41,66 +41,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import "RelativeDate.h"
-#import "Util.h"
 
-#define RELATIVE_DATE_FORMAT @"yyyy-MM-dd"
+#import <SenTestingKit/SenTestingKit.h>
 
-// Doesn't handle leap year, etc, but we don't need to be very
-// accurate. This is just for human readable date displays.
-#define SECOND 1
-#define HOUR (3600 * SECOND)
-#define DAY (24 * HOUR)
-#define YEAR (365 * DAY)
-
-@implementation RelativeDate
-
-+ (NSString*)stringWithDate:(NSDate*)date fromDate:(NSDate*)fromDate withFormat:(NSString*)format {
-	NSTimeInterval diff = [fromDate timeIntervalSinceDate:date];
-	
-	if (diff < 0 || diff >= YEAR) {
-		// future or far in past,
-		// just return yyyy-mm-dd
-		return [Util stringFromDate:date withFormat:format];
-	}
-	
-	if (diff >= 60 * DAY) {
-		// N months ago
-		long months = diff / (30 * DAY);
-		return [NSString stringWithFormat:@"%ld months ago", months];
-	}
-	
-	if (diff >= 30 * DAY) {
-		// 1 month ago
-		return @"1 month ago";
-	}
-	
-	if (diff >= 2 * DAY) {
-		// more than 2 days ago
-		long days = diff / DAY;
-		return [NSString stringWithFormat:@"%ld days ago", days];
-	}
-	
-	if (diff >= 1 * DAY) {
-		// 1 day ago
-		return @"1 day ago";
-	}
-	
-	// today
-	return @"today";
-}
-
-+ (NSString*)stringWithDate:(NSDate*)date withFormat:(NSString*)format {
-	NSDate* today = [NSDate date];
-	NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents * comp = [cal components:( NSYearCalendarUnit| NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:today];
-	today = [cal dateFromComponents:comp];
-	
-	return [RelativeDate stringWithDate:date fromDate:today withFormat:format];
-}
-
-+ (NSString*)stringWithDate:(NSDate*)date {
-	return [RelativeDate stringWithDate:date withFormat:RELATIVE_DATE_FORMAT];
-}
+@interface RelativeDateTest : SenTestCase
 
 @end

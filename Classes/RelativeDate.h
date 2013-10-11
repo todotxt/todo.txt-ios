@@ -51,5 +51,6 @@
 
 + (NSString*)stringWithDate:(NSDate*)date;
 + (NSString*)stringWithDate:(NSDate*)date withFormat:(NSString*)format;
++ (NSString*)stringWithDate:(NSDate*)date fromDate:(NSDate*)fromDate withFormat:(NSString*)format;
 
 @end

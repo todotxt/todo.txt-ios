@@ -111,6 +111,7 @@
 		8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831984C13EBC62C00EC5BC3 /* TaskBagImpl.m */; };
 		883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */; };
 		883FBFC21520307300D9FA3A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88D5C2851519995C00C3744B /* DropboxSDK.framework */; };
+		8855D17F18064BEF00B40C85 /* RelativeDateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855D17E18064BEF00B40C85 /* RelativeDateTest.m */; };
 		8858D0BA13EA89C50083FA44 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		8858D0BB13EA89C50083FA44 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
 		8875F16714AEF5EE00BFA5C9 /* SortTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8875F16614AEF5EE00BFA5C9 /* SortTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -376,6 +377,8 @@
 		883E42FE13EB7E66002FEBCC /* LocalTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalTaskRepository.h; path = Classes/LocalTaskRepository.h; sourceTree = "<group>"; };
 		883E42FF13EB8395002FEBCC /* LocalFileTaskRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalFileTaskRepository.h; path = Classes/LocalFileTaskRepository.h; sourceTree = "<group>"; };
 		883E430013EB8395002FEBCC /* LocalFileTaskRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalFileTaskRepository.m; path = Classes/LocalFileTaskRepository.m; sourceTree = "<group>"; };
+		8855D17D18064BEF00B40C85 /* RelativeDateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativeDateTest.h; sourceTree = "<group>"; };
+		8855D17E18064BEF00B40C85 /* RelativeDateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativeDateTest.m; sourceTree = "<group>"; };
 		8858D0B613EA89C50083FA44 /* Priority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Priority.h; path = Classes/Priority.h; sourceTree = "<group>"; };
 		8858D0B713EA89C50083FA44 /* Priority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Priority.m; path = Classes/Priority.m; sourceTree = "<group>"; };
 		8858D0B813EA89C50083FA44 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Classes/Task.h; sourceTree = "<group>"; };
@@ -941,6 +944,8 @@
 				0F75B423149912DF00848E27 /* TaskUtilTest.m */,
 				7B06BDC717A320880001CCB6 /* TaskIoTest.h */,
 				7B06BDC817A320880001CCB6 /* TaskIoTest.m */,
+				8855D17D18064BEF00B40C85 /* RelativeDateTest.h */,
+				8855D17E18064BEF00B40C85 /* RelativeDateTest.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1256,6 +1261,7 @@
 				8876EF6114AD7E8100F28C3C /* Strings.m in Sources */,
 				0F75B424149912DF00848E27 /* TaskUtilTest.m in Sources */,
 				0F75B4321499141800848E27 /* TaskUtil.m in Sources */,
+				8855D17F18064BEF00B40C85 /* RelativeDateTest.m in Sources */,
 				0F75B433149916D900848E27 /* ContextParser.m in Sources */,
 				0F75B434149923E700848E27 /* ProjectParser.m in Sources */,
 				888693DB14AEA4EE002BB234 /* TaskTest.m in Sources */,
