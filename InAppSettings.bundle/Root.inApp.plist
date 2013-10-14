@@ -31,21 +31,19 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Badge Count</string>
 			<key>DefaultValue</key>
 			<string>none</string>
 			<key>Key</key>
 			<string>badgeCount_preference</string>
-			<key>Values</key>
+			<key>ShortTitles</key>
 			<array>
-				<string>none</string>
-				<string>any</string>
-				<string>anyPriority</string>
-				<string>priorityA</string>
+				<string>None</string>
+				<string>All Open</string>
+				<string>Prioritized</string>
+				<string>Priority (A)	</string>
 			</array>
+			<key>Title</key>
+			<string>Badge Count</string>
 			<key>Titles</key>
 			<array>
 				<string>None</string>
@@ -53,12 +51,14 @@
 				<string>Prioritized tasks</string>
 				<string>Priority A tasks</string>
 			</array>
-			<key>ShortTitles</key>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Values</key>
 			<array>
-				<string>None</string>
-				<string>All Open</string>
-				<string>Prioritized</string>
-				<string>Priority (A)	</string>
+				<string>none</string>
+				<string>any</string>
+				<string>anyPriority</string>
+				<string>priorityA</string>
 			</array>
 		</dict>
 		<dict>
@@ -68,22 +68,22 @@
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Auto Archive</string>
-			<key>Key</key>
-			<string>auto_archive_preference</string>
 			<key>DefaultValue</key>
 			<false/>
+			<key>Key</key>
+			<string>auto_archive_preference</string>
+			<key>Title</key>
+			<string>Auto Archive</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>IASKButtonSpecifier</string>
-			<key>Title</key>
-			<string>Archive Now</string>
 			<key>Key</key>
 			<string>archive_button</string>
+			<key>Title</key>
+			<string>Archive Now</string>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
 		</dict>
 		<dict>
 			<key>Title</key>
@@ -128,10 +128,20 @@
 			<string>IASKButtonSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>About</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string>1.6</string>
+			<key>Key</key>
+			<string>version_string</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
 		</dict>
 		<dict>
 			<key>Key</key>
