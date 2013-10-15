@@ -143,7 +143,7 @@
 			file.status = dbConflict;
             NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                                code:kUploadConflictErrorCode
-                                           userInfo:@{ kUploadConflictFileString : file }];
+                                           userInfo:@{ kUploadConflictFile : file }];
             [self.subject sendError:err];
 			return;
 		}
@@ -179,7 +179,7 @@
 		file.status = dbConflict;
         NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                            code:kUploadConflictErrorCode
-                                       userInfo:@{ kUploadConflictFileString : file }];
+                                       userInfo:@{ kUploadConflictFile : file }];
         [self.subject sendError:err];
 		return;
 	}

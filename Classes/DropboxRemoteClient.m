@@ -253,10 +253,10 @@
          } error:^(NSError *error) {
              NSError *err = nil;
              if (error.code == kUploadConflictErrorCode) {
-                 NSString *conflictFile = error.userInfo[kUploadConflictFileString];
+                 DropboxFile *conflictFile = error.userInfo[kUploadConflictFile];
                  err = [NSError errorWithDomain:kRCErrorDomain
                                            code:kRCErrorUploadConflict
-                                       userInfo:@{ kRCUploadConflictFileKey : conflictFile }];
+                                       userInfo:@{ kRCUploadConflictFileKey : conflictFile.remoteFile }];
                  [self.pushSubject sendError:err];
              } else {
                  // call remote client delegate function

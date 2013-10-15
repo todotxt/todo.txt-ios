@@ -49,7 +49,7 @@
 @class RACSignal;
 
 static NSInteger const kUploadConflictErrorCode = 001;
-static NSString * const kUploadConflictFileString = @"__kUploadConflictFileString";
+static NSString * const kUploadConflictFile = @"__kUploadConflictFile";
 
 @interface DropboxFileUploader : NSObject
 
