@@ -127,18 +127,13 @@
 }
 
 - (void) store:(NSArray*)tasks {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [TaskIo writeTasks:tasks 
+    [TaskIo writeTasks:tasks
 				toFile:[LocalFileTaskRepository todoFilename]
-			 overwrite:YES
-	 withWindowsBreaks:[defaults boolForKey:@"windows_line_breaks_preference"]];
+			 overwrite:YES];
 }
 
 - (void) archive:(NSArray*)tasks {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	BOOL windowsLineBreaks = [defaults boolForKey:@"windows_line_breaks_preference"];
-	
-	NSMutableArray *completedTasks = [NSMutableArray arrayWithCapacity:tasks.count];	
+    NSMutableArray *completedTasks = [NSMutableArray arrayWithCapacity:tasks.count];	
 	NSMutableArray *incompleteTasks = [NSMutableArray arrayWithCapacity:tasks.count];	
 
 	for (Task *task in tasks) {
@@ -152,15 +147,13 @@
 	// append completed tasks to done.txt
 	[TaskIo writeTasks:completedTasks 
 				 toFile:[LocalFileTaskRepository doneFilename]
-			  overwrite:NO
-	  withWindowsBreaks:windowsLineBreaks];
+			  overwrite:NO];
 	
 	// write incomplete tasks back to todo.txt
 	//TODO: remove blank lines (if we ever add support for PRESERVE_BLANK_LINES)
     [TaskIo writeTasks:incompleteTasks 
 				toFile:[LocalFileTaskRepository todoFilename]
-			 overwrite:YES
-	 withWindowsBreaks:windowsLineBreaks];
+			 overwrite:YES];
 }
 
 - (void) loadDoneTasksWithFile:(NSString*)file {
