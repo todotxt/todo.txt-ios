@@ -52,6 +52,6 @@
 
 + (NSMutableArray*) loadTasksFromFile:(NSString*)file;
 + (NSMutableArray*) loadTasksFromReader:(DDFileReader*)reader;
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite withWindowsBreaks:(BOOL)useWindowsBreaks;
++ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite;
 
 @end
