@@ -340,8 +340,8 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 // Load the detail view controller when user taps the row
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Segue to the detail view for a task
-    [self performSegueWithIdentifier:kViewTaskSegueIdentifier sender:self];
+	// Segue to the detail view for a task
+    [self performSegueWithIdentifier:kViewTaskSegueIdentifier sender:tableView];
 }
 
 #pragma mark -
@@ -570,7 +570,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:kViewTaskSegueIdentifier]) {
-        Task *task = [self taskForTable:self.tableView atIndex:self.tableView.indexPathForSelectedRow.row];
+		UITableView *tableView = (UITableView*)sender;
+        Task *task = [self taskForTable:tableView atIndex:tableView.indexPathForSelectedRow.row];
         
         TaskViewController *detailViewController = (TaskViewController *)segue.destinationViewController;
         detailViewController.taskIndex = [self.appDelegate.taskBag indexOfTask:task];
