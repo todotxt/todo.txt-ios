@@ -22,16 +22,6 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>windows_line_breaks_preference</string>
-			<key>Title</key>
-			<string>Windows Line Breaks</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
 			<string>none</string>
 			<key>Key</key>
 			<string>badgeCount_preference</string>
@@ -60,12 +50,6 @@
 				<string>anyPriority</string>
 				<string>priorityA</string>
 			</array>
-		</dict>
-		<dict>
-			<key>Title</key>
-			<string>Done.txt</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>

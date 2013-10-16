@@ -158,7 +158,6 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
 								 @"YES", @"date_new_tasks_preference",
-								 @"NO", @"windows_line_breaks_preference", 
 								 @"NO", @"manual_sync_preference", 
 								 @"NO", @"need_to_push",
 								 @"/todo", @"file_location_preference", nil];	

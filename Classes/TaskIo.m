@@ -48,6 +48,8 @@
 
 @implementation TaskIo
 
+static BOOL sUseWindowsLineBreaks = NO;
+
 + (NSMutableArray*) loadTasksFromFile:(NSString*)filename {
     DDFileReader *reader = [[DDFileReader alloc] initWithFilePath:filename];
     NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
@@ -58,7 +60,13 @@
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:32];
     NSString * line = nil;
     int i = 0;
-    while ((line = [reader readTrimmedLine])) {
+	sUseWindowsLineBreaks = NO;
+    while ((line = [reader readLine])) {
+		if ([line hasSuffix:@"\r\n"]) {
+			sUseWindowsLineBreaks = YES;
+		}
+		
+		line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSLog(@"read line %d: %@", i, line);
         if ( ![line length] ) {
             NSLog(@"Ignoring blank line at line number %d", i);
@@ -71,7 +79,7 @@
     return items;
 }
 
-+ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite withWindowsBreaks:(BOOL)useWindowsBreaks {
++ (void) writeTasks:(NSArray*)tasks toFile:(NSString*)filename overwrite:(BOOL)overwrite {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (overwrite || ![fileManager fileExistsAtPath:filename]) {
 		[fileManager createFileAtPath:filename contents:nil attributes:nil];
@@ -85,7 +93,7 @@
     for (Task *task in tasks) {
         [fileHandle writeData:
 		 [[task inFileFormat] dataUsingEncoding:NSUTF8StringEncoding]];
-		if (useWindowsBreaks) {
+		if (sUseWindowsLineBreaks) {
 			[fileHandle writeData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 		} else {
 			[fileHandle writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];

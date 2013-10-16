@@ -1242,7 +1242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Set version number in the settings bundle for display to the user.\nversion=`/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" $SRCROOT/todo_txt_touch_ios-Info.plist`\n/usr/libexec/PlistBuddy \"$SRCROOT/InAppSettings.bundle/Root.inApp.plist\" -c \"set :PreferenceSpecifiers:12:DefaultValue $version\"";
+			shellScript = "#Set version number in the settings bundle for display to the user.\nversion=`/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" $SRCROOT/todo_txt_touch_ios-Info.plist`\n/usr/libexec/PlistBuddy \"$SRCROOT/InAppSettings.bundle/Root.inApp.plist\" -c \"set :PreferenceSpecifiers:10:DefaultValue $version\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
