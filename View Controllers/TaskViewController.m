@@ -89,7 +89,8 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 - (void)reloadViewData {
 	// Scroll the table view to the top before it appears
 	[self.appDelegate.taskBag reload];
-	
+
+	self.taskCell = nil;
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:NO];
 
