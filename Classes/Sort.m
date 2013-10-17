@@ -66,9 +66,11 @@ static NSArray* sortList = nil;
 + (void) initialize {
 	sortList = [NSArray arrayWithObjects:
 				 [[Sort alloc] initWithName:SortPriority withDescription:@"Priority" withSelector:@selector(compareByPriority:)],
-				 [[Sort alloc] initWithName:SortIdAscending withDescription:@"ID Ascending" withSelector:@selector(compareByIdAscending:)],
-				 [[Sort alloc] initWithName:SortIdDescending withDescription:@"ID Descending" withSelector:@selector(compareByIdDescending:)],
+				 [[Sort alloc] initWithName:SortIdAscending withDescription:@"Line Ascending" withSelector:@selector(compareByIdAscending:)],
+				 [[Sort alloc] initWithName:SortIdDescending withDescription:@"Line Descending" withSelector:@selector(compareByIdDescending:)],
 				 [[Sort alloc] initWithName:SortTextAscending withDescription:@"Text (A-Z)" withSelector:@selector(compareByTextAscending:)],
+				 [[Sort alloc] initWithName:SortDateAscending withDescription:@"Date Ascending" withSelector:@selector(compareByDateAscending:)],
+				 [[Sort alloc] initWithName:SortDateDescending withDescription:@"Date Descending" withSelector:@selector(compareByDateDescending:)],
 				nil];
 }
 

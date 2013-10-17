@@ -229,6 +229,39 @@
 	return result;
 }
 
+/**
+  * Returns the fully extended priority order: A - Z, None, Completed
+  *
+  * @return fullyExtendedPriority
+  */
+- (NSUInteger) sortPriority {
+	if (completed) {
+		return [[Priority all] count];
+	}
+	NSUInteger intVal = (NSUInteger) priority.name;
+	return (priority != [Priority NONE] ? intVal - 1 : [[Priority all] count] - 1);
+}
+
+- (NSString*) ascSortDate {
+	if (completed) {
+		return @"9999-99-99";
+	}
+	if ([prependedDate length] == 0) {
+		return @"9999-99-98";
+	}
+	return prependedDate;
+}
+
+- (NSString*) descSortDate {
+	if (completed) {
+		return @"0000-00-00";
+	}
+	if ([prependedDate length] == 0) {
+		return @"9999-99-99";
+	}
+	return prependedDate;
+}
+
 - (NSComparisonResult) compareByIdAscending:(Task*)other {
 	if (taskId < other.taskId) {
 		return NSOrderedAscending;
@@ -250,6 +283,13 @@
 }
 
 - (NSComparisonResult) compareByTextAscending:(Task*)other {
+	if (!completed && [other completed]) {
+		return NSOrderedAscending;
+	}
+	if (completed && !other.completed) {
+		return NSOrderedDescending;
+	}
+	
 	NSComparisonResult ret = [text caseInsensitiveCompare:other.text];
 	if (ret == NSOrderedSame) {
 		ret = [self compareByIdAscending:other];
@@ -258,37 +298,32 @@
 }
 
 - (NSComparisonResult) compareByPriority:(Task*)other {
-	if (completed && [other completed]) {
-		return [self compareByIdAscending:other];
-	}
+	NSUInteger thisPri = [self sortPriority];
+	NSUInteger otherPri = [other sortPriority];
 	
-	if (completed || [other completed]) {
-		if (completed) {
-			return NSOrderedDescending;
-		} else {
-			return NSOrderedAscending;
-		}
-	}
-	
-	if (priority == [Priority NONE] && [other priority] == [Priority NONE]) {
-		return [self compareByIdAscending:other];
-	}
-	
-	if (priority == [Priority NONE] || [other priority] == [Priority NONE]) {
-		if (priority == [Priority NONE]) {
-			return NSOrderedDescending;
-		} else {
-			return NSOrderedAscending;
-		}
-	}
-	
-	if (priority.name < other.priority.name) {
+	if (thisPri < otherPri) {
 		return NSOrderedAscending;
-	} else if (priority.name > other.priority.name) {
+	} else if (thisPri > otherPri) {
 		return NSOrderedDescending;
 	} else {
 		return [self compareByIdAscending:other];
 	}
+}
+
+- (NSComparisonResult) compareByDateAscending:(Task*)other {
+	NSComparisonResult res = [[self ascSortDate] compare:[other ascSortDate]];
+	if (res != NSOrderedSame) {
+		return res;
+	}
+	return [self compareByIdAscending:other];
+}
+
+- (NSComparisonResult) compareByDateDescending:(Task*)other {
+	NSComparisonResult res = [[other descSortDate] compare:[self descSortDate]];
+	if (res != NSOrderedSame) {
+		return res;
+	}
+	return [self compareByIdDescending:other];
 }
 
 - (NSArray *)rangesOfContexts

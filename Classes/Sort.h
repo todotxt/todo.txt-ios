@@ -49,6 +49,8 @@ typedef enum {
 	SortIdAscending,
 	SortIdDescending,
 	SortTextAscending,
+	SortDateAscending,
+	SortDateDescending
 } SortName;
 
 @interface Sort : NSObject {
