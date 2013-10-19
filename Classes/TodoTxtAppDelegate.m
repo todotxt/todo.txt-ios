@@ -48,6 +48,7 @@
 #import "TaskBag.h"
 #import "TaskBagFactory.h"
 #import "AsyncTask.h"
+#import "DropboxFile.h"
 #import "Network.h"
 #import "LocalFileTaskRepository.h"
 #import "Util.h"
@@ -334,7 +335,7 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
              NSString *message = [NSString
                                   stringWithFormat:@"Oops! There is a newer version of your %@ file in Dropbox. "
                                   "Do you want to upload your local changes, or download the Dropbox version?",
-                                  [error.userInfo[kRCUploadConflictFileKey] lastPathComponent]
+                                  [[(DropboxFile *)error.userInfo[kRCUploadConflictFileKey] localFile] lastPathComponent]
                                   ];
              
              UIAlertView *alert =
