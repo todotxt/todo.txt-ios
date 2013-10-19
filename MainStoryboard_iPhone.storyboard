@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qhX-d2-2Zl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qhX-d2-2Zl">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -10,11 +10,11 @@
             <objects>
                 <tableViewController id="yWi-bb-L3m" customClass="TasksViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="C2e-rl-6C1" customClass="PGTableViewWithEmptyView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="nbM-XI-PVk">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -25,6 +25,7 @@
                             <outlet property="emptyView" destination="HcP-t0-btj" id="flc-Ie-JBx"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
                         <barButtonItem title="Sort" id="zDX-AB-di9">
                             <connections>
@@ -114,10 +115,11 @@
             </objects>
             <point key="canvasLocation" x="921" y="837"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Opaque Bars Navigation Controller-->
         <scene sceneID="OSl-2d-rhE">
             <objects>
-                <navigationController definesPresentationContext="YES" hidesBottomBarWhenPushed="YES" id="RPp-ft-Qyc" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" hidesBottomBarWhenPushed="YES" id="RPp-ft-Qyc" customClass="OpaqueBarsNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BZt-qo-Qm6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -180,10 +182,11 @@
             </objects>
             <point key="canvasLocation" x="1719" y="142"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Opaque Bars Navigation Controller-->
         <scene sceneID="wQF-xA-cys">
             <objects>
-                <navigationController definesPresentationContext="YES" toolbarHidden="NO" id="qhX-d2-2Zl" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" toolbarHidden="NO" id="qhX-d2-2Zl" customClass="OpaqueBarsNavigationController" sceneMemberID="viewController">
+                    <keyCommands/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ohO-Dh-qaI">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -214,7 +217,6 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkj-Ms-wIS">
                                 <rect key="frame" x="20" y="284" width="280" height="70"/>
-                                <rect key="frame" x="83" y="128" width="155" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="KbW-jt-O01"/>
                                     <constraint firstAttribute="width" constant="280" id="aTL-qH-Jf7"/>
@@ -264,10 +266,11 @@
             <objects>
                 <tableViewController id="ZMT-wH-wbl" customClass="FilterViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="k99-Yx-ghR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="Vgd-rG-aQM">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cn3-XT-uuL">
@@ -298,10 +301,10 @@
             </objects>
             <point key="canvasLocation" x="1359" y="-553"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Opaque Bars Navigation Controller-->
         <scene sceneID="QUm-lo-bSV">
             <objects>
-                <navigationController definesPresentationContext="YES" id="ljP-8d-Aeg" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="ljP-8d-Aeg" customClass="OpaqueBarsNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yMu-f2-x6Q">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

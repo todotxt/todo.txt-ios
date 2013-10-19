@@ -46,6 +46,7 @@
 		5C8E05B517AD8A4700F238E2 /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4238A17A603EF009C6D25 /* DDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5C8E05B617AD8A6B00F238E2 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC3F47517A6105C0096A989 /* libReactiveCocoa-iOS.a */; };
 		5C8E05B917AD8A8D00F238E2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4238617A60396009C6D25 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5CBA12CB1800953500E55CE6 /* OpaqueBarsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA12CA1800953500E55CE6 /* OpaqueBarsNavigationController.m */; };
 		5CC3F46617A60F2A0096A989 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3F46517A60F2A0096A989 /* UIColor+CustomColors.m */; };
 		5CC3F46717A60F2A0096A989 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3F46517A60F2A0096A989 /* UIColor+CustomColors.m */; };
 		5CC3F47C17A6107C0096A989 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC3F47517A6105C0096A989 /* libReactiveCocoa-iOS.a */; };
@@ -277,6 +278,8 @@
 		5C402B6217EE981300DB3F84 /* dropbox_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_logo.png; sourceTree = "<group>"; };
 		5C402B6917EE9EB600DB3F84 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
 		5CA3274B17A6198F0089F9A1 /* DropboxApiKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxApiKey.h; sourceTree = "<group>"; };
+		5CBA12C91800953500E55CE6 /* OpaqueBarsNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpaqueBarsNavigationController.h; sourceTree = "<group>"; };
+		5CBA12CA1800953500E55CE6 /* OpaqueBarsNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpaqueBarsNavigationController.m; sourceTree = "<group>"; };
 		5CC3F46117A60EC70096A989 /* TaskBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBag.h; sourceTree = "<group>"; };
 		5CC3F46217A60EC70096A989 /* TaskFilterTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFilterTarget.h; sourceTree = "<group>"; };
 		5CC3F46417A60F2A0096A989 /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
@@ -884,6 +887,8 @@
 				5CE423D017A60B6A009C6D25 /* FilterViewController.m */,
 				5CE4239517A60509009C6D25 /* LoginScreenViewController.h */,
 				5CE4239617A60509009C6D25 /* LoginScreenViewController.m */,
+				5CBA12C91800953500E55CE6 /* OpaqueBarsNavigationController.h */,
+				5CBA12CA1800953500E55CE6 /* OpaqueBarsNavigationController.m */,
 				5CE4239817A60509009C6D25 /* TaskEditViewController.h */,
 				5CE4239917A60509009C6D25 /* TaskEditViewController.m */,
 				5CE423D117A60B6A009C6D25 /* TasksViewController.h */,
@@ -1288,6 +1293,7 @@
 				88DB7C1D14B2C786003A96F9 /* ByContextFilter.m in Sources */,
 				88DB7C1F14B2C786003A96F9 /* ByPriorityFilter.m in Sources */,
 				88DB7C2114B2C786003A96F9 /* ByProjectFilter.m in Sources */,
+				5CBA12CB1800953500E55CE6 /* OpaqueBarsNavigationController.m in Sources */,
 				88DB7C2314B2C786003A96F9 /* ByTextFilter.m in Sources */,
 				88DB7C2514B2C786003A96F9 /* AndFilter.m in Sources */,
 				88DB7C2714B2C786003A96F9 /* OrFilter.m in Sources */,
