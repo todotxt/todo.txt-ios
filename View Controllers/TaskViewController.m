@@ -304,6 +304,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
         id<TaskBag> taskBag = self.appDelegate.taskBag;
         Task* task = self.task;
         [taskBag remove:task];
+		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
         [self.appDelegate displayNotification:@"Deleted task"];
         [self.appDelegate pushToRemote];
     }
