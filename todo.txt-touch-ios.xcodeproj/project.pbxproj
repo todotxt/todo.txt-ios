@@ -1077,6 +1077,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				8854EF05180CB30800E7064A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1229,6 +1230,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		8854EF05180CB30800E7064A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#Set version number in the settings bundle for display to the user.\nversion=`/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" $SRCROOT/todo_txt_touch_ios-Info.plist`\n/usr/libexec/PlistBuddy \"$SRCROOT/InAppSettings.bundle/Root.inApp.plist\" -c \"set :PreferenceSpecifiers:12:DefaultValue $version\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
