@@ -143,7 +143,7 @@
 			file.status = dbConflict;
             NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                                code:kUploadConflictErrorCode
-                                           userInfo:@{ kUploadConflictFileString : file }];
+                                           userInfo:@{ kUploadConflictFile : file }];
             [self.subject sendError:err];
 			return;
 		}
@@ -173,13 +173,13 @@
 	
 	file.loadedMetadata = metadata;	
 
-	if (![metadata.path isEqualToString:destPath]) {
+	if ([metadata.path caseInsensitiveCompare:destPath] != NSOrderedSame) {
 		// If the uploaded remote path does not match our expected remotePath, 
 		// then a conflict occurred and we should announce the conflict to the user.
 		file.status = dbConflict;
         NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                            code:kUploadConflictErrorCode
-                                       userInfo:@{ kUploadConflictFileString : file }];
+                                       userInfo:@{ kUploadConflictFile : file }];
         [self.subject sendError:err];
 		return;
 	}
