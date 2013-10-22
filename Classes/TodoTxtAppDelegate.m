@@ -160,7 +160,8 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 								 @"YES", @"date_new_tasks_preference",
 								 @"NO", @"manual_sync_preference", 
 								 @"NO", @"need_to_push",
-								 @"/todo", @"file_location_preference", nil];	
+								 @"/todo", @"file_location_preference",
+								 @"none", @"badgeCount_preference", nil];
     [defaults registerDefaults:appDefaults];
 	
     self.remoteClientManager = [[RemoteClientManager alloc] initWithDelegate:self];
