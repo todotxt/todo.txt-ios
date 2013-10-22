@@ -119,7 +119,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string>1.6</string>
+			<string>1.7</string>
 			<key>Key</key>
 			<string>version_string</string>
 			<key>Title</key>
