@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="q98-oM-s57">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="q98-oM-s57">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Filter View Controller-->
@@ -256,6 +256,7 @@
                         <segue destination="jSC-c6-Vml" kind="relationship" relationship="masterViewController" id="uWB-sk-edw"/>
                         <segue destination="IRl-Mb-hwh" kind="relationship" relationship="detailViewController" id="KgM-FW-LLZ"/>
                         <segue destination="e5C-aC-Aod" kind="modal" identifier="LoginScreenSegue" id="qYf-co-8Dz"/>
+                        <segue destination="e5C-aC-Aod" kind="modal" identifier="LoginScreenSegueNotAnimated" animates="NO" id="0C1-Ko-UCJ"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4YP-fk-KXC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -344,6 +345,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="0C1-Ko-UCJ"/>
         <segue reference="I3C-Wc-7PQ"/>
     </inferredMetricsTieBreakers>
 </document>

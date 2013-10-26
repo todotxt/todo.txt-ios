@@ -58,6 +58,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
+static NSString * const kLoginScreenSegueNotAnimatedIdentifier = @"LoginScreenSegueNotAnimated";
 
 @interface TodoTxtAppDelegate ()
 
@@ -95,8 +96,16 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
                            userInfo:@{ NSLocalizedDescriptionKey : @"No internet connection: Cannot sync with Dropbox right now." }];
 }
 
+- (void)presentLoginControllerAnimated:(BOOL)animated {
+    if (animated) {
+        [self.window.rootViewController performSegueWithIdentifier:kLoginScreenSegueIdentifier sender:self];
+    } else {
+        [self.window.rootViewController performSegueWithIdentifier:kLoginScreenSegueNotAnimatedIdentifier sender:self];
+    }
+}
+
 - (void) presentLoginController {
-    [self.window.rootViewController performSegueWithIdentifier:kLoginScreenSegueIdentifier sender:self];
+    [self presentLoginControllerAnimated:YES];
 }
 
 - (void) presentMainViewController {
@@ -172,9 +181,13 @@ static NSString * const kLoginScreenSegueIdentifier = @"LoginScreenSegue";
 											 selector:@selector(reachabilityChanged) 
 												 name:kReachabilityChangedNotification object:nil];
     
-	if (![self.remoteClientManager.currentClient isAuthenticated]) {
-		[self presentLoginController];
-	}
+    if (![self.remoteClientManager.currentClient isAuthenticated]) {
+        // Show the login view during the next iteration of the run loop.
+        // It is too early to show the view at this point.
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self presentLoginControllerAnimated:YES];
+        }];
+    }
 	
 
     UIViewController *rootViewController = self.window.rootViewController;
