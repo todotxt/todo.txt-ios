@@ -66,12 +66,13 @@ static NSRegularExpression* projectPattern = nil;
 							options:0
 							  range:NSMakeRange(0, [inputText length])];
 	
-	NSMutableArray* projects = [NSMutableArray arrayWithCapacity:[projectMatches count]];
-	for (NSTextCheckingResult *match in projectMatches) {
-		[projects addObject:[[inputText substringWithRange:[match rangeAtIndex:1]] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
-	}	
+	NSMutableSet* projects = [NSMutableSet setWithCapacity:[projectMatches count]];
+   	for (NSTextCheckingResult *match in projectMatches) {
+		NSString* theProjectInLowercase = [[[inputText substringWithRange:[match rangeAtIndex:1]]  stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+		[projects addObject:theProjectInLowercase];
+	}
 	
-	return projects;
+	return [projects allObjects];
 }
 
 + (NSArray *)rangesOfProjectsForString:(NSString *)string
