@@ -141,17 +141,20 @@ static NSString * const kLoginScreenSegueNotAnimatedIdentifier = @"LoginScreenSe
 }
 
 - (void)displayNotification:(NSString *)message {
-	SJNotificationViewController *notificationController = [[SJNotificationViewController alloc] initWithNibName:@"SJNotificationViewController" bundle:nil];
-	[notificationController setParentView:self.contentNavController.view];
-	[notificationController setNotificationTitle:message];
-	
-	[notificationController setNotificationDuration:2000];
-	[notificationController setBackgroundColor:[UIColor colorWithRed:0
-															   green:0
-																blue:0 
-															   alpha:0.6f]];
-	
-	[notificationController show];
+    // Performing UI operations, so run on the main thread
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        SJNotificationViewController *notificationController = [[SJNotificationViewController alloc] initWithNibName:@"SJNotificationViewController" bundle:nil];
+        [notificationController setParentView:self.contentNavController.view];
+        [notificationController setNotificationTitle:message];
+        
+        [notificationController setNotificationDuration:2000];
+        [notificationController setBackgroundColor:[UIColor colorWithRed:0
+                                                                   green:0
+                                                                    blue:0 
+                                                                   alpha:0.6f]];
+        
+        [notificationController show];
+    }];
 }
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
