@@ -45,16 +45,16 @@
 #import "DropboxFileUploader.h"
 #import "DropboxRemoteClient.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 @interface DropboxFileUploader () <DBRestClientDelegate>
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic) BOOL overwrite;
+@property (nonatomic, strong) id target;
+@property (nonatomic) SEL onComplete;
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, strong) NSArray *files;
+@property (nonatomic) DropboxFileStatus status;
 @property (nonatomic) NSInteger curFile;
-@property (nonatomic, strong) RACSubject *subject;
 
 @end
 
@@ -62,12 +62,20 @@
 
 - (id)init
 {
+    self = [super init];
+    NSAssert(NO, @"Do not use -init for %@", NSStringFromClass([self class]));
+    return self;
+}
+
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
 	self = [super init];
 	if (self) {
 		self.overwrite = NO;
+		self.target = aTarget;
+		self.onComplete = selector;
+		self.status = dbInitialized;
 		self.curFile = -1;
 	}
-
 	return self;
 }
 
@@ -77,6 +85,11 @@
 		_restClient.delegate = self;
 	}
 	return _restClient;
+}
+
+- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
+	self.status = aStatus;
+	[self.target performSelectorOnMainThread:self.onComplete withObject:self waitUntilDone:NO];
 }
 
 - (void) uploadNextFile {
@@ -92,8 +105,7 @@
 		}
 	} else {
 		// we're done!
-        [self.subject sendNext:self.files];
-        [self.subject sendCompleted];
+		[self reportCompletionWithStatus:dbSuccess];
 	}
 }
 
@@ -109,19 +121,14 @@
 	}
 }
 
-- (RACSignal *)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite {
+- (void) pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite {
     self.files = dropboxFiles;
     self.curFile = -1;
+    self.status = dbStarted;
     self.overwrite = doOverwrite;
-    
-    self.subject = [RACSubject subject];
-    
+
     // first check metadata of each file, starting with the first
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self loadNextMetadata];
-    }];
-    
-    return self.subject;
+    [self loadNextMetadata];
 }
 
 #pragma mark -
@@ -144,7 +151,7 @@
             NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                                code:kUploadConflictErrorCode
                                            userInfo:@{ kUploadConflictFile : file }];
-            [self.subject sendError:err];
+			[self reportCompletionWithStatus:dbConflict];
 			return;
 		}
 		
@@ -180,7 +187,7 @@
         NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                            code:kUploadConflictErrorCode
                                        userInfo:@{ kUploadConflictFile : file }];
-        [self.subject sendError:err];
+		[self reportCompletionWithStatus:dbConflict];
 		return;
 	}
 	
@@ -194,10 +201,11 @@
 	
 	file.status = dbError;
 	file.error = theError;
+    
+    self.error = theError;
 	
-	// don't bother uploading any more self.files after the first error
-    [self.subject sendError:theError];
+	// don't bother uploading any more files after the first error
+    [self reportCompletionWithStatus:dbError];
 }
-
 
 @end

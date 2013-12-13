@@ -44,18 +44,17 @@
 
 #import "DropboxFileDownloader.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 @interface DropboxFileDownloader () <DBRestClientDelegate>
 
 @property (nonatomic, strong) DBRestClient *restClient;
 
 @property (nonatomic) NSInteger curFile;
+@property (nonatomic) id target;
+@property (nonatomic) SEL onComplete;
+@property (nonatomic) DropboxFileStatus status;
 
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic, strong) NSError *error;
-
-@property (nonatomic, strong) RACSubject *subject;
 
 @end
 
@@ -63,8 +62,17 @@
 
 - (id)init
 {
+    self = [super init];
+    NSAssert(NO, @"Do not use -init for %@", NSStringFromClass([self class]));
+    return self;
+}
+
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector {
 	self = [super init];
 	if (self) {
+		self.target = aTarget;
+		self.onComplete = selector;
+		self.status = dbInitialized;
 		self.curFile = -1;
 	}
 	return self;
@@ -76,6 +84,11 @@
 		_restClient.delegate = self;
 	}
 	return _restClient;
+}
+
+- (void) reportCompletionWithStatus:(DropboxFileStatus)aStatus {
+	self.status = aStatus;
+	[self.target performSelectorOnMainThread:self.onComplete withObject:self waitUntilDone:NO];
 }
 
 - (void) loadNextFile {
@@ -90,8 +103,7 @@
 		}
 	} else {
 		// we're done!
-        [self.subject sendNext:self.files];
-        [self.subject sendCompleted];
+		[self reportCompletionWithStatus:dbSuccess];
 	}
 }
 
@@ -107,18 +119,13 @@
 	}
 }
 
-- (RACSignal *)pullFiles:(NSArray *)dropboxFiles {
+- (void) pullFiles:(NSArray*)dropboxFiles {
     self.files = dropboxFiles;
     self.curFile = -1;
-    
-    self.subject = [RACSubject subject];
+    self.status = dbStarted;
 
     // first check metadata of each file, starting with the first
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self loadNextMetadata];
-    }];
-    
-    return self.subject;
+    [self loadNextMetadata];
 }
 
 #pragma mark -
@@ -171,8 +178,7 @@
 	self.error = theError;
 
 	// don't bother downloading any more files after the first error
-	[self.subject sendError:theError];
+	[self reportCompletionWithStatus:dbError];
 }
-
 
 @end
