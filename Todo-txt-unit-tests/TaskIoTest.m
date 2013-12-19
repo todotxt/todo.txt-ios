@@ -64,7 +64,7 @@
     return self;
 }
 
--(NSString *)readTrimmedLine {
+-(NSString *)readLine {
 
     if( _counter >= [_lines count] )
     {
