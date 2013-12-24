@@ -138,10 +138,30 @@
 	STAssertEqualObjects(@"2011-01-02", result.completedDate, @"completedDate should be 2011-01-02");
 }
 
+- (void)testSplit_completedWithPriority
+{
+	TextSplitter* result = [TextSplitter split:@"x 2011-01-02 (A) test 123"];
+	STAssertEquals(PriorityA, result.priority.name, @"priority should be A");
+	STAssertEqualObjects(@"", result.prependedDate, @"prependedDate should be blank");
+	STAssertEqualObjects(@"test 123", result.text, @"text should be \"test 123\"");
+	STAssertTrue(result.completed, @"completed should be true");
+	STAssertEqualObjects(@"2011-01-02", result.completedDate, @"completedDate should be 2011-01-02");
+}
+
 - (void)testSplit_completedWithPrependedDate
 {
 	TextSplitter* result = [TextSplitter split:@"x 2011-01-02 2011-01-01 test 123"];
 	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	STAssertEqualObjects(@"2011-01-01", result.prependedDate, @"prependedDate should be 2011-01-01");
+	STAssertEqualObjects(@"test 123", result.text, @"text should be \"test 123\"");
+	STAssertTrue(result.completed, @"completed should be true");
+	STAssertEqualObjects(@"2011-01-02", result.completedDate, @"completedDate should be 2011-01-02");
+}
+
+- (void)testSplit_completedWithPriorityAndPrependedDate
+{
+	TextSplitter* result = [TextSplitter split:@"x 2011-01-02 (A) 2011-01-01 test 123"];
+	STAssertEquals(PriorityA, result.priority.name, @"priority should be A");
 	STAssertEqualObjects(@"2011-01-01", result.prependedDate, @"prependedDate should be 2011-01-01");
 	STAssertEqualObjects(@"test 123", result.text, @"text should be \"test 123\"");
 	STAssertTrue(result.completed, @"completed should be true");

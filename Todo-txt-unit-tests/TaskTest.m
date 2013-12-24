@@ -566,7 +566,7 @@
 	Task *task = [[[Task alloc] initWithId:1 withRawText:input] autorelease];
 	NSString *completedDate = @"2011-02-28"; 
 	
-	NSString *completedText = [NSString stringWithFormat:@"x %@ %@ %@", completedDate, date, text];
+	NSString *completedText = [NSString stringWithFormat:@"x %@ (%@) %@ %@", completedDate, priority, date, text];
 	
 	[task markComplete:[Util dateFromString:completedDate withFormat:@"yyyy-MM-dd"]];
 	
@@ -574,7 +574,7 @@
 	STAssertEqualObjects(text, task.originalText, @"originalText should be %@", text);
 	STAssertEqualObjects(text, task.text, @"text should be %@", text);
 	STAssertEquals([Priority byCode:priority], task.originalPriority, @"originalPriority should be %@", priority);
-	STAssertEquals([Priority NONE], task.priority, @"priority should be NONE");
+	STAssertEquals([Priority byCode:priority], task.priority, @"priority should be %@", priority);
 	STAssertEqualObjects(date, task.prependedDate, @"prependedDate should be %@", date);
 	STAssertEquals(3U, task.contexts.count, @"should be 3 contexts");
 	STAssertTrue([task.contexts containsObject:@"complex"], @"Task should contain context \"complex\"");
@@ -599,7 +599,7 @@
 	Task *task = [[[Task alloc] initWithId:1 withRawText:input] autorelease];
 	NSString *completedDate = @"2011-02-28"; 
 	
-	NSString *completedText = [NSString stringWithFormat:@"x %@ %@ %@", completedDate, date, text];
+	NSString *completedText = [NSString stringWithFormat:@"x %@ (%@) %@ %@", completedDate, priority, date, text];
 	
 	[task markComplete:[Util dateFromString:completedDate withFormat:@"yyyy-MM-dd"]];
 	[task markComplete:[Util dateFromString:completedDate withFormat:@"yyyy-MM-dd"]];
@@ -608,7 +608,7 @@
 	STAssertEqualObjects(text, task.originalText, @"originalText should be %@", text);
 	STAssertEqualObjects(text, task.text, @"text should be %@", text);
 	STAssertEquals([Priority byCode:priority], task.originalPriority, @"originalPriority should be %@", priority);
-	STAssertEquals([Priority NONE], task.priority, @"priority should be NONE");
+	STAssertEquals([Priority byCode:priority], task.priority, @"priority should be %@", priority);
 	STAssertEqualObjects(date, task.prependedDate, @"prependedDate should be %@", date);
 	STAssertEquals(3U, task.contexts.count, @"should be 3 contexts");
 	STAssertTrue([task.contexts containsObject:@"complex"], @"Task should contain context \"complex\"");
