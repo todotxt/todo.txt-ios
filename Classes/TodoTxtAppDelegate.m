@@ -351,7 +351,7 @@ static NSString * const kLoginScreenSegueNotAnimatedIdentifier = @"LoginScreenSe
              NSString *message = [NSString
                                   stringWithFormat:@"Oops! There is a newer version of your %@ file in Dropbox. "
                                   "Do you want to upload your local changes, or download the Dropbox version?",
-                                  [[(DropboxFile *)error.userInfo[kRCUploadConflictFileKey] localFile] lastPathComponent]
+                                  [error.userInfo[kRCUploadConflictFileKey] lastPathComponent]
                                   ];
              
              UIAlertView *alert =
