@@ -59,7 +59,6 @@
 
 static NSString * const kTaskDelimiter = @"\n";
 static NSString * const kHelpPopoverSegueIdentifier = @"TaskEditHelpPopoverSegue";
-static NSInteger const kHelpPopoverWebviewTag = 1;
 static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
 "<p><strong>Projects</strong> start with a + sign and contain no spaces, like +KitchenRemodel or +Novel.</p>"
 "<p><strong>Contexts</strong> (where you will complete a task) start with an @ sign, like @phone or @GroceryStore."
