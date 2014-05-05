@@ -211,12 +211,12 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
             taskCell.viewModel = viewModel;
             
             // Use RAC(...) as usual here, since this cell is created once and never re-used.
-            RAC(taskCell.taskTextView, attributedText) = [RACAbleWithStart(viewModel, attributedText) distinctUntilChanged];
-            RAC(taskCell.taskTextView, accessibilityLabel) = [RACAbleWithStart(viewModel, accessibleText) distinctUntilChanged];
-            RAC(taskCell.ageLabel, text) = [RACAbleWithStart(viewModel, ageText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, text) = [RACAbleWithStart(viewModel, priorityText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, textColor) = [RACAbleWithStart(viewModel, priorityColor) distinctUntilChanged];
-            RAC(taskCell, shouldShowDate) = RACAbleWithStart(viewModel, shouldShowDate);
+            RAC(taskCell.taskTextView, attributedText) = [RACObserve(viewModel, attributedText) distinctUntilChanged];
+            RAC(taskCell.taskTextView, accessibilityLabel) = [RACObserve(viewModel, accessibleText) distinctUntilChanged];
+            RAC(taskCell.ageLabel, text) = [RACObserve(viewModel, ageText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, text) = [RACObserve(viewModel, priorityText) distinctUntilChanged];
+            RAC(taskCell.priorityLabel, textColor) = [RACObserve(viewModel, priorityColor) distinctUntilChanged];
+            RAC(taskCell, shouldShowDate) = RACObserve(viewModel, shouldShowDate);
             
             taskCell.viewModel = viewModel;
             
