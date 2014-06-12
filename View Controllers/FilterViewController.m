@@ -107,20 +107,20 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     // lists current.
     NSObject<TaskBag> *taskBag = ((TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate]).taskBag;
     
-    RACSignal *tasksSignal = RACAbleWithStart(taskBag, tasks);
+    RACSignal *tasksSignal = RACObserve(taskBag, tasks);
     
-    RAC(self.contexts) = [tasksSignal map:^NSArray *(NSArray *tasks) {
+    RAC(self, contexts) = [tasksSignal map:^NSArray *(NSArray *tasks) {
         return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
                 sortedArrayUsingSelector:@selector(compare:)];
     }];
     
-    RAC(self.projects) = [tasksSignal map:^NSArray *(NSArray *tasks) {
+    RAC(self, projects) = [tasksSignal map:^NSArray *(NSArray *tasks) {
         return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.projects"]
                 sortedArrayUsingSelector:@selector(compare:)];
     }];
     
     // Whenever our contexts or projects update, tell the table view to reloadData
-    [[RACSignal combineLatest:@[ RACAble(self.contexts), RACAble(self.projects) ]]
+    [[RACSignal combineLatest:@[ RACObserve(self, contexts), RACObserve(self, projects) ]]
      subscribeNext:^(id _) {
          [self.tableView reloadData];
     }];

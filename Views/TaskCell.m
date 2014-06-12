@@ -204,7 +204,7 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
         [self.contentView addConstraints:constraints];
         
         // Adjust constraints and add or remove the age label if shouldShowDate changes
-        RACSignal *showDateSignal = [RACAble(self.shouldShowDate) distinctUntilChanged];
+        RACSignal *showDateSignal = [RACObserve(self, shouldShowDate) distinctUntilChanged];
         
         // Add/remove the age label based on showDateSignal, and tell the view
         // to layout afterwards.
