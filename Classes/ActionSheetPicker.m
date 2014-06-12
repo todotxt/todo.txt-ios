@@ -140,7 +140,7 @@
 	if (nil != self.title){
 		UILabel *toolBarItemlabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 180,30)];
 		
-		[toolBarItemlabel setTextAlignment:UITextAlignmentCenter];	
+		[toolBarItemlabel setTextAlignment:NSTextAlignmentCenter];
 		[toolBarItemlabel setTextColor:[UIColor whiteColor]];	
 		[toolBarItemlabel setFont:[UIFont boldSystemFontOfSize:16]];	
 		[toolBarItemlabel setBackgroundColor:[UIColor clearColor]];	
