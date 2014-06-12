@@ -208,23 +208,17 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
         
         // Add/remove the age label based on showDateSignal, and tell the view
         // to layout afterwards.
-        [[RACSignal merge:@[
-          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
-            return [boolNumber isEqual:@YES];
-        }] doNext:^(id _) {
-            [self.contentView addSubview:self.ageLabel];
-            [self.contentView addConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
-        }],
-          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
-            return [boolNumber isEqual:@NO];
-        }] doNext:^(id _) {
-            [self.contentView removeConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
-            [self.ageLabel removeFromSuperview];
-        }],
-          ]]
-         subscribeNext:^(id _) {
-             [self setNeedsDisplay];
-         }];
+        [showDateSignal subscribeNext:^(NSNumber *boolNumber) {
+            if (boolNumber.boolValue) {
+                [self.contentView addSubview:self.ageLabel];
+                [self.contentView addConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
+            } else {
+                [self.contentView removeConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
+                [self.ageLabel removeFromSuperview];
+            }
+            
+            [self setNeedsDisplay];
+        }];
     }
     
     return self;

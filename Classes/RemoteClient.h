@@ -53,19 +53,17 @@ static NSString * const kRCUploadConflictFileKey = @"__kRCUploadConflictFileKey"
 static NSInteger const kRCErrorUploadConflict = 001;
 static NSInteger const kRCErrorUploadFailed = 002;
 
-@class RACSignal;
-
 @protocol RemoteClientDelegate;
 
 @protocol RemoteClient <NSObject> 
 
-- (Client)client;
+- (Client) client;
 - (BOOL)authenticate;
 - (void)deauthenticate;
 - (BOOL)isAuthenticated;
 - (void)presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (RACSignal *)pullTodo;
-- (RACSignal *)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
+- (void)pullTodo;
+- (void)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
 - (BOOL)isNetworkAvailable;
 - (BOOL)handleOpenURL:(NSURL *)url;
 
@@ -76,6 +74,12 @@ static NSInteger const kRCErrorUploadFailed = 002;
 
 @protocol RemoteClientDelegate <NSObject>
 
+- (void)remoteClient:(id<RemoteClient>)client loadedTodoFile:(NSString*)todoPath loadedDoneFile:(NSString*)donePath;
+- (void)remoteClient:(id<RemoteClient>)client loadFileFailedWithError:(NSError*)error;
+- (void)remoteClient:(id<RemoteClient>)client uploadedFile:(NSString*)destPath;
+- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithError:(NSError*)error;
+- (void)remoteClient:(id<RemoteClient>)client uploadFileFailedWithConflict:(NSString*)destPath;
 - (void)remoteClient:(id<RemoteClient>)client loginControllerDidLogin:(BOOL)success;
+
 
 @end

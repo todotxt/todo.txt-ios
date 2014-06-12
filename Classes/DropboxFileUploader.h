@@ -46,8 +46,6 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@class RACSignal;
-
 static NSInteger const kUploadConflictErrorCode = 001;
 static NSString * const kUploadConflictFile = @"__kUploadConflictFile";
 
@@ -55,8 +53,10 @@ static NSString * const kUploadConflictFile = @"__kUploadConflictFile";
 
 @property (nonatomic, readonly) BOOL overwrite;
 @property (nonatomic, readonly) NSArray *files;
+@property (nonatomic, readonly) DropboxFileStatus status;
 @property (nonatomic, readonly) NSError *error;
 
-- (RACSignal *)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite;
+- (id) initWithTarget:(id)aTarget onComplete:(SEL)selector;
+- (void) pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite;
 
 @end

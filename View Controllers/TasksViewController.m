@@ -102,6 +102,12 @@ static CGFloat const kMinCellHeight = 44;
 
 - (void)sync:(id)sender;
 
+/**
+ Notification callback for when sync finishes.
+ @param notification The notification with information on how the sync finished.
+ */
+- (void)syncFinished:(NSNotification *)notification;
+
 @end
 
 @implementation TasksViewController
@@ -115,12 +121,12 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 - (void)sync:(id)sender {
 	NSLog(@"sync: called");
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksSyncingRefreshText];
-    [[[self.appDelegate syncClient] finally:^{
-        [self.refreshControl endRefreshing];
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
-    }] subscribeCompleted:^{
-        //nothing, but required for the finally: block
-    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(syncFinished:)
+                                                 name:kTODOSyncFinishedNotificationName
+                                               object:nil];
+    [self.appDelegate syncClient];
 }
 
 - (void) reloadData:(NSNotification *) notification {
@@ -563,6 +569,18 @@ shouldReloadTableForSearchString:(NSString *)searchString
     [self hideSearchBar:YES];   
 	[self.actionSheetPicker actionPickerCancel];
 	self.actionSheetPicker = nil;
+}
+
+#pragma mark - Notifications
+
+- (void)syncFinished:(NSNotification *)notification
+{
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kTODOSyncFinishedNotificationName
+                                                  object:nil];
 }
 
 #pragma mark - Segues

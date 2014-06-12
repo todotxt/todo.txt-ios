@@ -49,10 +49,18 @@
 
 static NSString * const kTODOErrorDomain = @"com.todotxt.Todo-txt";
 static NSInteger const kTODOErrorCodeNoInternet = 101;
+static NSInteger const kTODOErrorCodeFileConflict = 102;
 static NSInteger const kTODOErrorCodeDownloadError = 201;
 static NSInteger const kTODOErrorCodeUploadError = 202;
 
-@class RACSignal, RACSubject;
+/// Key in the userInfo dictionary for errors passed along with sync finish notifications.
+extern NSString * const kTODOSyncErrorKey;
+
+/// Error status code included
+static NSInteger const kTODOErrorCodeGenericSyncFailedError = 301;
+
+extern NSString * const kTODOSyncFinishedNotificationName;
+
 @class TasksViewController;
 
 @interface TodoTxtAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
@@ -65,12 +73,12 @@ static NSInteger const kTODOErrorCodeUploadError = 202;
 
 - (void)displayNotification:(NSString *)message;
 - (void)clearUserDefaults;
-- (RACSignal *)syncClient;
-- (void)syncClientForce:(BOOL)force subject:(RACSubject *)subject;
-- (RACSignal *)pushToRemote;
-- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force subject:(RACSubject *)subject;
-- (void)pullFromRemoteForce:(BOOL)force subject:(RACSubject *)subject;
-- (RACSignal *)pullFromRemote;
+- (void)syncClient;
+- (void)syncClientForce:(BOOL)force;
+- (void)pushToRemote;
+- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force;
+- (void)pullFromRemoteForce:(BOOL)force;
+- (void)pullFromRemote;
 - (BOOL)isManualMode;
 - (void)logout;
 
