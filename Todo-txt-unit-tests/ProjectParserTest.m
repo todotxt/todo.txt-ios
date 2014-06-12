@@ -101,8 +101,8 @@
 	NSString *input = @"Check out http://example.com/this+is+a+test +Research @Computer +URLs";
 	NSArray *strings = [ProjectParser parse:input];
 	STAssertEquals(2U, strings.count, @"Should be two matches");
-	STAssertTrue([strings containsObject:@"Research"], @"should contain \"Research\"");
-	STAssertTrue([strings containsObject:@"URLs"], @"should contain \"URLs\"");
+	STAssertTrue([strings containsObject:@"research"], @"should contain \"research\"");
+	STAssertTrue([strings containsObject:@"urls"], @"should contain \"urls\"");
 }
 
 @end

@@ -107,7 +107,6 @@
 
 - (void)markComplete:(NSDate*)date {
 	if (!completed) {
-		priority = [Priority NONE];
 		completionDate = [Util stringFromDate:date withFormat:TASK_DATE_FORMAT];
 		deleted = NO;
 		completed = YES;		
@@ -132,6 +131,10 @@
 		[ret appendString:COMPLETED_TXT];
 		[ret appendString:completionDate];
 		[ret appendString:@" "];
+		if (priority != [Priority NONE]) {
+			[ret appendString:[priority fileFormat]];
+			[ret appendString:@" "];
+		}
 		if ([prependedDate length] > 0) {
 			[ret appendString:prependedDate];
 			[ret appendString:@" "];
@@ -150,12 +153,11 @@
 		[ret appendString:COMPLETED_TXT];
 		[ret appendString:completionDate];
 		[ret appendString:@" "];
-	} else {
-		if (priority != [Priority NONE]) {
-			[ret appendString:[priority fileFormat]];
-			[ret appendString:@" "];
-		}
 	}
+    if (priority != [Priority NONE]) {
+        [ret appendString:[priority fileFormat]];
+        [ret appendString:@" "];
+    }
 	
 	if ([prependedDate length] > 0) {
 		[ret appendString:prependedDate];

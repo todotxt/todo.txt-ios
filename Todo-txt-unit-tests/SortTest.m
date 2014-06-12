@@ -115,10 +115,10 @@
 	NSArray *sortedTasks = [unsortedTasks sortedArrayUsingSelector:sort.comparator];
 	
 	STAssertEquals(5U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
-	STAssertEquals(9999U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
-	STAssertEquals(1U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
-	STAssertEquals(99U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
-	STAssertEquals(55U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
+	STAssertEquals(1U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
+	STAssertEquals(99U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
+	STAssertEquals(55U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
+	STAssertEquals(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
 }
 
 @end

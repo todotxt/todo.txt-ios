@@ -116,44 +116,32 @@ static NSRegularExpression* singleDatePattern = nil;
 		text = inputText;
 	}
 	
-	Priority *priority = [Priority NONE];
-	if(!completed) {
-		PriorityTextSplitter *prioritySplitResult = [PriorityTextSplitter split:text];
-		priority = [prioritySplitResult priority];
-		text = [prioritySplitResult text];
-	}
-	
 	NSString *completedDate = [NSString string];
-	NSString *prependedDate = [NSString string];
 	if (completed) {
-		NSTextCheckingResult *completedAndPrependedMatch = 
-			[completedPrependedDatesPattern firstMatchInString:text
-									 options:0
-									 range:NSMakeRange(0, [text length])];
-		if (completedAndPrependedMatch) {
-			completedDate = [text substringWithRange:[completedAndPrependedMatch rangeAtIndex:1]];
-			prependedDate = [text substringWithRange:[completedAndPrependedMatch rangeAtIndex:2]];
-			text = [text substringWithRange:[completedAndPrependedMatch rangeAtIndex:3]];
-		} else {
-			NSTextCheckingResult *completionDateMatch = 
-				[singleDatePattern firstMatchInString:text
-								 options:0
-								 range:NSMakeRange(0, [text length])];
-			if (completionDateMatch) {
-				completedDate = [text substringWithRange:[completionDateMatch rangeAtIndex:1]];
-				text = [text substringWithRange:[completionDateMatch rangeAtIndex:2]];
-			}
-		}
-	} else {
-		NSTextCheckingResult *prependedDateMatch = 
-		[singleDatePattern firstMatchInString:text
-									  options:0
-										range:NSMakeRange(0, [text length])];
-		if (prependedDateMatch) {
-			prependedDate = [text substringWithRange:[prependedDateMatch rangeAtIndex:1]];
-			text = [text substringWithRange:[prependedDateMatch rangeAtIndex:2]];
-		}
-	}		
+        NSTextCheckingResult *completionDateMatch =
+            [singleDatePattern firstMatchInString:text
+                             options:0
+                             range:NSMakeRange(0, [text length])];
+        if (completionDateMatch) {
+            completedDate = [text substringWithRange:[completionDateMatch rangeAtIndex:1]];
+            text = [text substringWithRange:[completionDateMatch rangeAtIndex:2]];
+        }
+	}
+    
+	Priority *priority = [Priority NONE];
+    PriorityTextSplitter *prioritySplitResult = [PriorityTextSplitter split:text];
+    priority = [prioritySplitResult priority];
+    text = [prioritySplitResult text];
+
+	NSString *prependedDate = [NSString string];
+    NSTextCheckingResult *prependedDateMatch =
+    [singleDatePattern firstMatchInString:text
+                                  options:0
+                                    range:NSMakeRange(0, [text length])];
+    if (prependedDateMatch) {
+        prependedDate = [text substringWithRange:[prependedDateMatch rangeAtIndex:1]];
+        text = [text substringWithRange:[prependedDateMatch rangeAtIndex:2]];
+    }
 	
 	return [[TextSplitter alloc] initWithPriority:priority 
 										  withText:text 
