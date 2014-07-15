@@ -86,8 +86,8 @@
     
     NSDictionary *grayAttribute = @{ NSForegroundColorAttributeName : [UIColor grayColor] };
     
-    NSArray *contextsRanges = [self.task rangesOfContexts];
-    NSArray *projectsRanges = [self.task rangesOfProjects];
+    NSArray *contextsRanges = [self.task rangesOfContexts:taskText];
+    NSArray *projectsRanges = [self.task rangesOfProjects:taskText];
     for (NSValue *rangeValue in [contextsRanges arrayByAddingObjectsFromArray:projectsRanges]) {
         NSRange range = rangeValue.rangeValue;
         [taskString addAttributes:grayAttribute range:range];
