@@ -52,7 +52,11 @@ static NSInteger const kTODOErrorCodeNoInternet = 101;
 static NSInteger const kTODOErrorCodeDownloadError = 201;
 static NSInteger const kTODOErrorCodeUploadError = 202;
 
-@class RACSignal, RACSubject;
+/**
+ Completion block for remote operations. `error` must be ignored if `success` is `YES`.
+ */
+typedef void(^RemoteOperationCompletionBlock)(BOOL success, NSError *error);
+
 @class TasksViewController;
 
 @interface TodoTxtAppDelegate : NSObject <UIApplicationDelegate, RemoteClientDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
@@ -65,12 +69,12 @@ static NSInteger const kTODOErrorCodeUploadError = 202;
 
 - (void)displayNotification:(NSString *)message;
 - (void)clearUserDefaults;
-- (RACSignal *)syncClient;
-- (void)syncClientForce:(BOOL)force subject:(RACSubject *)subject;
-- (RACSignal *)pushToRemote;
-- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force subject:(RACSubject *)subject;
-- (void)pullFromRemoteForce:(BOOL)force subject:(RACSubject *)subject;
-- (RACSignal *)pullFromRemote;
+- (void)syncClientWithCompletion:(RemoteOperationCompletionBlock)completion;
+- (void)syncClientForce:(BOOL)force completion:(RemoteOperationCompletionBlock)completion;
+- (void)pushToRemoteWithCompletion:(RemoteOperationCompletionBlock)completion;
+- (void)pushToRemoteOverwrite:(BOOL)overwrite force:(BOOL)force completion:(RemoteOperationCompletionBlock)completion;
+- (void)pullFromRemoteForce:(BOOL)force completion:(RemoteOperationCompletionBlock)completion;
+- (void)pullFromRemoteWithCompletion:(RemoteOperationCompletionBlock)completion;
 - (BOOL)isManualMode;
 - (void)logout;
 

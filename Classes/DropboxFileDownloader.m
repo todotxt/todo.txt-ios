@@ -44,8 +44,6 @@
 
 #import "DropboxFileDownloader.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 @interface DropboxFileDownloader () <DBRestClientDelegate>
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -55,7 +53,7 @@
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic, strong) NSError *error;
 
-@property (nonatomic, strong) RACSubject *subject;
+@property (nonatomic, copy) DropboxFileDownloaderCompletionBlock completion;
 
 @end
 
@@ -90,8 +88,7 @@
 		}
 	} else {
 		// we're done!
-        [self.subject sendNext:self.files];
-        [self.subject sendCompleted];
+        self.completion(self.files, nil);
 	}
 }
 
@@ -107,18 +104,16 @@
 	}
 }
 
-- (RACSignal *)pullFiles:(NSArray *)dropboxFiles {
+- (void)pullFiles:(NSArray *)dropboxFiles completion:(DropboxFileDownloaderCompletionBlock)completion {
     self.files = dropboxFiles;
     self.curFile = -1;
     
-    self.subject = [RACSubject subject];
+    self.completion = completion;
 
     // first check metadata of each file, starting with the first
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self loadNextMetadata];
     }];
-    
-    return self.subject;
 }
 
 #pragma mark -
@@ -171,7 +166,7 @@
 	self.error = theError;
 
 	// don't bother downloading any more files after the first error
-	[self.subject sendError:theError];
+    self.completion(self.files, theError);
 }
 
 

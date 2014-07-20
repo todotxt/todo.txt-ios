@@ -53,7 +53,11 @@ static NSString * const kRCUploadConflictFileKey = @"__kRCUploadConflictFileKey"
 static NSInteger const kRCErrorUploadConflict = 001;
 static NSInteger const kRCErrorUploadFailed = 002;
 
-@class RACSignal;
+/**
+ Completion block for remote operations. `todoFilePath` and `doneFilePath` may be set even if there
+ is an error. In that case, `error` will be set too.
+ */
+typedef void(^RemoteClientCompletionBlock)(NSString *todoFilePath, NSString *doneFilePath, NSError *error);
 
 @protocol RemoteClientDelegate;
 
@@ -64,8 +68,8 @@ static NSInteger const kRCErrorUploadFailed = 002;
 - (void)deauthenticate;
 - (BOOL)isAuthenticated;
 - (void)presentLoginControllerFromController:(UIViewController*)parentViewController;
-- (RACSignal *)pullTodo;
-- (RACSignal *)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath;
+- (void)pullTodoWithCompletion:(RemoteClientCompletionBlock)completion;
+- (void)pushTodoOverwrite:(BOOL)doOverwrite withTodo:(NSString*)todoPath withDone:(NSString*)donePath completion:(RemoteClientCompletionBlock)completion;
 - (BOOL)isNetworkAvailable;
 - (BOOL)handleOpenURL:(NSURL *)url;
 

@@ -45,8 +45,6 @@
 #import "DropboxFileUploader.h"
 #import "DropboxRemoteClient.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 @interface DropboxFileUploader () <DBRestClientDelegate>
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -54,7 +52,7 @@
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic) NSInteger curFile;
-@property (nonatomic, strong) RACSubject *subject;
+@property (nonatomic, copy) DropboxFileUploaderCompletionBlock completion;
 
 @end
 
@@ -92,8 +90,7 @@
 		}
 	} else {
 		// we're done!
-        [self.subject sendNext:self.files];
-        [self.subject sendCompleted];
+        self.completion(self.files, nil);
 	}
 }
 
@@ -109,19 +106,17 @@
 	}
 }
 
-- (RACSignal *)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite {
+- (void)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)doOverwrite completion:(DropboxFileUploaderCompletionBlock)completion {
     self.files = dropboxFiles;
     self.curFile = -1;
     self.overwrite = doOverwrite;
     
-    self.subject = [RACSubject subject];
+    self.completion = completion;
     
     // first check metadata of each file, starting with the first
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self loadNextMetadata];
     }];
-    
-    return self.subject;
 }
 
 #pragma mark -
@@ -144,7 +139,7 @@
             NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                                code:kUploadConflictErrorCode
                                            userInfo:@{ kUploadConflictFile : file }];
-            [self.subject sendError:err];
+            self.completion(nil, err);
 			return;
 		}
 		
@@ -180,7 +175,7 @@
         NSError *err = [NSError errorWithDomain:kRCErrorDomain
                                            code:kUploadConflictErrorCode
                                        userInfo:@{ kUploadConflictFile : file }];
-        [self.subject sendError:err];
+        self.completion(nil, err);
 		return;
 	}
 	
@@ -196,7 +191,7 @@
 	file.error = theError;
 	
 	// don't bother uploading any more self.files after the first error
-    [self.subject sendError:theError];
+    self.completion(self.files, theError);
 }
 
 

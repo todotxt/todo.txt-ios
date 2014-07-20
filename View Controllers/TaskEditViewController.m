@@ -98,7 +98,7 @@ static NSString *accessability = @"Task Details";
     [super viewDidLoad];
 	
 	if (![self.appDelegate isManualMode]) {
-		[self.appDelegate syncClient];
+		[self.appDelegate syncClientWithCompletion:nil];
 	}
 	
 	self.curInput = [[NSString alloc] init];	
@@ -311,7 +311,7 @@ static NSString *accessability = @"Task Details";
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-	[self.appDelegate pushToRemote];
+	[self.appDelegate pushToRemoteWithCompletion:nil];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

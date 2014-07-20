@@ -47,13 +47,13 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@class RACSignal;
+/**
+ Completion block for download operations. Both `files` and `error` may be populated in a call.
+ */
+typedef void(^DropboxFileDownloaderCompletionBlock)(NSArray /* DropboxFile */ *files, NSError *error);
 
 @interface DropboxFileDownloader : NSObject
 
-@property (nonatomic, readonly) NSArray *files;
-@property (nonatomic, readonly) NSError *error;
-
-- (RACSignal *)pullFiles:(NSArray *)dropboxFiles;
+- (void)pullFiles:(NSArray *)dropboxFiles completion:(DropboxFileDownloaderCompletionBlock)completion;
 
 @end

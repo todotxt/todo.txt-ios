@@ -115,11 +115,9 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 - (void)sync:(id)sender {
 	NSLog(@"sync: called");
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksSyncingRefreshText];
-    [[[self.appDelegate syncClient] finally:^{
+    [self.appDelegate syncClientWithCompletion:^(BOOL success, NSError *error) {
         [self.refreshControl endRefreshing];
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:kTODOTasksRefreshText];
-    }] subscribeCompleted:^{
-        //nothing, but required for the finally: block
     }];
 }
 
@@ -238,7 +236,7 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 	if (self.needSync) {
 		self.needSync = NO;
         if (![self.appDelegate isManualMode]) {
-			[self.appDelegate syncClient];
+			[self.appDelegate syncClientWithCompletion:nil];
         }
 	}	
 }
@@ -390,7 +388,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 	}
 	
     [self reloadData:nil];
-    [self.appDelegate pushToRemote];
+    [self.appDelegate pushToRemoteWithCompletion:nil];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -500,7 +498,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 				[self.appDelegate displayNotification:@"Archiving completed tasks..."];
 				[self.appDelegate.taskBag archive];
 				[self reloadData:nil];
-				[self.appDelegate pushToRemote];
+				[self.appDelegate pushToRemoteWithCompletion:nil];
 				break;
 			default:
 				break;
