@@ -56,8 +56,6 @@
 
 #import "NSMutableAttributedString+TodoTxt.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
 #define DETAIL_CELL_PADDING 10
@@ -207,16 +205,6 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
             Task *task = [self task];
             TaskCellViewModel *viewModel = [[TaskCellViewModel alloc] init];
             viewModel.task = task;
-            
-            taskCell.viewModel = viewModel;
-            
-            // Use RAC(...) as usual here, since this cell is created once and never re-used.
-            RAC(taskCell.taskTextView, attributedText) = [RACObserve(viewModel, attributedText) distinctUntilChanged];
-            RAC(taskCell.taskTextView, accessibilityLabel) = [RACObserve(viewModel, accessibleText) distinctUntilChanged];
-            RAC(taskCell.ageLabel, text) = [RACObserve(viewModel, ageText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, text) = [RACObserve(viewModel, priorityText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, textColor) = [RACObserve(viewModel, priorityColor) distinctUntilChanged];
-            RAC(taskCell, shouldShowDate) = RACObserve(viewModel, shouldShowDate);
             
             taskCell.viewModel = viewModel;
             

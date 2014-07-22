@@ -57,8 +57,6 @@
 
 #import "IASKAppSettingsViewController.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 #define LOGOUT_TAG 10
 #define ARCHIVE_TAG 11
 
@@ -311,13 +309,6 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
     
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     cell.viewModel = viewModel;
-    
-    RAC(cell.taskTextView, attributedText) = [RACObserve(viewModel, attributedText) distinctUntilChanged];
-    RAC(cell.taskTextView, accessibilityLabel) = [RACObserve(viewModel, accessibleText) distinctUntilChanged];
-    RAC(cell.ageLabel, text) = [RACObserve(viewModel, ageText) distinctUntilChanged];
-    RAC(cell.priorityLabel, text) = [RACObserve(viewModel, priorityText) distinctUntilChanged];
-    RAC(cell.priorityLabel, textColor) = [RACObserve(viewModel, priorityColor) distinctUntilChanged];
-    RAC(cell, shouldShowDate) = [RACObserve(viewModel, shouldShowDate) distinctUntilChanged];
     
 	return cell;
 }

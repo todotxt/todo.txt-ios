@@ -48,8 +48,6 @@
 #import "TaskBag.h"
 #import "TodoTxtAppDelegate.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 typedef NS_ENUM(NSInteger, FilterViewFilterTypes) {
     FilterViewFilterTypesContexts = 0,
     FilterViewFilterTypesProjects,
@@ -62,6 +60,10 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     FilterViewActiveTypesProjects = 1 << 1,
     FilterViewActiveTypesAll = FilterViewActiveTypesContexts | FilterViewActiveTypesProjects
 };
+
+// KVO contexts
+static void * kContextsContext = &kContextsContext;
+static void * kProjectsContext = &kProjectsContext;
 
 @interface FilterViewController ()
 
@@ -77,6 +79,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 @property (strong, nonatomic) NSMutableArray *selectedProjects;
 @property (readonly, nonatomic) BOOL haveContexts;
 @property (readonly, nonatomic) BOOL haveProjects;
+@property (nonatomic, strong) NSObject<TaskBag> *taskBag;
 @property (nonatomic) FilterViewActiveTypes activeTypes;
 
 @end
@@ -105,28 +108,23 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
     
     // Listen for updates to tasks in the TaskBag, to keep our context and project
     // lists current.
-    NSObject<TaskBag> *taskBag = ((TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate]).taskBag;
+    self.taskBag = ((TodoTxtAppDelegate *)[[UIApplication sharedApplication] delegate]).taskBag;
     
-    RACSignal *tasksSignal = RACObserve(taskBag, tasks);
-    
-    RAC(self, contexts) = [tasksSignal map:^NSArray *(NSArray *tasks) {
-        return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
-                sortedArrayUsingSelector:@selector(compare:)];
-    }];
-    
-    RAC(self, projects) = [tasksSignal map:^NSArray *(NSArray *tasks) {
-        return [[tasks valueForKeyPath:@"@distinctUnionOfArrays.projects"]
-                sortedArrayUsingSelector:@selector(compare:)];
-    }];
-    
-    // Whenever our contexts or projects update, tell the table view to reloadData
-    [[RACSignal combineLatest:@[ RACObserve(self, contexts), RACObserve(self, projects) ]]
-     subscribeNext:^(id _) {
-         [self.tableView reloadData];
-    }];
+    [self.taskBag addObserver:self forKeyPath:NSStringFromSelector(@selector(tasks))
+                      options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                      context:kContextsContext];
+    [self.taskBag addObserver:self forKeyPath:NSStringFromSelector(@selector(projects))
+                      options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                      context:kProjectsContext];
     
     // Use ordinary UITableViewCells
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"FilterCell"];
+}
+
+- (void)dealloc
+{
+    [self.taskBag removeObserver:self forKeyPath:NSStringFromSelector(@selector(tasks)) context:kContextsContext];
+    [self.taskBag removeObserver:self forKeyPath:NSStringFromSelector(@selector(projects)) context:kProjectsContext];
 }
 
 #pragma mark - Custom getters/setters
@@ -339,6 +337,26 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 - (void)cancel:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    id<TaskBag> taskBag = object;
+    if (context == kContextsContext) {
+        self.contexts = [[taskBag.tasks valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
+                         sortedArrayUsingSelector:@selector(compare:)];
+        
+        [self.tableView reloadData];
+    } else if (context == kProjectsContext) {
+        self.projects = [[taskBag.tasks valueForKeyPath:@"@distinctUnionOfArrays.projects"]
+                         sortedArrayUsingSelector:@selector(compare:)];
+        
+        [self.tableView reloadData];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 @end
