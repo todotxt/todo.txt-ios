@@ -44,7 +44,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class RACDisposable;
 @class Task;
 @class TaskCellViewModel;
 
