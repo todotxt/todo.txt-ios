@@ -320,7 +320,7 @@ static NSString * const kTODOTasksSyncingRefreshText = @"Syncing with Dropbox no
 // Return the height for tableview cells
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Task* task = [self taskForTable:tableView atIndex:indexPath.row];
-    CGFloat height = [TaskCell heightForText:task.text
+    CGFloat height = [TaskCell heightForText:task.inScreenFormat
                                     withFont:self.mainTextFont
                                        width:CGRectGetWidth(tableView.frame)];
     return MAX(height, kMinCellHeight);

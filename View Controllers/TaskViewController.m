@@ -173,7 +173,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
             sideInset = kIpadGroupedTableViewSideInset;
         }
         
-        CGFloat height = [TaskCell heightForText:task.text
+        CGFloat height = [TaskCell heightForText:task.inScreenFormat
                                         withFont:[UIFont systemFontOfSize:14]
                                            width:CGRectGetWidth(tableView.frame) - 2 * sideInset];
 		
