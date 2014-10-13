@@ -50,8 +50,6 @@
 
 #import <CoreText/CoreText.h>
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 // Static instance of the class, used to check layout sizing
 static TaskCell *_staticSizingCell;
 
@@ -73,15 +71,23 @@ static const CGFloat kAgeLabelLeftOffsetLessThan7 = 2;
 static const CGFloat kAgeLabelTopOffset = -12;
 static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
 
+// KVO contextx
+static void * kTaskTextContext = &kTaskTextContext;
+static void * kTaskTextAccessibilityContext = &kTaskTextAccessibilityContext;
+static void * kAgeTextContext = &kAgeTextContext;
+static void * kPriorityTextContext = &kPriorityTextContext;
+static void * kPriorityColorContext = &kPriorityColorContext;
+static void * kShowDateContext = &kShowDateContext;
+
 @interface TaskCell ()
 
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTopSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelBottomSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelLeadingSpace;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *taskLabelTrailingSpace;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *ageLabelHeightConstraint;
 @property (nonatomic, readonly) CGFloat priorityLabelHeight;
 @property (nonatomic, readonly) CGFloat ageLabelHeight;
+@property (nonatomic, strong) NSArray *ageLabelConstraints;
 
 + (TaskCell *)staticSizingCell;
 
@@ -186,7 +192,8 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
             ageLabelLeft.constant = kAgeLabelLeftOffsetLessThan7;
         }
         
-        self.ageLabelHeightConstraint = ageLabelHeight;
+        self.ageLabelConstraints = @[ ageLabelTop, ageLabelLeft, ageLabelHeight ];
+        constraintArrays = [constraintArrays arrayByAddingObject:self.ageLabelConstraints];
         
         NSLayoutConstraint *priorityLabelHeight = [NSLayoutConstraint constraintWithItem:priorityLabel
                                                                                attribute:NSLayoutAttributeHeight
@@ -198,33 +205,10 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
 
         // Add an array of the individual constraints to the array of constraint arrays,
         // then flatten all of the arrays to get just one array of constraints.
-        constraintArrays = [constraintArrays arrayByAddingObject:@[ ageLabelTop, ageLabelLeft, ageLabelHeight, priorityLabelHeight ]];
+        constraintArrays = [constraintArrays arrayByAddingObject:@[ priorityLabelHeight ]];
         
         NSArray *constraints = [constraintArrays valueForKeyPath:@"@unionOfArrays.self"];
         [self.contentView addConstraints:constraints];
-        
-        // Adjust constraints and add or remove the age label if shouldShowDate changes
-        RACSignal *showDateSignal = [RACObserve(self, shouldShowDate) distinctUntilChanged];
-        
-        // Add/remove the age label based on showDateSignal, and tell the view
-        // to layout afterwards.
-        [[RACSignal merge:@[
-          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
-            return [boolNumber isEqual:@YES];
-        }] doNext:^(id _) {
-            [self.contentView addSubview:self.ageLabel];
-            [self.contentView addConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
-        }],
-          [[showDateSignal filter:^BOOL(NSNumber *boolNumber) {
-            return [boolNumber isEqual:@NO];
-        }] doNext:^(id _) {
-            [self.contentView removeConstraints:@[ ageLabelTop, ageLabelLeft, ageLabelHeight ]];
-            [self.ageLabel removeFromSuperview];
-        }],
-          ]]
-         subscribeNext:^(id _) {
-             [self setNeedsDisplay];
-         }];
     }
     
     return self;
@@ -241,6 +225,64 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
 {
     return kAgeLabelHeight;
 }
+
+- (void)setShouldShowDate:(BOOL)shouldShowDate
+{
+    if (shouldShowDate != _shouldShowDate) {
+        _shouldShowDate = shouldShowDate;
+    } else {
+        return;
+    }
+    
+    // if ageLabelConstraints is not set, we are not yet init'ed
+    // so just return
+    if (self.ageLabelConstraints == nil) {
+        return;
+    }
+    
+    // Add/remove the age label based on shouldShowDate, and tell the view
+    // to layout afterwards.
+    if (shouldShowDate) {
+        [self.contentView addSubview:self.ageLabel];
+        [self.contentView addConstraints:self.ageLabelConstraints];
+    } else {
+        [self.contentView removeConstraints:self.ageLabelConstraints];
+        [self.ageLabel removeFromSuperview];
+    }
+    
+    [self setNeedsDisplay];
+}
+
+- (void)setViewModel:(TaskCellViewModel *)viewModel
+{
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(attributedText)) context:kTaskTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(accessibleText)) context:kTaskTextAccessibilityContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(ageText)) context:kAgeTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(priorityText)) context:kPriorityTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(priorityColor)) context:kPriorityColorContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(shouldShowDate)) context:kShowDateContext];
+    
+    _viewModel = viewModel;
+    
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(attributedText)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kTaskTextContext];
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(accessibleText)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kTaskTextAccessibilityContext];
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(ageText)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kAgeTextContext];
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(priorityText)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kPriorityTextContext];
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(priorityColor)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kPriorityColorContext];
+    [viewModel addObserver:self forKeyPath:NSStringFromSelector(@selector(shouldShowDate)) options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:kShowDateContext];
+}
+
+- (void)dealloc
+{
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(attributedText)) context:kTaskTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(accessibleText)) context:kTaskTextAccessibilityContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(ageText)) context:kAgeTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(priorityText)) context:kPriorityTextContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(priorityColor)) context:kPriorityColorContext];
+    [_viewModel removeObserver:self forKeyPath:NSStringFromSelector(@selector(shouldShowDate)) context:kShowDateContext];
+}
+
+#pragma mark - Accessibility
 
 - (BOOL)isAccessibilityElement
 {
@@ -302,6 +344,28 @@ static const CGFloat kAgeLabelTopOffsetLessThan7 = -15;
     });
     
     return _staticSizingCell;
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    TaskCellViewModel *viewModel = object;
+    if (context == kTaskTextContext) {
+        self.taskTextView.attributedText = viewModel.attributedText;
+    } else if (context == kTaskTextAccessibilityContext) {
+        self.taskTextView.accessibilityLabel = viewModel.accessibleText;
+    } else if (context == kAgeTextContext) {
+        self.ageLabel.text = viewModel.ageText;
+    } else if (context == kPriorityTextContext) {
+        self.priorityLabel.text = viewModel.priorityText;
+    } else if (context == kPriorityColorContext) {
+        self.priorityLabel.textColor = viewModel.priorityColor;
+    } else if (context == kShowDateContext) {
+        self.shouldShowDate = viewModel.shouldShowDate;
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 @end

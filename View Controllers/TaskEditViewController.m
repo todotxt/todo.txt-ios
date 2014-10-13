@@ -55,8 +55,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 static NSString * const kTaskDelimiter = @"\n";
 static NSString * const kHelpPopoverSegueIdentifier = @"TaskEditHelpPopoverSegue";
 static NSString * const kHelpString = @"<html><head><style>body { -webkit-text-size-adjust: none; color: white; font-family: Helvetica; font-size: 14pt;} </style></head><body>"
@@ -98,7 +96,7 @@ static NSString *accessability = @"Task Details";
     [super viewDidLoad];
 	
 	if (![self.appDelegate isManualMode]) {
-		[self.appDelegate syncClient];
+		[self.appDelegate syncClientWithCompletion:nil];
 	}
 	
 	self.curInput = [[NSString alloc] init];	
@@ -290,17 +288,23 @@ static NSString *accessability = @"Task Details";
                          componentsJoinedByString:@" "];
 		[self.task update:self.curInput];
 		Task *newTask = [taskBag update:self.task];
-		self.task = newTask;
-	} else {
-        NSArray *tasks = [[[self.curInput componentsSeparatedByString:kTaskDelimiter].rac_sequence
-                           filter:^BOOL(NSString *string) {
-                               return (string.length > 0) ? YES : NO;
-                           }]
-                          map:^NSString *(NSString *string) {
-                              return [[string componentsSeparatedByCharactersInSet:
-                                       [NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                                      componentsJoinedByString:@" "];
-                          }].array;
+        self.task = newTask;
+    } else {
+        NSArray *tasks = ^{
+            NSArray *components = [self.curInput componentsSeparatedByString:kTaskDelimiter];
+            NSIndexSet *nonEmptyIndexes = [components indexesOfObjectsPassingTest:^BOOL(NSString *string, NSUInteger idx, BOOL *stop) {
+                return (string.length > 0);
+            }];
+            NSArray *filtered = [components objectsAtIndexes:nonEmptyIndexes];
+            NSMutableArray *whitespaceRemoved = [[NSMutableArray alloc] init];
+            for (NSString *string in filtered) {
+                NSArray *whitespaceSeparated = [string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                NSString *recombined = [whitespaceSeparated componentsJoinedByString:@" "];
+                [whitespaceRemoved addObject:recombined];
+            }
+            
+            return whitespaceRemoved;
+        }();
         
         if (tasks.count == 0) {
             [self exitController];
@@ -311,7 +315,7 @@ static NSString *accessability = @"Task Details";
 	}
 	
 	[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
-	[self.appDelegate pushToRemote];
+	[self.appDelegate pushToRemoteWithCompletion:nil];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

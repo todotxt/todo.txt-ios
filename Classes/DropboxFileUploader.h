@@ -46,7 +46,10 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxFile.h"
 
-@class RACSignal;
+/**
+ Completion block for download operations. Both `files` and `error` may be populated in a call.
+ */
+typedef void(^DropboxFileUploaderCompletionBlock)(NSArray /* DropboxFile */ *files, NSError *error);
 
 static NSInteger const kUploadConflictErrorCode = 001;
 static NSString * const kUploadConflictFile = @"__kUploadConflictFile";
@@ -54,9 +57,9 @@ static NSString * const kUploadConflictFile = @"__kUploadConflictFile";
 @interface DropboxFileUploader : NSObject
 
 @property (nonatomic, readonly) BOOL overwrite;
-@property (nonatomic, readonly) NSArray *files;
-@property (nonatomic, readonly) NSError *error;
+//@property (nonatomic, readonly) NSArray *files;
+//@property (nonatomic, readonly) NSError *error;
 
-- (RACSignal *)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite;
+- (void)pushFiles:(NSArray*)dropboxFiles overwrite:(BOOL)overwrite completion:(DropboxFileUploaderCompletionBlock)completion;
 
 @end

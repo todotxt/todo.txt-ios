@@ -56,8 +56,6 @@
 
 #import "NSMutableAttributedString+TodoTxt.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 #define MIN_ROW_HEIGHT 50
 #define ACTION_ROW_HEIGHT 50
 #define DETAIL_CELL_PADDING 10
@@ -210,16 +208,6 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
             
             taskCell.viewModel = viewModel;
             
-            // Use RAC(...) as usual here, since this cell is created once and never re-used.
-            RAC(taskCell.taskTextView, attributedText) = [RACObserve(viewModel, attributedText) distinctUntilChanged];
-            RAC(taskCell.taskTextView, accessibilityLabel) = [RACObserve(viewModel, accessibleText) distinctUntilChanged];
-            RAC(taskCell.ageLabel, text) = [RACObserve(viewModel, ageText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, text) = [RACObserve(viewModel, priorityText) distinctUntilChanged];
-            RAC(taskCell.priorityLabel, textColor) = [RACObserve(viewModel, priorityColor) distinctUntilChanged];
-            RAC(taskCell, shouldShowDate) = RACObserve(viewModel, shouldShowDate);
-            
-            taskCell.viewModel = viewModel;
-            
             self.taskCell = taskCell;
         }
         
@@ -307,7 +295,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
         [taskBag remove:task];
 		[self performSelectorOnMainThread:@selector(exitController) withObject:nil waitUntilDone:YES];
         [self.appDelegate displayNotification:@"Deleted task"];
-        [self.appDelegate pushToRemote];
+        [self.appDelegate pushToRemoteWithCompletion:nil];
     }
 }
 
@@ -317,7 +305,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	[task markIncomplete];
 	[taskBag update:task];
 	
-	[self.appDelegate pushToRemote];
+	[self.appDelegate pushToRemoteWithCompletion:nil];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
@@ -339,7 +327,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	} else {
 		[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 	}
-	[self.appDelegate pushToRemote];
+	[self.appDelegate pushToRemoteWithCompletion:nil];
 }
 
 - (void) prioritizeTask:(Priority*)selectedPriority {
@@ -348,7 +336,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	task.priority = selectedPriority;
 	[taskBag update:task];
 	
-	[self.appDelegate pushToRemote];
+	[self.appDelegate pushToRemoteWithCompletion:nil];
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 

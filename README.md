@@ -12,8 +12,6 @@ Interested in joining the project? Fork the repository and talk to us on the [To
 
 After checking out the repository:
 
-* Initialize submodules with `git submodule init` followed by `git submodule update`
-* Run the `bootstrap` script in `Libraries/ReactiveCocoa/script/`
 * Setup a developer account with Dropbox, get an API key,
 and create a `DropboxApiKey.h` file based on `sample-DropboxApiKey.h`
 * Open the Xcode project `todo.txt-touch-ios.xcodeproj`

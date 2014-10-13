@@ -46,17 +46,21 @@
 #import "DropboxFileUploader.h"
 #import <objc/runtime.h>
 #import <OCMock/OCMock.h>
-#import <ReactiveCocoa/ReactiveCocoa.h>
 
 static CGFloat const kUploaderTestTimeout = 15;
 
 @interface DropboxFileUploaderTest ()
 
-@property (nonatomic, strong) RACDisposable *timeout;
+@property BOOL finished;
 
 @end
 
 @implementation DropboxFileUploaderTest
+
+- (void)setUp
+{
+    self.finished = NO;
+}
 
 - (void)testRemoteFileMissing
 {
@@ -90,20 +94,25 @@ static CGFloat const kUploaderTestTimeout = 15;
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-                                                                                  localFile:localFile
-                                                                                originalRev:rev]] overwrite:NO]
-       timeout:kUploaderTestTimeout]
-      finally:^{
-          dispatch_semaphore_signal(semaphore);
-      }]
-     subscribeError:^(NSError *error) {
-         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
-             STFail(@"Failed to complete in time");
-         } else {
-             STFail(@"Failed to complete without error");
-         }
-     }];
+	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                               localFile:localFile
+                                                                             originalRev:rev]]
+              overwrite:NO
+             completion:^(NSArray *files, NSError *error) {
+                 self.finished = YES;
+                 
+                 STAssertNil(error, @"Failed to complete without error");
+                 dispatch_semaphore_signal(semaphore);
+             }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kUploaderTestTimeout * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),
+                   ^{
+                       if (!self.finished) {
+                           STFail(@"Failed to complete in time");
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                   });
     
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
@@ -147,20 +156,25 @@ static CGFloat const kUploaderTestTimeout = 15;
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-                                                                                  localFile:localFile
-                                                                                originalRev:rev]] overwrite:NO]
-       timeout:kUploaderTestTimeout]
-      finally:^{
-          dispatch_semaphore_signal(semaphore);
-      }]
-     subscribeError:^(NSError *error) {
-         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
-             STFail(@"Failed to complete in time");
-         } else {
-             STFail(@"Failed to complete without error");
-         }
-     }];
+	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                               localFile:localFile
+                                                                             originalRev:rev]]
+              overwrite:NO
+             completion:^(NSArray *files, NSError *error) {
+                 self.finished = YES;
+                 
+                 STAssertNil(error, @"Failed to complete without error");
+                 dispatch_semaphore_signal(semaphore);
+             }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kUploaderTestTimeout * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),
+                   ^{
+                       if (!self.finished) {
+                           STFail(@"Failed to complete in time");
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                   });
     
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
@@ -192,20 +206,25 @@ static CGFloat const kUploaderTestTimeout = 15;
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-                                                                                  localFile:localFile
-                                                                                originalRev:our_rev]] overwrite:NO]
-       timeout:kUploaderTestTimeout]
-      finally:^{
-          dispatch_semaphore_signal(semaphore);
-      }]
-     subscribeError:^(NSError *error) {
-         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
-             STFail(@"Failed to complete in time");
-         } else {
-             STAssertEquals(error.code, kUploadConflictErrorCode, @"Error code should be kUploadConflictErrorCode");
-         }
-     }];
+	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                               localFile:localFile
+                                                                             originalRev:our_rev]]
+              overwrite:NO
+             completion:^(NSArray *files, NSError *error) {
+                 self.finished = YES;
+                 
+                 STAssertEquals(error.code, kUploadConflictErrorCode, @"Error code should be kUploadConflictErrorCode");
+                 dispatch_semaphore_signal(semaphore);
+             }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kUploaderTestTimeout * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),
+                   ^{
+                       if (!self.finished) {
+                           STFail(@"Failed to complete in time");
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                   });
     
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
@@ -250,20 +269,25 @@ static CGFloat const kUploaderTestTimeout = 15;
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-                                                                                  localFile:localFile
-                                                                                originalRev:our_rev]] overwrite:YES]
-       timeout:kUploaderTestTimeout]
-      finally:^{
-          dispatch_semaphore_signal(semaphore);
-      }]
-     subscribeError:^(NSError *error) {
-         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
-             STFail(@"Failed to complete in time");
-         } else {
-             STFail(@"Failed to complete without error");
-         }
-     }];
+	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                               localFile:localFile
+                                                                             originalRev:our_rev]]
+              overwrite:YES
+             completion:^(NSArray *files, NSError *error) {
+                 self.finished = YES;
+                 
+                 STAssertNil(error, @"Failed to complete without error");
+                 dispatch_semaphore_signal(semaphore);
+             }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kUploaderTestTimeout * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),
+                   ^{
+                       if (!self.finished) {
+                           STFail(@"Failed to complete in time");
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                   });
     
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
@@ -303,21 +327,26 @@ static CGFloat const kUploaderTestTimeout = 15;
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-	[[[[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
-                                                                                  localFile:localFile
-                                                                                originalRev:rev]] overwrite:NO]
-       timeout:kUploaderTestTimeout]
-      finally:^{
-          dispatch_semaphore_signal(semaphore);
-      }]
-     subscribeError:^(NSError *error) {
-         if ([error.domain isEqualToString:RACSignalErrorDomain] && error.code == RACSignalErrorTimedOut) {
-             STFail(@"Failed to complete in time");
-         } else {
-             STAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
-         }
-     }];
-          
+	[uploader pushFiles:[NSArray arrayWithObject:[[DropboxFile alloc] initWithRemoteFile:remoteFile
+                                                                               localFile:localFile
+                                                                             originalRev:rev]]
+              overwrite:NO
+             completion:^(NSArray *files, NSError *error) {
+                 self.finished = YES;
+                 
+                 STAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
+                 dispatch_semaphore_signal(semaphore);
+             }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kUploaderTestTimeout * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),
+                   ^{
+                       if (!self.finished) {
+                           STFail(@"Failed to complete in time");
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                   });
+    
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
