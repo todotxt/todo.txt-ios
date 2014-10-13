@@ -326,14 +326,14 @@
 	return [self compareByIdDescending:other];
 }
 
-- (NSArray *)rangesOfContexts
+- (NSArray *)rangesOfContexts:(NSString *)taskText
 {
-    return [ContextParser rangesOfContextsForString:self.text];
+    return [ContextParser rangesOfContextsForString:taskText];
 }
 
-- (NSArray *)rangesOfProjects
+- (NSArray *)rangesOfProjects:(NSString *)taskText
 {
-    return [ProjectParser rangesOfProjectsForString:self.text];
+    return [ProjectParser rangesOfProjectsForString:taskText];
 }
 
 @end

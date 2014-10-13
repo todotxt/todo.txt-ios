@@ -91,7 +91,7 @@
 - (NSComparisonResult) compareByIdDescending:(Task*)other;
 - (NSComparisonResult) compareByPriority:(Task*)other;
 - (NSComparisonResult) compareByTextAscending:(Task*)other;
-- (NSArray *)rangesOfContexts;
-- (NSArray *)rangesOfProjects;
+- (NSArray *)rangesOfContexts:(NSString *)taskText;
+- (NSArray *)rangesOfProjects:(NSString *)taskText;
 
 @end
