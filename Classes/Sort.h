@@ -44,14 +44,14 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SortName) {
 	SortPriority = 0,
 	SortIdAscending,
 	SortIdDescending,
 	SortTextAscending,
 	SortDateAscending,
 	SortDateDescending
-} SortName;
+};
 
 @interface Sort : NSObject {
 	SortName name;

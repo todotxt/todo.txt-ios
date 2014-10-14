@@ -45,7 +45,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
-#import "ActionSheetPicker.h"
 
 @interface TaskViewController : UITableViewController <UIActionSheetDelegate>
 

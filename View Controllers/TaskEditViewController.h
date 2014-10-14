@@ -44,7 +44,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
-#import "ActionSheetPicker.h"
 #import "SSTextView.h"
 
 @class TaskEditViewController;

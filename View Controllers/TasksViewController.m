@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "ActionSheetPicker.h"
+#import "ActionSheetStringPicker.h"
 #import "AsyncTask.h"
 #import "FilterFactory.h"
 #import "FilterViewController.h"
@@ -84,7 +84,7 @@ static CGFloat const kMinCellHeight = 44;
 @property (weak, nonatomic, readonly) NSArray *filteredTasks;
 @property (nonatomic, strong) id<Filter> filter;
 @property (nonatomic, strong) IASKAppSettingsViewController *appSettingsViewController;
-@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) AbstractActionSheetPicker *actionSheetPicker;
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
 @property (nonatomic, readonly) UIFont *mainTextFont;
 
@@ -497,50 +497,27 @@ shouldReloadTableForSearchString:(NSString *)searchString
     }
 }
 
-- (void) sortOrderWasSelected:(NSNumber *)selectedIndex element:(id)element {
-	self.actionSheetPicker = nil;
-	if (selectedIndex.intValue >= 0) {
-		self.sort = [Sort byName:selectedIndex.intValue];
-		[self setSortOrderPref];
-		[self reloadData:nil];
-		[self hideSearchBar:NO];
-	}
-}
-
-//- (IBAction)segmentControlPressed:(id)sender {
-//	[actionSheetPicker actionPickerCancel];
-//	self.actionSheetPicker = nil;
-//	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-//	CGRect rect = [self.view convertRect:segmentedControl.frame fromView:segmentedControl];
-//	rect = CGRectMake(segmentedControl.frame.origin.x + segmentedControl.frame.size.width / 4, rect.origin.y, 
-//					  rect.size.width, rect.size.height);
-//	switch (segmentedControl.selectedSegmentIndex) {
-//		case 0: // Filter
-//			break;
-//		case 1: // Sort
-//			self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-//																			   data:[Sort descriptions]
-//																	  selectedIndex:[sort name]
-//																			 target:self 
-//																			 action:@selector(sortOrderWasSelected:element:)
-//																			  title:@"Select Sort Order"
-//																			   rect:rect
-//																	  barButtonItem:nil];			
-//			break;
-//	}
-//}
-
 - (IBAction)sortButtonPressed:(id)sender {
-	[self.actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker hidePickerWithCancelAction];
 	self.actionSheetPicker = nil;
-	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-																	   data:[Sort descriptions]
-															  selectedIndex:[self.sort name]
-																	 target:self 
-																	 action:@selector(sortOrderWasSelected:element:)
-																	  title:@"Select Sort Order"
-																	   rect:CGRectZero
-															  barButtonItem:sender];			
+	self.actionSheetPicker = [ActionSheetStringPicker showPickerWithTitle:@"Select Sort Order"
+											rows:[Sort descriptions]
+								initialSelection:[self.sort name]
+									   doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+										   NSLog(@"Picker: %@", picker);
+										   NSLog(@"Selected Index: %ld", (long)selectedIndex);
+										   NSLog(@"Selected Value: %@", selectedValue);
+										   self.actionSheetPicker = nil;
+										   if (selectedIndex >= 0) {
+											   self.sort = [Sort byName:selectedIndex];
+											   [self setSortOrderPref];
+											   [self reloadData:nil];
+											   [self hideSearchBar:NO];
+										   }									   }
+									 cancelBlock:^(ActionSheetStringPicker *picker) {
+										 NSLog(@"Sort Picker Canceled");
+									 }
+										  origin:sender];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -549,8 +526,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self reloadData:nil];
-    [self hideSearchBar:YES];   
-	[self.actionSheetPicker actionPickerCancel];
+    [self hideSearchBar:YES];
+	[self.actionSheetPicker hidePickerWithCancelAction];
 	self.actionSheetPicker = nil;
 }
 
