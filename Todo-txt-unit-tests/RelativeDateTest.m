@@ -66,7 +66,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 
 	NSString* actual = [RelativeDate stringWithDate:today fromDate:today withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"today", actual, @"Today's date should return 'today'");
+    XCTAssertEqualObjects(@"today", actual, @"Today's date should return 'today'");
 }
 
 - (void)test1DayFromNow
@@ -75,7 +75,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"2013-01-02", actual, @"Date in the future should return the actual date");
+    XCTAssertEqualObjects(@"2013-01-02", actual, @"Date in the future should return the actual date");
 }
 
 - (void)testToday
@@ -84,7 +84,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"today", actual, @"Same date should return 'today'");
+    XCTAssertEqualObjects(@"today", actual, @"Same date should return 'today'");
 }
 
 - (void)test1DayAgo
@@ -93,7 +93,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"1 day ago", actual, @"Previous day should return '1 day ago'");
+    XCTAssertEqualObjects(@"1 day ago", actual, @"Previous day should return '1 day ago'");
 }
 
 - (void)test2DaysAgo
@@ -102,7 +102,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"2 days ago", actual, @"Less than 1 month should return 'N days ago'");
+    XCTAssertEqualObjects(@"2 days ago", actual, @"Less than 1 month should return 'N days ago'");
 }
 
 - (void)test29DaysAgo
@@ -111,7 +111,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"29 days ago", actual, @"Less than 1 month should return 'N days ago'");
+    XCTAssertEqualObjects(@"29 days ago", actual, @"Less than 1 month should return 'N days ago'");
 }
 
 - (void)test30DaysAgo
@@ -120,7 +120,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"1 month ago", actual, @"Less than 60 days should return '1 month ago'");
+    XCTAssertEqualObjects(@"1 month ago", actual, @"Less than 60 days should return '1 month ago'");
 }
 
 - (void)test59DaysAgo
@@ -129,7 +129,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"1 month ago", actual, @"Less than 60 days should return '1 month ago'");
+    XCTAssertEqualObjects(@"1 month ago", actual, @"Less than 60 days should return '1 month ago'");
 }
 
 - (void)test60DaysAgo
@@ -138,7 +138,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"2 months ago", actual, @"Less than 365 days should return 'N months ago'");
+    XCTAssertEqualObjects(@"2 months ago", actual, @"Less than 365 days should return 'N months ago'");
 }
 
 - (void)test364DaysAgo
@@ -147,7 +147,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"12 months ago", actual, @"Less than 365 days should return 'N months ago'");
+    XCTAssertEqualObjects(@"12 months ago", actual, @"Less than 365 days should return 'N months ago'");
 }
 
 - (void)test365DaysAgo
@@ -156,7 +156,7 @@ static NSDate * toDate(NSInteger year, NSInteger month, NSInteger day) {
 	NSDate *fromDate = toDate(2013, 01, 01);
 	NSString* actual = [RelativeDate stringWithDate:date fromDate:fromDate withFormat:@"yyyy-MM-dd"];
 	
-    STAssertEqualObjects(@"2012-01-02", actual, @"More than 365 days should return the actual date");
+    XCTAssertEqualObjects(@"2012-01-02", actual, @"More than 365 days should return the actual date");
 }
 
 @end

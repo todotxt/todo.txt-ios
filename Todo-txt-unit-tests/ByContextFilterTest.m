@@ -51,72 +51,72 @@
 - (void)testConstructor_nilContexts
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:nil];
-	STAssertNil(filter.contexts, @"contexts shoud be nil");
-	STAssertEquals(0U, filter.contexts.count, @"contexts count should be zero");
+	XCTAssertNil(filter.contexts, @"contexts shoud be nil");
+	XCTAssertEqual(0U, filter.contexts.count, @"contexts count should be zero");
 }
 
 - (void)testConstructor_valid
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertNotNil(filter.contexts, @"contexts shoud not be nil");
-	STAssertEquals(3U, filter.contexts.count, @"contexts count should be three");
-	STAssertEqualObjects(@"abc", [filter.contexts objectAtIndex:0], @"first context should be \"abc\"");
-	STAssertEqualObjects(@"123", [filter.contexts objectAtIndex:1], @"second context should be \"123\"");
-	STAssertEqualObjects(@"hello", [filter.contexts objectAtIndex:2], @"third context should be \"hello\"");
+	XCTAssertNotNil(filter.contexts, @"contexts shoud not be nil");
+	XCTAssertEqual(3U, filter.contexts.count, @"contexts count should be three");
+	XCTAssertEqualObjects(@"abc", [filter.contexts objectAtIndex:0], @"first context should be \"abc\"");
+	XCTAssertEqualObjects(@"123", [filter.contexts objectAtIndex:1], @"second context should be \"123\"");
+	XCTAssertEqualObjects(@"hello", [filter.contexts objectAtIndex:2], @"third context should be \"hello\"");
 }
 
 - (void)testFilter_noFilterContexts_noTaskContexts
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterContext_noTaskContexts
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObject:@"abc"]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_noFilterContext_oneTaskContexts
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @abc"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @abc"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterContext_sameTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObject:@"abc"]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @abc"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @abc"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterContext_differentTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObject:@"abc"]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_multipleFilterContext_oneSameTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterContext_multipleTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123 @goodbye"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123 @goodbye"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterContext_multipleSameTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123 @hello"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @123 @hello"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterContext_multipleDifferentTaskContext
 {
     ByContextFilter *filter = [[ByContextFilter alloc] initWithContexts:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @xyz @goodbye"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world @xyz @goodbye"] autorelease]], @"apply was not false");
 }
 
 @end

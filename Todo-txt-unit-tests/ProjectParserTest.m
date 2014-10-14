@@ -51,58 +51,58 @@
 {
     NSString *input = @"";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_nil
 {
     NSString *input = nil;
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_withoutProject
 {
     NSString *input = @"a simple string";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_withProject
 {
     NSString *input = @"a simple +string";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEquals(1U, strings.count, @"Should be one match");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertEqual(1U, strings.count, @"Should be one match");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
 }
 
 - (void)test_withMultipleProjects
 {
     NSString *input = @"a simple +string +test";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEquals(2U, strings.count, @"Should be two matches");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
-	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+	XCTAssertEqual(2U, strings.count, @"Should be two matches");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
 }
 
 - (void)test_withInterspersedProjects
 {
     NSString *input = @"+more complex +case with a +string +test";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEquals(4U, strings.count, @"Should be four matches");
-	STAssertTrue([strings containsObject:@"more"], @"should contain \"more\"");
-	STAssertTrue([strings containsObject:@"case"], @"should contain \"case\"");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
-	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+	XCTAssertEqual(4U, strings.count, @"Should be four matches");
+	XCTAssertTrue([strings containsObject:@"more"], @"should contain \"more\"");
+	XCTAssertTrue([strings containsObject:@"case"], @"should contain \"case\"");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
 }
 
 - (void)test_withPrefixedPlusSign
 {
 	NSString *input = @"Check out http://example.com/this+is+a+test +Research @Computer +URLs";
 	NSArray *strings = [ProjectParser parse:input];
-	STAssertEquals(2U, strings.count, @"Should be two matches");
-	STAssertTrue([strings containsObject:@"research"], @"should contain \"research\"");
-	STAssertTrue([strings containsObject:@"urls"], @"should contain \"urls\"");
+	XCTAssertEqual(2U, strings.count, @"Should be two matches");
+	XCTAssertTrue([strings containsObject:@"research"], @"should contain \"research\"");
+	XCTAssertTrue([strings containsObject:@"urls"], @"should contain \"urls\"");
 }
 
 @end

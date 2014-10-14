@@ -51,72 +51,72 @@
 - (void)testConstructor_nilProjects
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:nil];
-	STAssertNil(filter.projects, @"projects shoud be nil");
-	STAssertEquals(0U, filter.projects.count, @"projects count should be zero");
+	XCTAssertNil(filter.projects, @"projects shoud be nil");
+	XCTAssertEqual(0U, filter.projects.count, @"projects count should be zero");
 }
 
 - (void)testConstructor_valid
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertNotNil(filter.projects, @"projects shoud not be nil");
-	STAssertEquals(3U, filter.projects.count, @"projects count should be three");
-	STAssertEqualObjects(@"abc", [filter.projects objectAtIndex:0], @"first project should be \"abc\"");
-	STAssertEqualObjects(@"123", [filter.projects objectAtIndex:1], @"second project should be \"123\"");
-	STAssertEqualObjects(@"hello", [filter.projects objectAtIndex:2], @"third project should be \"hello\"");
+	XCTAssertNotNil(filter.projects, @"projects shoud not be nil");
+	XCTAssertEqual(3U, filter.projects.count, @"projects count should be three");
+	XCTAssertEqualObjects(@"abc", [filter.projects objectAtIndex:0], @"first project should be \"abc\"");
+	XCTAssertEqualObjects(@"123", [filter.projects objectAtIndex:1], @"second project should be \"123\"");
+	XCTAssertEqualObjects(@"hello", [filter.projects objectAtIndex:2], @"third project should be \"hello\"");
 }
 
 - (void)testFilter_noFilterProjects_noTaskProjects
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterProject_noTaskProjects
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObject:@"abc"]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_noFilterProject_oneTaskProjects
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +abc"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +abc"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterProject_sameTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObject:@"abc"]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +abc"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +abc"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterProject_differentTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObject:@"abc"]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_multipleFilterProject_oneSameTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterProject_multipleTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123 +goodbye"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123 +goodbye"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterProject_multipleSameTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123 +hello"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +123 +hello"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterProject_multipleDifferentTaskProject
 {
     ByProjectFilter *filter = [[ByProjectFilter alloc] initWithProjects:[NSArray arrayWithObjects:@"abc", @"123", @"hello", nil]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +xyz +goodbye"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world +xyz +goodbye"] autorelease]], @"apply was not false");
 }
 
 @end

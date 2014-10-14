@@ -64,15 +64,15 @@
 
 - (void)testHasContext
 {
-	STAssertFalse([TaskUtil taskHasContext:@"" context:@"home"], @"context in empty string");
-	STAssertFalse([TaskUtil taskHasContext:@"hi @home" context:@"work"], @"work context in hi @home");
-	STAssertTrue([TaskUtil taskHasContext:@"hi @home" context:@"home"], @"context in hi @home");
+	XCTAssertFalse([TaskUtil taskHasContext:@"" context:@"home"], @"context in empty string");
+	XCTAssertFalse([TaskUtil taskHasContext:@"hi @home" context:@"work"], @"work context in hi @home");
+	XCTAssertTrue([TaskUtil taskHasContext:@"hi @home" context:@"home"], @"context in hi @home");
 }
 
 - (void)testHasProject
 {
-	STAssertFalse([TaskUtil taskHasProject:@"" project:@"reorganize"], @"project in empty string");
-	STAssertTrue([TaskUtil taskHasProject:@"hi +reorganize" project:@"reorganize"], @"project in hi +reorganize");
+	XCTAssertFalse([TaskUtil taskHasProject:@"" project:@"reorganize"], @"project in empty string");
+	XCTAssertTrue([TaskUtil taskHasProject:@"hi +reorganize" project:@"reorganize"], @"project in hi +reorganize");
 }
 
 - (NSArray *) allocTasks
@@ -103,28 +103,28 @@
 {
 	NSArray *tasks = [self allocTasks];
 	NSInteger count = [TaskUtil badgeCount:tasks which:@"none"];
-	STAssertEquals(0, count, @"no badge count");
+	XCTAssertEqual(0, count, @"no badge count");
 }
 
 - (void)testBadgeCountAny
 {
 	NSArray *tasks = [self allocTasks];
 	NSInteger count = [TaskUtil badgeCount:tasks which:@"any"];
-	STAssertEquals(3, count, @"any badge count");
+	XCTAssertEqual(3, count, @"any badge count");
 }
 
 - (void)testBadgeCountPrioritized
 {
 	NSArray *tasks = [self allocTasks];
 	NSInteger count = [TaskUtil badgeCount:tasks which:@"anyPriority"];
-	STAssertEquals(2, count, @"any priority count");
+	XCTAssertEqual(2, count, @"any priority count");
 }
 
 - (void)testBadgeCountPriorityA
 {
 	NSArray *tasks = [self allocTasks];
 	NSInteger count = [TaskUtil badgeCount:tasks which:@"priorityA"];
-	STAssertEquals(1, count, @"priority A count");
+	XCTAssertEqual(1, count, @"priority A count");
 }
 
 @end

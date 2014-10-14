@@ -51,59 +51,59 @@
 - (void)testConstructor_nilPriorities
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:nil];
-	STAssertNil(filter.priorities, @"priorities shoud be nil");
-	STAssertEquals(0U, filter.priorities.count, @"priorities count should be zero");
+	XCTAssertNil(filter.priorities, @"priorities shoud be nil");
+	XCTAssertEqual(0U, filter.priorities.count, @"priorities count should be zero");
 }
 
 - (void)testConstructor_valid
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObjects:[Priority byName:PriorityA], [Priority byName:PriorityB], nil]];
-	STAssertNotNil(filter.priorities, @"priorities shoud not be nil");
-	STAssertEquals(2U, filter.priorities.count, @"priorities count should be three");
-	STAssertEquals([Priority byName:PriorityA], [filter.priorities objectAtIndex:0], @"first priority should be \"A\"");
-	STAssertEquals([Priority byName:PriorityB], [filter.priorities objectAtIndex:1], @"second priority should be \"B\"");
+	XCTAssertNotNil(filter.priorities, @"priorities shoud not be nil");
+	XCTAssertEqual(2U, filter.priorities.count, @"priorities count should be three");
+	XCTAssertEqual([Priority byName:PriorityA], [filter.priorities objectAtIndex:0], @"first priority should be \"A\"");
+	XCTAssertEqual([Priority byName:PriorityB], [filter.priorities objectAtIndex:1], @"second priority should be \"B\"");
 }
 
 - (void)testFilter_noFilterPriorities_noTaskPriorities
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterPriority_noTaskPriorities
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObject:[Priority byName:PriorityA]]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_noFilterPriority_oneTaskPriorities
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:nil];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterPriority_sameTaskPriority
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObject:[Priority byName:PriorityA]]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_oneFilterPriority_differentTaskPriority
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObject:[Priority byName:PriorityA]]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_multipleFilterPriority_oneSameTaskPriority
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObjects:[Priority byName:PriorityA], [Priority byName:PriorityB], nil]];
-	STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_multipleFilterPriority_oneDifferentTaskPriority
 {
     ByPriorityFilter *filter = [[ByPriorityFilter alloc] initWithPriorities:[NSArray arrayWithObjects:[Priority byName:PriorityA], [Priority byName:PriorityB], nil]];
-	STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(C) hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"(C) hello world"] autorelease]], @"apply was not false");
 }
 
 @end

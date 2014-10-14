@@ -68,7 +68,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadMetadata:[OCMArg any]];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -78,10 +78,10 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 1U, @"Should have 1 file");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+                   XCTAssertEqual(files.count, 1U, @"Should have 1 file");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -90,7 +90,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -125,7 +125,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile atRev:rev intoPath:localFile];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -135,7 +135,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -144,7 +144,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -174,7 +174,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadMetadata:remoteFile];
     
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -184,10 +184,10 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 1U, @"Should have 1 file");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+                   XCTAssertEqual(files.count, 1U, @"Should have 1 file");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -196,7 +196,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -231,7 +231,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile atRev:rev intoPath:localFile];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -241,7 +241,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
+                   XCTAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
                    dispatch_semaphore_signal(semaphore);
                }];
     
@@ -249,7 +249,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -276,7 +276,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadMetadata:[OCMArg any]];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -290,11 +290,11 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
-                   STAssertEquals([[files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -303,7 +303,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -345,7 +345,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -359,12 +359,12 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
-                   STAssertEquals([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbNotFound, @"Status should be NOT_FOUND");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -373,7 +373,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -415,7 +415,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -429,12 +429,12 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
-                   STAssertEquals([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotFound, @"Status should be NOT_FOUND");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -443,7 +443,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -494,7 +494,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -508,13 +508,13 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEquals([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -523,7 +523,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -569,7 +569,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -583,13 +583,13 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
-                   STAssertEquals([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -598,7 +598,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -644,7 +644,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -658,13 +658,13 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEquals([[files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -673,7 +673,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -714,7 +714,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadMetadata:remoteFile2];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -728,13 +728,13 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
-                   STAssertEquals([[files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbNotChanged, @"Status should be NOT_CHANGED");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbNotChanged, @"Status should be NOT_CHANGED");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
                    
-                   STAssertNil(error, @"Failed to complete without error");
+                   XCTAssertNil(error, @"Failed to complete without error");
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -743,7 +743,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -790,7 +790,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile1 atRev:rev1 intoPath:localFile1];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -804,12 +804,12 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbError, @"Status should be ERROR");
-                   STAssertEquals([[files objectAtIndex:1] status], dbFound, @"Status should be FOUND");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-                   STAssertEqualObjects([[[files objectAtIndex:0] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbError, @"Status should be ERROR");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbFound, @"Status should be FOUND");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
                    dispatch_semaphore_signal(semaphore);
                }];
     
@@ -817,7 +817,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -869,7 +869,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
 		}
 	} ] loadFile:remoteFile2 atRev:rev2 intoPath:localFile2];
 	
-	STAssertNotNil(downloader, @"downloader should not be nil");
+	XCTAssertNotNil(downloader, @"downloader should not be nil");
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
@@ -883,12 +883,12 @@ static CGFloat const kDownloaderTestTimeout = 15;
                completion:^(NSArray *files, NSError *error) {
                    self.finished = YES;
                    
-                   STAssertEquals(files.count, 2U, @"Should have 2 files");
-                   STAssertEquals([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
-                   STAssertEquals([[files objectAtIndex:1] status], dbError, @"Status should be ERROR");
-                   STAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
-                   STAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
-                   STAssertEqualObjects([[[files objectAtIndex:1] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
+                   XCTAssertEqual(files.count, 2U, @"Should have 2 files");
+                   XCTAssertEqual([[files objectAtIndex:0] status], dbSuccess, @"Status should be SUCCESS");
+                   XCTAssertEqual([[files objectAtIndex:1] status], dbError, @"Status should be ERROR");
+                   XCTAssertEqualObjects([[[files objectAtIndex:0] loadedMetadata] rev], rev1, @"loaded Rev should be \"%@", rev1);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] loadedMetadata] rev], rev2, @"loaded Rev should be \"%@", rev2);
+                   XCTAssertEqualObjects([[[files objectAtIndex:1] error] domain], errordomain, @"error domain should be \"%@\"", errordomain);
                    
                    dispatch_semaphore_signal(semaphore);
                }];
@@ -897,7 +897,7 @@ static CGFloat const kDownloaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });

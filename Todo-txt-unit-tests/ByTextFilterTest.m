@@ -51,85 +51,85 @@
 - (void)testConstructor_nullText_false
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:nil caseSensitive:NO];
-	STAssertNil(filter.text, @"text should be nil");
-    STAssertFalse(filter.caseSensitive, @"caseSensitive should be false");
+	XCTAssertNil(filter.text, @"text should be nil");
+    XCTAssertFalse(filter.caseSensitive, @"caseSensitive should be false");
 }
 
 - (void)testConstructor_nullText_true
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:nil caseSensitive:YES];
-	STAssertNil(filter.text, @"text should be nil");
-    STAssertTrue(filter.caseSensitive, @"caseSensitive should be true");
+	XCTAssertNil(filter.text, @"text should be nil");
+    XCTAssertTrue(filter.caseSensitive, @"caseSensitive should be true");
 }
 
 - (void)testConstructor_valid_false
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:NO];
-	STAssertNotNil(filter.text, @"text should not be nil");
-	STAssertEqualObjects(@"ABC", filter.text, @"should be equal");
-    STAssertFalse(filter.caseSensitive, @"caseSensitive should be false");
+	XCTAssertNotNil(filter.text, @"text should not be nil");
+	XCTAssertEqualObjects(@"ABC", filter.text, @"should be equal");
+    XCTAssertFalse(filter.caseSensitive, @"caseSensitive should be false");
 }
 
 - (void)testConstructor_valid_true
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:YES];
-	STAssertNotNil(filter.text, @"text should not be nil");
-	STAssertEqualObjects(@"abc", filter.text, @"should be equal");
-    STAssertTrue(filter.caseSensitive, @"caseSensitive should be true");
+	XCTAssertNotNil(filter.text, @"text should not be nil");
+	XCTAssertEqualObjects(@"abc", filter.text, @"should be equal");
+    XCTAssertTrue(filter.caseSensitive, @"caseSensitive should be true");
 }
 
 - (void)testFilter_noText_noTaskText
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"" caseSensitive:NO];
-    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@""] autorelease]], @"apply was not true");
+    XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@""] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_noText_hasTaskText
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"" caseSensitive:NO];
-    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"abc"] autorelease]], @"apply was not true");
+    XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"abc"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_abcText_noTaskText
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:NO];
-    STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@""] autorelease]], @"apply was not false");
+    XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@""] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_abcText_notContainedTaskText
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:NO];
-    STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
+    XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_abcText_containsTaskText_wrongCase_caseSensitive
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:YES];
-    STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello ABC world"] autorelease]], @"apply was not false");
+    XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello ABC world"] autorelease]], @"apply was not false");
 }
 
 - (void)testFilter_abcText_containsTaskText_wrongCase_caseInSensitive
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:NO];
-    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello ABC world"] autorelease]], @"apply was not true");
+    XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"hello ABC world"] autorelease]], @"apply was not true");
 }
 
 - (void)testFilter_abcText_containsTaskTextNotPadded_wrongCase_caseInSensitive
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:@"abc" caseSensitive:NO];
-    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"helloABCworld"] autorelease]], @"apply was not true");
+    XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:@"helloABCworld"] autorelease]], @"apply was not true");
 }
 
 - (void)shouldMatch:(NSString *)pattern rawText:(NSString *)rawText cs:(BOOL)cs
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:pattern caseSensitive:cs];
-    STAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should match '%@'", pattern, rawText);
+    XCTAssertTrue([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should match '%@'", pattern, rawText);
 }
 
 - (void)shouldNotMatch:(NSString *)pattern rawText:(NSString *)rawText cs:(BOOL)cs
 {
 	ByTextFilter *filter = [[ByTextFilter alloc] initWithText:pattern caseSensitive:cs];
-    STAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should not match '%@'", pattern, rawText);
+    XCTAssertFalse([filter apply:[[[Task alloc] initWithId:1 withRawText:rawText] autorelease]], @"'%@' should not match '%@'", pattern, rawText);
 }
 
 - (void)testFilter_andCaseSensitive

@@ -42,8 +42,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface ProjectParserTest : SenTestCase
+@interface ProjectParserTest : XCTestCase
 
 @end

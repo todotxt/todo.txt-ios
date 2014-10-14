@@ -78,11 +78,11 @@
 	Sort *sort = [Sort byName:SortPriority];
 	NSArray *sortedTasks = [unsortedTasks sortedArrayUsingSelector:sort.comparator];
 	
-	STAssertEquals(99U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
-	STAssertEquals(1U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
-	STAssertEquals(5U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
-	STAssertEquals(55U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
-	STAssertEquals(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
+	XCTAssertEqual(99U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
+	XCTAssertEqual(1U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
+	XCTAssertEqual(5U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
+	XCTAssertEqual(55U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
+	XCTAssertEqual(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
 }
 
 - (void)testSort_idDescending
@@ -90,11 +90,11 @@
 	Sort *sort = [Sort byName:SortIdDescending];
 	NSArray *sortedTasks = [unsortedTasks sortedArrayUsingSelector:sort.comparator];
 	
-	STAssertEquals(9999U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
-	STAssertEquals(99U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
-	STAssertEquals(55U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
-	STAssertEquals(5U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
-	STAssertEquals(1U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
+	XCTAssertEqual(9999U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
+	XCTAssertEqual(99U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
+	XCTAssertEqual(55U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
+	XCTAssertEqual(5U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
+	XCTAssertEqual(1U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
 }
 
 - (void)testSort_idAscending
@@ -102,11 +102,11 @@
 	Sort *sort = [Sort byName:SortIdAscending];
 	NSArray *sortedTasks = [unsortedTasks sortedArrayUsingSelector:sort.comparator];
 	
-	STAssertEquals(1U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
-	STAssertEquals(5U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
-	STAssertEquals(55U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
-	STAssertEquals(99U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
-	STAssertEquals(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
+	XCTAssertEqual(1U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
+	XCTAssertEqual(5U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
+	XCTAssertEqual(55U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
+	XCTAssertEqual(99U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
+	XCTAssertEqual(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
 }
 
 - (void)testSort_textAscending
@@ -114,11 +114,11 @@
 	Sort *sort = [Sort byName:SortTextAscending];
 	NSArray *sortedTasks = [unsortedTasks sortedArrayUsingSelector:sort.comparator];
 	
-	STAssertEquals(5U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
-	STAssertEquals(1U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
-	STAssertEquals(99U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
-	STAssertEquals(55U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
-	STAssertEquals(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
+	XCTAssertEqual(5U, [[sortedTasks objectAtIndex:0] taskId], @"item out of order");
+	XCTAssertEqual(1U, [[sortedTasks objectAtIndex:1] taskId], @"item out of order");
+	XCTAssertEqual(99U, [[sortedTasks objectAtIndex:2] taskId], @"item out of order");
+	XCTAssertEqual(55U, [[sortedTasks objectAtIndex:3] taskId], @"item out of order");
+	XCTAssertEqual(9999U, [[sortedTasks objectAtIndex:4] taskId], @"item out of order");
 }
 
 @end

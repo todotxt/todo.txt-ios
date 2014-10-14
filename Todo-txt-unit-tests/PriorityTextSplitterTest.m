@@ -51,71 +51,71 @@
 - (void)testSplit_empty
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@""];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"", result.text, @"text should be blank");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"", result.text, @"text should be blank");
 }
 
 - (void)testSplit_nil
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:nil];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"", result.text, @"text should be blank");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"", result.text, @"text should be blank");
 }
 
 - (void)testSplit_withPriority
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"(A) test"];
-	STAssertEquals(PriorityA, result.priority.name, @"priority should be A");
-	STAssertEqualObjects(@"test", result.text, @"text should be \"test\"");
+	XCTAssertEqual(PriorityA, result.priority.name, @"priority should be A");
+	XCTAssertEqualObjects(@"test", result.text, @"text should be \"test\"");
 }
 
 - (void)testSplit_withPrependedDate
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"2011-01-02 test"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"2011-01-02 test", result.text, @"text should be \"test\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"2011-01-02 test", result.text, @"text should be \"test\"");
 }
 
 - (void)testSplit_withPriorityAndPrependedDate
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"(A) 2011-01-02 test"];
-	STAssertEquals(PriorityA, result.priority.name, @"priority should be A");
-	STAssertEqualObjects(@"2011-01-02 test", result.text, @"text should be \"test\"");
+	XCTAssertEqual(PriorityA, result.priority.name, @"priority should be A");
+	XCTAssertEqualObjects(@"2011-01-02 test", result.text, @"text should be \"test\"");
 }
 
 - (void)testSplit_dateInterspersedInText
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"Call Mom 2011-03-02"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"Call Mom 2011-03-02", result.text, @"text should be \"Call Mom 2011-03-02\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"Call Mom 2011-03-02", result.text, @"text should be \"Call Mom 2011-03-02\"");
 }
 
 - (void)testSplit_missingSpace
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"(A)2011-01-02 test"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"(A)2011-01-02 test", result.text, @"text should be \"(A)2011-01-02 test\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"(A)2011-01-02 test", result.text, @"text should be \"(A)2011-01-02 test\"");
 }
 
 - (void)testSplit_outOfOrder
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"2011-01-02 (A) test"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"2011-01-02 (A) test", result.text, @"text should be \"(A) test\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"2011-01-02 (A) test", result.text, @"text should be \"(A) test\"");
 }
 
 - (void)testSplit_completed
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"x 2011-01-02 test 123"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"x 2011-01-02 test 123", result.text, @"text should be \"test 123\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"x 2011-01-02 test 123", result.text, @"text should be \"test 123\"");
 }
 
 - (void)testSplit_completedWithPrependedDate
 {
 	PriorityTextSplitter* result = [PriorityTextSplitter split:@"x 2011-01-02 2011-01-01 test 123"];
-	STAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
-	STAssertEqualObjects(@"x 2011-01-02 2011-01-01 test 123", result.text, @"text should be \"test 123\"");
+	XCTAssertEqualObjects([Priority NONE], result.priority, @"priority should be NONE");
+	XCTAssertEqualObjects(@"x 2011-01-02 2011-01-01 test 123", result.text, @"text should be \"test 123\"");
 }
 
 @end

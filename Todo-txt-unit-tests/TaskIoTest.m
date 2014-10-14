@@ -85,7 +85,7 @@
     MockDDReader *reader = [[MockDDReader alloc] initWithStrings:[[NSArray alloc] init]];
     NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
 
-    STAssertEquals([items count], 0u, @"Expecting 2 items");
+    XCTAssertEqual([items count], 0u, @"Expecting 2 items");
 }
 
 - (void)testIgnoreBlankLines
@@ -94,9 +94,9 @@
     MockDDReader *reader = [[MockDDReader alloc] initWithStrings:lines];
     NSMutableArray *items = [TaskIo loadTasksFromReader:reader];
 
-    STAssertEquals([items count], 2u, @"Expecting 2 items");
-    STAssertEqualObjects([[items objectAtIndex:0u] text], @"First line", @"Expecting 'First line'");
-    STAssertEqualObjects([[items objectAtIndex:1u] text], @"Second line", @"Expecting 'Second line'");
+    XCTAssertEqual([items count], 2u, @"Expecting 2 items");
+    XCTAssertEqualObjects([[items objectAtIndex:0u] text], @"First line", @"Expecting 'First line'");
+    XCTAssertEqualObjects([[items objectAtIndex:1u] text], @"Second line", @"Expecting 'Second line'");
 }
 
 @end

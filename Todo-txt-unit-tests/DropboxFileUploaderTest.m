@@ -71,7 +71,7 @@ static CGFloat const kUploaderTestTimeout = 15;
 	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
 	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 
-	STAssertNotNil(uploader, @"uploader should not be nil");
+	XCTAssertNotNil(uploader, @"uploader should not be nil");
 	
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([uploader respondsToSelector:@selector(restClient:loadMetadataFailedWithError:)]) {
@@ -101,7 +101,7 @@ static CGFloat const kUploaderTestTimeout = 15;
              completion:^(NSArray *files, NSError *error) {
                  self.finished = YES;
                  
-                 STAssertNil(error, @"Failed to complete without error");
+                 XCTAssertNil(error, @"Failed to complete without error");
                  dispatch_semaphore_signal(semaphore);
              }];
     
@@ -109,7 +109,7 @@ static CGFloat const kUploaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -131,7 +131,7 @@ static CGFloat const kUploaderTestTimeout = 15;
 	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
 	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
-	STAssertNotNil(uploader, @"uploader should not be nil");
+	XCTAssertNotNil(uploader, @"uploader should not be nil");
 	
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([uploader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
@@ -163,7 +163,7 @@ static CGFloat const kUploaderTestTimeout = 15;
              completion:^(NSArray *files, NSError *error) {
                  self.finished = YES;
                  
-                 STAssertNil(error, @"Failed to complete without error");
+                 XCTAssertNil(error, @"Failed to complete without error");
                  dispatch_semaphore_signal(semaphore);
              }];
     
@@ -171,7 +171,7 @@ static CGFloat const kUploaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -194,7 +194,7 @@ static CGFloat const kUploaderTestTimeout = 15;
 	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
 	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
-	STAssertNotNil(uploader, @"uploader should not be nil");
+	XCTAssertNotNil(uploader, @"uploader should not be nil");
 	
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([uploader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
@@ -213,7 +213,7 @@ static CGFloat const kUploaderTestTimeout = 15;
              completion:^(NSArray *files, NSError *error) {
                  self.finished = YES;
                  
-                 STAssertEquals(error.code, kUploadConflictErrorCode, @"Error code should be kUploadConflictErrorCode");
+                 XCTAssertEqual(error.code, kUploadConflictErrorCode, @"Error code should be kUploadConflictErrorCode");
                  dispatch_semaphore_signal(semaphore);
              }];
     
@@ -221,7 +221,7 @@ static CGFloat const kUploaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -244,7 +244,7 @@ static CGFloat const kUploaderTestTimeout = 15;
 	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
 	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
-	STAssertNotNil(uploader, @"uploader should not be nil");
+	XCTAssertNotNil(uploader, @"uploader should not be nil");
 	
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([uploader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
@@ -276,7 +276,7 @@ static CGFloat const kUploaderTestTimeout = 15;
              completion:^(NSArray *files, NSError *error) {
                  self.finished = YES;
                  
-                 STAssertNil(error, @"Failed to complete without error");
+                 XCTAssertNil(error, @"Failed to complete without error");
                  dispatch_semaphore_signal(semaphore);
              }];
     
@@ -284,7 +284,7 @@ static CGFloat const kUploaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });
@@ -306,7 +306,7 @@ static CGFloat const kUploaderTestTimeout = 15;
 	DropboxFileUploader *uploader = [[DropboxFileUploader alloc] init];
 	[uploader performSelector:@selector(setRestClient:) withObject:mock];
 	
-	STAssertNotNil(uploader, @"uploader should not be nil");
+	XCTAssertNotNil(uploader, @"uploader should not be nil");
 	
 	[[[mock stub] andDo:^(NSInvocation *invocation) {
 		if ([uploader respondsToSelector:@selector(restClient:loadedMetadata:)]) {
@@ -334,7 +334,7 @@ static CGFloat const kUploaderTestTimeout = 15;
              completion:^(NSArray *files, NSError *error) {
                  self.finished = YES;
                  
-                 STAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
+                 XCTAssertEqualObjects(error.domain, @"errorDomain", @"NSError not set correctly");
                  dispatch_semaphore_signal(semaphore);
              }];
     
@@ -342,7 +342,7 @@ static CGFloat const kUploaderTestTimeout = 15;
                    dispatch_get_main_queue(),
                    ^{
                        if (!self.finished) {
-                           STFail(@"Failed to complete in time");
+                           XCTFail(@"Failed to complete in time");
                        }
                        dispatch_semaphore_signal(semaphore);
                    });

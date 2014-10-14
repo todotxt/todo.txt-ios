@@ -55,7 +55,7 @@
 - (void)testNoFilters
 {
 	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
-	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
+	XCTAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
 }
 
 - (void)testMultipleFilters_matchesBoth
@@ -63,7 +63,7 @@
 	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
 	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
 	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
-	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
+	XCTAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) abc 123"] autorelease]], @"apply was not true");
 }
 
 - (void)testMultipleFilters_matchesOnlyOne
@@ -71,7 +71,7 @@
 	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
 	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
 	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
-	STAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
+	XCTAssertTrue([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(A) hello world"] autorelease]], @"apply was not true");
 }
 
 - (void)testMultipleFilters_matchesNone
@@ -79,7 +79,7 @@
 	OrFilter *orFilter = [[[OrFilter alloc] init] autorelease];
 	[orFilter addFilter:[[ByPriorityFilter alloc] initWithPriorities:[[NSArray arrayWithObject:[Priority byName:PriorityA]] autorelease]]];
 	[orFilter addFilter:[[[ByTextFilter alloc] initWithText:@"abc" caseSensitive:false] autorelease]];
-	STAssertFalse([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
+	XCTAssertFalse([orFilter apply:[[[Task alloc] initWithId:1 withRawText:@"(B) hello world"] autorelease]], @"apply was not false");
 }
 
 @end

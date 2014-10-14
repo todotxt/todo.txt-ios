@@ -61,17 +61,17 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag reload];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
-	STAssertEquals([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text2, @"Task text should be \"%@\"", text2);
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text2, @"Task text should be \"%@\"", text2);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -92,17 +92,17 @@
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
     [taskBag performSelector:@selector(setTasks:) withObject:[tasks1 retain]];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
 	
 	[taskBag reload];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 99U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text2, @"Task text should be \"%@\"", text2);
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 99U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text2, @"Task text should be \"%@\"", text2);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks1 release];
 	[tasks2 release];
@@ -121,19 +121,19 @@
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
     [taskBag performSelector:@selector(setTasks:) withObject:[tasks retain]];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
 	
 	[taskBag reload];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertEquals([taskBag.tasks objectAtIndex:0], task1, @"Task should be same as object task1");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
-	STAssertEquals([taskBag.tasks objectAtIndex:1], task2, @"Task should be same object as task2");
-	STAssertEquals([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text2, @"Task text should be \"%@\"", text2);
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertEqual([taskBag.tasks objectAtIndex:0], task1, @"Task should be same as object task1");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual([taskBag.tasks objectAtIndex:1], task2, @"Task should be same object as task2");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text2, @"Task text should be \"%@\"", text2);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -150,15 +150,15 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag addAsTasks:@[ text ]];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 }
 
@@ -173,15 +173,15 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag addAsTasks:@[ text ]];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertEquals([[taskBag.tasks objectAtIndex:1] taskId], 1U, @"Task ID should be 1");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:1] taskId], 1U, @"Task ID should be 1");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 }
 
@@ -198,18 +198,18 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[task2 update:text];
 	Task* updatedTask = [taskBag update:task2];
 
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertNotNil(updatedTask, @"Update couldn't find the task");
-	STAssertEquals(updatedTask, [taskBag.tasks objectAtIndex:1], @"Update should return a pointer to the updated task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 99");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertNotNil(updatedTask, @"Update couldn't find the task");
+	XCTAssertEqual(updatedTask, [taskBag.tasks objectAtIndex:1], @"Update should return a pointer to the updated task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:1] taskId], 99U, @"Task ID should be 99");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:1] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -226,15 +226,15 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[task2 update:text];
 	Task* updatedTask = [taskBag update:task2];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertNil(updatedTask, @"Update found a non-existent task?!");
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertNil(updatedTask, @"Update found a non-existent task?!");
 
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -252,15 +252,15 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag remove:task2];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -277,15 +277,15 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag remove:task2];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:0] taskId], 0U, @"Task ID should be 0");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:0] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];
 }
@@ -300,18 +300,18 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 
 	[taskBag reload];
 	
 	Task* foundTask = [taskBag taskAtIndex:1];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertNotNil(foundTask, @"Did not find the task");
-	STAssertEquals(foundTask, task2, @"Should have found task2");
-	STAssertEquals(foundTask.taskId, 99U, @"Task ID should be 99");
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertNotNil(foundTask, @"Did not find the task");
+	XCTAssertEqual(foundTask, task2, @"Should have found task2");
+	XCTAssertEqual(foundTask.taskId, 99U, @"Task ID should be 99");
 
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];	
 }
@@ -326,16 +326,16 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag reload];
 	
 	Task* foundTask = [taskBag taskAtIndex:3];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertNil(foundTask, @"Should not have found a task");
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertNil(foundTask, @"Should not have found a task");
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];	
 }
@@ -353,19 +353,19 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag reload];
 	
 	NSUInteger foundTask = [taskBag indexOfTask:task2];
 	
-	STAssertEquals(taskBag.size, 2, @"Should have two tasks");
-	STAssertEquals(foundTask, 1U, @"Should have found task2");
-	STAssertEquals([taskBag.tasks objectAtIndex:foundTask], task2, @"Update should return a pointer to the updated task");
-	STAssertEquals([[taskBag.tasks objectAtIndex:foundTask] taskId], 99U, @"Task ID should be 99");
-	STAssertEqualObjects([[taskBag.tasks objectAtIndex:foundTask] text], text, @"Task text should be \"%@\"", text);
+	XCTAssertEqual(taskBag.size, 2, @"Should have two tasks");
+	XCTAssertEqual(foundTask, 1U, @"Should have found task2");
+	XCTAssertEqual([taskBag.tasks objectAtIndex:foundTask], task2, @"Update should return a pointer to the updated task");
+	XCTAssertEqual([[taskBag.tasks objectAtIndex:foundTask] taskId], 99U, @"Task ID should be 99");
+	XCTAssertEqualObjects([[taskBag.tasks objectAtIndex:foundTask] text], text, @"Task text should be \"%@\"", text);
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];	
 }
@@ -381,16 +381,16 @@
 	
 	TaskBagImpl *taskBag = [[TaskBagImpl alloc] initWithRepository:mock];
 	
-	STAssertEquals(taskBag.size, 0, @"Should have no tasks");
+	XCTAssertEqual(taskBag.size, 0, @"Should have no tasks");
 	
 	[taskBag reload];
 	
 	NSUInteger foundTask = [taskBag indexOfTask:task2];
 	
-	STAssertEquals(taskBag.size, 1, @"Should have one task");
-	STAssertEquals(foundTask, 0U, @"Should NOT have found task2");
+	XCTAssertEqual(taskBag.size, 1, @"Should have one task");
+	XCTAssertEqual(foundTask, 0U, @"Should NOT have found task2");
 	
-	STAssertNoThrow([mock verify], @"Mock verify Failed");
+	XCTAssertNoThrow([mock verify], @"Mock verify Failed");
 	[taskBag release];
 	[tasks release];	
 }

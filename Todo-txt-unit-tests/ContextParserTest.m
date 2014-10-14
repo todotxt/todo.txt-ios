@@ -51,49 +51,49 @@
 {
     NSString *input = @"";
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_nil
 {
     NSString *input = nil;
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_withoutContext
 {
     NSString *input = @"a simple string";
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEqualObjects([NSArray array], strings, @"Should be empty");
+	XCTAssertEqualObjects([NSArray array], strings, @"Should be empty");
 }
 
 - (void)test_withContext
 {
     NSString *input = @"a simple @string";
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEquals(1U, strings.count, @"Should be one match");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertEqual(1U, strings.count, @"Should be one match");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
 }
 
 - (void)test_withMultipleContexts
 {
     NSString *input = @"a simple @string @test";
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEquals(2U, strings.count, @"Should be two matches");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
-	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+	XCTAssertEqual(2U, strings.count, @"Should be two matches");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
 }
 
 - (void)test_withInterspersedContexts
 {
     NSString *input = @"@more complex @case with a @string @test";
 	NSArray *strings = [ContextParser parse:input];
-	STAssertEquals(4U, strings.count, @"Should be four matches");
-	STAssertTrue([strings containsObject:@"more"], @"should contain \"more\"");
-	STAssertTrue([strings containsObject:@"case"], @"should contain \"case\"");
-	STAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
-	STAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
+	XCTAssertEqual(4U, strings.count, @"Should be four matches");
+	XCTAssertTrue([strings containsObject:@"more"], @"should contain \"more\"");
+	XCTAssertTrue([strings containsObject:@"case"], @"should contain \"case\"");
+	XCTAssertTrue([strings containsObject:@"string"], @"should contain \"string\"");
+	XCTAssertTrue([strings containsObject:@"test"], @"should contain \"test\"");
 }
 
 @end

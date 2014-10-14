@@ -49,92 +49,92 @@
 
 - (void)testInsertPadded_nil
 {
-    STAssertEqualObjects(@"thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:nil], @"Nil argument should not change original string");
+    XCTAssertEqualObjects(@"thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:nil], @"Nil argument should not change original string");
 }
 
 - (void)testInsertPadded_blank
 {
-    STAssertEqualObjects(@"thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:@""], @"Blank argument should not change original string");
+    XCTAssertEqualObjects(@"thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:@""], @"Blank argument should not change original string");
 }
 
 - (void)testInsertPadded_invalidInsertionPoint_tooSmall
 {
-    STAssertThrows([Strings insertPaddedString:@"thistest" atRange:NSMakeRange(-1, 0) withString:@"is"], @"NEgative insertion point should throw an exception");
+    XCTAssertThrows([Strings insertPaddedString:@"thistest" atRange:NSMakeRange(-1, 0) withString:@"is"], @"NEgative insertion point should throw an exception");
 }
 
 - (void)testInsertPadded_invalidInsertionPoint_toolarge
 {
-    STAssertThrows([Strings insertPaddedString:@"thistest" atRange:NSMakeRange(99, 0) withString:@"is"], @"Insertion point past the end of the string should throw an exception");
+    XCTAssertThrows([Strings insertPaddedString:@"thistest" atRange:NSMakeRange(99, 0) withString:@"is"], @"Insertion point past the end of the string should throw an exception");
 }
 
 - (void)testInsertPadded_simple
 {
-    STAssertEqualObjects(@"this is test", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:@"is"], @"Simple insertion failed");
+    XCTAssertEqualObjects(@"this is test", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(4, 0) withString:@"is"], @"Simple insertion failed");
 }
 
 - (void)testInsertPadded_simpleBegin
 {
-    STAssertEqualObjects(@"is thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(0, 0) withString:@"is"], @"Simple insertion at beginning failed");
+    XCTAssertEqualObjects(@"is thistest", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(0, 0) withString:@"is"], @"Simple insertion at beginning failed");
 }
 
 - (void)testInsertPadded_simpleEnd
 {
-    STAssertEqualObjects(@"thistest is ", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(8, 0) withString:@"is"], @"Simple insertion at end failed");
+    XCTAssertEqualObjects(@"thistest is ", [Strings insertPaddedString:@"thistest" atRange:NSMakeRange(8, 0) withString:@"is"], @"Simple insertion at end failed");
 }
 
 - (void)testInsertPadded_prepadded
 {
-    STAssertEqualObjects(@"this is test", [Strings insertPaddedString:@"this test" atRange:NSMakeRange(4, 0) withString:@"is"], @"Prepadded insertion failed");
+    XCTAssertEqualObjects(@"this is test", [Strings insertPaddedString:@"this test" atRange:NSMakeRange(4, 0) withString:@"is"], @"Prepadded insertion failed");
 }
 
 - (void)testInsertPadded_prepaddedBegin
 {
-    STAssertEqualObjects(@"is this test", [Strings insertPaddedString:@" this test" atRange:NSMakeRange(0, 0) withString:@"is"], @"Prepadded insertion at beginning failed");
+    XCTAssertEqualObjects(@"is this test", [Strings insertPaddedString:@" this test" atRange:NSMakeRange(0, 0) withString:@"is"], @"Prepadded insertion at beginning failed");
 }
 
 - (void)testInsertPadded_prepaddedEnd1
 {
-    STAssertEqualObjects(@"this test is ", [Strings insertPaddedString:@"this test " atRange:NSMakeRange(9, 0) withString:@"is"], @"Prepadded insertion at end failed");
+    XCTAssertEqualObjects(@"this test is ", [Strings insertPaddedString:@"this test " atRange:NSMakeRange(9, 0) withString:@"is"], @"Prepadded insertion at end failed");
 }
 
 - (void)testInsertPadded_prepaddedEnd2
 {
-    STAssertEqualObjects(@"this test is ", [Strings insertPaddedString:@"this test " atRange:NSMakeRange(10, 0) withString:@"is"], @"Prepadded insertion at end failed");
+    XCTAssertEqualObjects(@"this test is ", [Strings insertPaddedString:@"this test " atRange:NSMakeRange(10, 0) withString:@"is"], @"Prepadded insertion at end failed");
 }
 
 - (void)testCalculate_nilPrior
 {
-    STAssertEquals(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:nil newText:@"123test"], @"Selected Range with nil Prior text should be length of new string");
+    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:nil newText:@"123test"], @"Selected Range with nil Prior text should be length of new string");
 }
 
 - (void)testCalculate_nilNew
 {
-    STAssertEquals(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:nil], @"Selected Range with nil Prior text should be 0");
+    XCTAssertEqual(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:nil], @"Selected Range with nil Prior text should be 0");
 }
 
 - (void)testCalculate_simpleBegin
 {
-    STAssertEquals(NSMakeRange(3, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 3");
+    XCTAssertEqual(NSMakeRange(3, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 3");
 }
 
 - (void)testCalculate_simpleEnd
 {
-    STAssertEquals(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(4, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 7");
+    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(4, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 7");
 }
 
 - (void)testCalculate_emptyPrior
 {
-    STAssertEquals(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"" newText:@"123test"], @"Selected Range with empty Prior text should be length of new string");
+    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"" newText:@"123test"], @"Selected Range with empty Prior text should be length of new string");
 }
 
 - (void)testCalculate_emptyNew
 {
-    STAssertEquals(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@""], @"Selected Range with nil Prior text should be 0");
+    XCTAssertEqual(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@""], @"Selected Range with nil Prior text should be 0");
 }
 
 - (void)testCalculate_nonsense1
 {
-    STAssertEquals(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(99, 0) oldText:@"test" newText:@"test123"], @"Selected Range with bogus prior range should be length of new string");
+    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(99, 0) oldText:@"test" newText:@"test123"], @"Selected Range with bogus prior range should be length of new string");
 }
 
 @end
