@@ -47,7 +47,7 @@
 #import "Task.h"
 #import "AsyncTask.h"
 #import "TodoTxtAppDelegate.h"
-#import "ActionSheetPicker.h"
+#import "ActionSheetStringPicker.h"
 #import "PlaceholderGenerator.h"
 #import "PriorityTextSplitter.h"
 #import "TaskUtil.h"
@@ -72,7 +72,7 @@ static NSString *accessability = @"Task Details";
 @property (nonatomic, weak) IBOutlet UIWebView *helpContents;
 @property (nonatomic, weak) IBOutlet UIButton *helpCloseButton;
 @property (nonatomic, strong) UIPopoverController *helpPopoverController;
-@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) AbstractActionSheetPicker *actionSheetPicker;
 @property (nonatomic, strong) NSString *curInput;
 @property (nonatomic) NSRange curSelectedRange;
 @property (nonatomic) BOOL shouldShowPopover;
@@ -391,10 +391,10 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
+- (void) priorityWasSelected:(NSInteger *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
-	if (selectedIndex.intValue >= 0) {
-		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
+	if (selectedIndex >= 0) {
+		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex];
 		NSString *newText = nil;
 		if (selectedPriority == [Priority NONE]) {
 			newText = [NSString stringWithString:[[PriorityTextSplitter split:self.textView.text] text]];
@@ -410,11 +410,11 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) projectWasSelected:(NSNumber *)selectedIndex element:(id)element {
+- (void) projectWasSelected:(NSInteger *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
-	if (selectedIndex.intValue >= 0) {
+	if (selectedIndex >= 0) {
 		id<TaskBag> taskBag = self.appDelegate.taskBag;
-		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex.intValue];
+		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex];
 		
 		if (! [TaskUtil taskHasProject:self.textView.text project:item]) {
 			item = [NSString stringWithFormat:@"+%@", item];
@@ -427,11 +427,11 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) contextWasSelected:(NSNumber *)selectedIndex element:(id)element {
+- (void) contextWasSelected:(NSInteger *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
-	if (selectedIndex.intValue >= 0) {
+	if (selectedIndex >= 0) {
 		id<TaskBag> taskBag = self.appDelegate.taskBag;
-		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex.intValue];
+		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex];
 		
 		if (! [TaskUtil taskHasContext:self.textView.text context:item]) {
 			item = [NSString stringWithFormat:@"@%@", item];
@@ -448,7 +448,7 @@ static NSString *accessability = @"Task Details";
 	
 	id<TaskBag> taskBag = self.appDelegate.taskBag;
     
-	[self.actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker hidePickerWithCancelAction];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         //For ipad, we have ample space and it is not necessary to hide the keyboard
         self.appDelegate.lastClickedButton = sender;
@@ -460,34 +460,50 @@ static NSString *accessability = @"Task Details";
     UIBarButtonItem *button = (UIBarButtonItem*)sender;
  
 	if([button.title isEqualToString:@"Context"]) { // Context 
-		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-													  data:[taskBag contexts]
-											 selectedIndex:0
-													target:self 
-													action:@selector(contextWasSelected:element:)
-													 title:@"Select Context"
-													  rect:CGRectZero
-											 barButtonItem:button];			
-	} else if([button.title isEqualToString:@"Priority"]) { // Priority 
+		self.actionSheetPicker = [ActionSheetStringPicker showPickerWithTitle:@"Select Context"
+																		 rows:[taskBag contexts]
+															 initialSelection:0
+																	doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+																		NSLog(@"Picker: %@", picker);
+																		NSLog(@"Selected Index: %ld", (long)selectedIndex);
+																		NSLog(@"Selected Value: %@", selectedValue);
+																		[self contextWasSelected:selectedIndex element:selectedValue];
+																	}
+																  cancelBlock:^(ActionSheetStringPicker *picker) {
+																	  NSLog(@"Context Picker Canceled");
+																  }
+																	   origin:button];
+		
+	} else if([button.title isEqualToString:@"Priority"]) { // Priority
 		NSInteger curPriority = (NSInteger)[[[PriorityTextSplitter split:self.textView.text] priority] name];
-		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-                                                  data:[Priority allCodes]
-                                         selectedIndex:curPriority
-                                                target:self 
-                                                action:@selector(priorityWasSelected:element:)
-												 title:@"Select Priority"
-												  rect:CGRectZero
-										 barButtonItem:button];
-        
-    } else if([button.title isEqualToString:@"Project"]) { // Priority 
-		self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-                                              data:[taskBag projects]
-                                     selectedIndex:0
-                                            target:self 
-                                            action:@selector(projectWasSelected:element:)
-											 title:@"Select Project"
-											  rect:CGRectZero
-									 barButtonItem:button];			
+		self.actionSheetPicker = [ActionSheetStringPicker showPickerWithTitle:@"Select Priority"
+																		 rows:[Priority allCodes]
+															 initialSelection:curPriority
+																	doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+																		NSLog(@"Picker: %@", picker);
+																		NSLog(@"Selected Index: %ld", (long)selectedIndex);
+																		NSLog(@"Selected Value: %@", selectedValue);
+																		[self priorityWasSelected:selectedIndex element:selectedValue];
+																	}
+																  cancelBlock:^(ActionSheetStringPicker *picker) {
+																	  NSLog(@"Priority Picker Canceled");
+																  }
+																	   origin:button];
+		
+    } else if([button.title isEqualToString:@"Project"]) { // Priority
+		self.actionSheetPicker = [ActionSheetStringPicker showPickerWithTitle:@"Select Project"
+																		 rows:[taskBag projects]
+															 initialSelection:0
+																	doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+																		NSLog(@"Picker: %@", picker);
+																		NSLog(@"Selected Index: %ld", (long)selectedIndex);
+																		NSLog(@"Selected Value: %@", selectedValue);
+																		[self projectWasSelected:selectedIndex element:selectedValue];
+																	}
+																  cancelBlock:^(ActionSheetStringPicker *picker) {
+																	  NSLog(@"Project Picker Canceled");
+																  }
+																	   origin:button];
     }
 }
 
@@ -511,7 +527,7 @@ static NSString *accessability = @"Task Details";
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[self.helpPopoverController dismissPopoverAnimated:NO];
-	[self.actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker hidePickerWithCancelAction];
 	self.actionSheetPicker = nil;
 }
 

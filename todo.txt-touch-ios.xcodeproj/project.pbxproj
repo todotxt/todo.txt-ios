@@ -100,6 +100,14 @@
 		7D57054912F89F1900BB5E8D /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054512F89F1900BB5E8D /* Icon-Small.png */; };
 		7D57054A12F89F1900BB5E8D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D57054612F89F1900BB5E8D /* Icon.png */; };
 		7D5705D212F8A07E00BB5E8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5705D112F8A07E00BB5E8D /* Security.framework */; };
+		8810D80C19ECC2DC00F954C3 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D7FC19ECC2DC00F954C3 /* AbstractActionSheetPicker.m */; };
+		8810D80D19ECC2DC00F954C3 /* ActionSheetCustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D7FE19ECC2DC00F954C3 /* ActionSheetCustomPicker.m */; };
+		8810D80E19ECC2DC00F954C3 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80119ECC2DC00F954C3 /* ActionSheetDatePicker.m */; };
+		8810D80F19ECC2DC00F954C3 /* ActionSheetDistancePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80319ECC2DC00F954C3 /* ActionSheetDistancePicker.m */; };
+		8810D81019ECC2DC00F954C3 /* ActionSheetLocalePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80519ECC2DC00F954C3 /* ActionSheetLocalePicker.m */; };
+		8810D81119ECC2DC00F954C3 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80719ECC2DC00F954C3 /* ActionSheetStringPicker.m */; };
+		8810D81219ECC2DC00F954C3 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80919ECC2DC00F954C3 /* DistancePickerView.m */; };
+		8810D81319ECC2DC00F954C3 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8810D80B19ECC2DC00F954C3 /* SWActionSheet.m */; };
 		882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E5413ECCB240085C888 /* AsyncTask.m */; };
 		882B3E8513EF46750085C888 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
 		882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8713EF46E80085C888 /* TextSplitter.m */; };
@@ -137,7 +145,6 @@
 		888693DD14AEAE71002BB234 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B913EA89C50083FA44 /* Task.m */; };
 		888693DE14AEAE93002BB234 /* RelativeDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216D3D13EA318100FF07EE /* RelativeDate.m */; };
 		888693DF14AEAE93002BB234 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 59216C7413E8C89200FF07EE /* Util.m */; };
-		8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8887496C13F3715400871E49 /* ActionSheetPicker.m */; };
 		88A5B6C014ADA8B700EA6F70 /* Priority.m in Sources */ = {isa = PBXBuildFile; fileRef = 8858D0B713EA89C50083FA44 /* Priority.m */; };
 		88A5B6C114ADA8C200EA6F70 /* TextSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8713EF46E80085C888 /* TextSplitter.m */; };
 		88A5B6C214ADA8CA00EA6F70 /* TextSplitterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5B6BE14ADA63100EA6F70 /* TextSplitterTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -312,6 +319,23 @@
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		7D57054612F89F1900BB5E8D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7D5705D112F8A07E00BB5E8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8810D7FB19ECC2DC00F954C3 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		8810D7FC19ECC2DC00F954C3 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		8810D7FD19ECC2DC00F954C3 /* ActionSheetCustomPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPicker.h; sourceTree = "<group>"; };
+		8810D7FE19ECC2DC00F954C3 /* ActionSheetCustomPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetCustomPicker.m; sourceTree = "<group>"; };
+		8810D7FF19ECC2DC00F954C3 /* ActionSheetCustomPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPickerDelegate.h; sourceTree = "<group>"; };
+		8810D80019ECC2DC00F954C3 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
+		8810D80119ECC2DC00F954C3 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
+		8810D80219ECC2DC00F954C3 /* ActionSheetDistancePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDistancePicker.h; sourceTree = "<group>"; };
+		8810D80319ECC2DC00F954C3 /* ActionSheetDistancePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDistancePicker.m; sourceTree = "<group>"; };
+		8810D80419ECC2DC00F954C3 /* ActionSheetLocalePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetLocalePicker.h; sourceTree = "<group>"; };
+		8810D80519ECC2DC00F954C3 /* ActionSheetLocalePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetLocalePicker.m; sourceTree = "<group>"; };
+		8810D80619ECC2DC00F954C3 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
+		8810D80719ECC2DC00F954C3 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
+		8810D80819ECC2DC00F954C3 /* DistancePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerView.h; sourceTree = "<group>"; };
+		8810D80919ECC2DC00F954C3 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
+		8810D80A19ECC2DC00F954C3 /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
+		8810D80B19ECC2DC00F954C3 /* SWActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWActionSheet.m; sourceTree = "<group>"; };
 		881CA8401400834700AEAD20 /* RemoteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteClient.h; sourceTree = "<group>"; };
 		882B3E5313ECCB240085C888 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		882B3E5413ECCB240085C888 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
@@ -371,8 +395,6 @@
 		88866D3013F794320073944B /* Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sort.m; path = Classes/Sort.m; sourceTree = "<group>"; };
 		888693D914AEA4EE002BB234 /* TaskTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTest.h; sourceTree = "<group>"; };
 		888693DA14AEA4EE002BB234 /* TaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTest.m; sourceTree = "<group>"; };
-		8887496B13F3715400871E49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
-		8887496C13F3715400871E49 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetPicker.m; sourceTree = "<group>"; };
 		88A5B6BD14ADA63100EA6F70 /* TextSplitterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextSplitterTest.h; sourceTree = "<group>"; };
 		88A5B6BE14ADA63100EA6F70 /* TextSplitterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextSplitterTest.m; sourceTree = "<group>"; };
 		88A91726146643B70075B886 /* DropboxApiKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropboxApiKey.h; path = ../DropboxApiKey.h; sourceTree = "<group>"; };
@@ -648,8 +670,6 @@
 		59216D3B13EA316100FF07EE /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				8887496B13F3715400871E49 /* ActionSheetPicker.h */,
-				8887496C13F3715400871E49 /* ActionSheetPicker.m */,
 				882B3E5313ECCB240085C888 /* AsyncTask.h */,
 				882B3E5413ECCB240085C888 /* AsyncTask.m */,
 				59216D3C13EA318100FF07EE /* RelativeDate.h */,
@@ -859,6 +879,30 @@
 			path = "View Models";
 			sourceTree = "<group>";
 		};
+		8810D7FA19ECC2DC00F954C3 /* Pickers */ = {
+			isa = PBXGroup;
+			children = (
+				8810D7FB19ECC2DC00F954C3 /* AbstractActionSheetPicker.h */,
+				8810D7FC19ECC2DC00F954C3 /* AbstractActionSheetPicker.m */,
+				8810D7FD19ECC2DC00F954C3 /* ActionSheetCustomPicker.h */,
+				8810D7FE19ECC2DC00F954C3 /* ActionSheetCustomPicker.m */,
+				8810D7FF19ECC2DC00F954C3 /* ActionSheetCustomPickerDelegate.h */,
+				8810D80019ECC2DC00F954C3 /* ActionSheetDatePicker.h */,
+				8810D80119ECC2DC00F954C3 /* ActionSheetDatePicker.m */,
+				8810D80219ECC2DC00F954C3 /* ActionSheetDistancePicker.h */,
+				8810D80319ECC2DC00F954C3 /* ActionSheetDistancePicker.m */,
+				8810D80419ECC2DC00F954C3 /* ActionSheetLocalePicker.h */,
+				8810D80519ECC2DC00F954C3 /* ActionSheetLocalePicker.m */,
+				8810D80619ECC2DC00F954C3 /* ActionSheetStringPicker.h */,
+				8810D80719ECC2DC00F954C3 /* ActionSheetStringPicker.m */,
+				8810D80819ECC2DC00F954C3 /* DistancePickerView.h */,
+				8810D80919ECC2DC00F954C3 /* DistancePickerView.m */,
+				8810D80A19ECC2DC00F954C3 /* SWActionSheet.h */,
+				8810D80B19ECC2DC00F954C3 /* SWActionSheet.m */,
+			);
+			path = Pickers;
+			sourceTree = "<group>";
+		};
 		881CA83F1400825200AEAD20 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -931,6 +975,7 @@
 		88E513ED14D128D600177F45 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8810D7FA19ECC2DC00F954C3 /* Pickers */,
 				5CE4238817A603EF009C6D25 /* DDFileReader */,
 				5CE4232117A602A4009C6D25 /* InAppSettingsKit */,
 				5CE4238D17A603FB009C6D25 /* MBProgressHUD */,
@@ -1210,6 +1255,7 @@
 			files = (
 				88DB7C1B14B2C786003A96F9 /* FilterFactory.m in Sources */,
 				88DB7C1D14B2C786003A96F9 /* ByContextFilter.m in Sources */,
+				8810D80D19ECC2DC00F954C3 /* ActionSheetCustomPicker.m in Sources */,
 				88DB7C1F14B2C786003A96F9 /* ByPriorityFilter.m in Sources */,
 				88DB7C2114B2C786003A96F9 /* ByProjectFilter.m in Sources */,
 				5CBA12CB1800953500E55CE6 /* OpaqueBarsNavigationController.m in Sources */,
@@ -1219,20 +1265,24 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* TodoTxtAppDelegate.m in Sources */,
 				59216C7513E8C89200FF07EE /* Util.m in Sources */,
+				8810D80C19ECC2DC00F954C3 /* AbstractActionSheetPicker.m in Sources */,
 				59216D3E13EA318100FF07EE /* RelativeDate.m in Sources */,
 				8858D0BA13EA89C50083FA44 /* Priority.m in Sources */,
 				8858D0BB13EA89C50083FA44 /* Task.m in Sources */,
 				883E430113EB8395002FEBCC /* LocalFileTaskRepository.m in Sources */,
 				8831984313EBB55800EC5BC3 /* TaskIo.m in Sources */,
+				8810D80F19ECC2DC00F954C3 /* ActionSheetDistancePicker.m in Sources */,
 				8831984A13EBC59E00EC5BC3 /* TaskBagFactory.m in Sources */,
+				8810D80E19ECC2DC00F954C3 /* ActionSheetDatePicker.m in Sources */,
+				8810D81019ECC2DC00F954C3 /* ActionSheetLocalePicker.m in Sources */,
 				8831984D13EBC62D00EC5BC3 /* TaskBagImpl.m in Sources */,
 				882B3E5513ECCB240085C888 /* AsyncTask.m in Sources */,
 				882B3E8513EF46750085C888 /* ContextParser.m in Sources */,
 				882B3E8813EF46E90085C888 /* TextSplitter.m in Sources */,
 				882B3E8B13EF47620085C888 /* PriorityTextSplitter.m in Sources */,
 				882B3E8E13EF47B80085C888 /* ProjectParser.m in Sources */,
-				8887496D13F3715400871E49 /* ActionSheetPicker.m in Sources */,
 				88866D3113F794320073944B /* Sort.m in Sources */,
+				8810D81219ECC2DC00F954C3 /* DistancePickerView.m in Sources */,
 				888065951401898E0036DE2A /* RemoteClientManager.m in Sources */,
 				88806599140191A30036DE2A /* DropboxRemoteClient.m in Sources */,
 				888065B71401A51C0036DE2A /* Network.m in Sources */,
@@ -1249,6 +1299,7 @@
 				5CE4235017A602A4009C6D25 /* IASKSettingsReader.m in Sources */,
 				5CE4235217A602A4009C6D25 /* IASKSettingsStore.m in Sources */,
 				5CE4235417A602A4009C6D25 /* IASKSettingsStoreFile.m in Sources */,
+				8810D81119ECC2DC00F954C3 /* ActionSheetStringPicker.m in Sources */,
 				5CE4235617A602A4009C6D25 /* IASKSettingsStoreUserDefaults.m in Sources */,
 				5CE4235817A602A4009C6D25 /* IASKSpecifier.m in Sources */,
 				5CE4235A17A602A4009C6D25 /* IASKPSSliderSpecifierViewCell.m in Sources */,
@@ -1260,6 +1311,7 @@
 				5CE4236617A602A4009C6D25 /* IASKTextField.m in Sources */,
 				5CE4237717A60363009C6D25 /* SSTextView.m in Sources */,
 				5CE4237E17A6036B009C6D25 /* SJNotificationViewController.m in Sources */,
+				8810D81319ECC2DC00F954C3 /* SWActionSheet.m in Sources */,
 				5CE4238317A60372009C6D25 /* PGTableViewWithEmptyView.m in Sources */,
 				5CE4238717A60396009C6D25 /* Reachability.m in Sources */,
 				5CE4238B17A603EF009C6D25 /* DDFileReader.m in Sources */,

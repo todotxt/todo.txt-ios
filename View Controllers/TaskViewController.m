@@ -49,7 +49,7 @@
 #import "TaskBag.h"
 #import "AsyncTask.h"
 #import "UIColor+CustomColors.h"
-#import "ActionSheetPicker.h"
+#import "ActionSheetStringPicker.h"
 #import "TaskCell.h"
 #import "TaskCellViewModel.h"
 #import <CoreText/CoreText.h>
@@ -69,7 +69,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 @interface TaskViewController ()
 
 @property (nonatomic, strong) TaskCell *taskCell;
-@property (nonatomic, strong) ActionSheetPicker *actionSheetPicker;
+@property (nonatomic, strong) AbstractActionSheetPicker *actionSheetPicker;
 @property (nonatomic, strong) NSArray *buttonNames;
 @property (nonatomic, strong) NSArray *completedButtonNames;
 
@@ -340,14 +340,6 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 	[self performSelectorOnMainThread:@selector(reloadViewData) withObject:nil waitUntilDone:NO];
 }
 
-- (void) priorityWasSelected:(NSNumber *)selectedIndex element:(id)element {
-	//TODO: progress dialog
-	if (selectedIndex.intValue >= 0) {
-		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex.intValue];
-		[AsyncTask runTask:@selector(prioritizeTask:) onTarget:self withArgument:selectedPriority];		
-	}
-}
-
 - (void) didTapCompleteButton {
 	NSLog(@"didTapCompleteButton called");
 	Task* task = [self task];
@@ -363,17 +355,27 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 
 - (void) didTapPrioritizeButton {
 	NSLog(@"didTapPrioritizeButton called");
-	[self.actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker hidePickerWithCancelAction];
 	NSInteger curPriority = (NSInteger)[[[self task] priority] name];
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]]; //FIXME: don't hardcode this
-	self.actionSheetPicker = [ActionSheetPicker displayActionPickerWithView:self.view 
-						data:[Priority allCodes]
-						selectedIndex:curPriority 
-						target:self 
-						action:@selector(priorityWasSelected:element:)
-						title:@"Select Priority"
-						 rect:cell.frame
-				barButtonItem:nil];
+	
+	self.actionSheetPicker = [ActionSheetStringPicker showPickerWithTitle:@"Select Priority"
+											rows:[Priority allCodes]
+								initialSelection:curPriority
+									   doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+										   NSLog(@"Picker: %@", picker);
+										   NSLog(@"Selected Index: %ld", (long)selectedIndex);
+										   NSLog(@"Selected Value: %@", selectedValue);
+										   self.actionSheetPicker = nil;
+										   if (selectedIndex >= 0) {
+											   Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex];
+											   [AsyncTask runTask:@selector(prioritizeTask:) onTarget:self withArgument:selectedPriority];
+										   }
+									   }
+									 cancelBlock:^(ActionSheetStringPicker *picker) {
+										 NSLog(@"Priority Picker Canceled");
+									 }
+										  origin:cell];
 }
 
 - (void) didTapUpdateButton {
@@ -423,7 +425,7 @@ static CGFloat const kIpadGroupedTableViewSideInset = 40;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[self.actionSheetPicker actionPickerCancel];
+	[self.actionSheetPicker hidePickerWithCancelAction];
 	self.actionSheetPicker = nil;
 }
 
