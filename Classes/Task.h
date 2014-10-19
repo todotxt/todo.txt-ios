@@ -47,7 +47,7 @@
 
 
 @interface Task : NSObject {
-	NSString *__weak originalText;
+	NSString * originalText;
 	Priority *__weak originalPriority;
 	
 	NSUInteger taskId;
@@ -62,7 +62,7 @@
 	NSArray *projects;	
 }
 
-@property (weak, nonatomic, readonly) NSString *originalText;
+@property (nonatomic, readonly) NSString *originalText;
 @property (weak, nonatomic, readonly) Priority *originalPriority;
 @property (nonatomic, readonly) NSUInteger taskId;
 @property (nonatomic, readonly) BOOL deleted;
