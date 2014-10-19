@@ -198,7 +198,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Todo-txt-unit-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Todo-txt-unit-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F75B41D149912DF00848E27 /* Todo-txt-unit-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Todo-txt-unit-tests-Info.plist"; sourceTree = "<group>"; };
 		0F75B41F149912DF00848E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F75B421149912DF00848E27 /* TaskUtilTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskUtilTest.h; sourceTree = "<group>"; };
@@ -312,6 +312,10 @@
 		5CE423E317A60C83009C6D25 /* TaskCellViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCellViewModel.m; sourceTree = "<group>"; };
 		7B06BDC717A320880001CCB6 /* TaskIoTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskIoTest.h; sourceTree = "<group>"; };
 		7B06BDC817A320880001CCB6 /* TaskIoTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskIoTest.m; sourceTree = "<group>"; };
+		7B92DE7D19F3561E00202A23 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		7B92DE7E19F3561E00202A23 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		7B92DE7F19F3561E00202A23 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		7B92DE8019F3561E00202A23 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
 		7D57054312F89F1900BB5E8D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7D57054412F89F1900BB5E8D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		7D57054512F89F1900BB5E8D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -532,7 +536,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Todo.txt.app */,
-				0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */,
+				0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1004,6 +1008,10 @@
 		88E513F014D128D600177F45 /* OCMock */ = {
 			isa = PBXGroup;
 			children = (
+				7B92DE7D19F3561E00202A23 /* OCMLocation.h */,
+				7B92DE7E19F3561E00202A23 /* OCMMacroState.h */,
+				7B92DE7F19F3561E00202A23 /* OCMRecorder.h */,
+				7B92DE8019F3561E00202A23 /* OCMStubRecorder.h */,
 				88E513F114D128D600177F45 /* NSNotificationCenter+OCMAdditions.h */,
 				88E513F214D128D600177F45 /* OCMArg.h */,
 				88E513F314D128D600177F45 /* OCMConstraint.h */,
@@ -1045,7 +1053,7 @@
 			);
 			name = "Todo-txt-unit-tests";
 			productName = "Todo-txt-unit-tests";
-			productReference = 0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */;
+			productReference = 0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1D6058900D05DD3D006BFB54 /* Todo.txt */ = {
@@ -1367,7 +1375,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1394,7 +1407,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1422,7 +1440,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1637,7 +1660,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};

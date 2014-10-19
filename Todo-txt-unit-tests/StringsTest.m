@@ -104,37 +104,65 @@
 
 - (void)testCalculate_nilPrior
 {
-    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:nil newText:@"123test"], @"Selected Range with nil Prior text should be length of new string");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(7, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(0, 0)
+                                                        oldText:nil
+                                                        newText:@"123test"] ),
+                  @"Selected Range with nil Prior text should be length of new string");
 }
 
 - (void)testCalculate_nilNew
 {
-    XCTAssertEqual(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:nil], @"Selected Range with nil Prior text should be 0");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(0, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(0, 0)
+                                                        oldText:@"test"
+                                                        newText:nil] ),
+                  @"Selected Range with nil Prior text should be 0");
 }
 
 - (void)testCalculate_simpleBegin
 {
-    XCTAssertEqual(NSMakeRange(3, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 3");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(3, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(0, 0)
+                                                        oldText:@"test"
+                                                        newText:@"123test"]),
+                  @"Selected Range should be 3");
 }
 
 - (void)testCalculate_simpleEnd
 {
-    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(4, 0)	oldText:@"test" newText:@"123test"], @"Selected Range should be 7");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(7, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(4, 0)
+                                                        oldText:@"test"
+                                                        newText:@"123test"]),
+                  @"Selected Range should be 7");
 }
 
 - (void)testCalculate_emptyPrior
 {
-    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"" newText:@"123test"], @"Selected Range with empty Prior text should be length of new string");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(7, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(0, 0)
+                                                        oldText:@""
+                                                        newText:@"123test"]),
+                  @"Selected Range with empty Prior text should be length of new string");
 }
 
 - (void)testCalculate_emptyNew
 {
-    XCTAssertEqual(NSMakeRange(0, 0), [Strings calculateSelectedRange:NSMakeRange(0, 0)	oldText:@"test" newText:@""], @"Selected Range with nil Prior text should be 0");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(0, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(0, 0)
+                                                        oldText:@"test"
+                                                        newText:@""]),
+                  @"Selected Range with nil Prior text should be 0");
 }
 
 - (void)testCalculate_nonsense1
 {
-    XCTAssertEqual(NSMakeRange(7, 0), [Strings calculateSelectedRange:NSMakeRange(99, 0) oldText:@"test" newText:@"test123"], @"Selected Range with bogus prior range should be length of new string");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(7, 0),
+                                [Strings calculateSelectedRange:NSMakeRange(99, 0)
+                                                        oldText:@"test"
+                                                        newText:@"test123"]),
+                  @"Selected Range with bogus prior range should be length of new string");
 }
 
 @end
