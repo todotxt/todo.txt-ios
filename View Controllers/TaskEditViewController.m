@@ -471,6 +471,7 @@ static NSString *accessability = @"Task Details";
 																	}
 																  cancelBlock:^(ActionSheetStringPicker *picker) {
 																	  NSLog(@"Context Picker Canceled");
+                                                                      [self.textView becomeFirstResponder];
 																  }
 																	   origin:button];
 		
@@ -487,6 +488,7 @@ static NSString *accessability = @"Task Details";
 																	}
 																  cancelBlock:^(ActionSheetStringPicker *picker) {
 																	  NSLog(@"Priority Picker Canceled");
+                                                                      [self.textView becomeFirstResponder];
 																  }
 																	   origin:button];
 		
@@ -502,6 +504,7 @@ static NSString *accessability = @"Task Details";
 																	}
 																  cancelBlock:^(ActionSheetStringPicker *picker) {
 																	  NSLog(@"Project Picker Canceled");
+                                                                      [self.textView becomeFirstResponder];
 																  }
 																	   origin:button];
     }
