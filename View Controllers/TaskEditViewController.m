@@ -412,8 +412,8 @@ static NSString *accessability = @"Task Details";
 
 - (void) projectWasSelected:(NSInteger *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
-	if (selectedIndex >= 0) {
-		id<TaskBag> taskBag = self.appDelegate.taskBag;
+    id<TaskBag> taskBag = self.appDelegate.taskBag;
+	if (selectedIndex >= 0 && [[taskBag projects] count ] > 0) {
 		NSString *item = [[taskBag projects] objectAtIndex:selectedIndex];
 		
 		if (! [TaskUtil taskHasProject:self.textView.text project:item]) {
@@ -429,8 +429,8 @@ static NSString *accessability = @"Task Details";
 
 - (void) contextWasSelected:(NSInteger *)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
-	if (selectedIndex >= 0) {
-		id<TaskBag> taskBag = self.appDelegate.taskBag;
+    id<TaskBag> taskBag = self.appDelegate.taskBag;
+	if (selectedIndex >= 0 && [[taskBag contexts] count] > 0) {
 		NSString *item = [[taskBag contexts] objectAtIndex:selectedIndex];
 		
 		if (! [TaskUtil taskHasContext:self.textView.text context:item]) {
