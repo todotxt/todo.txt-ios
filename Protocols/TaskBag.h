@@ -62,7 +62,7 @@
 - (NSUInteger) indexOfTask:(Task*)task;
 - (NSArray*) tasksWithFilter:(id<Filter>)filter withSortOrder:(Sort*)sortOrder;
 
-@property (readonly) int size;
+@property (readonly) NSUInteger size;
 @property (nonatomic, readonly) NSArray *tasks;
 @property (nonatomic, readonly) NSArray *projects;
 @property (nonatomic, readonly) NSArray *contexts;
