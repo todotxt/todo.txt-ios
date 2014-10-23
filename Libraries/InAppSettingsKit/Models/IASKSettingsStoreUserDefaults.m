@@ -52,7 +52,7 @@
     return [[NSUserDefaults standardUserDefaults] doubleForKey:key];
 }
 
-- (int)integerForKey:(NSString*)key {
+- (NSInteger)integerForKey:(NSString*)key {
     return [[NSUserDefaults standardUserDefaults] integerForKey:key];
 }
 
