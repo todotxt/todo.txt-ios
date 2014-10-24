@@ -62,8 +62,7 @@ typedef NS_OPTIONS(NSInteger, FilterViewActiveTypes) {
 };
 
 // KVO contexts
-static void * kContextsContext = &kContextsContext;
-static void * kProjectsContext = &kProjectsContext;
+static void * const kUpdatedTasks = (void*)&kUpdatedTasks;
 
 @interface FilterViewController ()
 
@@ -112,10 +111,7 @@ static void * kProjectsContext = &kProjectsContext;
     
     [self.taskBag addObserver:self forKeyPath:NSStringFromSelector(@selector(tasks))
                       options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                      context:kContextsContext];
-    [self.taskBag addObserver:self forKeyPath:NSStringFromSelector(@selector(projects))
-                      options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                      context:kProjectsContext];
+                      context:kUpdatedTasks];
     
     // Use ordinary UITableViewCells
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"FilterCell"];
@@ -123,8 +119,7 @@ static void * kProjectsContext = &kProjectsContext;
 
 - (void)dealloc
 {
-    [self.taskBag removeObserver:self forKeyPath:NSStringFromSelector(@selector(tasks)) context:kContextsContext];
-    [self.taskBag removeObserver:self forKeyPath:NSStringFromSelector(@selector(projects)) context:kProjectsContext];
+    [self.taskBag removeObserver:self forKeyPath:NSStringFromSelector(@selector(tasks)) context:kUpdatedTasks];
 }
 
 #pragma mark - Custom getters/setters
@@ -146,7 +141,7 @@ static void * kProjectsContext = &kProjectsContext;
 
 - (BOOL)haveProjects
 {
-    return (self.projects.count > 0 && (self. activeTypes & FilterViewActiveTypesProjects));
+    return (self.projects.count > 0 && (self.activeTypes & FilterViewActiveTypesProjects));
 }
 
 #pragma mark - Private methods
@@ -344,15 +339,11 @@ static void * kProjectsContext = &kProjectsContext;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     id<TaskBag> taskBag = object;
-    if (context == kContextsContext) {
+    if (context == kUpdatedTasks) {
         self.contexts = [[taskBag.tasks valueForKeyPath:@"@distinctUnionOfArrays.contexts"]
                          sortedArrayUsingSelector:@selector(compare:)];
-        
-        [self.tableView reloadData];
-    } else if (context == kProjectsContext) {
         self.projects = [[taskBag.tasks valueForKeyPath:@"@distinctUnionOfArrays.projects"]
                          sortedArrayUsingSelector:@selector(compare:)];
-        
         [self.tableView reloadData];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
