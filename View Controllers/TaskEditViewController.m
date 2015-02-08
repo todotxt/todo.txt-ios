@@ -407,16 +407,31 @@ static NSString *accessability = @"Task Details";
 	self.actionSheetPicker = nil;
 	if (selectedIndex >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex];
-		NSString *newText = nil;
+		NSString *newTaskText = nil;
+		NSString *oldTaskText = [self getCurrentTaskText];
+
 		if (selectedPriority == [Priority NONE]) {
-			newText = [NSString stringWithString:[[PriorityTextSplitter split:self.textView.text] text]];
+			newTaskText = [NSString stringWithString:[[PriorityTextSplitter split:oldTaskText] text]];
 		} else {
-			newText = [NSString stringWithFormat:@"%@ %@",
+			newTaskText = [NSString stringWithFormat:@"%@ %@",
 								 [selectedPriority fileFormat],
-								 [[PriorityTextSplitter split:self.textView.text] text]];
+								 [[PriorityTextSplitter split:oldTaskText] text]];
 		}
-		self.curSelectedRange = [Strings calculateSelectedRange:self.curSelectedRange oldText:self.textView.text newText:newText];
-		self.textView.text = newText;
+
+		NSString *result = @"";
+		if (self.task) {
+			result = newTaskText;
+		} else {
+			NSRange range = [self.textView.text lineRangeForRange:self.textView.selectedRange];
+
+			result = [result stringByAppendingString:[self.textView.text substringToIndex:range.location]];
+			result = [result stringByAppendingString:newTaskText];
+			NSString *end = [self.textView.text substringFromIndex:range.location + range.length];
+			result = [result stringByAppendingString:end];
+		}
+
+		self.curSelectedRange = [Strings calculateSelectedRange:self.curSelectedRange oldText:self.textView.text newText:result];
+		self.textView.text = result;
 		self.textView.selectedRange = self.curSelectedRange;
 	}
 	[self.textView becomeFirstResponder];
