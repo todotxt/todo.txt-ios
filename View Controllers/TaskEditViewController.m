@@ -392,15 +392,15 @@ static NSString *accessability = @"Task Details";
 }
 
 - (NSString *) getCurrentTaskText {
-    NSString *taskText;
-    if (self.task) {
-        taskText = self.textView.text;
-    } else {
-        NSRange r = [self.textView.text lineRangeForRange:self.textView.selectedRange];
-        taskText = [self.textView.text substringWithRange:r];
-    }
+	NSString *taskText;
+	if (self.task) {
+		taskText = self.textView.text;
+	} else {
+		NSRange r = [self.textView.text lineRangeForRange:self.textView.selectedRange];
+		taskText = [self.textView.text substringWithRange:r];
+	}
 
-    return taskText;
+	return taskText;
 }
 
 - (void) priorityWasSelected:(NSInteger *)selectedIndex element:(id)element {
