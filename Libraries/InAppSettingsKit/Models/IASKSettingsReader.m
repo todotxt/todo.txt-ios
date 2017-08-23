@@ -69,12 +69,18 @@ dataSource=_dataSource;
 }
 
 - (void)dealloc {
-	[_path release], _path = nil;
-	[_localizationTable release], _localizationTable = nil;
-	[_bundlePath release], _bundlePath = nil;
-	[_settingsBundle release], _settingsBundle = nil;
-	[_dataSource release], _dataSource = nil;
-	[_bundle release], _bundle = nil;
+	[_path release];
+	_path = nil;
+	[_localizationTable release];
+	_localizationTable = nil;
+	[_bundlePath release];
+	_bundlePath = nil;
+	[_settingsBundle release];
+	_settingsBundle = nil;
+	[_dataSource release];
+	_dataSource = nil;
+	[_bundle release];
+	_bundle = nil;
 
 	[super dealloc];
 }

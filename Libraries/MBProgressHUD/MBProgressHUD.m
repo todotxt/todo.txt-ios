@@ -19,12 +19,9 @@
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
 - (void)cleanUp;
-- (void)deviceOrientationDidChange:(NSNotification*)notification;
 - (void)launchExecution;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
-- (void)launchExecution;
-- (void)cleanUp;
 
 @property (retain) UIView *indicator;
 @property (assign) float width;
@@ -319,7 +316,7 @@
     // Add label if label text was set
     if (nil != self.labelText) {
         // Get size of label text
-        CGSize dims = [self.labelText sizeWithFont:self.labelFont];
+		CGSize dims = [self.labelText sizeWithAttributes:@{ NSFontAttributeName: self.labelFont }];
 		
         // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
@@ -361,7 +358,7 @@
         // Add details label delatils text was set
         if (nil != self.detailsLabelText) {
             // Get size of label text
-            dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
+			dims = [self.detailsLabelText sizeWithAttributes:@{ NSFontAttributeName: self.detailsLabelFont }];
 			
             // Compute label dimensions based on font metrics if size is larger than max then clip the label width
             lHeight = dims.height;

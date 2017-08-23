@@ -17,6 +17,8 @@
 		0F75B4321499141800848E27 /* TaskUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F75B4301499141800848E27 /* TaskUtil.m */; };
 		0F75B433149916D900848E27 /* ContextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8413EF46740085C888 /* ContextParser.m */; };
 		0F75B434149923E700848E27 /* ProjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 882B3E8D13EF47B70085C888 /* ProjectParser.m */; };
+		0F85520B1F4F2A22006E804E /* ActionSheetMultipleStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8552091F4F2A22006E804E /* ActionSheetMultipleStringPicker.m */; };
+		0F85520D1F4F2A88006E804E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F85520C1F4F2A88006E804E /* CoreImage.framework */; };
 		1D3623260D0F684500981E51 /* TodoTxtAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -198,7 +200,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Todo-txt-unit-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Todo-txt-unit-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F75B41D149912DF00848E27 /* Todo-txt-unit-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Todo-txt-unit-tests-Info.plist"; sourceTree = "<group>"; };
 		0F75B41F149912DF00848E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F75B421149912DF00848E27 /* TaskUtilTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskUtilTest.h; sourceTree = "<group>"; };
@@ -206,6 +208,10 @@
 		0F75B425149912DF00848E27 /* Todo-txt-unit-tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Todo-txt-unit-tests-Prefix.pch"; sourceTree = "<group>"; };
 		0F75B42F1499141800848E27 /* TaskUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskUtil.h; sourceTree = "<group>"; };
 		0F75B4301499141800848E27 /* TaskUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskUtil.m; sourceTree = "<group>"; };
+		0F8552081F4F2A22006E804E /* ActionSheetMultipleStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetMultipleStringPicker.h; sourceTree = "<group>"; };
+		0F8552091F4F2A22006E804E /* ActionSheetMultipleStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetMultipleStringPicker.m; sourceTree = "<group>"; };
+		0F85520A1F4F2A22006E804E /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
+		0F85520C1F4F2A88006E804E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* TodoTxtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodoTxtAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* TodoTxtAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodoTxtAppDelegate.m; sourceTree = "<group>"; };
@@ -477,6 +483,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F85520D1F4F2A88006E804E /* CoreImage.framework in Frameworks */,
 				888286AD146E52C5007DBB16 /* QuartzCore.framework in Frameworks */,
 				F45C4F90145363F300E92C6D /* CoreText.framework in Frameworks */,
 				5910DBD114216A2300BB2D68 /* MessageUI.framework in Frameworks */,
@@ -532,7 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Todo.txt.app */,
-				0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */,
+				0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -605,6 +612,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F85520C1F4F2A88006E804E /* CoreImage.framework */,
 				88D5C2851519995C00C3744B /* DropboxSDK.framework */,
 				888286AC146E52C5007DBB16 /* QuartzCore.framework */,
 				F45C4F8F145363F300E92C6D /* CoreText.framework */,
@@ -878,6 +886,9 @@
 		8810D7FA19ECC2DC00F954C3 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				0F8552081F4F2A22006E804E /* ActionSheetMultipleStringPicker.h */,
+				0F8552091F4F2A22006E804E /* ActionSheetMultipleStringPicker.m */,
+				0F85520A1F4F2A22006E804E /* ActionSheetPicker.h */,
 				8810D7FB19ECC2DC00F954C3 /* AbstractActionSheetPicker.h */,
 				8810D7FC19ECC2DC00F954C3 /* AbstractActionSheetPicker.m */,
 				8810D7FD19ECC2DC00F954C3 /* ActionSheetCustomPicker.h */,
@@ -1045,7 +1056,7 @@
 			);
 			name = "Todo-txt-unit-tests";
 			productName = "Todo-txt-unit-tests";
-			productReference = 0F75B415149912DF00848E27 /* Todo-txt-unit-tests.octest */;
+			productReference = 0F75B415149912DF00848E27 /* Todo-txt-unit-tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1D6058900D05DD3D006BFB54 /* Todo.txt */ = {
@@ -1073,7 +1084,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0600;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0900;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "todo.txt-touch-ios" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1302,6 +1313,7 @@
 				5CE4235A17A602A4009C6D25 /* IASKPSSliderSpecifierViewCell.m in Sources */,
 				5CE4235C17A602A4009C6D25 /* IASKPSTextFieldSpecifierViewCell.m in Sources */,
 				5CE4235E17A602A4009C6D25 /* IASKPSTitleValueSpecifierViewCell.m in Sources */,
+				0F85520B1F4F2A22006E804E /* ActionSheetMultipleStringPicker.m in Sources */,
 				5CE4236017A602A4009C6D25 /* IASKPSToggleSwitchSpecifierViewCell.m in Sources */,
 				5CE4236217A602A4009C6D25 /* IASKSlider.m in Sources */,
 				5CE4236417A602A4009C6D25 /* IASKSwitch.m in Sources */,
@@ -1368,6 +1380,7 @@
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1395,6 +1408,7 @@
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1423,6 +1437,7 @@
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1451,13 +1466,14 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}-Touch";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1487,13 +1503,14 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}-Touch";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1506,13 +1523,35 @@
 		331AF76414420EAD00EF329E /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
@@ -1543,13 +1582,14 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}-Touch";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1563,13 +1603,35 @@
 		33536C1314A230180017DA57 /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
@@ -1599,13 +1661,14 @@
 				INFOPLIST_FILE = "todo_txt_touch_ios-Info.plist";
 				INFOPLIST_PREFIX_HEADER = DropboxApiKey.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}-Touch";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1638,6 +1701,7 @@
 					"\"$(SRCROOT)/Libraries/OCMock\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.todotxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1646,13 +1710,36 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";
@@ -1664,13 +1751,35 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = Todo.txt;
 				PROVISIONING_PROFILE = "";

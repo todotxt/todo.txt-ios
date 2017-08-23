@@ -67,9 +67,12 @@
 
 - (void) dealloc {
     [fileHandle closeFile];
-    [fileHandle release], fileHandle = nil;
-    [filePath release], filePath = nil;
-    [lineDelimiter release], lineDelimiter = nil;
+	[fileHandle release];
+	fileHandle = nil;
+	[filePath release];
+	filePath = nil;
+	[lineDelimiter release];
+	lineDelimiter = nil;
     currentOffset = 0ULL;
     [super dealloc];
 }

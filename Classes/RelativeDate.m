@@ -92,8 +92,8 @@
 
 + (NSString*)stringWithDate:(NSDate*)date withFormat:(NSString*)format {
 	NSDate* today = [NSDate date];
-	NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents * comp = [cal components:( NSYearCalendarUnit| NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:today];
+	NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSDateComponents * comp = [cal components:( NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:today];
 	today = [cal dateFromComponents:comp];
 	
 	return [RelativeDate stringWithDate:date fromDate:today withFormat:format];

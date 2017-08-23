@@ -44,7 +44,7 @@
 #import <Foundation/Foundation.h>
 #import "RemoteClient.h"
 #import <DropboxSDK/DropboxSDK.h>
-#import "DropboxFIleDownloader.h"
+#import "DropboxFileDownloader.h"
 #import "DropboxFileUploader.h"
 
 @interface DropboxRemoteClient : NSObject<RemoteClient>

@@ -186,7 +186,7 @@ static NSString *accessability = @"Task Details";
         CGRect frame = CGRectMake(0, 0, 320, 300);
         
         UIViewController *vc = [[UIViewController alloc] init];
-        vc.contentSizeForViewInPopover = frame.size;
+		vc.preferredContentSize = frame.size;
         vc.view.frame = frame;
         vc.view.backgroundColor = [UIColor blackColor];
         
@@ -358,12 +358,8 @@ static NSString *accessability = @"Task Details";
 		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
 		[[self.view layer] addAnimation:animation forKey:kCATransitionReveal];
 		
-		CGSize size;
-		if (self.interfaceOrientation == UIDeviceOrientationPortrait) {
-			size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-		} else {
-			size = CGSizeMake(self.view.frame.size.height, self.view.frame.size.width);
-		}
+		CGSize size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+
 		const CGRect rect = (CGRect){CGPointZero,size};
 		self.helpView.frame  = rect;
 		self.helpCloseButton.hidden = NO;
@@ -391,7 +387,7 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) priorityWasSelected:(NSInteger *)selectedIndex element:(id)element {
+- (void) priorityWasSelected:(NSInteger)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex >= 0) {
 		Priority *selectedPriority = [Priority byName:(PriorityName)selectedIndex];
@@ -410,7 +406,7 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) projectWasSelected:(NSInteger *)selectedIndex element:(id)element {
+- (void) projectWasSelected:(NSInteger)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex >= 0) {
 		id<TaskBag> taskBag = self.appDelegate.taskBag;
@@ -427,7 +423,7 @@ static NSString *accessability = @"Task Details";
 	[self.textView becomeFirstResponder];
 }
 
-- (void) contextWasSelected:(NSInteger *)selectedIndex element:(id)element {
+- (void) contextWasSelected:(NSInteger)selectedIndex element:(id)element {
 	self.actionSheetPicker = nil;
 	if (selectedIndex >= 0) {
 		id<TaskBag> taskBag = self.appDelegate.taskBag;
