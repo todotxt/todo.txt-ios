@@ -1,4 +1,4 @@
-# Todo.txt Touch for iOS
+# Todo.txt Touch for iOS [![](https://img.shields.io/gitter/room/todotxt/todo.txt-ios.svg)](https://gitter.im/todotxt/todo.txt-ios)
 
 An open source iOS application by [the Todo.txt community](http://groups.yahoo.com/group/todotxt/) designed to manage your personal [todo.txt file](http://todotxt.com) stored in [Dropbox](http://dropbox.com) (and eventually, other configurable cloud sources).
 
