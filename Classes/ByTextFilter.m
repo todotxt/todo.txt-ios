@@ -42,7 +42,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "ByTextFIlter.h"
+#import "ByTextFilter.h"
 #import "Task.h"
 
 @implementation ByTextFilter

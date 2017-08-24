@@ -340,7 +340,7 @@ static void * kShowDateContext = &kShowDateContext;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _staticSizingCell = [[TaskCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
+        _staticSizingCell = [[TaskCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     });
     
     return _staticSizingCell;

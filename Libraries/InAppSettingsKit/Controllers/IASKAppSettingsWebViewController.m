@@ -39,8 +39,10 @@
 
 
 - (void)dealloc {
-	[webView release], webView = nil;
-	[url release], url = nil;
+	[webView release];
+	webView = nil;
+	[url release];
+	url = nil;
 	
 	[super dealloc];
 }

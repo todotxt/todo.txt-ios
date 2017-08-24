@@ -469,7 +469,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 		[alert show];
 	}
     else if([key isEqualToString:@"about_todo"]) {
-        NSURL *url = [NSURL URLWithString:@"http://todotxt.com"];
+        NSURL *url = [NSURL URLWithString:@"http://todotxt.org/"];
         [[UIApplication sharedApplication] openURL:url];
     }
 }

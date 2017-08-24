@@ -105,6 +105,8 @@ CGRect IASKCGRectSwap(CGRect rect);
 }
 
 - (void)awakeFromNib {
+	[super awakeFromNib];
+	
 	// If set to YES, will display credits for InAppSettingsKit creators
 	_showCreditsFooter = NO;
 	
@@ -207,12 +209,18 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [_viewList release], _viewList = nil;
-    [_currentIndexPath release], _currentIndexPath = nil;
-	[_file release], _file = nil;
-	[_currentFirstResponder release], _currentFirstResponder = nil;
-	[_settingsReader release], _settingsReader = nil;
-    [_settingsStore release], _settingsStore = nil;
+    [_viewList release];
+    _viewList = nil;
+    [_currentIndexPath release];
+    _currentIndexPath = nil;
+	[_file release];
+	_file = nil;
+	[_currentFirstResponder release];
+	_currentFirstResponder = nil;
+	[_settingsReader release];
+	_settingsReader = nil;
+    [_settingsStore release];
+    _settingsStore = nil;
 	
 	_delegate = nil;
 
@@ -319,10 +327,11 @@ CGRect IASKCGRectSwap(CGRect rect);
 	}
 	NSString *title;
 	if ((title = [self tableView:tableView titleForHeaderInSection:section])) {
-		CGSize size = [title sizeWithFont:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]] 
-						constrainedToSize:CGSizeMake(tableView.frame.size.width - 2*kIASKHorizontalPaddingGroupTitles, INFINITY)
-							lineBreakMode:NSLineBreakByWordWrapping];
-		return size.height+kIASKVerticalPaddingGroupTitles;
+		CGRect rect = [title boundingRectWithSize:CGSizeMake(tableView.frame.size.width - 2*kIASKHorizontalPaddingGroupTitles, INFINITY)
+										  options:NSStringDrawingUsesLineFragmentOrigin
+									   attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]] }
+										  context:nil];
+		return rect.size.height+kIASKVerticalPaddingGroupTitles;
 	}
 	return 0;
 }
